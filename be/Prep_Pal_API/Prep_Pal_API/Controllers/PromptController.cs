@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -7,6 +6,7 @@ using Prep_Pal_API.Configuration;
 using Prep_Pal_API.Data;
 using Prep_Pal_API.Models;
 using MongoDB.Driver.Linq;
+using OfficeOpenXml;
 
 namespace Prep_Pal_API.Controllers
 {
@@ -92,15 +92,6 @@ namespace Prep_Pal_API.Controllers
             });
         }
 
-        // Response model for pagination
-        public class PaginatedResponse<T>
-        {
-            public int TotalRecords { get; set; }
-            public int CurrentPage { get; set; }
-            public int PageSize { get; set; }
-            public int TotalPages { get; set; } // Optionally add this field
-            public IEnumerable<T> Records { get; set; }
-        }
 
 
         // GET: api/Prompt/{id}
@@ -124,32 +115,77 @@ namespace Prep_Pal_API.Controllers
             return Ok(prompt);
         }
 
-        // POST: api/Prompt
+
+
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(PromptsModel))]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(List<PromptsModel>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Post([FromBody] PromptsModel prompts)
+        public async Task<IActionResult> Post(IFormFile excelFile)
         {
-            if (!ModelState.IsValid)
+            if (excelFile == null || excelFile.Length == 0)
             {
-                return BadRequest(ModelState);
+                return BadRequest("No file uploaded or file is empty.");
             }
-            //PromptData PromptDatas = new PromptData();
-            //foreach (var x in PromptDatas.PromptText)
-            //{
-            //    prompts.prompt_text = x;
 
+            List<PromptsModel> promptsList = new List<PromptsModel>();
 
-            //}
-            prompts.Id = ObjectId.GenerateNewId().ToString(); // Generate a new ID
-            prompts.no_of_used = 0; // Set to 0 when created
-            prompts.createdAt = DateTime.UtcNow; // Set to current time
+            using (var stream = new MemoryStream())
+            {
+                await excelFile.CopyToAsync(stream);
 
-            await _context.PromptsModels.InsertOneAsync(prompts);
-            // Initialize default values for new prompts
+                try
+                {
+                    // Set the LicenseContext
+                    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
-            // Return the created resource in the response body
-            return CreatedAtAction(nameof(Get), new { id = prompts.Id }, prompts);
+                    using (var package = new ExcelPackage(stream))
+                    {
+                        // Ensure the file contains at least one worksheet
+                        if (package.Workbook.Worksheets.Count == 0)
+                        {
+                            return BadRequest("The Excel file contains no worksheets.");
+                        }
+
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets.First();
+                        var rowCount = worksheet.Dimension?.Rows ?? 0;
+                        var colCount = worksheet.Dimension?.Columns ?? 0;
+
+                        if (rowCount == 0 || colCount == 0)
+                        {
+                            return BadRequest("The worksheet is empty.");
+                        }
+
+                        for (int row = 2; row <= rowCount; row++) // Assuming row 1 is the header
+                        {
+                            PromptsModel prompts = new PromptsModel
+                            {
+                                Id = ObjectId.GenerateNewId().ToString(),
+                                no_of_used = 0,
+                                createdAt = DateTime.UtcNow,
+                                prompt_text = worksheet.Cells[row, 2].Value?.ToString().Trim(),
+                                prompt_Description = worksheet.Cells[row, 3].Value?.ToString().Trim(),
+                            };
+
+                            if (!string.IsNullOrEmpty(prompts.prompt_text) && !string.IsNullOrEmpty(prompts.prompt_Description))
+                            {
+                                promptsList.Add(prompts);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest($"Error processing the file: {ex.Message}");
+                }
+            }
+
+            if (promptsList.Count > 0)
+            {
+                await _context.PromptsModels.InsertManyAsync(promptsList);
+                return CreatedAtAction(nameof(Get), new { id = promptsList.First().Id }, promptsList);
+            }
+
+            return BadRequest("No valid data found in the Excel file.");
         }
     }
 }

@@ -15,6 +15,10 @@ namespace Prep_Pal_API.Models
         [StringLength(500, ErrorMessage = "Prompt text cannot exceed 500 characters.")]
         public string prompt_text { get; set; }
 
+        [Required(ErrorMessage = "Prompt Description text is required.")]
+        [StringLength(500, ErrorMessage = "Prompt Description text cannot exceed 500 characters.")]
+        public string prompt_Description { get; set; }
+
         [Required]
         public bool isActive { get; set; } = true; // Default to active when created
 
