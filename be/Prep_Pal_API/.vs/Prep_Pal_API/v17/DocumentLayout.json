@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "E:\\OPrepPal\\be\\Prep_Pal_API\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F8061990-7877-48CA-82B4-829F5A7EF7F7}|Prep_Pal_API\\Prep_Pal_API.csproj|e:\\opreppal\\be\\prep_pal_api\\prep_pal_api\\controllers\\questioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F8061990-7877-48CA-82B4-829F5A7EF7F7}|Prep_Pal_API\\Prep_Pal_API.csproj|solutionrelative:prep_pal_api\\controllers\\questioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F8061990-7877-48CA-82B4-829F5A7EF7F7}|Prep_Pal_API\\Prep_Pal_API.csproj|e:\\opreppal\\be\\prep_pal_api\\prep_pal_api\\controllers\\promptcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F8061990-7877-48CA-82B4-829F5A7EF7F7}|Prep_Pal_API\\Prep_Pal_API.csproj|solutionrelative:prep_pal_api\\controllers\\promptcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F8061990-7877-48CA-82B4-829F5A7EF7F7}|Prep_Pal_API\\Prep_Pal_API.csproj|e:\\opreppal\\be\\prep_pal_api\\prep_pal_api\\models\\classquestionmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F8061990-7877-48CA-82B4-829F5A7EF7F7}|Prep_Pal_API\\Prep_Pal_API.csproj|solutionrelative:prep_pal_api\\models\\classquestionmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F8061990-7877-48CA-82B4-829F5A7EF7F7}|Prep_Pal_API\\Prep_Pal_API.csproj|e:\\opreppal\\be\\prep_pal_api\\prep_pal_api\\controllers\\questioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F8061990-7877-48CA-82B4-829F5A7EF7F7}|Prep_Pal_API\\Prep_Pal_API.csproj|solutionrelative:prep_pal_api\\controllers\\questioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,8 +18,38 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 1,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "QuestionController.cs",
+              "DocumentMoniker": "E:\\OPrepPal\\be\\Prep_Pal_API\\Prep_Pal_API\\Controllers\\QuestionController.cs",
+              "RelativeDocumentMoniker": "Prep_Pal_API\\Controllers\\QuestionController.cs",
+              "ToolTip": "E:\\OPrepPal\\be\\Prep_Pal_API\\Prep_Pal_API\\Controllers\\QuestionController.cs",
+              "RelativeToolTip": "Prep_Pal_API\\Controllers\\QuestionController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAATAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-07T07:52:23.209Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PromptController.cs",
+              "DocumentMoniker": "E:\\OPrepPal\\be\\Prep_Pal_API\\Prep_Pal_API\\Controllers\\PromptController.cs",
+              "RelativeDocumentMoniker": "Prep_Pal_API\\Controllers\\PromptController.cs",
+              "ToolTip": "E:\\OPrepPal\\be\\Prep_Pal_API\\Prep_Pal_API\\Controllers\\PromptController.cs",
+              "RelativeToolTip": "Prep_Pal_API\\Controllers\\PromptController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-07T07:52:22.032Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
@@ -31,31 +61,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:132:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ClassQuestionModel.cs",
-              "DocumentMoniker": "E:\\OPrepPal\\be\\Prep_Pal_API\\Prep_Pal_API\\Models\\ClassQuestionModel.cs",
-              "RelativeDocumentMoniker": "Prep_Pal_API\\Models\\ClassQuestionModel.cs",
-              "ToolTip": "E:\\OPrepPal\\be\\Prep_Pal_API\\Prep_Pal_API\\Models\\ClassQuestionModel.cs",
-              "RelativeToolTip": "Prep_Pal_API\\Models\\ClassQuestionModel.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-07T06:32:45.137Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "QuestionController.cs",
-              "DocumentMoniker": "E:\\OPrepPal\\be\\Prep_Pal_API\\Prep_Pal_API\\Controllers\\QuestionController.cs",
-              "RelativeDocumentMoniker": "Prep_Pal_API\\Controllers\\QuestionController.cs",
-              "ToolTip": "E:\\OPrepPal\\be\\Prep_Pal_API\\Prep_Pal_API\\Controllers\\QuestionController.cs",
-              "RelativeToolTip": "Prep_Pal_API\\Controllers\\QuestionController.cs",
-              "ViewState": "AQIAAGYAAAAAAAAAAAAqwMgAAAAJAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-04T13:10:28.203Z",
-              "EditorCaption": ""
             }
           ]
         }
