@@ -24,5 +24,8 @@ namespace Prep_Pal_API.Data
 
         public IMongoCollection<QuestionModel> QuestionModels =>
             _database.GetCollection<QuestionModel>("QuestionModels");
+
+        public IMongoCollection<ClassQuestionModel> ClassQuestionModels =>
+            _database.GetCollection<ClassQuestionModel>("ClassQuestionModels");
     }
 }

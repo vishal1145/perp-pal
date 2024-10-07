@@ -92,6 +92,50 @@ namespace Prep_Pal_API.Controllers
             });
         }
 
+        [HttpGet("GetQuestion")]
+        public async Task<ActionResult<PaginatedResponse<QuestionModel>>> GetQuestion([FromQuery] int page = 1, [FromQuery] int pageSize = 10, [FromQuery] string filter = "")
+        {
+            // Input validation
+            if (page < 1)
+            {
+                return BadRequest("Page number must be greater than or equal to 1.");
+            }
+
+            if (pageSize < 1 || pageSize > 100) // Optional limit on page size
+            {
+                return BadRequest("Page size must be between 1 and 100.");
+            }
+
+            // Start with the queryable collection
+            var query = _context.PromptsModels.AsQueryable();
+
+            // Apply filter based on the prompt_text property
+            if (!string.IsNullOrEmpty(filter))
+            {
+                // Check if prompt_text contains the filter string
+                query = query.Where(prompt => prompt.prompt_text != null && prompt.prompt_text.Contains(filter));
+            }
+
+            // Count total records and calculate total pages
+            var totalCount = await query.CountAsync(); // Count filtered records
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+
+            // Apply pagination
+            var prompts = await query
+                .Skip((page - 1) * pageSize) // Skip the records for previous pages
+                .Take(pageSize) // Take records for the current page
+                .ToListAsync();
+
+            // Create response model
+            return Ok(new PaginatedResponse<PromptsModel>
+            {
+                TotalRecords = totalCount,
+                CurrentPage = page,
+                PageSize = pageSize,
+                TotalPages = totalPages, // Optionally include total pages
+                Records = prompts
+            });
+        }
 
 
         // GET: api/Prompt/{id}
