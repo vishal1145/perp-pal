@@ -53,8 +53,8 @@ export default function RootLayout(props: {
           messages={messages}
         >
           {props.children}
-
-          <DemoBadge />
+{/* 
+          <DemoBadge /> */}
         </NextIntlClientProvider>
       </body>
     </html>
