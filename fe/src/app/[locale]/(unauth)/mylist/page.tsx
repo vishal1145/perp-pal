@@ -20,17 +20,7 @@ const MyList = (props: { params: { locale: string } }) => {
 
   return (
     <>
-      <p>{t('about_paragraph')}</p>
-
-      <div className="mt-2 text-center text-sm">
-        {`${t('translation_powered_by')} `}
-        <a
-          className="text-blue-700 hover:border-b-2 hover:border-blue-700"
-          href="https://l.crowdin.com/next-js"
-        >
-          my list
-        </a>
-      </div>
+      mylist
 
       
     </>

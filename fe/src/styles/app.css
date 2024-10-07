@@ -1,0 +1,21 @@
+/* Hide scrollbar for WebKit browsers (Chrome, Safari) */
+#scrollable-container::-webkit-scrollbar {
+    display: none; /* Hide scrollbar */
+  }
+  
+  /* Hide scrollbar for IE and Edge */
+  #scrollable-container {
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+  
+  /* Hide scrollbar for Firefox */
+  #scrollable-container {
+    scrollbar-width: none; /* Firefox */
+  }
+  
+  @media (min-width: 639px) {
+    #assessment-right-9-col {
+        margin-left: 0;  
+    }
+}
+

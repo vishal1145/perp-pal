@@ -4,7 +4,7 @@
 // import { BaseTemplate } from '@/templates/BaseTemplate';
 
 import '@/styles/global.css';
-
+import "../../../styles/app.css"
 import type { Metadata } from 'next';
 import { NextIntlClientProvider, useMessages } from 'next-intl';
 import { unstable_setRequestLocale } from 'next-intl/server';
@@ -12,6 +12,8 @@ import { unstable_setRequestLocale } from 'next-intl/server';
 // import { DemoBadge } from '@/components/DemoBadge';
 import { AppConfig } from '@/utils/AppConfig';
 import { DemoBanner } from '@/components/DemoBanner';
+ 
+import Footer from '../../../../src/components/Footer';
 
 export const metadata: Metadata = {
   icons: [
@@ -54,7 +56,7 @@ export default function RootLayout(props: {
   return (
     <html lang={props.params.locale}>
       <body>
-<DemoBanner/>
+
         <NextIntlClientProvider
           locale={props.params.locale}
           messages={messages}
@@ -64,6 +66,9 @@ export default function RootLayout(props: {
 
           {/* <DemoBadge /> */}
         </NextIntlClientProvider>
+        
+        <Footer/>
+      
       </body>
     </html>
   );

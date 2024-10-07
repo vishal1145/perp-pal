@@ -4,6 +4,8 @@ import { useTranslations } from 'next-intl';
 import { FaSearch } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import Footer from './Footer/page';
+import Link from 'next/link';
+import { DemoBanner } from '@/components/DemoBanner';
 
 
 export default function Layout(props: {  
@@ -38,7 +40,7 @@ export default function Layout(props: {
   return (
     <>
 
-    
+    <DemoBanner/>
 <div className="flex justify-center items-center mb-7 mt-7"> 
         <div className="relative w-full max-w-lg">
           <Image
@@ -69,7 +71,7 @@ export default function Layout(props: {
   
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mx-4 md:mx-8">
         {cardData.map((card: any) => (
-          <div key={card.id} className="relative group bg-gray-100 p-6 rounded-lg shadow-md">
+          <div key={card.id}  onClick={() => window.location.href = `/assessment`} className="relative group bg-gray-100 p-6 rounded-lg shadow-md">
             <p className="text-gray-500 mb-4">{card.prompt_text}</p>
             
            
@@ -82,7 +84,6 @@ export default function Layout(props: {
           </div>
         ))}
       </div>
-     <Footer/>
 
      
     </>

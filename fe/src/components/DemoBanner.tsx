@@ -1,6 +1,10 @@
 import Link from "next/link";
+import { FaSearch } from "react-icons/fa";
 
-export const DemoBanner = () => (
+export const DemoBanner = (props) => {
+  const{notMainPage} = props;
+
+  return(
   <header className="sticky top-0 z-50 bg-white p-4 text-lg font-normal text-gray-900 flex items-center justify-between border-b border-gray-200">
     <div className="flex items-center space-x-3">
       <button className="flex flex-col focus:outline-none mr-8">
@@ -25,7 +29,21 @@ export const DemoBanner = () => (
       </div>
     </div>
 
-   
+
+{
+  notMainPage === true && 
+  <div className="absolute right-20">
+    <span className="absolute inset-y-0 left-0 flex items-center pl-5 sm:pl-7">
+      <FaSearch className="text-gray-400" />
+    </span>
+    <input
+      type="text"
+      placeholder="Search..."
+      className="bg-gray-100 w-full   sm:p-2.5 pl-12 sm:pl-16 border border-gray-300 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+    />
+  </div>
+}
+ 
     <div className="flex items-center space-x-3">
       <img
         src="https://randomuser.me/api/portraits/men/75.jpg"
@@ -36,4 +54,5 @@ export const DemoBanner = () => (
       />
     </div>
   </header>
-);
+  )
+  }
