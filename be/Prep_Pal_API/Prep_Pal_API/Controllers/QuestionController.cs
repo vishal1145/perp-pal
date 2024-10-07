@@ -173,19 +173,36 @@ namespace Prep_Pal_API.Controllers
             }
         }
 
-        [HttpGet("GetQuestionsByClassOrSubject")]
-        public async Task<ActionResult<PaginatedResponse<ClassQuestionModel>>> GetQuestions([FromQuery] string? className = null, [FromQuery] string? subject = null, [FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+        [HttpGet("GetQuestionsBySubject")]
+        public async Task<ActionResult<PaginatedResponse<ClassQuestionModel>>> GetQuestions([FromQuery] string? subject = null)
         {
-            // Input validation
-            if (page < 1)
+            // Start with the queryable collection
+            var query = _context.ClassQuestionModels.AsQueryable();
+
+            // Apply filter if subject is provided
+            if (!string.IsNullOrEmpty(subject))
             {
-                return BadRequest("Page number must be greater than or equal to 1.");
+                query = query.Where(q => q.Subject != null && q.Subject.Contains(subject));
             }
 
-            if (pageSize < 1 || pageSize > 100) // Optional limit on page size
+            // Count total records and calculate total pages
+            var totalCount = await query.CountAsync();
+
+            // Apply pagination
+            var prompts = await query
+                .ToListAsync();
+
+            // Create response model
+            return Ok(new PaginatedResponse<ClassQuestionModel>
             {
-                return BadRequest("Page size must be between 1 and 100.");
-            }
+                TotalRecords = totalCount,
+                Records = prompts
+            });
+        }
+        
+        [HttpGet("GetQuestionsByClass")]
+        public async Task<ActionResult<PaginatedResponse<ClassQuestionModel>>> GetQuestionsByClass([FromQuery] string? className = null)
+        {
 
             // Start with the queryable collection
             var query = _context.ClassQuestionModels.AsQueryable();
@@ -196,33 +213,20 @@ namespace Prep_Pal_API.Controllers
                 query = query.Where(q => q.Class != null && q.Class.Contains(className));
             }
 
-            // Apply filter if subject is provided
-            if (!string.IsNullOrEmpty(subject))
-            {
-                query = query.Where(q => q.Subject != null && q.Subject.Contains(subject));
-            }
-
             // Count total records and calculate total pages
             var totalCount = await query.CountAsync();
-            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
 
             // Apply pagination
-            var prompts = await query
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
+            var prompts = await query.ToListAsync();
 
             // Create response model
             return Ok(new PaginatedResponse<ClassQuestionModel>
             {
                 TotalRecords = totalCount,
-                CurrentPage = page,
-                PageSize = pageSize,
-                TotalPages = totalPages,
                 Records = prompts
             });
         }
-
+        
 
         // GET api/paper
         [HttpGet]
