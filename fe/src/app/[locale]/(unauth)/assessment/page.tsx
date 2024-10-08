@@ -98,7 +98,7 @@ const Assesment = () => {
 
   
 
-          <div className="py-4 pl-2 sm:col-span-9  md:col-span-9 lg:col-span-6">
+          <div className=" p-4  sm:col-span-9  md:col-span-9 lg:col-span-6">
             <div>
               Title
             </div>
@@ -106,7 +106,7 @@ const Assesment = () => {
             <div className='text-gray-500'>
                Subtitle
             </div>
-            <div className=" mb-4 dark:bg-gray-800">
+            <div className="mb-4 dark:bg-gray-800 mt-3">
               <Question />
               <Question />
               <Question />
