@@ -3,17 +3,19 @@ const Footer = () => {
     <footer className="bg-gray-200 py-4 z-50">
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center px-4 space-y-4 md:space-y-0">
         <div className="text-gray-600 text-center md:text-left">
-          &copy; {new Date().getFullYear()} Your Company Name. All rights
-          reserved.
+          &copy; {new Date().getFullYear()}{' '}
+          <a href="https://algofolks.com/" className="text-blue-600 hover:underline">
+            Algofolk prv.ltd
+          </a>
+          . All rights reserved.
         </div>
         <div className="space-x-4 text-center">
-          <a href="/privacyPolicy" className="text-gray-600">
+          <a href="/privacy-policy" className="text-gray-600">
             Privacy Policy
           </a>
-          <a href="/terms" className="text-gray-600">
+          <a href="/terms-and-conditions" className="text-gray-600">
             Terms
           </a>
-          
         </div>
       </div>
     </footer>
