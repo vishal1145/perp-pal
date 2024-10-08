@@ -9,8 +9,8 @@ const Question: React.FC = () => {
     
       return (
           <QuestionOptions 
-            question="What are your favorite colors?" 
-            options={["A.Red", "B.Blue", "C.Pink", "D.Green"]} 
+            question="Q1. What are your favorite colors?" 
+            options={[" A.  Red", " B.  Blue", " C.  Pink", " D.  Green"]} 
             onSelect={handleOptionSelect} 
           />
   

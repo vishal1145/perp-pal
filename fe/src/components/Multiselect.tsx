@@ -80,7 +80,7 @@ const DropdownSearch: React.FC<DropdownSearchProps> = (props) => {
           id="dropdownSearch"
           className="z-10 bg-white rounded-lg shadow w-full dark:bg-gray-700"
         >
-          <div className="p-3">
+          <div className="p-3" >
             <label htmlFor="input-group-search" className="sr-only">
               Search
             </label>
@@ -105,7 +105,7 @@ const DropdownSearch: React.FC<DropdownSearchProps> = (props) => {
               <input
                 type="text"
                 id="input-group-search"
-                className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="block w-full p-2 ps-10   text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Search... "
                 value={searchQuery}
                 onChange={handleSearchChange}
@@ -113,12 +113,12 @@ const DropdownSearch: React.FC<DropdownSearchProps> = (props) => {
             </div>
           </div>
           <ul
-            className="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
+            className="h-48 px-3 pb-3 overflow-y-auto  -sm text-gray-700 dark:text-gray-200"
             aria-labelledby="dropdownSearchButton"
           >
             {filteredOptions.map(user => (
               <li key={user.id}>
-                <div className="flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                <div className="flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600" >
                   <input
                     id={`${filter}checkbox-item-${user.id}`}
                     type="checkbox"
@@ -128,7 +128,10 @@ const DropdownSearch: React.FC<DropdownSearchProps> = (props) => {
                   />
                   <label
                     htmlFor={`${filter}checkbox-item-${user.id}`}
-                    className="w-full py-2 ms-2 text-sm font-medium text-gray-500 rounded dark:text-gray-300"
+                    className="w-full py-2 ms-2  font-medium text-gray-500 rounded dark:text-gray-300"
+                    style={{
+
+                    }}
                   >
                     {user.name}
                   </label>

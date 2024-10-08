@@ -56,7 +56,7 @@ export default function RootLayout(props: {
   return (
     <html lang={props.params.locale}>
       <body>
-<DemoBanner/>
+{/* <DemoBanner/> */}
         <NextIntlClientProvider
           locale={props.params.locale}
           messages={messages}
@@ -67,7 +67,7 @@ export default function RootLayout(props: {
           {/* <DemoBadge /> */}
         </NextIntlClientProvider>
         
-      <Footer/>
+      {/* <Footer/> */}
       </body>
     </html>
   );

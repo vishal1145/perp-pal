@@ -5,6 +5,9 @@ import { FaSearch, FaMicrophone } from 'react-icons/fa';
 import { useEffect, useState, useRef } from 'react';
 import '@/styles/global.css';
 
+import { DemoBanner } from '@/components/DemoBanner';
+import Footer from './Footer/page';
+
 export default function Layout(props: {  
   children: React.ReactNode;
   params: { locale: string };
@@ -94,7 +97,7 @@ export default function Layout(props: {
 
   return (
     <>
-      {/* Google Logo and Search Bar */}
+      <DemoBanner notMainPage={false} /> 
       <div className="flex justify-center items-center mb-5 mt-5"> 
         <div className="relative w-full max-w-lg">
           <Image
@@ -151,6 +154,7 @@ export default function Layout(props: {
           ))
         )}
       </div>
+      <Footer/>
     </>
   );
 }
