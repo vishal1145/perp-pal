@@ -6,6 +6,7 @@ import telegram from "../../images/telegram2.png"
 import instagram from "../../images/instagram2.png"
 import twitter from "../../images/twitter2.png"
 import Image from 'next/image';
+import { FaFacebook, FaInstagram, FaTelegram, FaTwitter, FaWhatsapp } from 'react-icons/fa';
 
 const Faq = () => {
   const [openIndex, setOpenIndex] = useState(null); // Track the open FAQ index
@@ -38,48 +39,32 @@ const Faq = () => {
 
   return (
     <section className="p-4 hidden lg:block lg:col-span-3">
-      <div className="px-4 rounded-md h-full bg-gray-100">
-      <h2 className="text-sm font-medium   font-bold leading-[3.25rem]">
+      <div className="px-4 rounded-md  py-2  bg-gray-100">
+      <h2 className="text-sm font-medium  font-bold pt-3  pb-2">
           Share use
         </h2>
 
-        <div className='flex gap-4 flex-wrap ml-1'>
-  <Image
-    className="w-10 h-10 cursor-pointer"
-    src={whatsapp}
-    alt="WhatsApp"
-  />
+   <div className='flex gap-4 flex-wrap ml-1 h-12 mt-2 '>
+ <FaWhatsapp className='w-8 h-8'/>
+ 
+ <FaFacebook className='w-8 h-8'/>
 
-  <Image
-    className="w-10 h-10 cursor-pointer"
-    src={facebook}
-    alt="Facebook"
-  />
+ <FaInstagram className='w-8 h-8'/>
 
-  <Image
-    className="w-10 h-10 cursor-pointer"
-    src={instagram}
-    alt="Instagram"
-  />
+ <FaTelegram className='w-8 h-8'/>
 
-  <Image
-    className="w-10 h-10 cursor-pointer"
-    src={telegram}
-    alt="Telegram"
-  />
-
-  <Image
-    className="w-10 h-10 cursor-pointer"
-    src={twitter}
-    alt="Twitter"
-  />
+ <FaTwitter className='w-8 h-8'/>
 </div>
 
         
 
 
 
-        <h2 className="text-sm mt-3 font-medium   font-bold leading-[3.25rem]">
+     
+      </div>
+      <div className="px-4 rounded-md   bg-gray-100">
+
+      <h2 className="text-sm mt-3 font-medium   font-bold leading-[3.25rem]">
           Frequently asked questions
         </h2>
 
@@ -143,7 +128,9 @@ const Faq = () => {
             </div>
           ))}
         </div>
-      </div>
+        </div>
+
+
     </section>
   );
 }
