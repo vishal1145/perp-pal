@@ -60,7 +60,7 @@ const DropdownSearch: React.FC<DropdownSearchProps> = (props) => {
       {isOpen && (
         <div
           id="dropdownSearch"
-          className="z-10 bg-white rounded-lg shadow w-60 dark:bg-gray-700"
+          className="z-10 bg-white rounded-lg shadow w-full dark:bg-gray-700"
         >
           <div className="p-3">
             <label htmlFor="input-group-search" className="sr-only">

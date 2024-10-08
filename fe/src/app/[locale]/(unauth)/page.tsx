@@ -40,7 +40,7 @@ export default function Layout(props: {
   return (
     <>
 
-    <DemoBanner/>
+    <DemoBanner/> 
 <div className="flex justify-center items-center mb-7 mt-7"> 
         <div className="relative w-full max-w-lg">
           <Image
@@ -85,7 +85,6 @@ export default function Layout(props: {
         ))}
       </div>
 
-     
     </>
   );
 }

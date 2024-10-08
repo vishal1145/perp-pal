@@ -67,7 +67,6 @@ export default function RootLayout(props: {
           {/* <DemoBadge /> */}
         </NextIntlClientProvider>
         
-        <Footer/>
       
       </body>
     </html>
