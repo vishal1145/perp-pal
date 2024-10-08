@@ -1,18 +1,11 @@
 'use client';
 import Image from 'next/image';
-import { useTranslations } from 'next-intl';
 import { FaSearch } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
-import Footer from './Footer/page';
-import Link from 'next/link';
 import { DemoBanner } from '@/components/DemoBanner';
 
 
-export default function Layout(props: {  
-  children: React.ReactNode;
-  params: { locale: string };
-}) {
-  const t = useTranslations('RootLayout');
+export default function Layout() {
   const [cardData, setCardData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -40,7 +33,7 @@ export default function Layout(props: {
   return (
     <>
 
-    <DemoBanner/> 
+    <DemoBanner notMainPage={false} /> 
 <div className="flex justify-center items-center mb-7 mt-7"> 
         <div className="relative w-full max-w-lg">
           <Image

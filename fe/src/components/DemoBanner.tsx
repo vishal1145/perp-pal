@@ -1,8 +1,12 @@
 import Link from "next/link";
 import { FaSearch } from "react-icons/fa";
 
-export const DemoBanner = (props) => {
-  const{notMainPage} = props;
+interface DemoBannerProps {
+  notMainPage: boolean;  
+}
+
+export const DemoBanner: React.FC<DemoBannerProps> = (props) => {
+  const { notMainPage } = props;
 
   return(
   <header className="sticky top-0 z-50 bg-white p-4 text-lg font-normal text-gray-900 flex items-center justify-between border-b border-gray-200">

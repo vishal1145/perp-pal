@@ -1,9 +1,6 @@
-import React from 'react'
-import examIcon from '../../../../images/exam.png'
-import examIcon2 from '../../../../images/exam2.png'
-import Image from 'next/image'
+import React from 'react' 
 import DropdownSearch from '@/components/Multiselect'
-import { Bloom, Difficulty, ExamSetup, Length, Marks, Nature, TextBook } from '@/data/multiSelectData'
+import { Bloom, CreatePaper, Difficulty, ExamSetup, Length, Marks, Nature, TextBook } from '@/data/multiSelectData'
 import Question from '@/components/Question'
 import { DemoBanner } from '@/components/DemoBanner'
 const Assesment = () => {
@@ -37,110 +34,18 @@ const Assesment = () => {
                 </svg>
             </button>
             <aside
-                id="sidebar-multi-level-sidebar"
-                className="fixed   left-0 z-36 w-1/4 h-screen transition-transform -translate-x-full sm:translate-x-0"
+                id="sidebar-multi-level-sidebar "
+                className="fixed p-4   left-0 z-36 w-1/4 h-screen transition-transform -translate-x-full sm:translate-x-0"
                 aria-label="Sidebar"
             >
-                <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800" id="scrollable-container">
+                <div className="h-full px-3 rounded-md py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800" id="scrollable-container">
                     <ul className="space-y-2 font-medium">
-                        {/* <li>
-                            <a
-                                href="#"
-                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                            >
-                                <Image src={examIcon} alt="Exam Icon" height={36} width={36} />
-                                <span className="ms-3">Create Paper</span>
-                            </a> */}
-                        {/* </li> */}
+                     
+  
 
-                        {/* <li>
-                            <a
-                                href="#"
-                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
-                            >
-                                <Image src={examIcon} alt="Exam Icon" height={36} width={36} />
-                                <span className="ms-3">Create MCQ Paper</span>
-                            </a>
+<li>
+                            <DropdownSearch filter={CreatePaper.filter} options={CreatePaper.options}/>
                         </li>
-                        */}
-
-                        {/* <li>
-                            <button
-                                type="button"
-                                className="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-md group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                                aria-controls="dropdown-example"
-                                data-collapse-toggle="dropdown-example"
-                            >
-                                <Image src={examIcon2} alt="Exam Icon" height={36} width={36} />
-                                <span className="flex-1 ms-1 text-left rtl:text-right whitespace-nowrap">
-                                    Exam Setup
-                                </span>
-                                <svg
-                                    className="w-3 h-3"
-                                    aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 10 6"
-                                >
-                                    <path
-                                        stroke="currentColor"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="m1 1 4 4 4-4"
-                                    />
-                                </svg>
-                            </button>
-                            <ul id="dropdown-example" className="hidden py-2 space-y-2">
-                                <li>
-                                    <a
-                                        href="#"
-                                        className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                                    >
-                                        Products
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        href="#"
-                                        className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                                    >
-                                        Billing
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        href="#"
-                                        className="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                                    >
-                                        Invoice
-                                    </a>
-                                </li>
-                            </ul>
-                        </li> */}
-                      <button
-  id="dropdownSearchButton"
-  // onClick={toggleDropdown}
-  className="text-black focus:outline-none font-medium rounded-lg text-sm px-2 py-2.5 text-center inline-flex items-center justify-between w-full"
-  type="button"
->
-  <span className=" ">{"Create Paper"}</span>
-  <svg
-    className="w-2.5 h-2.5 ms-3"
-    aria-hidden="true"
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 10 6"
-  >
-    <path
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="m1 1 4 4 4-4"
-    />
-  </svg>
-</button>
 
 
                         <li>
@@ -184,9 +89,18 @@ const Assesment = () => {
 
                     </ul>
                 </div>
-            </aside>
-            <div id='assessment-right-9-col' className='bg-white' style={{marginLeft:"25.1%"}}>
-                <div className="p-4">
+            </aside> 
+
+
+
+            <div id='assessment-right-9-col'  className='bg-white grid grid-cols-9' style={{marginLeft:"25.1%"}}>
+           
+         
+   
+
+
+           
+                <div className="py-4 px-2 col-span-6">
                     <div className="flex items-center justify-center h-42   mb-4 dark:bg-gray-800">
                     <Question />
                     </div>
@@ -208,8 +122,230 @@ const Assesment = () => {
                     <Question />
                     </div>
                 </div>
-            </div>
+
+
+                <section className="pt-4 px-2 col-span-3">
+  <div className="  p-2 ">
+    <div className=" ">
+      <h2 className="text-4xl font-manrope text-center font-bold text-gray-900 leading-[3.25rem]">
+        Frequently asked questions
+      </h2>
+    </div>
+    <div className="accordion-group" data-accordion="default-accordion">
+      <div
+        className="accordion border border-solid border-gray-300 p-4 rounded-xl transition duration-500 accordion-active:bg-indigo-50 accordion-active:border-indigo-600 mb-8 lg:p-4 active"
+        id="basic-heading-one-with-icon"
+      >
+        <button
+          className="accordion-toggle group inline-flex items-center justify-between text-left text-lg font-normal leading-8 text-gray-900 w-full transition duration-500 hover:text-indigo-600 accordion-active:font-medium accordion-active:text-indigo-600"
+          aria-controls="basic-collapse-one-with-icon"
+        >
+          <h5>How can I reset my password?</h5>
+          <svg
+            className="w-6 h-6 text-gray-900 transition duration-500 block accordion-active:text-indigo-600 accordion-active:hidden group-hover:text-indigo-600 origin-center"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6 12H18M12 18V6"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <svg
+            className="w-6 h-6 text-gray-900 transition duration-500 hidden accordion-active:text-indigo-600 accordion-active:block group-hover:text-indigo-600"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6 12H18"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+        <div
+          id="basic-collapse-one-with-icon"
+          className="accordion-content w-full overflow-hidden pr-4"
+          aria-labelledby="basic-heading-one"
+          style={{ maxHeight: 250 }}
+        >
+          <p className="text-base text-gray-900 font-normal leading-6">
+            To create an account, find the 'Sign up' or 'Create account' button,
+            fill out the registration form with your personal information, and
+            click 'Create account' or 'Sign up.' Verify your email address if
+            needed, and then log in to start using the platform.
+          </p>
         </div>
+      </div>
+      <div
+        className="accordion border border-solid border-gray-300 p-4 rounded-xl accordion-active:bg-indigo-50 accordion-active:border-indigo-600 mb-8 lg:p-4"
+        id="basic-heading-two-with-icon"
+      >
+        <button
+          className="accordion-toggle group inline-flex items-center justify-between text-left text-lg font-normal leading-8 text-gray-900 w-full transition duration-500 hover:text-indigo-600 accordion-active:font-medium accordion-active:text-indigo-600"
+          aria-controls="basic-collapse-two-with-icon"
+        >
+          <h5>How do I update my billing information?</h5>
+          <svg
+            className="w-6 h-6 text-gray-900 transition duration-500 block accordion-active:text-indigo-600 accordion-active:hidden group-hover:text-indigo-600"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6 12H18M12 18V6"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <svg
+            className="w-6 h-6 text-gray-900 transition duration-500 hidden accordion-active:text-indigo-600 accordion-active:block group-hover:text-indigo-600"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6 12H18"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+        <div
+          id="basic-collapse-two-with-icon"
+          className="accordion-content w-full overflow-hidden pr-4"
+          aria-labelledby="basic-heading-two"
+        >
+          <p className="text-base text-gray-900 font-normal leading-6">
+            To create an account, find the 'Sign up' or 'Create account' button,
+            fill out the registration form with your personal information, and
+            click 'Create account' or 'Sign up.' Verify your email address if
+            needed, and then log in to start using the platform.
+          </p>
+        </div>
+      </div>
+      <div
+        className="accordion border border-solid border-gray-300 p-4 rounded-xl accordion-active:bg-indigo-50 accordion-active:border-indigo-600 mb-8 lg:p-4"
+        id="basic-heading-three-with-icon"
+      >
+        <button
+          className="accordion-toggle group inline-flex items-center justify-between text-left text-lg font-normal leading-8 text-gray-900 w-full transition duration-500 hover:text-indigo-600 accordion-active:font-medium accordion-active:text-indigo-600"
+          aria-controls="basic-collapse-three-with-icon"
+        >
+          <h5>How can I contact customer support?</h5>
+          <svg
+            className="w-6 h-6 text-gray-900 transition duration-500 block accordion-active:text-indigo-600 accordion-active:hidden group-hover:text-indigo-600"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6 12H18M12 18V6"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <svg
+            className="w-6 h-6 text-gray-900 transition duration-500 hidden accordion-active:text-indigo-600 accordion-active:block group-hover:text-indigo-600"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6 12H18"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+        <div
+          id="basic-collapse-three-with-icon"
+          className="accordion-content w-full overflow-hidden pr-4"
+          aria-labelledby="basic-heading-three"
+        >
+          <p className="text-base text-gray-900 font-normal leading-6">
+            To create an account, find the 'Sign up' or 'Create account' button,
+            fill out the registration form with your personal information, and
+            click 'Create account' or 'Sign up.' Verify your email address if
+            needed, and then log in to start using the platform.
+          </p>
+        </div>
+      </div>
+      <div
+        className="accordion border border-solid border-gray-300 p-4 rounded-xl accordion-active:bg-indigo-50 accordion-active:border-indigo-600 mb-8 lg:p-4"
+        id="basic-heading-three-with-icon"
+      >
+        <button
+          className="accordion-toggle group inline-flex items-center justify-between text-left text-lg font-normal leading-8 text-gray-900 w-full transition duration-500 hover:text-indigo-600 accordion-active:font-medium accordion-active:text-indigo-600"
+          aria-controls="basic-collapse-three-with-icon"
+        >
+          <h5>How do I delete my account?</h5>
+          <svg
+            className="w-6 h-6 text-gray-900 transition duration-500 block accordion-active:text-indigo-600 accordion-active:hidden group-hover:text-indigo-600"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6 12H18M12 18V6"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <svg
+            className="w-6 h-6 text-gray-900 transition duration-500 hidden accordion-active:text-indigo-600 accordion-active:block group-hover:text-indigo-600"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6 12H18"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+        <div
+          id="basic-collapse-three-with-icon"
+          className="accordion-content w-full overflow-hidden pr-4"
+          aria-labelledby="basic-heading-three"
+        >
+          <p className="text-base text-gray-900 font-normal leading-6">
+            To create an account, find the 'Sign up' or 'Create account' button,
+            fill out the registration form with your personal information, and
+            click 'Create account' or 'Sign up.' Verify your email address if
+            needed, and then log in to start using the platform.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div> 
+            </div>
+
+
+
+      
      </>
     )
 }

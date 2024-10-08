@@ -39,6 +39,7 @@ const DropdownSearch: React.FC<DropdownSearchProps> = (props) => {
         type="button"
       >
         <span>{filter}</span>
+        { !isOpen ? (
         <svg
           className="w-2.5 h-2.5 ms-3 flex-shrink-0"
           aria-hidden="true"
@@ -54,6 +55,23 @@ const DropdownSearch: React.FC<DropdownSearchProps> = (props) => {
             d="m1 1 4 4 4-4"
           />
         </svg>
+      ) : (
+        <svg
+          className="w-2.5 h-2.5 ms-3 flex-shrink-0"
+          aria-hidden="true"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 10 6"
+        >
+          <path
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="m1 5 4-4 4 4"
+          />
+        </svg>
+      )}
       </button>
 
       {/* Dropdown menu */}

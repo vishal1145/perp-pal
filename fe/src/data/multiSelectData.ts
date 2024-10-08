@@ -122,4 +122,20 @@ export const ExamSetup:DropdownSearchProps =
 }
 
 
+export const CreatePaper:DropdownSearchProps =
+{
+    filter: "Create Paper",
+    options: [
+        { id: '1', name: 'Bonnie Green' },
+        { id: '2', name: 'Jese Leos' },
+        { id: '3', name: 'Michael Gough' },
+        { id: '4', name: 'Robert Wall' },
+        { id: '5', name: 'Joseph Mcfall' },
+        { id: '6', name: 'Leslie Livingston' },
+        { id: '7', name: 'Roberta Casas' },
+    ]
+}
+
+
+
 
