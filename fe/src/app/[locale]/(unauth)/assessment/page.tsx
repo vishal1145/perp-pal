@@ -2,13 +2,13 @@ import React from 'react'
 import DropdownSearch from '@/components/Multiselect'
 import { Bloom, CreatePaper, Difficulty, ExamSetup, Length, Marks, Nature, TextBook } from '@/data/multiSelectData'
 import Question from '@/components/Question'
-import { DemoBanner } from '@/components/DemoBanner'
+// import { DemoBanner } from '@/components/DemoBanner'
 const Assesment = () => {
 
     return (
         <>
         
-<DemoBanner notMainPage={true}/>
+{/* <DemoBanner notMainPage={true}/> */}
 
         <div className=' '>
             <button

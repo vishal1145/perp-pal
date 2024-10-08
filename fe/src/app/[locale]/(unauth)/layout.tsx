@@ -11,6 +11,8 @@ import { unstable_setRequestLocale } from 'next-intl/server';
 
 // import { DemoBadge } from '@/components/DemoBadge';
 import { AppConfig } from '@/utils/AppConfig';
+import { DemoBanner } from '@/components/DemoBanner';
+import Footer from './Footer/page';
  
 
 export const metadata: Metadata = {
@@ -54,7 +56,7 @@ export default function RootLayout(props: {
   return (
     <html lang={props.params.locale}>
       <body>
-
+<DemoBanner/>
         <NextIntlClientProvider
           locale={props.params.locale}
           messages={messages}
@@ -65,7 +67,7 @@ export default function RootLayout(props: {
           {/* <DemoBadge /> */}
         </NextIntlClientProvider>
         
-      
+      <Footer/>
       </body>
     </html>
   );
