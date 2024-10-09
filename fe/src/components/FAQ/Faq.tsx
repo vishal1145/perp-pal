@@ -1,13 +1,13 @@
 "use client";
 import React, { useState } from 'react';
-import whatsapp from "../../images/whatsapp2.png"
-import facebook from "../../images/facebook2.png"
-import telegram from "../../images/telegram2.png"
-import instagram from "../../images/instagram2.png"
-import twitter from "../../images/twitter2.png"
-import Image from 'next/image';
-import { FaFacebook, FaInstagram, FaTelegram, FaTwitter, FaWhatsapp } from 'react-icons/fa';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { 
+  faFacebook, 
+  faWhatsapp, 
+  faInstagram, 
+  faTwitter, 
+  faTelegram 
+} from '@fortawesome/free-brands-svg-icons';
 const Faq = () => {
   const [openIndex, setOpenIndex] = useState(null); // Track the open FAQ index
 
@@ -39,21 +39,27 @@ const Faq = () => {
 
   return (
     <section className="px-4 hidden lg:block lg:col-span-3">
-      <div className="rounded-md  py-2   ">
-        <h2 className="text-sm font-medium  font-bold pt-3  pb-2">
+      <div className="rounded-md     ">
+        <h2 className="text-sm font-medium  font-bold    pb-2">
           Share use
         </h2>
 
         <div className='flex gap-4 flex-wrap ml-1  mt-1 '>
-          <FaWhatsapp className='w-8 h-8' />
-
-          <FaFacebook className='w-8 h-8' />
-
-          <FaInstagram className='w-8 h-8' />
-
-          <FaTelegram className='w-8 h-8' />
-
-          <FaTwitter className='w-8 h-8' />
+        <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+        <FontAwesomeIcon icon={faFacebook} size="2x" className='text-gray-500'/>
+      </a>
+      <a href="https://www.whatsapp.com" target="_blank" rel="noopener noreferrer">
+        <FontAwesomeIcon icon={faWhatsapp} size="2x" className='text-gray-500'/>
+      </a>
+      <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+        <FontAwesomeIcon icon={faInstagram} size="2x" className='text-gray-500'/>
+      </a>
+      <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
+        <FontAwesomeIcon icon={faTwitter} size="2x" className='text-gray-500' />
+      </a>
+      <a href="https://telegram.org" target="_blank" rel="noopener noreferrer">
+        <FontAwesomeIcon icon={faTelegram} size="2x" className='text-gray-500'/>
+      </a> 
         </div>
 
       </div>
@@ -62,11 +68,9 @@ const Faq = () => {
 
       <div className="">
 
-        <h2 className="text-sm mt-3 font-medium   font-bold leading-[3.25rem]">
+        <h2 className="text-sm  font-medium   font-bold leading-[3.25rem]">
           Frequently asked questions
         </h2>
-
-
 
         <div className="accordion-group h-60  " data-accordion="default-accordion">
           {faqs.map((faq, index) => (
