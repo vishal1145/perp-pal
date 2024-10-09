@@ -35,7 +35,7 @@ const page = () => {
 
     <h2 className="text-2xl font-semibold text-gray-700 mt-4">5. Privacy Policy</h2>
     <p className="text-gray-600 mb-6 mt-6">
-      We value your privacy and are committed to protecting your personal information. Our <a href="/privacyPolicy" className="text-blue-600 hover:underline">Privacy Policy</a> outlines the types of data we collect, how we store and use it, and the measures we take to protect your privacy. By using our website, you agree to the collection and use of your data as described in our Privacy Policy. Please review our Privacy Policy to understand our practices.
+      We value your privacy and are committed to protecting your personal information. Our <a href="/privacy-policy" className="text-blue-600 hover:underline">Privacy Policy</a> outlines the types of data we collect, how we store and use it, and the measures we take to protect your privacy. By using our website, you agree to the collection and use of your data as described in our Privacy Policy. Please review our Privacy Policy to understand our practices.
     </p>
 
     <h2 className="text-2xl font-semibold text-gray-700 mt-4">6. Limitation of Liability</h2>

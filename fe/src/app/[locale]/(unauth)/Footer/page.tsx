@@ -4,7 +4,7 @@ const Footer = () => {
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center px-4 space-y-4 md:space-y-0">
         <div className="text-gray-600 text-center md:text-left">
           &copy; {new Date().getFullYear()}{' '}
-          <a href="https://algofolks.com/" className="text-blue-600 hover:underline">
+          <a href="https://algofolks.com/" target="_blank" rel="noopener noreferrer">
             Algofolk prv.ltd
           </a>
           . All rights reserved.
@@ -17,7 +17,7 @@ const Footer = () => {
             Terms
           </a>
         </div>
-      </div>
+      </div>                                                                                      
     </footer>
   );
 };
