@@ -1,13 +1,8 @@
 "use client";
 import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
-  faFacebook, 
-  faWhatsapp, 
-  faInstagram, 
-  faTwitter, 
-  faTelegram 
-} from '@fortawesome/free-brands-svg-icons';
+import Link from "next/link";
+import {   FaTelegramPlane, FaWhatsapp, FaInstagram, FaFacebook } from 'react-icons/fa';
+
 const Faq = () => {
   const [openIndex, setOpenIndex] = useState(null); // Track the open FAQ index
 
@@ -44,25 +39,22 @@ const Faq = () => {
           Share use
         </h2>
 
-        <div className='flex gap-4 flex-wrap ml-1  mt-1 '>
-        <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
-        <FontAwesomeIcon icon={faFacebook} size="2x" className='text-gray-500'/>
-      </a>
-      <a href="https://www.whatsapp.com" target="_blank" rel="noopener noreferrer">
-        <FontAwesomeIcon icon={faWhatsapp} size="2x" className='text-gray-500'/>
-      </a>
-      <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
-        <FontAwesomeIcon icon={faInstagram} size="2x" className='text-gray-500'/>
-      </a>
-      <a href="https://www.twitter.com" target="_blank" rel="noopener noreferrer">
-        <FontAwesomeIcon icon={faTwitter} size="2x" className='text-gray-500' />
-      </a>
-      <a href="https://telegram.org" target="_blank" rel="noopener noreferrer">
-        <FontAwesomeIcon icon={faTelegram} size="2x" className='text-gray-500'/>
-      </a> 
-        </div>
-
+      <div className='flex gap-4 flex-wrap ml-1  mt-1 '>
+        <Link href="https://t.me/your-telegram-link" target="_blank" rel="noopener noreferrer">
+          <FaTelegramPlane className="text-gray-900 hover:text-indigo-500 transition" size={24} />
+        </Link>
+        <Link href="https://wa.me/your-whatsapp-number" target="_blank" rel="noopener noreferrer">
+          <FaWhatsapp className="text-gray-900 hover:text-indigo-500 transition" size={24} />
+        </Link>
+        <Link href="https://instagram.com/your-instagram-link" target="_blank" rel="noopener noreferrer">
+          <FaInstagram className="text-gray-900 hover:text-indigo-500 transition" size={24} />
+        </Link>
+        <Link href="https://facebook.com/your-facebook-link" target="_blank" rel="noopener noreferrer">
+          <FaFacebook className="text-gray-900 hover:text-indigo-500 transition" size={24} />
+        </Link>
       </div>
+      </div>
+
 
       <div className='py-2' style={{borderBottom: '1px solid #e2e2e2'}}></div>
 

@@ -49,7 +49,6 @@ export default function Layout() {
         setCardData(data.records);
         setLoading(false);
       } catch (err) {
-        setError('Failed to fetch data');
         setLoading(false);
       }
     };
@@ -86,7 +85,7 @@ const CustomCardLoader = () => (
 );
   return (
     <div className="flex flex-col min-h-screen">
-       <Banner/>
+       <Banner notMainPage={false}/>
       <div className="flex justify-center items-center mb-5 mt-5">
   <div className="relative w-full max-w-lg">
     <Image

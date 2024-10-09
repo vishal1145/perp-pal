@@ -81,9 +81,12 @@ const DropdownSearch: React.FC<DropdownSearchProps> = (props) => {
           className="z-10 bg-white rounded-lg shadow w-full dark:bg-gray-700"
         >
           <div className="p-3 fontSize-filter text-gray-500  " >
-            <label htmlFor="input-group-search" className="sr-only">
+          
+        
+            <label htmlFor="input-group-search" className="sr-only text-sm text-gray-500 break-words max-w-xs">
               Search
             </label>
+            
             <div className="relative ">
               <div className="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
                 <svg
@@ -128,7 +131,7 @@ const DropdownSearch: React.FC<DropdownSearchProps> = (props) => {
                   />
                   <label
                     htmlFor={`${filter}checkbox-item-${user.id}`}
-                    className="w-full py-2 ms-2 fontSize-filter text-gray-500  rounded"
+                    className="w-full py-2 ms-2   text-sm text-gray-500 break-words max-w-xs  rounded"
                     style={{
 
                     }}

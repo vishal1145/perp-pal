@@ -1,7 +1,7 @@
 import React from 'react'
 import DropdownSearch from '@/components/Multiselect'
 import { Bloom, CreatePaper, Difficulty, ExamSetup, Length, Marks, Nature, TextBook } from '@/data/multiSelectData'
-import Question from '@/components/Question'
+// import Question from '@/components/Question'
 import { DemoBanner } from '@/components/DemoBanner'
 import Faq from '@/components/FAQ/Faq'
 
@@ -9,14 +9,13 @@ const Assessment = () => {
   return (
     <>
       <DemoBanner notMainPage={true} />
-      {/* <Navbar/> */}
-      <div id='maidiv' className="grid grid-cols-1 sm:grid-cols-12 gap-4 py-0 sm:py-4">
+ <div id='maidiv' className="grid grid-cols-1 sm:grid-cols-12 gap-4 py-0 sm:py-4">
   <aside
     id="sidebar-multi-level-sidebar"
-    className="col-span-12 sm:col-span-3 py-4   rounded-sm bg-gray-50 dark:bg-gray-800 h-full"
+    className="col-span-12 sm:col-span-3 py-4 rounded-sm bg-gray-50 dark:bg-gray-800 h-full"
     aria-label="Sidebar"
   >
-    <div className="h-full px-3 rounded-md  overflow-y-auto">
+    <div className="h-full px-3 rounded-md overflow-y-auto">
       <ul className="space-y-2 font-medium">
         <li className='text-sm font-medium pl-2'> Assessment Filter </li>
         <li><DropdownSearch filter={CreatePaper.filter} options={CreatePaper.options} /></li>
@@ -39,9 +38,7 @@ const Assessment = () => {
       Subtitle
     </div>
     <div className="mb-4 dark:bg-gray-800 mt-3">
-      <Question />
-      <Question />
-      <Question />
+     
     </div>
     <button
       type="button"

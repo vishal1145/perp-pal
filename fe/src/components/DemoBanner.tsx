@@ -1,7 +1,8 @@
 "use client"
 import { FaSearch, FaMicrophone } from 'react-icons/fa';
 import { useEffect, useState, useRef } from 'react';
-
+import logo from "../images/logo.jpg"
+import Image from 'next/image';
 interface DemoBannerProps {
   notMainPage: boolean;  
 }
@@ -63,64 +64,52 @@ export const DemoBanner: React.FC<DemoBannerProps> = (props) => {
   };
 
   return(
-  <header className="sticky top-0 z-50 bg-white p-4 text-lg font-normal text-gray-900 flex items-center justify-between border-b border-gray-200">
-    
-    
-    <div className="flex justify-between w-full">
-
-
-
-    <div className="flex items-center space-x-3">
-    <a
-      href="http://localhost:3000/"
-      className="flex items-center space-x-3 rtl:space-x-reverse"
-    >
-      <img
-        src="https://flowbite.com/docs/images/logo.svg"
-        className="h-8"
-        alt="Flowbite Logo"
-      />
-      <span className="self-center text-2xl hidden sm:flex font-semibold whitespace-nowrap dark:text-white">
-        Prepal
-      </span>
-    </a>
- 
+    <header className="sticky top-0 z-50 bg-white p-4 text-lg font-normal text-gray-900 border-b border-gray-200">
+    <div className="grid grid-cols-12 gap-4">
+      {/* Div 1: Colspan 3 */}
+      <div className="col-span-3 flex items-center" id="div1">
+        <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+          <Image
+            src={logo}
+            className="h-10 w-full"
+            alt="Flowbite Logo"
+          />
+        </a>
+      </div>
+  
+      {/* Div 2: Colspan 6 (conditional rendering) */}
+      {notMainPage === true && (
+        <div className="col-span-8 lg:col-span-6 relative flex items-center" id="div2">
+          <span className="absolute inset-y-0 left-3 flex items-center">
+            <FaSearch className="text-gray-400" />
+          </span>
+          <input
+            ref={searchInputRef}
+            type="text"
+            placeholder="Search..."
+            className="bg-gray-100 w-full pl-10 pr-10 h-12 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            onKeyDown={handleKeyDown} // Add onKeyDown event handler
+          />
+          <span className="absolute inset-y-0 right-3 flex items-center">
+            <FaMicrophone className="text-gray-400 cursor-pointer" onClick={handleMicClick} />
+          </span>
+        </div>
+      )}
+  
+      {/* Div 3: Colspan 3 */}
+      <div className="col-span-1 lg:col-span-3 flex items-center justify-end" id="div3">
+        <img
+          src="https://randomuser.me/api/portraits/men/75.jpg"
+          alt="Profile"
+          width={40}
+          height={40}
+          className="rounded-full"
+        />
+      </div>
     </div>
-
-
-{
-  notMainPage === true && 
-  <div className="relative flex items-center w-2/4  ">
-  <span className="absolute inset-y-0 left-3 flex items-center">
-    <FaSearch className="text-gray-400" />
-  </span>
-  <input
-    ref={searchInputRef}
-    type="text"
-    placeholder="Search..."
-    className="bg-gray-100 w-full pl-10 pr-10 h-12 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 w-full"
-    value={searchText}
-    onChange={(e) => setSearchText(e.target.value)}
-    onKeyDown={handleKeyDown} // Add onKeyDown event handler
-  />
-  <span className="absolute inset-y-0 right-3 flex items-center">
-    <FaMicrophone className="text-gray-400 cursor-pointer" onClick={handleMicClick} />
-  </span>
-</div>
-}
- 
-    <div className="flex items-center space-x-3 hidden sm:flex">
-      <img
-        src="https://randomuser.me/api/portraits/men/75.jpg"
-        alt="Profile"
-        width={40}
-        height={40}
-        className="rounded-full"
-      />
-    </div>
-
-    </div>
-
   </header>
+  
   )
   }

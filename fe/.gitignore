@@ -7,7 +7,7 @@
 
 # Database
 *.db
-
+/.next
 # testing
 /coverage
 
@@ -21,7 +21,6 @@ storybook-static
 /playwright/.cache/
 
 # next.js
-/.next
 /out
 
 # cache
