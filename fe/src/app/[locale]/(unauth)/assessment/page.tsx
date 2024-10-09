@@ -4,7 +4,6 @@ import { Bloom, CreatePaper, Difficulty, ExamSetup, Length, Marks, Nature, TextB
 import Question from '@/components/Question'
 import { DemoBanner } from '@/components/DemoBanner'
 import Faq from '@/components/FAQ/Faq'
-import Navbar from '@/components/Navbar'
 
 const Assessment = () => {
   return (

@@ -11,8 +11,7 @@ import { unstable_setRequestLocale } from 'next-intl/server';
 
 // import { DemoBadge } from '@/components/DemoBadge';
 import { AppConfig } from '@/utils/AppConfig';
-import { DemoBanner } from '@/components/DemoBanner';
-import Footer from './Footer/page';
+ 
  
 
 export const metadata: Metadata = {

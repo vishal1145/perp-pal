@@ -11,7 +11,7 @@ const QuestionOptions: React.FC<QuestionOptionsProps> = ({ question, options }) 
     <div className="pb-4 w-full">
       <h2 className="text-sm font-medium mb-2">{question}</h2>
       <div className="grid grid-cols-1 gap-1">
-        {options.map((option, index) => (
+        {options.map((option ) => (
             <span className="text-sm text-gray-500 break-words max-w-xs">{option}</span>
         ))}
       </div>

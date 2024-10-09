@@ -1,6 +1,5 @@
 'use client';
 import Image from 'next/image';
-import { useTranslations } from 'next-intl';
 import { FaSearch, FaMicrophone } from 'react-icons/fa';
 import { useEffect, useState, useRef } from 'react';
 import '@/styles/global.css';
@@ -8,14 +7,9 @@ import '@/styles/global.css';
 import { DemoBanner } from '@/components/DemoBanner';
 import Footer from './Footer/page';
 
-export default function Layout(props: {  
-  children: React.ReactNode;
-  params: { locale: string };
-}) {
-  const t = useTranslations('RootLayout');
+export default function Layout() {
   const [cardData, setCardData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [searchText, setSearchText] = useState('');
   
   // Create a ref for the search input
@@ -32,7 +26,7 @@ export default function Layout(props: {
   
       recognition.start();
   
-      recognition.onresult = (event) => {
+      recognition.onresult = (event:any) => {
         const results = event.results;
         const transcript = results[results.length - 1][0].transcript; // Get the latest result
         setSearchText(transcript);
@@ -44,7 +38,7 @@ export default function Layout(props: {
         }, 2000); 
       };
   
-      recognition.onerror = (event) => {
+      recognition.onerror = (event:any) => {
         console.error('Speech recognition error:', event.error);
       };
   
@@ -66,7 +60,6 @@ export default function Layout(props: {
         setCardData(data.records); 
         setLoading(false);
       } catch (err) {
-        setError('Failed to fetch data');
         setLoading(false);
       }
     };
