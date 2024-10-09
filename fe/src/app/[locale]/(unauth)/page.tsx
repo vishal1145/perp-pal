@@ -79,8 +79,8 @@ const CustomCardLoader = () => (
   backgroundColor="#F0F0F0"
   foregroundColor="#DEDEDE"
 >
-  <rect x="15" y="30" rx="5" ry="5" width="260" height="8" /> {/* Smaller text */}
-  <rect x="15" y="40" rx="5" ry="5" width="260" height="8" /> {/* Smaller text */}
+  <rect x="15" y="30" rx="5" ry="20" width="260" height="20" /> {/* Smaller text */}
+  <rect x="15" y="60" rx="5" ry="20" width="260" height="20" /> {/* Smaller text */}
 </ContentLoader>
 );
   return (
