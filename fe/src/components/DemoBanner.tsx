@@ -87,7 +87,7 @@ export const DemoBanner: React.FC<DemoBannerProps> = (props) => {
             ref={searchInputRef}
             type="text"
             placeholder="Search..."
-            className="bg-gray-100 w-full pl-10 pr-10 h-12 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="bg-gray-100 w-full pl-10 pr-10 h-10 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
             onKeyDown={handleKeyDown} // Add onKeyDown event handler
