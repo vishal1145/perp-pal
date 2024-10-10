@@ -16,9 +16,17 @@ const Assessment = () => {
 
    const router = useRouter();   
 
-   const handlePracticeClick = () => {
-     router.push('/practice-screen');   
-   };
+  //  const handlePracticeClick = () => {
+  //    router.push(`/practice-screen/{questionId}`);   
+  //  };
+
+
+  const handlePracticeClick = () => {
+    const questionData = JSON.stringify(questions); // Serialize questions array
+    router.push(`/practice-screen/${encodeURIComponent(questionData)}`);
+  };
+  
+
 
    const getMcq = async () => {
      try {
@@ -77,6 +85,7 @@ const Assessment = () => {
                    index={index + 1}
                  />
                ))
+               
              )}
            </div>
            <button
