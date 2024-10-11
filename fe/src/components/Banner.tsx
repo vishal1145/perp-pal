@@ -1,18 +1,21 @@
-import Link from "next/link";
+import Link from 'next/link';
 import { FaSearch, FaTelegramPlane, FaWhatsapp, FaInstagram, FaFacebook } from 'react-icons/fa';
+
 interface DemoBannerProps {
   notMainPage: boolean;
 }
+
 export const Banner: React.FC<DemoBannerProps> = (props) => {
   const { notMainPage } = props;
+
   return (
     <header className="sticky top-0 z-50 bg-white p-4 text-lg font-normal text-gray-900 flex items-center justify-between ">
       <div className="flex items-center space-x-3">
         <div className="flex items-center space-x-8">
           <ul className="flex space-x-4">
             <li>
-              <Link href="/" className="hover:text-indigo-100">
-                <p className="text-base text-gray-900">How it works</p>
+              <Link href="/how-it-work" className="hover:text-indigo-500" target="_blank" rel="noopener noreferrer">
+                <p className="text-base text-gray-900">How It Works</p>
               </Link>
             </li>
           </ul>
@@ -31,19 +34,19 @@ export const Banner: React.FC<DemoBannerProps> = (props) => {
         </div>
       )}
       <div className="flex space-x-5 ml-4">
-        <Link href="https://t.me/your-telegram-link" target="_blank" rel="noopener noreferrer">
+        <a href="https://t.me/your-telegram-link" target="_blank" rel="noopener noreferrer">
           <FaTelegramPlane className="text-gray-900 hover:text-indigo-500 transition" size={24} />
-        </Link>
-        <Link href="https://wa.me/your-whatsapp-number" target="_blank" rel="noopener noreferrer">
+        </a>
+        <a href="https://wa.me/your-whatsapp-number" target="_blank" rel="noopener noreferrer">
           <FaWhatsapp className="text-gray-900 hover:text-indigo-500 transition" size={24} />
-        </Link>
-        <Link href="https://instagram.com/your-instagram-link" target="_blank" rel="noopener noreferrer">
+        </a>
+        <a href="https://instagram.com/your-instagram-link" target="_blank" rel="noopener noreferrer">
           <FaInstagram className="text-gray-900 hover:text-indigo-500 transition" size={24} />
-        </Link>
-        <Link href="https://facebook.com/your-facebook-link" target="_blank" rel="noopener noreferrer">
+        </a>
+        <a href="https://facebook.com/your-facebook-link" target="_blank" rel="noopener noreferrer">
           <FaFacebook className="text-gray-900 hover:text-indigo-500 transition" size={24} />
-        </Link>
+        </a>
       </div>
     </header>
   );
-}
+};

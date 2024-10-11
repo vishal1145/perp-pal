@@ -8,6 +8,10 @@ import ContentLoader from 'react-content-loader'; // Import React Content Loader
 import logo from '../../../images/logo.jpg';
 import Footer from './Footer/page';
 import { Banner } from '@/components/Banner';
+import { initGA, trackGAEvent } from '../(unauth)/googleAnalytics';
+import { initMixpanel, trackEvent } from './mixpanel';
+import { first_card } from "./mixpanelEventConstent";
+
 export default function Layout() {
   const [cardData, setCardData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -51,6 +55,8 @@ export default function Layout() {
       } catch (err) {
         setLoading(false);
       }
+      initMixpanel();
+      initGA();
     };
     fetchData();
   }, []);
@@ -62,6 +68,8 @@ export default function Layout() {
   const handleCardClick = (promptText: string) => {
     const formattedText = promptText.replace(/\s+/g, '-');
     router.push(`/e-paper/${formattedText}`);
+    trackEvent(first_card);
+    trackGAEvent('Card', 'cardClick', promptText); 
   };
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && searchText.trim() !== '') {
