@@ -5,7 +5,7 @@ import { DemoBanner } from "@/components/DemoBanner";
 import axios from 'axios';
 import { McqTestQuestion } from "@/types/type";
 import CustomCardLoader from "@/components/CustomCardLoader";
-
+import { useRouter } from 'next/navigation';
 const PracticeScreen = () => {
   const [showHints, setShowHints] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
@@ -25,7 +25,11 @@ const PracticeScreen = () => {
   };
   const [panelHeight, setPanelHeight] = useState(0);
   const panelRef = useRef<HTMLDivElement | null>(null);
-
+  const router = useRouter();
+  const newPage = ()=>{
+    router.push(`/result-screen`);
+  }
+    
   useEffect(() => {
     if (panelRef.current) {
       if (showHints) {
@@ -75,19 +79,20 @@ const PracticeScreen = () => {
         <DemoBanner notMainPage={true} />
         <div className="flex flex-grow overflow-hidden p-4">
           <div className="flex-1 mr-4 space-y-4 overflow-hidden p-4">
-                {
-                  loading && <CustomCardLoader/>
-                }
-         
-            {questions.length > 0 && (
-              <div className="mb-4 bg-gray-100 p-4">
+            {
+              loading ? <CustomCardLoader/> :
 
-               
-                <h2 className="text-sm text-gray-500">{questions[index].question}</h2>
-                <ul className="mt-2 text-sm text-gray-500 font-normal">
-                  {questions.length > 0 &&  questions[index].options.map((option, idx) => (
+            <div className="mb-4 text-sm font-medium bg-gray-100 p-4 rounded-lg shadow ">
+            {
+              questions.length > 0 &&
+              <h2 className="text-sm text-black">
+             {`Q${index+1}. ${questions[index].question}`}
+              </h2>
+            }  
+              <ul className="mt-1 text-sm text-gray-500 fs-700 font-normal ">
+              {questions.length > 0 &&  questions[index].options.map((option, idx) => (
                     <li key={idx}>
-                      <label className="flex items-center">
+                      <label className="flex items-center mt-1">
                         <input
                           type="checkbox"
                           value={option.optionText}  
@@ -99,24 +104,29 @@ const PracticeScreen = () => {
                       </label>
                     </li>
                   ))}
-                </ul>
-              </div>
-            )}
+              </ul>
+            </div>
+}
             <div className="flex justify-between">
-              <button
-                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium px-4 py-2 rounded"
-                onClick={prevQuestion}
-                disabled={index === 0}
-              >
+              {
+                index > 0 &&  <button className="flex items-center" onClick={prevQuestion}>
+                <FaArrowLeft className="mr-2" /> 
                 Back
               </button>
-              <button
-                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium px-4 py-2 rounded"
-                onClick={nextQuestion}
-                disabled={index === questions.length - 1}
-              >
+              }
+           
+               {
+                index < questions.length-1 ? 
+                <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium px-4 py-2 rounded" onClick={nextQuestion}>
                 Next
-              </button>
+              </button> :
+
+              index ==questions.length-1 ?
+                 <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium px-4 py-2 rounded" onClick={newPage}>
+                 Submit
+               </button>:null
+               }
+        
             </div>
 
           
@@ -125,9 +135,9 @@ const PracticeScreen = () => {
       {/* Dropdown Button */}
       <button
         onClick={() => setShowHints(!showHints)}
-        className="bg-gray-100 text-gray-500 rounded font-normal px-4 py-2  inline-flex justify-between items-center text-sm fs-700 w-full transition-all duration-300 ease-in-out"
+        className="bg-gray-100   rounded font-normal px-4 py-2  inline-flex justify-between items-center text-sm fs-700 w-full transition-all duration-300 ease-in-out"
       >
-        <span>{showHints ? "Hide hints" : "Show hints"}</span>
+        <span className="text-sm font-medium text-black">{showHints ? "Hide hints" : "Show hints"}</span>
         {showHints ? (
           <FaChevronUp className="transition-transform duration-300" />
         ) : (
@@ -138,10 +148,10 @@ const PracticeScreen = () => {
       {/* Hints Section */}
       <div
         ref={panelRef}
-        className="bg-gray-100 text-gray-500 rounded font-normal overflow-hidden transition-all duration-700 ease-in-out"
+        className="bg-gray-100 text-gray-500  rounded font-normal overflow-hidden transition-all duration-700 ease-in-out"
         style={{ height: panelHeight }}
       >
-        <div className="p-4 text-gray-500">
+        <div className="px-4 pb-4 text-sm text-gray-500  ">
           <p>Your hints content goes here.</p>
         </div>
       </div>

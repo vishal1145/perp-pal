@@ -48,10 +48,16 @@ const Assessment: React.FC = () => {
     chapterId: null as string | null,
     levelId:null as string | null
   });
+  const [formattedText, setFormattedText] = useState('');
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setFormattedText(window.location.pathname.split('/').pop());
+    }
+  }, []);
 
   const router = useRouter();
 
- 
   const handlePracticeClick = async () => {
     try {
       const { data } = await axios.post(`https://prep-pal.algofolks.com/api/Question/generate-guid`);
@@ -67,9 +73,9 @@ const Assessment: React.FC = () => {
   const fetchFilterOptions = async (type: string, id: string) => {
     try {
       const endpoint = type === 'subject' 
-        ? `https://prep-pal.algofolks.com/api/Education/subject/class/${id}`
+        ? `https://prep-pal.algofolks.com/api/Education/subject/class/67069f86fc430151577d39fd`
         : type === 'chapter'
-        ? `https://prep-pal.algofolks.com/api/Education/chapter/subject/${id}`
+        ? `https://prep-pal.algofolks.com/api/Education/chapter/subject/670786588730a1e5d31aa614`
         : `https://prep-pal.algofolks.com/api/Education/level`;
 
       const { data } = await axios.get(endpoint);
@@ -86,28 +92,38 @@ const Assessment: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    const { classId, subjectId, chapterId } = selectedFilters;
+  // useEffect(() => {
+  //   const { classId, subjectId, chapterId } = selectedFilters;
 
-    if (classId) {
-      fetchFilterOptions('subject', classId).then(setSubjectFilter);
-    } else {
-      setSubjectFilter([]);
-    }
+  //   if (classId) {
+  //     fetchFilterOptions('subject', classId).then(setSubjectFilter);
+  //   } else {
+  //     setSubjectFilter([]);
+  //   }
 
-    if (subjectId) {
-      fetchFilterOptions('chapter', subjectId).then(setChapterFilter);
-    } else {
-      setChapterFilter([]);
-    }
+  //   if (subjectId) {
+  //     fetchFilterOptions('chapter', subjectId).then(setChapterFilter);
+  //   } else {
+  //     setChapterFilter([]);
+  //   }
 
-    if (chapterId) {
-      fetchFilterOptions('level', chapterId).then(setLevelFilter);
-    } else {
-      setLevelFilter([]);
-    }
-  }, [selectedFilters]);
+  //   if (chapterId) {
+  //     fetchFilterOptions('level', chapterId).then(setLevelFilter);
+  //   } else {
+  //     setLevelFilter([]);
+  //   }
+  // }, [selectedFilters]);
 
+  useEffect(()=>{
+    fetchFilterOptions('subject', '67069f86fc430151577d39fd').then(setSubjectFilter);
+    fetchFilterOptions('chapter', '670788242e0e06e67865a429').then(setChapterFilter);
+    fetchFilterOptions('level', 'chapterId').then(setLevelFilter);
+
+      // fetchFilterOptions('subject', '67069f86fc430151577d39fd').then(setSubjectFilter);
+      // fetchFilterOptions('chapter', '670786588730a1e5d31aa614').then(setSubjectFilter);
+      // fetchFilterOptions('subject', '67069f86fc430151577d39fd').then(setSubjectFilter);
+
+  },[])
   const handleFilterChange = (filter: 'classId' | 'subjectId' | 'chapterId' | 'levelId', value: string | null) => {
     setSelectedFilters((prev) => ({ ...prev, [filter]: value }));
   };
@@ -115,7 +131,7 @@ const Assessment: React.FC = () => {
   return (
     <>
       <DemoBanner notMainPage={true} />
-      <div id='maidiv' className="grid grid-cols-1 sm:grid-cols-12 gap-4 py-0 sm:py-4">
+      <div id='maidiv' className="grid grid-cols-1 sm:grid-cols-12 gap-4 py-0 sm:py-4 sm:pl-4">
         <aside className="col-span-12 sm:col-span-3 py-4 rounded-sm bg-gray-50 dark:bg-gray-800 h-full" aria-label="Sidebar">
           <div className="h-full px-3 rounded-md overflow-y-auto">
             <ul className="space-y-2 font-medium px-2">
@@ -123,7 +139,7 @@ const Assessment: React.FC = () => {
               <li>
                 <DropdownSearch filter="Class" options={classFilter} filterOptionSelect={(value) => handleFilterChange('classId', value)} />
               </li>
-              {selectedFilters.classId && (
+              {/* {selectedFilters.classId && (
                 <li>
                   <DropdownSearch filter="Subject" options={subjectFilter} filterOptionSelect={(value) => handleFilterChange('subjectId', value)} />
                 </li>
@@ -137,14 +153,54 @@ const Assessment: React.FC = () => {
                 <li>
                   <DropdownSearch filter="Level" options={levelFilter} filterOptionSelect={(value) => handleFilterChange('levelId', value)} />
                 </li>
+              )} */}
+
+
+
+{subjectFilter.length > 0 && (
+                <li>
+                  <DropdownSearch filter="Subject" options={subjectFilter} filterOptionSelect={(value) => handleFilterChange('subjectId', value)} />
+                </li>
+              )}
+              {chapterFilter.length > 0&& (
+                <li>
+                  <DropdownSearch filter="Chapter" options={chapterFilter} filterOptionSelect={(value) => handleFilterChange('chapterId', value)} />
+                </li>
+              )}
+              { levelFilter.length > 0 && (
+                <li>
+                  <DropdownSearch filter="Level" options={levelFilter} filterOptionSelect={(value) => handleFilterChange('levelId', value)} />
+                </li>
               )}
             </ul>
           </div>
         </aside>
 
         <div className="px-4 sm:px-1 col-span-12 sm:col-span-9 md:col-span-9 lg:col-span-6 bg-white">
-          <div className='text-md font-medium'>Title</div>
-          <div className='text-gray-500 font-sm text-md'>Subtitle</div>
+        <div className='flex justify-between'>
+          
+          <div>
+
+           <div className='text-md font-medium'>Your Questions</div>
+          <div className='text-gray-500 font-sm text-md'>{formattedText}</div>
+          </div>
+
+          <button
+  type="button"
+  className="border border-gray-500 text-black bg-transparent    font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none"
+  onClick={handlePracticeClick}
+>
+  Practice
+</button>
+
+
+ 
+
+
+</div>
+
+<div className='py-2 mt-2' style={{ borderBottom: '1px solid #e2e2e2' }}></div>
+
           <div className="mb-4 dark:bg-gray-800 mt-3">
             {questionloading ? (
               Array.from({ length: 20 }, (_, i) => <CustomCardLoader key={i} />)

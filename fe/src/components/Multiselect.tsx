@@ -22,7 +22,7 @@ const DropdownSearch: React.FC<DropdownSearchProps> = ({ filter, options, filter
     setSearchQuery(e.target.value);
   }, []);
 
-  // Updated filtering logic
+ 
   const filteredOptions = Array.isArray(options) 
     ? options.filter(option => 
         typeof option.name === 'string' && option.name.toLowerCase().includes(searchQuery.toLowerCase())
