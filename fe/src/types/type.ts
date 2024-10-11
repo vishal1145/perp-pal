@@ -11,6 +11,11 @@ export interface McqQuestion {
   correctAnswer: string;
 }
 
+export interface UserPracticePaper{
+  McqQuestion:McqQuestion;
+  userSelectAns:string;
+}
+
 export interface McqTestQuestion {
   McqQuestion: McqQuestion;
   chooseAns: string;
