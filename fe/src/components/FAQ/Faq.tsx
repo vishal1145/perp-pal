@@ -8,35 +8,37 @@ const Faq = () => {
 
   const handleFaqToggle = (index: any) => {
     setOpenIndex(openIndex === index ? null : index); // Toggle the FAQ
-  }
-
+  } 
   const faqs = [
     {
-      question: "How can I reset my password?",
-      answer: "To reset your password, go to the login page and click on 'Forgot Password?' Follow the prompts to reset it."
+      question: "How do I start a practice session?",
+      answer: "Learn how to begin your practice session after the paper is generated."
     },
     {
-      question: "How do I create an account?",
-      answer: "To create an account, find the 'Sign up' or 'Create account' button, fill out the registration form with your personal information, and click 'Create account' or 'Sign up.' Verify your email address if needed, and then log in to start using the platform."
+      question: "Can I change the number of questions in a practice paper?",
+      answer: "Understand how to modify the number of questions before starting your session."
     },
 
     {
-      question: "How do I create an account?",
-      answer: "To create an account, find the 'Sign up' or 'Create account' button, fill out the registration form with your personal information, and click 'Create account' or 'Sign up.' Verify your email address if needed, and then log in to start using the platform."
+      question: "How do I navigate between questions during practice?",
+      answer: "A guide on moving between questions, flagging questions for review, and submitting answers."
     },
 
     {
-      question: "How do I create an account?",
-      answer: "To create an account, find the 'Sign up' or 'Create account' button, fill out the registration form with your personal information, and click 'Create account' or 'Sign up.' Verify your email address if needed, and then log in to start using the platform."
+      question: "How is my performance evaluated in real-time?",
+      answer: "Find out how results are calculated and displayed immediately after completing the session."
     },
-    // Add more FAQs as needed
+    {
+      question: "Can I retake the practice paper to improve my score?",
+      answer: "Information on how to retake the same practice paper and track your progress."
+    },
   ];
 
   return (
     <section className="px-4 hidden lg:block lg:col-span-3">
       <div className="rounded-md     ">
         <h2 className="text-sm font-medium  font-bold    pb-2">
-          Share use
+          Share us
         </h2>
 
       <div className='flex gap-4 flex-wrap ml-1  mt-1 '>

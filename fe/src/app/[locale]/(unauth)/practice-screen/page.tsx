@@ -1,36 +1,28 @@
 "use client"; 
 import React, { useState ,useRef,useEffect} from "react";
-import { DemoBanner } from "@/components/DemoBanner";
 import { FaChevronDown, FaChevronUp ,FaArrowLeft} from 'react-icons/fa';
+import { DemoBanner } from "@/components/DemoBanner";
+import axios from 'axios';
+import { McqTestQuestion } from "@/types/type";
+import CustomCardLoader from "@/components/CustomCardLoader";
+
 const PracticeScreen = () => {
   const [showHints, setShowHints] = useState(false);
- // const [selectedOptions, setSelectedOptions] = useState<string[]>([]); // Specify the type as string[]
- const [selectedOption, setSelectedOption] = useState<string | null>(null); // Track single selected option
-  const options = ["Red", "Blue", "Pink", "Green"];
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [questions, setQuestions] = useState<McqTestQuestion[]>([]);
+  const [index, setIndex] = useState(0);
 
-  // const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const value = event.target.value;
-
-  //   if (selectedOptions.includes(value)) {
-  //     // Remove from selected options if already selected
-  //     setSelectedOptions(selectedOptions.filter((option) => option !== value));
-  //   } else {
-  //     // Add to selected options
-  //     setSelectedOptions([...selectedOptions, value]);
-  //   }
-  // };
-
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    
-
-    if (selectedOption === value) {
-      setSelectedOption(null); 
-    } else {
-      setSelectedOption(value);
+  const getPracticePaper = async () => {
+    try {
+      const response = await axios.get(`https://prep-pal.algofolks.com/api/Question`);
+      setQuestions(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching questions:", error);
+      setLoading(false);
     }
   };
-
   const [panelHeight, setPanelHeight] = useState(0);
   const panelRef = useRef<HTMLDivElement | null>(null);
 
@@ -46,42 +38,83 @@ const PracticeScreen = () => {
     }
   }, [showHints]);
 
+  useEffect(() => {
+    getPracticePaper();
+  }, []);
+
+  useEffect(() => {
+    if (questions.length > 0) {
+      setSelectedOptions([]);
+    }
+  }, [index, questions]);
+
+  const prevQuestion = () => {
+    if (index > 0) {
+      setIndex(index - 1);
+    }
+  };
+
+  const nextQuestion = () => {
+    if (index < questions.length - 1) {
+      setIndex(index + 1);
+    }
+  };
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setSelectedOptions((prev) => 
+      prev.includes(value) ? prev.filter(option => option !== value) : [value]
+    );
+  };
+
+ 
+
   return (
     <>
       <div className="flex flex-col min-h-screen bg-white">
         <DemoBanner notMainPage={true} />
         <div className="flex flex-grow overflow-hidden p-4">
           <div className="flex-1 mr-4 space-y-4 overflow-hidden p-4">
-            <div className="mb-4 bg-gray-100 p-4 rounded-lg shadow ">
-              <h2 className="text-sm text-black">
-                Q1. What are your favorite colors?
-              </h2>
-              <ul className="mt-2 text-sm text-gray-500 fs-700 font-normal ">
-                {options.map((option, index) => (
-                  <li key={index} className="mb-2">
-                    <label className="flex items-center">
-                      <input
-                        type="checkbox"
-                        value={option}
-                        //checked={selectedOptions.includes(option)}
-                         checked={selectedOption === option}
-                        onChange={handleCheckboxChange}
-                        className="mr-2"
-                      />
-                      {option}
-                    </label>
-                  </li>
-                ))}
-              </ul>
-            </div>
+                {
+                  loading && <CustomCardLoader/>
+                }
+         
+            {questions.length > 0 && (
+              <div className="mb-4 bg-gray-100 p-4">
 
+               
+                <h2 className="text-sm text-gray-500">{questions[index].question}</h2>
+                <ul className="mt-2 text-sm text-gray-500 font-normal">
+                  {questions.length > 0 &&  questions[index].options.map((option, idx) => (
+                    <li key={idx}>
+                      <label className="flex items-center">
+                        <input
+                          type="checkbox"
+                          value={option.optionText}  
+                          checked={selectedOptions.includes(option.optionText)}
+                          onChange={handleCheckboxChange}
+                          className="mr-2"
+                        />
+                        {option.optionText} 
+                      </label>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
             <div className="flex justify-between">
-            <button className="flex items-center">
-  <FaArrowLeft className="mr-2" /> 
-  Back
-</button>
-
-              <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium px-4 py-2 rounded">
+              <button
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium px-4 py-2 rounded"
+                onClick={prevQuestion}
+                disabled={index === 0}
+              >
+                Back
+              </button>
+              <button
+                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium px-4 py-2 rounded"
+                onClick={nextQuestion}
+                disabled={index === questions.length - 1}
+              >
                 Next
               </button>
             </div>

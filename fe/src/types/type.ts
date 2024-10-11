@@ -1,11 +1,22 @@
 export type DropdownSearchProps = {
-    filter:string;
-    options: { id: string; name: string }[];
-  };
-  
-export type McqQuestion = {
-    questionId:string;
-    question:string;
-    options:{optionText:string, optionFlag:string}[]
-    correctAnswer:string;
+  filter: string;
+  options: FilterOption[];  
+  filterOptionSelect: (id: string | null) => void;
 };
+
+export interface McqQuestion {
+  questionId: string;
+  question: string;
+  options: { optionText: string; optionFlag: string }[];
+  correctAnswer: string;
+}
+
+export interface McqTestQuestion {
+  McqQuestion: McqQuestion;
+  chooseAns: string;
+}
+
+export interface FilterOption {
+  id: string;
+  name: string;
+}
