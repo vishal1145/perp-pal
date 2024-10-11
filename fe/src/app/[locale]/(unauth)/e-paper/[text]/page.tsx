@@ -51,10 +51,7 @@ const Assessment: React.FC = () => {
 
   const router = useRouter();
 
-  useEffect(()=>{
-     console.log(classFilter);
-     debugger
-  }, [classFilter])
+ 
   const handlePracticeClick = async () => {
     try {
       const { data } = await axios.post(`https://prep-pal.algofolks.com/api/Question/generate-guid`);
