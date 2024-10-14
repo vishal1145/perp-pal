@@ -61,6 +61,10 @@ const Assessment: React.FC = () => {
   const handlePracticeClick = async () => {
     try {
       const { data } = await axios.post(`https://prep-pal.algofolks.com/api/Question/generate-guid`);
+       
+      //  await axios.post(`${process.env.NEXT_PUBLIC_API_URI}/questions`, questions);
+
+    
       router.push(`/practice-screen?data=${encodeURIComponent(data.id)}`);
     } catch (error) {
       console.error('Error generating practice:', error);
@@ -187,10 +191,14 @@ const Assessment: React.FC = () => {
 
           <button
   type="button"
-  className="border border-gray-500 text-black bg-transparent cursor-pointer font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none hover:bg-gray-200"
+  className="border border-gray-500  bg-transparent cursor-pointer font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none hover:bg-gray-200"
   onClick={handlePracticeClick}
+  style={{
+    border:"1px solid rgb(226, 226, 226)",
+    color:"rgb(107 114 128)"
+  }}
 >
-  Practice
+  Start Practice
 </button>
 
 
@@ -222,7 +230,7 @@ const Assessment: React.FC = () => {
             className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 w-full"
             onClick={handlePracticeClick}
           >
-            Practice
+           Start Practice
           </button>
         </div>
 

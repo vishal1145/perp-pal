@@ -7,6 +7,8 @@ import { McqQuestion, McqTestQuestion, UserPracticePaper } from "@/types/type";
 import CustomCardLoader from "@/components/CustomCardLoader";
 // import { useRouter } from 'next/navigation';
 import ResultPage from "../result-screen/page";
+import SubmitPopup from "@/components/PopupModal/SubmitPopup";
+import Timer from "@/components/Timer";
 
 const PracticeScreen = () => {
   const [showHints, setShowHints] = useState(false);
@@ -17,6 +19,7 @@ const PracticeScreen = () => {
   const panelRef = useRef<HTMLDivElement | null>(null);
   const [panelHeight, setPanelHeight] = useState(0);
   const[resultScreen, setResultScreen] = useState<boolean>(false);
+  const[isModalOpen, setIsModalOpen] = useState<boolean>(false);
   // const router = useRouter();
   
   const getPracticePaper = async () => {
@@ -35,9 +38,32 @@ const PracticeScreen = () => {
     }
   };
 
+   const save = async()=>{
+    
+    try {
+ 
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URI}/assessment`, {
+        userId:"uyg34b43nbh43r34nb4rb3br",
+        questions:userPracticePaper,
+      });
+
+      
+      console.log('Assessment submitted successfully:', response.data);
+   
+      // setResultScreen(true);
+    } catch (error) {
+      console.log(error);
+    }
+    // setResultScreen(true);
+
+
+
+    // router.push(`/result-screen`);
+   }
+
   const newPage = () => {
     console.log(userPracticePaper);
-    setResultScreen(true);
+    setIsModalOpen(true);
     // router.push(`/result-screen`);
   };
 
@@ -88,6 +114,10 @@ const PracticeScreen = () => {
         :   <div className="flex flex-col min-h-screen bg-white">
         <DemoBanner notMainPage={true} />
         <div className="flex flex-grow overflow-hidden p-4">
+
+          {  isModalOpen && 
+            <SubmitPopup title="Assessment" message="Are you sure you want to submit the exam"  setIsModalOpen={setIsModalOpen} submitBtn="Submit" submitFn={save}/>
+          }
           <div className="flex-1 mr-4 space-y-4 overflow-hidden p-4">
             {
               loading ? <CustomCardLoader /> :
@@ -116,11 +146,11 @@ const PracticeScreen = () => {
                   </ul>
                 </div>
             }
-            <div className="flex justify-between">
-              {index > 0 && <button className="flex items-center" onClick={prevQuestion}>
+            <div className={`flex ${index == 0 ? `justify-end` : `justify-between` }`}>
+             <button className={`flex items-center ${index == 0 ? 'hidden' : ''}`} onClick={prevQuestion} >
                 <FaArrowLeft className="mr-2" />
                 Back
-              </button>}
+              </button> 
               {index < questions.length - 1 ?
                 <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium px-4 py-2 rounded" onClick={nextQuestion}>
                   Next
@@ -159,6 +189,9 @@ const PracticeScreen = () => {
               <h3 className="text-sm font-medium ">
                 Timer
               </h3>
+
+            <Timer initialHours={0} initialMinutes={30} initialSeconds={15} />
+
               <div className='py-2' style={{ borderBottom: '1px solid #E2E2E2' }}></div>
             </div>
             <div className="">
