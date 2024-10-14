@@ -1,5 +1,5 @@
 "use client"; // Ensure the component is a client component
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { Pie } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -8,11 +8,21 @@ import {
   Legend,
 } from "chart.js"; // Import from chart.js
 import { DemoBanner } from "@/components/DemoBanner";
-import { Banner } from "@/components/Banner";
+import { UserPracticePaper } from "@/types/type";
 // Register necessary components
 ChartJS.register(ArcElement, Tooltip, Legend);
-const HomePage = () => {
+
+
+interface ResultPageProps {
+  userPracticePaper: UserPracticePaper[];  
+}
+
+const ResultPage: React.FC<ResultPageProps> = (props) => {
   // Sample data for the pie chart
+ useEffect(()=>{
+  console.log(props);
+  debugger
+ }, [])
   const data = {
     labels: ["High", "Low", "Average"],
     datasets: [
@@ -209,7 +219,7 @@ const HomePage = () => {
     </>
   );
 };
-export default HomePage;
+export default ResultPage;
 
 
 
