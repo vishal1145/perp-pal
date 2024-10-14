@@ -1,5 +1,50 @@
+'use client'
+import { useEffect, useState, useRef } from 'react';
+import { FaSearch, FaMicrophone } from 'react-icons/fa';
+import { useRouter } from 'next/navigation';
 
 export default function AdaptiveLearningOverview() {
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
+  const [searchText, setSearchText] = useState('');
+  const handleMicClick = () => {
+    if ('webkitSpeechRecognition' in window) {
+      const recognition = new (window as any).webkitSpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = 'en-US';
+      let timeoutId: NodeJS.Timeout;
+      recognition.start();
+      recognition.onresult = (event:any) => {
+        const results = event.results;
+        const transcript = results[results.length - 1][0].transcript;
+        setSearchText(transcript);
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+          recognition.stop();
+        }, 2000);
+      };
+      recognition.onerror = (event:any) => {
+        console.error('Speech recognition error:', event.error);
+      };
+      recognition.onend = () => {
+        clearTimeout(timeoutId);
+      };
+    } else {
+      alert('Your browser does not support speech recognition.');
+    }
+  };
+  useEffect(() => {
+    if (searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  }, []);
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && searchText.trim() !== '') {
+      const formattedText = searchText.trim().replace(/\s+/g, '-'); // Format the text
+      router.push(`/e-paper/${formattedText}`); // Navigate to the formatted URL
+    }
+  };
   return (
     <div className="container mx-auto px-4 py-8">
     <h1 className="text-3xl font-bold text-center text-gray-600 mb-8">
@@ -164,6 +209,29 @@ export default function AdaptiveLearningOverview() {
       learning experiences. Start now and see how you can improve your
       academic performance with our tailored papers and guided learning paths!
     </p>
+    <div className="flex flex-col mb-6 mt-10 w-full items-center">
+  {/* <h2 className="text-2xl font-semibold text-gray-600 mt-10 mb-5 w-full text-left">
+    Let's start learning
+  </h2> */}
+  <div className="relative flex w-full max-w-xl items-center justify-center">
+    <span className="absolute inset-y-0 left-0 flex items-center pl-5 sm:pl-7">
+      <FaSearch className="text-gray-400" />
+    </span>
+    <input
+      ref={searchInputRef}
+      type="text"
+      placeholder="Search..."
+      className="bg-gray-100 w-full p-2 sm:p-3 pl-12 sm:pl-14 border border-gray-300 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+      value={searchText}
+      onChange={(e) => setSearchText(e.target.value)}
+      onKeyDown={handleKeyDown}
+    />
+    <span className="absolute inset-y-0 right-0 flex items-center pr-5 sm:pr-7">
+      <FaMicrophone className="text-gray-400 cursor-pointer" onClick={handleMicClick} />
+    </span>
+  </div>
+</div>
+
   </div>
   );
 }

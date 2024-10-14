@@ -3,11 +3,14 @@ import { FaSearch, FaMicrophone } from 'react-icons/fa';
 import { useEffect, useState, useRef } from 'react';
 import logo from "../images/logo.jpg"
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+
 interface DemoBannerProps {
   notMainPage: boolean;  
 }
 
 export const DemoBanner: React.FC<DemoBannerProps> = (props) => {
+  const router = useRouter();
   const { notMainPage } = props;
   const [searchText, setSearchText] = useState('');
 
@@ -57,9 +60,9 @@ export const DemoBanner: React.FC<DemoBannerProps> = (props) => {
   
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      // Navigate to the assessment page when Enter is pressed
-      window.location.href = '/assessment';
+    if (e.key === 'Enter' && searchText.trim() !== '') {
+      const formattedText = searchText.trim().replace(/\s+/g, '-'); // Format the text
+      router.push(`/e-paper/${formattedText}`); // Navigate to the formatted URL
     }
   };
 
