@@ -5,7 +5,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import '@/styles/global.css';
 import ContentLoader from 'react-content-loader'; // Import React Content Loader
-import logo from '../../../images/logo.jpg';
+import logo from '../../../images/logo1.png';
 import Footer from './Footer/page';
 import { Banner } from '@/components/Banner';
 import { initGA, trackGAEvent } from '../(unauth)/googleAnalytics';

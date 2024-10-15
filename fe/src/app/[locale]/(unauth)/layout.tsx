@@ -15,6 +15,9 @@ import { AppConfig } from '@/utils/AppConfig';
  
 
 export const metadata: Metadata = {
+  title: 'prep_pal',
+  description: 'A brief explanation about the difference between speed and velocity.',
+ 
   icons: [
     {
       rel: 'apple-touch-icon',

@@ -1,9 +1,10 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from "next/link";
-import { FaTelegramPlane, FaWhatsapp, FaInstagram, FaFacebook } from 'react-icons/fa';
+import Head from 'next/head';
+import { FaTelegramPlane, FaWhatsapp, FaTwitter, FaFacebook } from 'react-icons/fa';
 
-const Faq = () => {
+const Faq = ({ title, description, imageUrl }) => {
   const [openIndex, setOpenIndex] = useState<number | null>(null); // Track the open FAQ index
 
   const handleFaqToggle = (index: number) => {
@@ -33,81 +34,142 @@ const Faq = () => {
     },
   ];
 
+  useEffect(() => {
+    // Load Facebook SDK
+    window.fbAsyncInit = function () {
+      window.FB.init({
+        appId: '2034775726987397',
+        autoLogAppEvents: true,
+        xfbml: true,
+        version: 'v21.0'
+      });
+    };
+
+    const script = document.createElement('script');
+    script.src = "https://connect.facebook.net/en_US/sdk.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      // Cleanup script if needed
+      document.body.removeChild(script);
+    };
+  }, []);
+
+  const shareOnFacebook = () => {
+    const urlToShare = "https://preppal.club/e-paper/What-is-the-difference-between-speed-and-velocity";
+    window.FB.ui({
+      method: 'share',
+      href: urlToShare,
+    }, (response) => {
+      if (response && !response.error_message) {
+        console.log('Post was shared successfully.');
+      } else {
+        console.error('Error while sharing:', response.error_message);
+      }
+    });
+  };
+
   return (
-    <section className="px-4 hidden lg:block lg:col-span-3">
-      <div className="rounded-md">
-        <h2 className="text-sm font-medium font-bold pb-2">Share us</h2>
-        <div className='flex gap-4 flex-wrap ml-1 mt-1'>
-          <Link href="https://t.me/your-telegram-link" target="_blank" rel="noopener noreferrer">
-            <FaTelegramPlane className="text-gray-900 hover:text-indigo-500 transition" size={24} />
-          </Link>
-          <Link href="https://wa.me/your-whatsapp-number" target="_blank" rel="noopener noreferrer">
-            <FaWhatsapp className="text-gray-900 hover:text-indigo-500 transition" size={24} />
-          </Link>
-          <Link href="https://instagram.com/your-instagram-link" target="_blank" rel="noopener noreferrer">
-            <FaInstagram className="text-gray-900 hover:text-indigo-500 transition" size={24} />
-          </Link>
-          <Link href="https://facebook.com/your-facebook-link" target="_blank" rel="noopener noreferrer">
-            <FaFacebook className="text-gray-900 hover:text-indigo-500 transition" size={24} />
-          </Link>
+    <>
+      <Head>
+        <title>{title}</title>
+        <meta property="og:url" content="https://preppal.club/e-paper/What-is-the-difference-between-speed-and-velocity" />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        
+        <meta property="og:image" content={imageUrl} />
+      </Head>
+
+      <section className="px-4 hidden lg:block lg:col-span-3">
+        <div className="rounded-md">
+          <h2 className="text-sm font-medium font-bold pb-2">Share us</h2>
+          <div className='flex gap-4 flex-wrap ml-1 mt-1'>
+            <Link href="https://t.me/your-telegram-link" target="_blank" rel="noopener noreferrer">
+              <FaTelegramPlane className="text-gray-900 hover:text-indigo-500 transition" size={24} />
+            </Link>
+            <Link href="https://wa.me/your-whatsapp-number" target="_blank" rel="noopener noreferrer">
+              <FaWhatsapp className="text-gray-900 hover:text-indigo-500 transition" size={24} />
+            </Link>
+            <Link href="https://instagram.com/your-instagram-link" target="_blank" rel="noopener noreferrer">
+              <FaTwitter className="text-gray-900 hover:text-indigo-500 transition" size={24} />
+            </Link>
+            <button onClick={shareOnFacebook} className="flex items-center">
+              <FaFacebook className="text-gray-900 hover:text-indigo-500 transition" size={24} />
+            </button>
+          </div>
         </div>
-      </div>
 
-      <div className='py-2' style={{ borderBottom: '1px solid #e2e2e2' }}></div>
+        <div className='py-2' style={{ borderBottom: '1px solid #e2e2e2' }}></div>
 
-      <div>
-        <h2 className="text-sm font-medium font-bold leading-[3.25rem]">Frequently asked questions</h2>
+        <div>
+          <h2 className="text-sm font-medium font-bold leading-[3.25rem]">Frequently asked questions</h2>
 
-        <div className="accordion-group h-60" data-accordion="default-accordion">
-          {faqs.map((faq, index) => {
-            const isOpen = openIndex === index;
-            return (
-              <div
-                key={index}
-                className={`accordion faq-border rounded-xl transition duration-500 ${isOpen ? 'accordion-active:bg-indigo-50 accordion-active:border-indigo-600' : ''} mb-2 py-2 pl-2 pr-4`}
-              >
-                <button
-                  className="accordion-toggle group inline-flex items-center text-left text-lg font-normal leading-8 text-gray-900 w-full transition duration-500 hover:text-indigo-600 accordion-active:font-medium accordion-active:text-indigo-600"
-                  onClick={() => handleFaqToggle(index)}
-                >
-                  {isOpen ? (
-                    <svg
-                      className="w-6 h-6 text-gray-900 transition duration-500"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M6 12H18" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  ) : (
-                    <svg
-                      className="w-6 h-6 text-gray-900 transition duration-500"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path d="M6 12H18M12 18V6" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  )}
-                  <p className='text-sm text-gray-500 ml-2 transition duration-500'>{faq.question}</p>
-                </button>
+          <div className="accordion-group h-60" data-accordion="default-accordion">
+            {faqs.map((faq, index) => {
+              const isOpen = openIndex === index;
+              return (
                 <div
-                  className={`accordion-content w-full overflow-hidden transition-all duration-500 ${isOpen ? 'max-h-40' : 'max-h-0'}`}
-                  style={{ transition: 'max-height 0.5s ease-in-out' }}
+                  key={index}
+                  className={`accordion faq-border rounded-xl transition duration-500 ${isOpen ? 'accordion-active:bg-indigo-50 accordion-active:border-indigo-600' : ''} mb-2 py-2 pl-2 pr-4`}
                 >
-                  {isOpen && (
-                    <p className="text-sm text-gray-500 font-normal leading-6">
-                      {faq.answer}
-                    </p>
-                  )}
+                  <button
+                    className="accordion-toggle group inline-flex items-center text-left text-lg font-normal leading-8 text-gray-900 w-full transition duration-500 hover:text-indigo-600 accordion-active:font-medium accordion-active:text-indigo-600"
+                    onClick={() => handleFaqToggle(index)}
+                  >
+                    {isOpen ? (
+                      <svg
+                        className="w-6 h-6 text-gray-900 transition duration-500"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path d="M6 12H18" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    ) : (
+                      <svg
+                        className="w-6 h-6 text-gray-900 transition duration-500"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path d="M6 12H18M12 18V6" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    )}
+                    <p className='text-sm text-gray-500 ml-2 transition duration-500'>{faq.question}</p>
+                  </button>
+                  <div
+                    className={`accordion-content w-full overflow-hidden transition-all duration-500 ${isOpen ? 'max-h-40' : 'max-h-0'}`}
+                    style={{ transition: 'max-height 0.5s ease-in-out' }}
+                  >
+                    {isOpen && (
+                      <p className="text-sm text-gray-500 font-normal leading-6">
+                        {faq.answer}
+                      </p>
+                    )}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 };
+
+export async function getServerSideProps() {
+  const title = "prep_pal";
+  const description = "A brief explanation about the difference between speed and velocity.";
+  const imageUrl = "https://via.placeholder.com/600x400"; 
+  return {
+    props: {
+      title,
+      description,
+      imageUrl,
+    },
+  };
+}
 
 export default Faq;

@@ -1,7 +1,7 @@
 "use client"
 import { FaSearch, FaMicrophone } from 'react-icons/fa';
 import { useEffect, useState, useRef } from 'react';
-import logo from "../images/logo.jpg"
+import logo from "../images/logo1.png"
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 

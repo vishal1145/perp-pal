@@ -5,7 +5,7 @@ const Footer = () => {
         <div className="text-gray-600 text-center md:text-left">
           &copy; {new Date().getFullYear()}{' '}
           <a href="https://algofolks.com/" target="_blank" rel="noopener noreferrer">
-            Algofolk prv.ltd
+          Algofolks Private Limited
           </a>
           . All rights reserved.
         </div>

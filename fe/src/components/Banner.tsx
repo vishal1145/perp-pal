@@ -18,6 +18,11 @@ export const Banner: React.FC<DemoBannerProps> = (props) => {
                 <p className="text-base text-gray-900">How It Works</p>
               </Link>
             </li>
+            <li>
+              <Link href="/blog" className="hover:text-indigo-500" target="_blank" rel="noopener noreferrer">
+                <p className="text-base text-gray-900">Blog</p>
+              </Link>
+            </li>
           </ul>
         </div>
       </div>
@@ -37,7 +42,7 @@ export const Banner: React.FC<DemoBannerProps> = (props) => {
         <a href="https://t.me/your-telegram-link" target="_blank" rel="noopener noreferrer">
           <FaTelegramPlane className="text-gray-900 hover:text-indigo-500 transition" size={24} />
         </a>
-        <a href="https://wa.me/your-whatsapp-number" target="_blank" rel="noopener noreferrer">
+        <a href="https://chat.whatsapp.com/DYl8T4Iuimw6WZ3WWcZD3W" target="_blank" rel="noopener noreferrer">
           <FaWhatsapp className="text-gray-900 hover:text-indigo-500 transition" size={24} />
         </a>
         <a href="https://instagram.com/your-instagram-link" target="_blank" rel="noopener noreferrer">
