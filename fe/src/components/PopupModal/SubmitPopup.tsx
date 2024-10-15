@@ -1,4 +1,5 @@
 import React from 'react';
+import Loader from '../Loader';
 
 type SubmitPopupProps = {
     title: string;
@@ -6,9 +7,10 @@ type SubmitPopupProps = {
     setIsModalOpen: (open: boolean) => void;  
     submitBtn: string;
     submitFn:()=>void;
+    loaderShow:boolean;
   };
   
-  const SubmitPopup: React.FC<SubmitPopupProps> = ({ title, message, setIsModalOpen, submitBtn, submitFn }) => {
+  const SubmitPopup: React.FC<SubmitPopupProps> = ({ title, message, setIsModalOpen, submitBtn, submitFn, loaderShow }) => {
 
   const closeModal = ()=>{
     setIsModalOpen(false);
@@ -61,24 +63,43 @@ type SubmitPopupProps = {
                 </p>
               </div>
               <div className="flex justify-end items-center gap-x-2 py-3 px-4 border-t">
+               
+               {
+                
+                loaderShow === false && 
                 <button
-                  type="button"
-                  className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none"
-                  style={{
-                  border:"1px solid rgb(226, 226, 226)",
-                  color:"rgb(107 114 128)"
-                   }} 
-                   onClick={closeModal}
-                >
-                  Close
-                </button>
-                <button
-                  type="button"
-                  className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 hover:bg-blue-700 focus:outline-none"
-                  onClick={submitFn}
-                >
-                  {submitBtn}
-                </button>
+                type="button"
+                className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none"
+                style={{
+                border:"1px solid rgb(226, 226, 226)",
+                color:"rgb(107 114 128)"
+                 }} 
+                 onClick={closeModal}
+              >
+                Close
+              </button>
+
+               }
+               
+             
+
+
+
+                {
+                  loaderShow === true ?
+                  (
+                  <Loader/>
+                  ):(
+                    <button
+                    type="button"
+                    className="py-2 px-3 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 hover:bg-blue-700 focus:outline-none"
+                    onClick={submitFn}
+                  >
+                    {submitBtn}
+                  </button>
+                  )
+                }
+               
               </div>
             </div>
           </div>

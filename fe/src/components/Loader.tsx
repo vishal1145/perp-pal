@@ -1,11 +1,11 @@
 import React from 'react'
 interface LoaderProps{
-    height:string;
+    className?:string;
 }
 
-const Loader: React.FC<LoaderProps> = ({ height }) => {
+const Loader: React.FC<LoaderProps> = ({className}) => {
     return (
-        <div role="status" className={`flex justify-center items-center ${height} w-full`}>
+        <div role="status" className={`${className}`}>
         <svg
             aria-hidden="true"
             className="inline w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-gray-600 dark:fill-gray-300"

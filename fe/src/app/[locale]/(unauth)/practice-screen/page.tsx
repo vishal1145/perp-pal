@@ -9,7 +9,6 @@ import CustomCardLoader from "@/components/CustomCardLoader";
 import ResultPage from "../result-screen/page";
 import SubmitPopup from "@/components/PopupModal/SubmitPopup";
 import Timer from "@/components/Timer";
-import Loader from "@/components/Loader";
 
 const PracticeScreen = () => {
   const [showHints, setShowHints] = useState(false);
@@ -22,7 +21,9 @@ const PracticeScreen = () => {
   const [panelHeight, setPanelHeight] = useState(0);
   const[resultScreen, setResultScreen] = useState<boolean>(false);
   const[isModalOpen, setIsModalOpen] = useState<boolean>(false);
- 
+  const[totalSeconds, setTotalSeconds] = useState(0);
+  const[totalMinutes, setTotalMinutes] = useState(0);
+  const[totalHours, setTotalHours] = useState(0);
 
   // const router = useRouter();
   
@@ -33,7 +34,8 @@ const PracticeScreen = () => {
       setLoading(false);
       const initialPracticePaper = response.data.map((q: McqTestQuestion) => ({
         McqQuestion: q,
-        userSelectAns: ''
+        userSelectAns: '',
+        submitTime:null 
       }));
       setUserPracticePaper(initialPracticePaper);
     } catch (error) {
@@ -42,12 +44,31 @@ const PracticeScreen = () => {
     }
   };
 
+  const getTotalSubmitTime = ():Date=>{
+      let totalSec = totalSeconds % 60;
+      let extraMin = totalSec / 60;
+
+      let totalMin = totalMinutes % 60;
+      let extraHours = totalMinutes / 60;
+     
+      let totalHr = totalHours + extraHours;
+      totalMin += extraMin;
+      
+      const time = new Date();
+      time.setHours(totalHr)
+      time.setMinutes(totalMin);
+      time.setSeconds(totalSec);
+      return time;
+  }
+
    const save = async()=>{
+    const totalSubmitTime = getTotalSubmitTime()
     setLoaderShow(true);    
-    try {
+    try { 
       await axios.post(`${process.env.NEXT_PUBLIC_API_URI}/assessment`, {
         userId:"uyg34b43nbh43r34nb4rb3br",
         questions:userPracticePaper,
+        totalSubmitTime:totalSubmitTime
       });
       setLoaderShow(false);
       setResultScreen(true);
@@ -60,6 +81,7 @@ const PracticeScreen = () => {
 
   const newPage = () => {
     console.log(userPracticePaper);
+    setIndex(index+1)
     setIsModalOpen(true);
     // router.push(`/result-screen`);
   };
@@ -100,29 +122,46 @@ const PracticeScreen = () => {
     }
 
   setUserPracticePaper(newPracticePaper);
-
   };
+
+  const setSubmitTime=(time:Date, index:number, totalTimeInSeconds:number, totalTimeInMinutes:number, totalTimeInHours:number)=>{
+    const newPracticePaper = [...userPracticePaper];
+    let currentQuestion;
+    currentQuestion = newPracticePaper[index-1];
+    if(currentQuestion){
+      if(currentQuestion?.submitTime){
+      }else{
+        currentQuestion.submitTime = time;
+       }
+    }
+
+    setUserPracticePaper(newPracticePaper);
+     
+    //total Time 
+    setTotalSeconds(totalSeconds+totalTimeInSeconds);
+    setTotalMinutes(totalMinutes+totalTimeInMinutes);
+    setTotalHours(totalMinutes+totalTimeInMinutes);
+  }
 
   return (
     <>
     {
-
-        loaderShow === true ? 
-        <Loader height={'h-screen'}/>
-        : resultScreen === true ?   <ResultPage userPracticePaper={userPracticePaper} />
+        resultScreen === true ?   <ResultPage userPracticePaper={userPracticePaper} />
         :   <div className="flex flex-col min-h-screen bg-white">
         <DemoBanner notMainPage={true} />
         <div className="flex flex-grow overflow-hidden p-4">
 
           {  isModalOpen && 
-            <SubmitPopup title="Assessment" message="Are you sure you want to submit the exam"  setIsModalOpen={setIsModalOpen} submitBtn="Submit" submitFn={save}/>
+            <SubmitPopup title="Assessment" message="Are you sure you want to submit the exam"  setIsModalOpen={setIsModalOpen} submitBtn="Submit" submitFn={save} 
+            loaderShow={loaderShow}  
+            />
           }
           <div className="flex-1 mr-4 space-y-4 overflow-hidden p-4">
             {
-              loading ? <CustomCardLoader /> :
+              loading ? <CustomCardLoader viewBox={`0 0 380 80`} className={' rounded-lg'} rectW='100%' rectH='68'/> :
                 <div className="mb-4 text-sm font-medium bg-gray-100 p-4 rounded-lg shadow ">
                   {
-                    questions.length > 0 &&
+                    questions.length > 0 && index < questions.length &&
                     <h2 className="text-sm text-black">
                       {`Q${index + 1}. ${questions[index]?.question}`}
                     </h2>
@@ -189,7 +228,10 @@ const PracticeScreen = () => {
                 Timer
               </h3>
 
-            <Timer initialHours={0} initialMinutes={0} initialSeconds={0} />
+              {
+                loading === false && 
+                <Timer   index={index} setSubmitTime={setSubmitTime}/>
+              }
 
               <div className='py-2' style={{ borderBottom: '1px solid #E2E2E2' }}></div>
             </div>

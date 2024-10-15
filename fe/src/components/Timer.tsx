@@ -1,35 +1,47 @@
 import React, { useEffect, useState } from 'react';
 
 type TimerProps = {
-  initialHours: number;
-  initialMinutes: number;
-  initialSeconds: number;
+  index:number;
+  setSubmitTime:(time:Date, index:number,  totalSeconds:number, totalMinutes:number, totalHours:number )=>void;
+ 
 };
 
-const Timer: React.FC<TimerProps> = ({ initialHours, initialMinutes, initialSeconds }) => {
-  const [hours, setHours] = useState(initialHours);
-  const [minutes, setMinutes] = useState(initialMinutes);
-  const [seconds, setSeconds] = useState(initialSeconds);
+const Timer: React.FC<TimerProps> = ({ index, setSubmitTime }) => {
+  const [hours, setHours] = useState(0);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+  
+  useEffect(()=>{
+      const time = new Date();
+      time.setHours(hours)
+      time.setMinutes(minutes);
+      time.setSeconds(seconds);
+      setSubmitTime(time, index, seconds, minutes, hours);
+      setHours(0);
+      setMinutes(0);
+      setSeconds(0); 
+  }, [index]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setSeconds((prevSeconds) => {
+      setSeconds(prevSeconds => {
         if (prevSeconds < 59) {
           return prevSeconds + 1;
         } else {
-          if (minutes < 59) {
-            setMinutes(minutes + 1);
-          } else {
-            setHours(hours + 1);
+          if(minutes < 59){
+            setMinutes(minutes+1);
+          }else{
+            setHours(hours+1);
             setMinutes(0);
           }
-          return 0;
+       
+          return 0;  
         }
       });
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [minutes, hours]);
+  }, []);
 
   return (
     <div className="flex flex-wrap items-center justify-start w-full gap-2 md:gap-4 mt-2">

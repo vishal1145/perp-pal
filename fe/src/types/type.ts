@@ -14,6 +14,7 @@ export interface McqQuestion {
 export interface UserPracticePaper{
   McqQuestion:McqQuestion;
   userSelectAns:string;
+  submitTime?:Date|null;
 }
 
 export interface McqTestQuestion {
@@ -25,5 +26,4 @@ export interface FilterOption {
   id: string;
   name: string;
 }
-
 
