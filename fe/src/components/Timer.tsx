@@ -8,8 +8,8 @@ type TimerProps = {
 
 const Timer: React.FC<TimerProps> = ({ initialHours, initialMinutes, initialSeconds }) => {
   const [hours, setHours] = useState(initialHours);
-  const [minutes, setMinutes] = useState(2);
-  const [seconds, setSeconds] = useState(57);
+  const [minutes, setMinutes] = useState(initialMinutes);
+  const [seconds, setSeconds] = useState(initialSeconds);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -17,14 +17,13 @@ const Timer: React.FC<TimerProps> = ({ initialHours, initialMinutes, initialSeco
         if (prevSeconds < 59) {
           return prevSeconds + 1;
         } else {
-          setMinutes(prevMinutes => {
-            if (prevMinutes < 59) {
-              return prevMinutes + 1;
-            } else {
-              setHours(prevHours => prevHours + 1);
-              return 0;  
-            }
-          });
+          if(minutes < 59){
+            setMinutes(minutes+1);
+          }else{
+            setHours(hours+1);
+            setMinutes(0);
+          }
+       
           return 0;  
         }
       });

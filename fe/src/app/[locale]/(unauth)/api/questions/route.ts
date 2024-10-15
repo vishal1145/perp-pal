@@ -1,5 +1,5 @@
 import connectDB from '../../../../../libs/DB';
-import { Question } from '../../../../../models/question';  
+import { IQuestion, Question } from '../../../../../models/question';  
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
@@ -7,7 +7,7 @@ export async function POST(req: NextRequest) {
 
   try {  
 
-    const questions: Question[] = await req.json(); 
+    const questions: IQuestion[] = await req.json(); 
 
       for (const question of questions) {
         const { questionId, question: questionText, options, correctAnswer } = question;

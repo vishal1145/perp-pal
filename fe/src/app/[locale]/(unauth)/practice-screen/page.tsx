@@ -9,10 +9,12 @@ import CustomCardLoader from "@/components/CustomCardLoader";
 import ResultPage from "../result-screen/page";
 import SubmitPopup from "@/components/PopupModal/SubmitPopup";
 import Timer from "@/components/Timer";
+import Loader from "@/components/Loader";
 
 const PracticeScreen = () => {
   const [showHints, setShowHints] = useState(false);
   const [loading, setLoading] = useState(true);
+  const[loaderShow, setLoaderShow] = useState<boolean>(false);
   const [questions, setQuestions] = useState<McqQuestion[]>([]);
   const [index, setIndex] = useState(0);
   const [userPracticePaper, setUserPracticePaper] = useState<UserPracticePaper[]>([]);
@@ -20,6 +22,8 @@ const PracticeScreen = () => {
   const [panelHeight, setPanelHeight] = useState(0);
   const[resultScreen, setResultScreen] = useState<boolean>(false);
   const[isModalOpen, setIsModalOpen] = useState<boolean>(false);
+ 
+
   // const router = useRouter();
   
   const getPracticePaper = async () => {
@@ -39,24 +43,17 @@ const PracticeScreen = () => {
   };
 
    const save = async()=>{
-    
+    setLoaderShow(true);    
     try {
- 
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URI}/assessment`, {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URI}/assessment`, {
         userId:"uyg34b43nbh43r34nb4rb3br",
         questions:userPracticePaper,
       });
-
-      
-      console.log('Assessment submitted successfully:', response.data);
-   
-      // setResultScreen(true);
+      setLoaderShow(false);
+      setResultScreen(true);
     } catch (error) {
       console.log(error);
     }
-    // setResultScreen(true);
-
-
 
     // router.push(`/result-screen`);
    }
@@ -110,7 +107,9 @@ const PracticeScreen = () => {
     <>
     {
 
-      resultScreen === true ?   <ResultPage userPracticePaper={userPracticePaper} />
+        loaderShow === true ? 
+        <Loader height={'h-screen'}/>
+        : resultScreen === true ?   <ResultPage userPracticePaper={userPracticePaper} />
         :   <div className="flex flex-col min-h-screen bg-white">
         <DemoBanner notMainPage={true} />
         <div className="flex flex-grow overflow-hidden p-4">
@@ -156,7 +155,7 @@ const PracticeScreen = () => {
                   Next
                 </button> :
                 index === questions.length - 1 ?
-                  <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium px-4 py-2 rounded" onClick={newPage}>
+                  <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium px-4 py-2 rounded" onClick={newPage} disabled={loaderShow}>
                     Submit
                   </button> : null
               }
@@ -190,7 +189,7 @@ const PracticeScreen = () => {
                 Timer
               </h3>
 
-            <Timer initialHours={0} initialMinutes={30} initialSeconds={15} />
+            <Timer initialHours={0} initialMinutes={0} initialSeconds={0} />
 
               <div className='py-2' style={{ borderBottom: '1px solid #E2E2E2' }}></div>
             </div>

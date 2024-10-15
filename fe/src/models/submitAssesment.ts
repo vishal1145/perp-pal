@@ -4,23 +4,20 @@ interface IAssessment extends Document {
   userId: string;
   submitTime: Date;                 
   questions: {
-    questionId: mongoose.Types.ObjectId;  // Reference to Question
+    questionId: mongoose.Types.ObjectId;   
     userSelectAns: string;                  
   }[];
 }
 
-// Define the schema for the questions array
 const QuestionAssessmentSchema: Schema = new Schema({
-  questionId: { type: mongoose.Types.ObjectId, ref: 'Question', required: true },  // Reference to the Question model
+  questionId: { type: mongoose.Types.ObjectId, ref: 'Question', required: true },  
   userSelectAns: { type: String },
-}, { _id: false }); // This prevents creating an _id field for each question
+}, { _id: false });  
 
-// Define the main assessment schema
 const SubmitAssessmentSchema: Schema = new Schema({
   userId: { type: String, required: true },
   submitTime: { type: Date, default: Date.now },  
   questions: [QuestionAssessmentSchema],  
 });
 
-// Create or use the Assessment model
 export const Assessment: Model<IAssessment> = mongoose.models.Assessment || mongoose.model<IAssessment>('SubmitAssessment', SubmitAssessmentSchema);
