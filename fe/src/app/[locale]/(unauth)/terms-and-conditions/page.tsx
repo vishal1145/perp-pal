@@ -7,7 +7,7 @@ const page = () => {
 
     <h2 className="text-2xl font-semibold text-gray-700 mt-4">1. Introduction</h2>
     <p className="text-gray-600 mb-6 mt-6">
-  Welcome to Preppal. These Terms and Conditions (“Terms”) govern your use of our website located at <a href="https://preppal.com" className="text-blue-600 hover:underline">https://preppal.com</a>, including any related services or products provided by Algofolks Pvt Ltd. By accessing or using our website, you agree to comply with and be bound by these Terms. If you do not agree to these Terms, you are prohibited from using our website and must immediately discontinue use.
+  Welcome to Preppal. These Terms and Conditions (“Terms”) govern your use of our website located at <a href="https://preppal.club" className="text-blue-600 hover:underline">https://preppal.club</a>, including any related services or products provided by Algofolks Pvt Ltd. By accessing or using our website, you agree to comply with and be bound by these Terms. If you do not agree to these Terms, you are prohibited from using our website and must immediately discontinue use.
 </p>
 
 
@@ -56,8 +56,13 @@ const page = () => {
     <h2 className="text-2xl font-semibold text-gray-700 mt-4">9. Contact Information</h2>
     <p className="text-gray-600 mb-6 mt-6">If you have any questions or concerns regarding these Terms, or if you need support, you may contact us at:</p>
     <ul className="list-disc list-inside mb-4 text-gray-600 pl-5">
-      <li>Email: <span className="ml-2"><a href="mailto:support@preppal.com" className="text-blue-600 hover:underline">support@preppal.com</a></span></li>
-      <li>Phone: <span className="ml-2">0120 4444859</span></li>
+      <li>Email: <span className="ml-2"><a href="mailto:support@preppal.club" className="text-blue-600 hover:underline">support@preppal.club</a></span></li>
+      <li>
+  Phone: 
+  <a href="tel:01204444859" className="ml-2 text-blue-600 hover:underline">
+    0120 4444859
+  </a>
+</li>
       <li>Mailing Address: <span className="ml-2">Algofolk pvt.ltd noida,sector 65 C block 104</span></li>
     </ul>
   </div>

@@ -247,6 +247,7 @@ const Assessment: React.FC = () => {
    
            <div className="col-span-12 sm:col-span-3">
              <Faq />
+             
            </div>
          </div>
       }

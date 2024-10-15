@@ -45,6 +45,13 @@ export default function AdaptiveLearningOverview() {
       router.push(`/e-paper/${formattedText}`); // Navigate to the formatted URL
     }
   };
+
+  const handleClick = () => {
+    
+      const formattedText = searchText.trim().replace(/\s+/g, '-'); // Format the text
+      router.push(`/e-paper/${formattedText}`); // Navigate to the formatted URL
+    
+  };
   return (
     <div className="container mx-auto px-4 py-8">
     <h1 className="text-3xl font-bold text-center text-gray-600 mb-8">
@@ -230,6 +237,9 @@ export default function AdaptiveLearningOverview() {
       <FaMicrophone className="text-gray-400 cursor-pointer" onClick={handleMicClick} />
     </span>
   </div>
+  <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium px-4 py-2 rounded w-full mt-6 relative flex  max-w-xl items-center justify-center" onClick={handleClick}>
+                  Start Practice
+                </button>
 </div>
 
   </div>

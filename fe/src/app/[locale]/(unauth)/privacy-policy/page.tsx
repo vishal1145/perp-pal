@@ -7,8 +7,8 @@ const page = () => {
 
     <p className="text-gray-600 mb-6 mt-6">
   At Preppal, we are committed to protecting your privacy and ensuring that your personal information is handled in a safe and responsible manner. This Privacy Policy outlines how we collect, use, and protect your personal information when you use our website located at{' '}
-  <a href="https://preppal.com" className="text-blue-500 hover:underline">
-    https://preppal.com
+  <a href=" https://preppal.club/" className="text-blue-500 hover:underline">
+  https://preppal.club/
   </a>
   {' '}and any services or products we offer.
 </p>
@@ -55,8 +55,8 @@ const page = () => {
     </ul>
     <p className="text-gray-600 mb-6">
   To exercise any of these rights, please contact us at{' '}
-  <a href="mailto:support@preppal.com" className="text-blue-500 hover:underline">
-    support@preppal.com
+  <a href="mailto:support@preppal.club" className="text-blue-500 hover:underline">
+    support@preppal.club
   </a>.
 </p>
 
@@ -81,8 +81,14 @@ const page = () => {
       If you have any questions or concerns about this Privacy Policy or how we handle your personal information, you can contact us at:
     </p>
     <ul className="list-disc list-inside mb-4 text-gray-600 pl-5">
-  <li>Email: <span className="ml-2"><a href="mailto:support@preppal.com" className="text-blue-600 hover:underline">support@preppal.com</a></span></li>
-  <li>Phone: <span className="ml-2">0120 4444859</span></li>
+  <li>Email: <span className="ml-2"><a href="mailto:support@preppal.club" className="text-blue-600 hover:underline">support@preppal.club</a></span></li>
+  <li>
+  Phone: 
+  <a href="tel:01204444859" className="ml-2 text-blue-600 hover:underline">
+    0120 4444859
+  </a>
+</li>
+
   <li>Mailing Address: <span className="ml-2">Algofolks Pvt Ltd</span></li>
 </ul>
 

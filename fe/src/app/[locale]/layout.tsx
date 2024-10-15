@@ -7,9 +7,7 @@ import { unstable_setRequestLocale } from 'next-intl/server';
 import { AppConfig } from '@/utils/AppConfig';
 
 export const metadata: Metadata = {
-  title: 'prep_pal',
-  description: 'A brief explanation about the difference between speed and velocity.',
-  // image:'https://via.placeholder.com/600x400',
+  
   icons: [
     {
       rel: 'apple-touch-icon',
