@@ -9,6 +9,7 @@ import CustomCardLoader from "@/components/CustomCardLoader";
 import ResultPage from "../result-screen/page";
 import SubmitPopup from "@/components/PopupModal/SubmitPopup";
 import Timer from "@/components/Timer";
+import { getTotalSeconds, makeDate } from "@/data/functions";
 
 const PracticeScreen = () => {
   const [showHints, setShowHints] = useState(false);
@@ -16,6 +17,7 @@ const PracticeScreen = () => {
   const[loaderShow, setLoaderShow] = useState<boolean>(false);
   const [questions, setQuestions] = useState<McqQuestion[]>([]);
   const [index, setIndex] = useState(0);
+  const [qsnChange, setQsnChange] = useState(1);
   const [userPracticePaper, setUserPracticePaper] = useState<UserPracticePaper[]>([]);
   const panelRef = useRef<HTMLDivElement | null>(null);
   const [panelHeight, setPanelHeight] = useState(0);
@@ -24,18 +26,18 @@ const PracticeScreen = () => {
   const[totalSeconds, setTotalSeconds] = useState(0);
   const[totalMinutes, setTotalMinutes] = useState(0);
   const[totalHours, setTotalHours] = useState(0);
-
+  const[alreadySaveCall, setAlreadySaveCall] = useState(false);
   // const router = useRouter();
   
   const getPracticePaper = async () => {
     try {
-      const response = await axios.get(`https://prep-pal.algofolks.com/api/Question`);
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URI}questions`);
       setQuestions(response.data);
       setLoading(false);
       const initialPracticePaper = response.data.map((q: McqTestQuestion) => ({
         McqQuestion: q,
         userSelectAns: '',
-        submitTime:null 
+        submitTimeInSeconds:null 
       }));
       setUserPracticePaper(initialPracticePaper);
     } catch (error) {
@@ -44,7 +46,7 @@ const PracticeScreen = () => {
     }
   };
 
-  const getTotalSubmitTime = ():Date=>{
+  const getTotalSubmitTime = ():number=>{
       let totalSec = totalSeconds % 60;
       let extraMin = totalSec / 60;
 
@@ -54,17 +56,18 @@ const PracticeScreen = () => {
       let totalHr = totalHours + extraHours;
       totalMin += extraMin;
       
-      const time = new Date();
-      time.setHours(totalHr)
-      time.setMinutes(totalMin);
-      time.setSeconds(totalSec);
-      return time;
+      const totalTimeInSeconds = getTotalSeconds(totalSec, totalMin, totalHr);
+      return totalTimeInSeconds;
   }
 
    const save = async()=>{
-    const totalSubmitTime = getTotalSubmitTime()
-    setLoaderShow(true);    
+    if(alreadySaveCall){
+      return;
+    }
+    setAlreadySaveCall(true);
+
     try { 
+      const totalSubmitTime = getTotalSubmitTime();
       await axios.post(`${process.env.NEXT_PUBLIC_API_URI}/assessment`, {
         userId:"uyg34b43nbh43r34nb4rb3br",
         questions:userPracticePaper,
@@ -74,6 +77,7 @@ const PracticeScreen = () => {
       setResultScreen(true);
     } catch (error) {
       console.log(error);
+      setAlreadySaveCall(false);
     }
 
     // router.push(`/result-screen`);
@@ -81,7 +85,7 @@ const PracticeScreen = () => {
 
   const newPage = () => {
     console.log(userPracticePaper);
-    setIndex(index+1)
+    setQsnChange(qsnChange+1);
     setIsModalOpen(true);
     // router.push(`/result-screen`);
   };
@@ -99,12 +103,14 @@ const PracticeScreen = () => {
   const prevQuestion = () => {
     if (index > 0) {
       setIndex(index - 1);
+      setQsnChange(qsnChange-1);
     }
   };
 
   const nextQuestion = () => {
     if (index < questions.length - 1) {
       setIndex(index + 1);
+      setQsnChange(qsnChange+1);
     }
   };
 
@@ -124,14 +130,14 @@ const PracticeScreen = () => {
   setUserPracticePaper(newPracticePaper);
   };
 
-  const setSubmitTime=(time:Date, index:number, totalTimeInSeconds:number, totalTimeInMinutes:number, totalTimeInHours:number)=>{
+  const setSubmitTime=(timeInSeconds:number,   totalTimeInSeconds:number, totalTimeInMinutes:number, totalTimeInHours:number)=>{
     const newPracticePaper = [...userPracticePaper];
     let currentQuestion;
-    currentQuestion = newPracticePaper[index-1];
+    currentQuestion = newPracticePaper[index];
     if(currentQuestion){
-      if(currentQuestion?.submitTime){
+      if(currentQuestion?.submitTimeInSeconds){
       }else{
-        currentQuestion.submitTime = time;
+          currentQuestion.submitTimeInSeconds = timeInSeconds; 
        }
     }
 
@@ -233,7 +239,7 @@ const PracticeScreen = () => {
 
               {
                 loading === false && 
-                <Timer   index={index} setSubmitTime={setSubmitTime}/>
+                <Timer   qsnChange={qsnChange} setSubmitTime={setSubmitTime}/>
               }
 
               <div className='py-2' style={{ borderBottom: '1px solid #E2E2E2' }}></div>
