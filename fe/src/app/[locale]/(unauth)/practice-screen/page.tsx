@@ -74,7 +74,7 @@ const PracticeScreen = () => {
         totalSubmitTime:totalSubmitTime
       });
       setLoaderShow(false);
-      router.push(`/result-screen`);
+      // router.push(`/result-screen`);
       setResultScreen(true);
     } catch (error) {
       console.log(error);

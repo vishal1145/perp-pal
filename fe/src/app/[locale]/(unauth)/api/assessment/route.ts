@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
         const formattedQuestions:any = questions.map((q: { McqQuestion: McqQuestion; userSelectAns: string, submitTimeInSeconds: number }) => ({
             questionId: new mongoose.Types.ObjectId(q.McqQuestion._id),
             userSelectAns: q.userSelectAns,
-            submitTimeInSeconds: q.submitTimeInSeconds
+            submitTimeInSeconds: q?.submitTimeInSeconds ?? 0
         }));
         
         const newAssessment = new SubmitAssessment({
