@@ -13,5 +13,4 @@ const CustomCardLoader:FC<CustomCardLoaderProps>= ({viewBox, className, rectW, r
 </ContentLoader>
 )
  
-
 export default CustomCardLoader

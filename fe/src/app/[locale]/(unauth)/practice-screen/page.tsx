@@ -10,6 +10,8 @@ import ResultPage from "../result-screen/page";
 import SubmitPopup from "@/components/PopupModal/SubmitPopup";
 import Timer from "@/components/Timer";
 import { getTotalSeconds, makeDate } from "@/data/functions";
+import Statics from "./Statics";
+import { logoBtnColor } from "@/data/data";
 
 const PracticeScreen = () => {
   const [showHints, setShowHints] = useState(false);
@@ -159,7 +161,7 @@ const PracticeScreen = () => {
 
 
           {  isModalOpen && 
-            <SubmitPopup title="Assessment" message="Are you sure you want to submit the exam"  setIsModalOpen={setIsModalOpen} submitBtn="Submit" submitFn={save} 
+            <SubmitPopup title="Assessment Score" message="Are you sure you want to submit the exam"  setIsModalOpen={setIsModalOpen} submitBtn="Submit" submitFn={save} 
             loaderShow={loaderShow}  
             />
           }
@@ -198,7 +200,7 @@ const PracticeScreen = () => {
                 Back
               </button> 
               {index < questions.length - 1 ?
-                <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium px-4 py-2 rounded" onClick={nextQuestion}>
+                <button className={`text-white   ${logoBtnColor} font-medium px-4 py-2 rounded`} onClick={nextQuestion}>
                   Next
                 </button> :
                 index === questions.length - 1 ?
@@ -230,30 +232,30 @@ const PracticeScreen = () => {
               </div>
             </div>
           </div>
-          <div className="flex-none md:w-1/3 w-full  p-1 ">
+          <div className="flex-none md:w-1/3 w-full  pt-1 ">
 
-            <div className="">
+            <div className="pb-2">
               <h3 className="text-sm font-medium ">
-                Timer
+                Timing
               </h3>
 
-              {
-                loading === false && 
-                <Timer   qsnChange={qsnChange} setSubmitTime={setSubmitTime}/>
-              }
+           
+                <Timer   qsnChange={qsnChange} setSubmitTime={setSubmitTime} loading={loading}/>
+      
 
               <div className='py-2' style={{ borderBottom: '1px solid #E2E2E2' }}></div>
             </div>
-            <div className="pt-4">
-              <h3 className="text-sm font-medium ">
+            <div className="pt-2">
+            <h3 className="text-sm font-medium ">
                 Statistics
               </h3>
-              <p className="text-sm text-gray-500 fs-700 font-normal pt-2">Average time</p>
-              <p className="text-sm text-gray-500 fs-700 font-normal">Min time</p>
-              <p className="text-sm text-gray-500 fs-700 font-normal">Max time</p>
+
+              <Statics/>
+        
+              
             </div>
             <div className='py-2' style={{ borderBottom: '1px solid #E2E2E2' }}></div>
-            <div className="py-4">
+            <div className="py-4" style={{display:"none"}}>
               <h3 className="text-sm font-medium ">
                 Prepal Chat Bot
               </h3>

@@ -18,11 +18,11 @@ export const Banner: React.FC<DemoBannerProps> = (props) => {
                 <p className="text-base text-gray-900">How It Works</p>
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link href="/blog" className="hover:text-indigo-500" target="_blank" rel="noopener noreferrer">
                 <p className="text-base text-gray-900">Blog</p>
               </Link>
-            </li>
+            </li> */}
           </ul>
         </div>
       </div>

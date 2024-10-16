@@ -202,9 +202,10 @@ const Assessment: React.FC = () => {
    
            <div className="px-4 sm:px-1 col-span-12 sm:col-span-9 md:col-span-9 lg:col-span-6 bg-white">
            <div className='flex justify-between'>
-             
-             <div>
-   
+             {
+questionloading === false ?
+<>
+<div>
               <div className='text-md font-medium'>Your Questions</div>
              <div className='text-gray-500 font-sm text-md'>{formattedText}</div>
              </div>
@@ -212,9 +213,7 @@ const Assessment: React.FC = () => {
    
    {
        showLoader == true ? 
-
        (<Loader  />) :
-
        (
         <button
         type="button"
@@ -229,11 +228,13 @@ const Assessment: React.FC = () => {
       </button>
        )
 }
+</>
+:
+<CustomCardLoader viewBox={`0 0 90 9`} className={' '} rectW='100%' rectH='9'/>
+             }
+
+
            
-   
-   
-    
-   
    
    </div>
    
