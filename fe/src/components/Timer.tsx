@@ -1,26 +1,25 @@
+import { getTotalSeconds, makeDate } from '@/data/functions';
 import React, { useEffect, useState } from 'react';
 
 type TimerProps = {
-  index:number;
-  setSubmitTime:(time:Date, index:number,  totalSeconds:number, totalMinutes:number, totalHours:number )=>void;
+  qsnChange:number;
+  setSubmitTime:(timeInSeconds:number,    totalSeconds:number, totalMinutes:number, totalHours:number )=>void;
  
 };
 
-const Timer: React.FC<TimerProps> = ({ index, setSubmitTime }) => {
+const Timer: React.FC<TimerProps> = ({ qsnChange, setSubmitTime }) => {
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   
-  useEffect(()=>{
-      const time = new Date();
-      time.setHours(hours)
-      time.setMinutes(minutes);
-      time.setSeconds(seconds);
-      setSubmitTime(time, index, seconds, minutes, hours);
+  useEffect(()=>{  
+      const timeInSeconds = getTotalSeconds(seconds, minutes, hours)
+      setSubmitTime(timeInSeconds,   seconds, minutes, hours);
+
       setHours(0);
       setMinutes(0);
       setSeconds(0); 
-  }, [index]);
+  }, [qsnChange]);
 
   useEffect(() => {
     const interval = setInterval(() => {

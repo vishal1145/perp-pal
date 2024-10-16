@@ -2,26 +2,26 @@ import mongoose, { Document, Model, Schema } from 'mongoose';
 
 export interface IAssessment extends Document {
   userId: string;
-  totalSubmitTime: Date;                 
+  totalSubmitTime: number;                 
   questions: {
     questionId: mongoose.Types.ObjectId;   
     userSelectAns: string;   
-    submitTime: Date;             
+    submitTimeInSeconds: number;             
   }[];
 }
 
 const QuestionAssessmentSchema: Schema = new Schema({
   questionId: { type: mongoose.Types.ObjectId, ref: 'Question', required: true },  
   userSelectAns: { type: String },
-  submitTime: { type: Date  },
+  submitTimeInSeconds: { type: Number, require:true, default:0  },
 }, { _id: false });  
 
 const SubmitAssessmentSchema: Schema = new Schema({
   userId: { type: String, required: true },
-  totalSubmitTime: { type: Date, default: Date.now },  
+  totalSubmitTime: { type: Number, require:true },  
   questions: [QuestionAssessmentSchema],  
 });
 
-const Assessment: Model<IAssessment> = mongoose.models.Assessment || mongoose.model<IAssessment>('Assessment', SubmitAssessmentSchema);
+const SubmitAssessment: Model<IAssessment> = mongoose.models.Assessment || mongoose.model<IAssessment>('SubmitAssessment', SubmitAssessmentSchema);
 
-export default Assessment;
+export default SubmitAssessment;
