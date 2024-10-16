@@ -5,7 +5,6 @@ export const FilterLoader = {
     rectH:"380"
   }
 
-
-
+export const logoBtnColor = `bg-cyan-600 hover:bg-cyan-700`
 
 

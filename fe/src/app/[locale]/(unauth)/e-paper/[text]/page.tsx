@@ -10,7 +10,7 @@ import { McqQuestion, FilterOption } from '@/types/type';
 import CustomCardLoader from '@/components/CustomCardLoader';
 import { useRouter } from 'next/navigation';
 import Loader from '@/components/Loader';
-import { FilterLoader } from '@/data/data';
+import { FilterLoader, logoBtnColor } from '@/data/data';
  
 const useFetchData = (url: string, setData: React.Dispatch<React.SetStateAction<any>>, setLoading: React.Dispatch<React.SetStateAction<boolean>>, dataType?: string | null) => {
   useEffect(() => {
@@ -243,6 +243,7 @@ const Assessment: React.FC = () => {
                ) : (
                  questions.map((item, index) => (
                    <QuestionOptions
+                   _id={item._id}
                      questionId={item.questionId}
                      question={item.question}
                      options={item.options}
@@ -262,7 +263,7 @@ const Assessment: React.FC = () => {
 
               <button
               type="button"
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 w-full"
+              className={`text-white ${logoBtnColor}  focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 w-full`}
               disabled={showLoader}
               onClick={handlePracticeClick}
             >
@@ -273,7 +274,7 @@ const Assessment: React.FC = () => {
            </div>
    
            <div className="col-span-12 sm:col-span-3">
-             <Faq />
+             <Faq title={''} description={''} imageUrl={''}/>
            </div>
          </div>
     </>

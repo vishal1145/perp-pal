@@ -5,6 +5,7 @@ export type DropdownSearchProps = {
 };
 
 export interface McqQuestion {
+  _id:string;
   questionId: string;
   question: string;
   options: { optionText: string; optionFlag: string }[];
@@ -14,7 +15,7 @@ export interface McqQuestion {
 export interface UserPracticePaper{
   McqQuestion:McqQuestion;
   userSelectAns:string;
-  submitTime?:Date|null;
+  submitTimeInSeconds?:number;
 }
 
 export interface McqTestQuestion {
