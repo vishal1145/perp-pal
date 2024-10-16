@@ -5,7 +5,7 @@ import { DemoBanner } from "@/components/DemoBanner";
 import axios from 'axios';
 import { McqQuestion, McqTestQuestion, UserPracticePaper } from "@/types/type";
 import CustomCardLoader from "@/components/CustomCardLoader";
-// import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import ResultPage from "../result-screen/page";
 import SubmitPopup from "@/components/PopupModal/SubmitPopup";
 import Timer from "@/components/Timer";
@@ -27,7 +27,7 @@ const PracticeScreen = () => {
   const[totalMinutes, setTotalMinutes] = useState(0);
   const[totalHours, setTotalHours] = useState(0);
   const[alreadySaveCall, setAlreadySaveCall] = useState(false);
-  // const router = useRouter();
+  const router = useRouter();
   
   const getPracticePaper = async () => {
     try {
@@ -74,13 +74,13 @@ const PracticeScreen = () => {
         totalSubmitTime:totalSubmitTime
       });
       setLoaderShow(false);
+      router.push(`/result-screen`);
       setResultScreen(true);
     } catch (error) {
       console.log(error);
       setAlreadySaveCall(false);
     }
 
-    // router.push(`/result-screen`);
    }
 
   const newPage = () => {
@@ -155,7 +155,7 @@ const PracticeScreen = () => {
         resultScreen === true ?   <ResultPage userPracticePaper={userPracticePaper} />
         :  <div className="flex flex-col min-h-screen bg-white px-2 md:px-4">
         <DemoBanner notMainPage={true} />
-        <div className="flex flex-col md:flex-row flex-grow overflow-hidden p-2 md:p-4">
+        <div className="flex flex-col md:flex-row   overflow-hidden p-2 md:p-4">
 
 
           {  isModalOpen && 

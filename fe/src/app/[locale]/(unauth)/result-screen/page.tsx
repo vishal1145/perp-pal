@@ -17,7 +17,6 @@ interface ResultPageProps {
 }
 
 const ResultPage: React.FC<ResultPageProps> = (props) => {
-  // Sample data for the pie chart
   useEffect(() => {
     console.log(props);
   }, []);
