@@ -147,16 +147,18 @@ const PracticeScreen = () => {
     <>
     {
         resultScreen === true ?   <ResultPage userPracticePaper={userPracticePaper} />
-        :   <div className="flex flex-col min-h-screen bg-white">
+        :  <div className="flex flex-col min-h-screen bg-white px-2 md:px-4">
         <DemoBanner notMainPage={true} />
-        <div className="flex flex-grow overflow-hidden p-4">
+        <div className="flex flex-col md:flex-row flex-grow overflow-hidden p-2 md:p-4">
+
 
           {  isModalOpen && 
             <SubmitPopup title="Assessment" message="Are you sure you want to submit the exam"  setIsModalOpen={setIsModalOpen} submitBtn="Submit" submitFn={save} 
             loaderShow={loaderShow}  
             />
           }
-          <div className="flex-1 mr-4 space-y-4 overflow-hidden p-4">
+         <div className="flex-1 md:mr-4 space-y-4 overflow-hidden p-2">
+
             {
               loading ? <CustomCardLoader viewBox={`0 0 380 80`} className={' rounded-lg'} rectW='100%' rectH='68'/> :
                 <div className="mb-4 text-sm font-medium bg-gray-100 p-4 rounded-lg shadow ">
@@ -222,7 +224,8 @@ const PracticeScreen = () => {
               </div>
             </div>
           </div>
-          <div className="w-1/3 space-y-4 overflow-hidden p-4">
+          <div className="flex-none md:w-1/3 w-full mt-2 md:mt-0 p-4">
+
             <div className="">
               <h3 className="text-sm font-medium ">
                 Timer
@@ -246,7 +249,7 @@ const PracticeScreen = () => {
             <div className='py-2' style={{ borderBottom: '1px solid #E2E2E2' }}></div>
             <div className="">
               <h3 className="text-sm font-medium ">
-                Doubt Buddy Chat Bot
+                Prepal Chat Bot
               </h3>
               <p className="text-sm text-gray-500 fs-700 font-normal py-2">Integration / discuss</p>
             </div>

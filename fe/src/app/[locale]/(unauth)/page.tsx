@@ -105,50 +105,52 @@ const CustomCardLoader = () => (
     />
   </div>
 </div>
-<div className="flex justify-center items-center mb-6">
-  <div className="relative w-full max-w-xl sm:max-w-xl">
-    <span className="absolute inset-y-0 left-0 flex items-center pl-5 sm:pl-7">
+{/* Search Bar */}
+<div className="flex justify-center items-center mb-6 px-4 sm:px-6 lg:px-8">
+  <div className="relative w-full max-w-xl sm:max-w-2xl">
+    <span className="absolute inset-y-0 left-0 flex items-center pl-4 sm:pl-5">
       <FaSearch className="text-gray-400" />
     </span>
     <input
       ref={searchInputRef}
       type="text"
       placeholder="Search..."
-      className="bg-gray-100 w-full p-2 sm:p-3 pl-12 sm:pl-14 border border-gray-300 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm" // Adjusted padding and font size
+      className="bg-gray-100 w-full py-2 sm:py-3 pl-12 sm:pl-14 pr-10 border border-gray-300 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
       value={searchText}
       onChange={(e) => setSearchText(e.target.value)}
       onKeyDown={handleKeyDown}
     />
-    <span className="absolute inset-y-0 right-0 flex items-center pr-5 sm:pr-7">
+    <span className="absolute inset-y-0 right-0 flex items-center pr-4 sm:pr-5">
       <FaMicrophone className="text-gray-400 cursor-pointer" onClick={handleMicClick} />
     </span>
   </div>
 </div>
+
       {/* Card Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mx-4 md:mx-8 mb-6 flex-grow">
-        {loading ? (
-          Array(8).fill(0).map((_, index) => (
-            <div key={index} className="flex justify-center items-center h-10 mt-2">
-              <CustomCardLoader />
-            </div>
-          ))
-        ) : (
-          cardData.map((card: any) => (
-            <div
-              key={card.prompt_text}
-              className="relative group bg-gray-100 p-3 rounded-lg shadow-md cursor-pointer"
-              onClick={() => handleCardClick(card.prompt_text)}
-            >
-              <p className="text-gray-500">{card.prompt_text}</p>
-              <div className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 hidden group-hover:block bg-gray-700 rounded-md px-2">
-                <span className="tooltiptext text-gray-50 text-sm rounded py-1 z-10">
-                  {card.prompt_Description}
-                </span>
-                <span className="absolute w-2 h-2 bg-gray-700 rotate-45 -bottom-1 left-1/2 transform -translate-x-1/2" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4 sm:px-8 mb-6 flex-grow">
+        {loading
+          ? Array(8)
+              .fill(0)
+              .map((_, index) => (
+                <div key={index} className="flex justify-center items-center h-10 mt-2">
+                  <CustomCardLoader />
+                </div>
+              ))
+          : cardData.map((card: any) => (
+              <div
+                key={card.prompt_text}
+                className="relative group bg-gray-100 p-4 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow"
+                onClick={() => handleCardClick(card.prompt_text)}
+              >
+                <p className="text-gray-600">{card.prompt_text}</p>
+                <div className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 hidden group-hover:block bg-gray-700 rounded-md px-2">
+                  <span className="tooltiptext text-gray-50 text-sm rounded py-1 z-10">
+                    {card.prompt_Description}
+                  </span>
+                  <span className="absolute w-2 h-2 bg-gray-700 rotate-45 -bottom-1 left-1/2 transform -translate-x-1/2" />
+                </div>
               </div>
-            </div>
-          ))
-        )}
+            ))}
       </div>
       <Footer />
     </div>

@@ -53,13 +53,14 @@ const Assessment: React.FC = () => {
   });
  
 
-
-
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setFormattedText(window.location?.pathname.split('/').pop());
+      const pathSegment = window.location?.pathname.split('/').pop();
+      const formattedText = pathSegment.replace(/-/g, ' ');
+      setFormattedText(formattedText);
     }
   }, []);
+  
 
   const router = useRouter();
   const handlePracticeClick = async () => {

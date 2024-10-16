@@ -55,7 +55,7 @@ const Faq = ({ title, description, imageUrl }) => {
       document.body.removeChild(script);
     };
   }, []);
-
+// console.log(window.location.href)
   const shareOnFacebook = () => {
     const urlToShare = "https://preppal.club/e-paper/What-is-the-difference-between-speed-and-velocity";
     window.FB.ui({
@@ -70,6 +70,32 @@ const Faq = ({ title, description, imageUrl }) => {
     });
   };
 
+   // Function to share on WhatsApp
+   const shareOnWhatsapp = () => {
+    const currentUrl = window.location.href; 
+    const message = `Check out this page: ${currentUrl}`; 
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`; 
+  
+    window.open(whatsappUrl, '_blank'); 
+  };
+  
+  const shareOnTelegram = () => {
+    const currentUrl = window.location.href;
+    const message = `Check out this page: ${currentUrl}`;
+    const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(message)}`; // Telegram share link
+  
+    window.open(telegramUrl, '_blank'); 
+  };
+
+  const shareOnTwitter = () => {
+    const currentUrl = window.location.href; 
+    const message = `Check out this page: ${currentUrl}`;
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`; 
+  
+    window.open(twitterUrl, '_blank'); // Open Twitter share link
+  };
+  
+  
   return (
     <>
       <Head>
@@ -86,15 +112,21 @@ const Faq = ({ title, description, imageUrl }) => {
         <div className="rounded-md">
           <h2 className="text-sm font-medium font-bold pb-2">Share us</h2>
           <div className='flex gap-4 flex-wrap ml-1 mt-1'>
-            <Link href="https://t.me/your-telegram-link" target="_blank" rel="noopener noreferrer">
+            {/* <Link href="https://t.me/your-telegram-link" target="_blank" rel="noopener noreferrer">
               <FaTelegramPlane className="text-gray-900 hover:text-indigo-500 transition" size={24} />
-            </Link>
-            <Link href="https://wa.me/your-whatsapp-number" target="_blank" rel="noopener noreferrer">
+            </Link> */}
+            <button onClick={shareOnTelegram} className="flex items-center">
+            <FaTelegramPlane className="text-gray-900 hover:text-indigo-500 transition" size={24} />
+            </button>
+           
+            <button onClick={shareOnWhatsapp} className="flex items-center">
               <FaWhatsapp className="text-gray-900 hover:text-indigo-500 transition" size={24} />
-            </Link>
-            <Link href="https://instagram.com/your-instagram-link" target="_blank" rel="noopener noreferrer">
-              <FaTwitter className="text-gray-900 hover:text-indigo-500 transition" size={24} />
-            </Link>
+            </button>
+          
+            <button onClick={shareOnTwitter} className="flex items-center">
+            <FaTwitter className="text-gray-900 hover:text-indigo-500 transition" size={24} />
+            </button>
+
             <button onClick={shareOnFacebook} className="flex items-center">
               <FaFacebook className="text-gray-900 hover:text-indigo-500 transition" size={24} />
             </button>
