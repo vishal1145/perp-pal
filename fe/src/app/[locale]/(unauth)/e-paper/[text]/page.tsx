@@ -45,6 +45,7 @@ const Assessment: React.FC = () => {
   const [chapterFilter, setChapterFilter] = useState<FilterOption[]>([]);
   const [levelFilter, setLevelFilter] = useState<FilterOption[]>([]);
   const [formattedText, setFormattedText] = useState('');
+  const[alreadyCall, setAlreadyCall] = useState<boolean>(false);
   const [selectedFilters, setSelectedFilters] = useState({
     classId: null as string | null,
     subjectId: null as string | null,
@@ -52,18 +53,19 @@ const Assessment: React.FC = () => {
     levelId:null as string | null
   });
  
-
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const pathSegment = window.location?.pathname.split('/').pop();
-      const formattedText = pathSegment.replace(/-/g, ' ');
-      setFormattedText(formattedText);
+      setFormattedText(window.location?.pathname.split('/').pop());
     }
   }, []);
-  
 
   const router = useRouter();
   const handlePracticeClick = async () => {
+    if(alreadyCall){
+      return;
+    }
+
+    setAlreadyCall(true);
     try {
       setShowLoader(true);
        const { data } = await axios.post(`https://prep-pal.algofolks.com/api/Question/generate-guid`);
@@ -72,6 +74,7 @@ const Assessment: React.FC = () => {
 
     } catch (error) {
       console.error('Error generating practice:', error);
+      setAlreadyCall(false);
     }
   };
 
