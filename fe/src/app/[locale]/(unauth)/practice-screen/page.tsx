@@ -230,7 +230,7 @@ const PracticeScreen = () => {
               </div>
             </div>
           </div>
-          <div className="flex-none md:w-1/3 w-full mt-2 md:mt-0 p-4">
+          <div className="flex-none md:w-1/3 w-full  p-1 ">
 
             <div className="">
               <h3 className="text-sm font-medium ">
@@ -244,7 +244,7 @@ const PracticeScreen = () => {
 
               <div className='py-2' style={{ borderBottom: '1px solid #E2E2E2' }}></div>
             </div>
-            <div className="">
+            <div className="pt-4">
               <h3 className="text-sm font-medium ">
                 Statistics
               </h3>
@@ -253,7 +253,7 @@ const PracticeScreen = () => {
               <p className="text-sm text-gray-500 fs-700 font-normal">Max time</p>
             </div>
             <div className='py-2' style={{ borderBottom: '1px solid #E2E2E2' }}></div>
-            <div className="">
+            <div className="py-4">
               <h3 className="text-sm font-medium ">
                 Prepal Chat Bot
               </h3>

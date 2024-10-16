@@ -1,3 +1,4 @@
+import { text2 } from '@/data/data';
 import { getTotalSeconds, makeDate } from '@/data/functions';
 import React, { useEffect, useState } from 'react';
 
@@ -43,40 +44,40 @@ const Timer: React.FC<TimerProps> = ({ qsnChange, setSubmitTime }) => {
   }, []);
 
   return (
-    <div className="flex flex-wrap items-center justify-start w-full gap-2 md:gap-4 mt-2">
-      {hours >= 0 && (
-        <>
-          <div className="timer w-8 md:w-10">
-            <h3 className="text-blue-700 font-semibold text-base md:text-lg lg:text-xl text-black text-center">
-              {String(hours).padStart(2, '0')}
-            </h3>
-            <p className="text-xs md:text-sm lg:text-base font-normal text-gray-900 mt-1 text-center">hours</p>
-          </div>
-          <h3 className="font-semibold text-base md:text-lg lg:text-xl text-gray-900 mb-7">:</h3>
-        </>
-      )}
-
-      {minutes >= 0 && (
-        <>
-          <div className="timer w-8 md:w-10">
-            <h3 className="text-blue-700 font-semibold text-base md:text-lg lg:text-xl text-center">
-              {String(minutes).padStart(2, '0')}
-            </h3>
-            <p className="text-xs md:text-sm lg:text-base font-normal text-gray-900 mt-1 text-center">minutes</p>
-          </div>
-          <h3 className="colon font-semibold text-xl text-gray-900 mx-1 mb-7">:</h3>
-        </>
-      )}
-
-      {seconds >= 0 && (
-        <div className="timer w-8 md:w-10">
-          <h3 className="text-blue-700 font-semibold text-base md:text-lg lg:text-xl text-center">
-            {String(seconds).padStart(2, '0')}
+     <div className="flex flex-wrap items-center justify-start w-full gap-2 md:gap-4 mt-2">
+    {hours >= 0 && (
+      <>
+        <div className="timer w-10">
+          <h3 className="text-blue-700 font-semibold text-base md:text-lg lg:text-xl text-black text-center">
+            {String(hours).padStart(2, '0')}
           </h3>
-          <p className="text-xs md:text-sm lg:text-base font-normal text-gray-900 mt-1 text-center">seconds</p>
+          <div className={`${text2}mt-1 text-center`}>hours</div>
         </div>
-      )}
-    </div>
+        <h3 className="font-semibold text-base md:text-lg lg:text-xl text-gray-900 mb-7">:</h3>
+      </>
+    )}
+
+    {minutes >= 0 && (
+      <>
+        <div className="timer w-10">
+          <h3 className="text-blue-700 font-semibold text-base md:text-lg lg:text-xl text-center">
+            {String(minutes).padStart(2, '0')}
+          </h3>
+          <div className={`${text2}mt-1 text-center`}>minutes</div>
+        </div>
+        <h3 className="colon font-semibold text-xl text-gray-900 mx-1 mb-7">:</h3>
+      </>
+    )}
+
+    {seconds >= 0 && (
+      <div className="timer w-10">
+        <h3 className="text-blue-700 font-semibold text-base md:text-lg lg:text-xl text-center">
+          {String(seconds).padStart(2, '0')}
+        </h3>
+        <div className={`${text2}mt-1 text-center`}>seconds</div>
+      </div>
+    )}
+  </div>
   );
 };
 

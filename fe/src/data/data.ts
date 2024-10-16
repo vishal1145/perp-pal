@@ -6,5 +6,5 @@ export const FilterLoader = {
   }
 
 export const logoBtnColor = `bg-cyan-600 hover:bg-cyan-700`
-
+export const text2 = "mt-1 text-sm text-gray-500 fs-700 font-normal"
 
