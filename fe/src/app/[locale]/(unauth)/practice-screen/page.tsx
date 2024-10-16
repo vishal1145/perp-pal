@@ -31,7 +31,7 @@ const PracticeScreen = () => {
   
   const getPracticePaper = async () => {
     try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URI}questions`);
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URI}/questions`);
       setQuestions(response.data);
       setLoading(false);
       const initialPracticePaper = response.data.map((q: McqTestQuestion) => ({
