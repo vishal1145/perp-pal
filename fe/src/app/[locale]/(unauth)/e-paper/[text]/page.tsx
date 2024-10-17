@@ -144,7 +144,7 @@ const Assessment: React.FC = () => {
       <DemoBanner notMainPage={true} />
            <div id='maidiv' className="grid grid-cols-1 sm:grid-cols-12 gap-4 py-0 sm:py-4 sm:pl-4">
         
-           <aside className="col-span-12 sm:col-span-3 py-4 rounded-sm bg-gray-50 dark:bg-gray-800 h-full" aria-label="Sidebar">
+           <aside className="col-span-12 sm:col-span-3 py-4 rounded-sm bg-gray-50  h-full" aria-label="Sidebar">
              <div className="h-full px-3 rounded-md overflow-y-auto">
                <ul className="space-y-2 font-medium px-2">
                  <li className='text-md font-medium pl-2'>Assessment Filter</li>
@@ -240,7 +240,7 @@ questionloading === false ?
    
    <div className='py-2 mt-2' style={{ borderBottom: '1px solid #e2e2e2' }}></div>
    
-             <div className="mb-4 dark:bg-gray-800 mt-3">
+             <div className="mb-4  mt-3">
                {questionloading ? (
                 
 
