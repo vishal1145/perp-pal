@@ -194,19 +194,31 @@ const PracticeScreen = () => {
                   </ul>
                 </div>
             }
-            <div className={`flex ${index == 0 ? `justify-end` : `justify-between` }`}>
+            <div className={`flex ${(loading === true || index == 0 ) ? `justify-end` : `justify-between` }`}>
+       
+           
              <button className={`flex items-center ${index == 0 ? 'hidden' : ''}`} onClick={prevQuestion} >
                 <FaArrowLeft className="mr-2" />
                 Back
               </button> 
-              {index < questions.length - 1 ?
+              {
+              loading ? 
+              <div className="w-20 h-11" >
+              <CustomCardLoader
+                viewBox={`0 0 170 100`}
+                className={'rounded-lg   h-full w-full'}
+                rectW='100%'
+                rectH='100'
+              />
+                </div>
+                :
+              index < questions.length - 1 ?
                 <button className={`text-white   ${logoBtnColor} font-medium px-4 py-2 rounded`} onClick={nextQuestion}>
                   Next
                 </button> :
-                index === questions.length - 1 ?
                   <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium px-4 py-2 rounded" onClick={newPage} disabled={loaderShow}>
                     Submit
-                  </button> : null
+                  </button>  
               }
             </div>
             <div className="mb-4 rounded-lg shadow ">
@@ -249,8 +261,13 @@ const PracticeScreen = () => {
             <h3 className="text-sm font-medium ">
                 Statistics
               </h3>
+             
+             {
+              loading ?  <CustomCardLoader viewBox={`0 0 200 40`} className={'mt-2'} rectW='100%' rectH='40'/>
+              :  <Statics/>
+             }
 
-              <Statics/>
+             
         
               
             </div>
