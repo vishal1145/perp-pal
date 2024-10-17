@@ -19,7 +19,7 @@ export type SubmitPopupProps = {
   incorrect: number;
 };
 
-const SubmitPopup: React.FC<SubmitPopupProps> = ({ title, subTitle, message, setIsModalOpen, submitFn, loaderShow }) => {
+const SubmitPopup: React.FC<SubmitPopupProps> = ({ title, subTitle, message, setIsModalOpen, submitFn, loaderShow, total, atemmpt, correct, incorrect }) => {
   const router = useRouter();
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [searchText, setSearchText] = useState('');
@@ -87,7 +87,7 @@ const SubmitPopup: React.FC<SubmitPopupProps> = ({ title, subTitle, message, set
                 id="modal-label"
                 className="text-sm font-medium text-black"
               >
-                Assessment Score
+                {title}
               </div>
 
 
@@ -116,7 +116,7 @@ const SubmitPopup: React.FC<SubmitPopupProps> = ({ title, subTitle, message, set
             </div>
 
             <div className={`${text2} mt-1 text-left`}>
-              subtitle
+              {subTitle}
             </div>
 
           </div>
@@ -125,15 +125,15 @@ const SubmitPopup: React.FC<SubmitPopupProps> = ({ title, subTitle, message, set
 
             <div className='flex justify-between  gap-4  '>
               <div style={{ width: "100%" }}>
-                <AssessmentCard title='Total' value='20' />
+                <AssessmentCard title='Total' value={String(total)} />
               </div>
 
               <div style={{ width: "100%" }}>
-                <AssessmentCard title='Attempted' value='10' />
+                <AssessmentCard title='Attempted' value={String(atemmpt)} />
               </div>
 
               <div style={{ width: "100%" }}>
-                <AssessmentCard title='Correct / Incorrect' value='9 / 10' />
+                <AssessmentCard title='Correct / Incorrect' value={`${String(correct)} / ${String(incorrect)}`} />
               </div>
 
             </div>
@@ -141,7 +141,7 @@ const SubmitPopup: React.FC<SubmitPopupProps> = ({ title, subTitle, message, set
 
 
             <div className='flex gap-2 mt-4 mb-1 cursor-pointer'>
-              <div className={`${text2} `}>View Detail Summary
+              <div className={`${text2} `}  onClick={submitFn}>View Detail Summary
 
               </div>
 

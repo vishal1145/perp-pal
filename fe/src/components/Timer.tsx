@@ -1,11 +1,11 @@
 import { text2 } from '@/data/data';
-import { getTotalSeconds, makeDate } from '@/data/functions';
+import { getTotalSeconds } from '@/data/functions';
 import React, { useEffect, useState } from 'react';
 import CustomCardLoader from './CustomCardLoader';
 
 type TimerProps = {
   qsnChange:number;
-  setSubmitTime:(timeInSeconds:number,    totalSeconds:number, totalMinutes:number, totalHours:number )=>void;
+  setSubmitTime:(timeInSeconds:number, qsnChange:number,   totalSeconds:number, totalMinutes:number, totalHours:number )=>void;
   loading:boolean;
 };
 
@@ -16,7 +16,7 @@ const Timer: React.FC<TimerProps> = ({ qsnChange, setSubmitTime, loading }) => {
   
   useEffect(()=>{  
       const timeInSeconds = getTotalSeconds(seconds, minutes, hours)
-      setSubmitTime(timeInSeconds,   seconds, minutes, hours);
+      setSubmitTime(timeInSeconds, qsnChange,  seconds, minutes, hours);
 
       setHours(0);
       setMinutes(0);
@@ -50,7 +50,7 @@ const Timer: React.FC<TimerProps> = ({ qsnChange, setSubmitTime, loading }) => {
     {
          loading ?  <CustomCardLoader viewBox={`0 0 200 40`} className={'mt-2'} rectW='100%' rectH='40'/>
          :
-         <div className="flex flex-wrap items-center justify-start w-full gap-2 md:gap-4 mt-2">
+         <div className="flex flex-wrap items-center justify-start w-full gap-2 md:gap-4">
      
          <div className="timer w-10">
            <h3 className="text-blue-700 font-semibold text-base md:text-lg lg:text-xl text-black text-center">

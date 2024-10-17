@@ -7,19 +7,21 @@ import { McqQuestion, McqTestQuestion, UserPracticePaper } from "@/types/type";
 import CustomCardLoader from "@/components/CustomCardLoader";
 import { useRouter } from 'next/navigation';
 import ResultPage from "../result-screen/page";
-import SubmitPopup from "@/components/PopupModal/SubmitPopup";
+import SubmitPopup, { SubmitPopupProps } from "@/components/PopupModal/SubmitPopup";
 import Timer from "@/components/Timer";
 import { getTotalSeconds, makeDate } from "@/data/functions";
 import Statics from "./Statics";
 import { logoBtnColor } from "@/data/data";
+import Loader from "@/components/Loader";
 
 const PracticeScreen = () => {
   const [showHints, setShowHints] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [submitLoading, setSubmitLoading] = useState<boolean>(false);
   const[loaderShow, setLoaderShow] = useState<boolean>(false);
   const [questions, setQuestions] = useState<McqQuestion[]>([]);
-  const [index, setIndex] = useState(0);
-  const [qsnChange, setQsnChange] = useState(1);
+  const [index, setIndex] = useState<number>(0);
+  const [qsnChange, setQsnChange] = useState(-1);
   const [userPracticePaper, setUserPracticePaper] = useState<UserPracticePaper[]>([]);
   const panelRef = useRef<HTMLDivElement | null>(null);
   const [panelHeight, setPanelHeight] = useState(0);
@@ -29,8 +31,27 @@ const PracticeScreen = () => {
   const[totalMinutes, setTotalMinutes] = useState(0);
   const[totalHours, setTotalHours] = useState(0);
   const[alreadySaveCall, setAlreadySaveCall] = useState(false);
+  const[submitAssessementId, setSubmitAssessementId] = useState<string>('');
   const router = useRouter();
-  
+  const newPage = ():void=>{
+    console.log(submitAssessementId)
+    debugger
+    router.push(`/result-screen/${submitAssessementId}`);
+   }
+
+   const[submitPopupValue, setsubmitPopupValue] = useState<SubmitPopupProps>({
+    title:"Assessment Score",
+    subTitle:"subTitle",
+    message:"",
+    setIsModalOpen:setIsModalOpen,
+    submitFn:newPage,
+    total:0,
+    atemmpt:0,
+    correct:0,
+    incorrect:0,
+    loaderShow:false,
+  })
+   
   const getPracticePaper = async () => {
     try {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URI}/questions`);
@@ -44,7 +65,6 @@ const PracticeScreen = () => {
       setUserPracticePaper(initialPracticePaper);
     } catch (error) {
       console.error("Error fetching questions:", error);
-      setLoading(false);
     }
   };
 
@@ -62,35 +82,64 @@ const PracticeScreen = () => {
       return totalTimeInSeconds;
   }
 
-   const save = async()=>{
+ 
+   const submitPaper = async()=>{
     if(alreadySaveCall){
       return;
     }
     setAlreadySaveCall(true);
+    setSubmitLoading(true);
 
+    
     try { 
       const totalSubmitTime = getTotalSubmitTime();
-      await axios.post(`${process.env.NEXT_PUBLIC_API_URI}/assessment`, {
+      const {data} = await axios.post(`${process.env.NEXT_PUBLIC_API_URI}/assessment`, {
         userId:"uyg34b43nbh43r34nb4rb3br",
         questions:userPracticePaper,
         totalSubmitTime:totalSubmitTime
       });
-      setLoaderShow(false);
-      // router.push(`/result-screen`);
-      setResultScreen(true);
+
+      debugger
+      setSubmitAssessementId(data._id);
+      setSubmitLoading(false);
+      showModal();
+      
+   
     } catch (error) {
       console.log(error);
       setAlreadySaveCall(false);
     }
 
    }
+   
 
-  const newPage = () => {
-    console.log(userPracticePaper);
-    setQsnChange(qsnChange+1);
+
+ 
+  const showModal=():void=>{
+    const total = userPracticePaper.length;
+    let totalAttempt = 0;
+    let correct = 0;
+    
+    for(let i=0;i<userPracticePaper.length; i++){
+      if(userPracticePaper[i]?.userSelectAns != ""){
+        totalAttempt++;
+        if(userPracticePaper[i]?.McqQuestion?.correctAnswer === userPracticePaper[i]?.userSelectAns){
+          correct++;
+        }
+      }
+    }
+    
+    setsubmitPopupValue(prev=>({
+      ...prev,
+      total:total,
+      atemmpt:totalAttempt,
+      correct:correct,
+      incorrect:totalAttempt-correct
+    }))
+     
     setIsModalOpen(true);
-    // router.push(`/result-screen`);
-  };
+  }
+
 
   useEffect(() => {
     getPracticePaper();
@@ -105,15 +154,15 @@ const PracticeScreen = () => {
   const prevQuestion = () => {
     if (index > 0) {
       setIndex(index - 1);
-      setQsnChange(qsnChange-1);
+    setQsnChange(qsnChange-1);
     }
   };
 
   const nextQuestion = () => {
-    if (index < questions.length - 1) {
+    if(index < userPracticePaper.length-1){
       setIndex(index + 1);
-      setQsnChange(qsnChange+1);
     }
+      setQsnChange(qsnChange+1);
   };
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -132,10 +181,14 @@ const PracticeScreen = () => {
   setUserPracticePaper(newPracticePaper);
   };
 
-  const setSubmitTime=(timeInSeconds:number,   totalTimeInSeconds:number, totalTimeInMinutes:number, totalTimeInHours:number)=>{
+  const setSubmitTime=(timeInSeconds:number, qsnChange:number,   totalTimeInSeconds:number, totalTimeInMinutes:number, totalTimeInHours:number)=>{
+    if(qsnChange == -1){
+      return;
+    }
+
     const newPracticePaper = [...userPracticePaper];
     let currentQuestion;
-    currentQuestion = newPracticePaper[index];
+    currentQuestion = newPracticePaper[qsnChange];
     if(currentQuestion){
       if(currentQuestion?.submitTimeInSeconds){
       }else{
@@ -148,7 +201,10 @@ const PracticeScreen = () => {
     //total Time 
     setTotalSeconds(totalSeconds+totalTimeInSeconds);
     setTotalMinutes(totalMinutes+totalTimeInMinutes);
-    setTotalHours(totalMinutes+totalTimeInMinutes);
+    setTotalHours(totalHours+totalTimeInHours);
+    if(qsnChange === userPracticePaper.length-1){
+      submitPaper();
+    }
   }
 
   return (
@@ -157,11 +213,11 @@ const PracticeScreen = () => {
         resultScreen === true ?   <ResultPage userPracticePaper={userPracticePaper} />
         :  <div className="flex flex-col min-h-screen bg-white px-2 md:px-4">
         <DemoBanner notMainPage={true} />
-        <div className="flex flex-col md:flex-row   overflow-hidden p-2 md:p-4">
+        <div className="flex flex-col w-100 md:flex-row   overflow-hidden p-2 md:p-4">
 
 
           {  isModalOpen && 
-            <SubmitPopup title="Assessment Score" message="Are you sure you want to submit the exam"  setIsModalOpen={setIsModalOpen} submitBtn="Submit" submitFn={save} 
+            <SubmitPopup title={submitPopupValue.title} subTitle={submitPopupValue.subTitle} total={submitPopupValue.total} atemmpt={submitPopupValue.atemmpt} correct={submitPopupValue.correct} incorrect={submitPopupValue.incorrect}  message={submitPopupValue.message} setIsModalOpen={submitPopupValue.setIsModalOpen}  submitFn={submitPopupValue.submitFn} 
             loaderShow={loaderShow}  
             />
           }
@@ -194,10 +250,10 @@ const PracticeScreen = () => {
                   </ul>
                 </div>
             }
-            <div className={`flex ${(loading === true || index == 0 ) ? `justify-end` : `justify-between` }`}>
+            <div className={`flex ${(loading === true || index === 0 || submitLoading === true ) ? `justify-end` : `justify-between` }`}>
        
            
-             <button className={`flex items-center ${index == 0 ? 'hidden' : ''}`} onClick={prevQuestion} >
+            <button className={`flex items-center ${(index === 0 || submitLoading === true) ? 'hidden' : ''}`} onClick={prevQuestion} >
                 <FaArrowLeft className="mr-2" />
                 Back
               </button> 
@@ -216,9 +272,14 @@ const PracticeScreen = () => {
                 <button className={`text-white   ${logoBtnColor} font-medium px-4 py-2 rounded`} onClick={nextQuestion}>
                   Next
                 </button> :
-                  <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium px-4 py-2 rounded" onClick={newPage} disabled={loaderShow}>
-                    Submit
-                  </button>  
+
+                submitLoading ? <Loader/>
+                   :
+                   <button className={`text-white   ${logoBtnColor} font-medium px-4 py-2 rounded`} onClick={nextQuestion} disabled={loaderShow}>
+                  Submit
+                </button>
+               
+                
               }
             </div>
             <div className="mb-4 rounded-lg shadow ">
