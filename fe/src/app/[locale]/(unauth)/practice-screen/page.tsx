@@ -5,7 +5,6 @@ import { DemoBanner } from "@/components/DemoBanner";
 import axios from 'axios';
 import { McqQuestion, McqTestQuestion, UserPracticePaper } from "@/types/type";
 import CustomCardLoader from "@/components/CustomCardLoader";
-import { useRouter } from 'next/navigation';
 import ResultPage from "../result-screen/page";
 import SubmitPopup, { SubmitPopupProps } from "@/components/PopupModal/SubmitPopup";
 import Timer from "@/components/Timer";
@@ -31,25 +30,17 @@ const PracticeScreen = () => {
   const[totalMinutes, setTotalMinutes] = useState(0);
   const[totalHours, setTotalHours] = useState(0);
   const[alreadySaveCall, setAlreadySaveCall] = useState(false);
-  const[submitAssessementId, setSubmitAssessementId] = useState<string>('');
-  const router = useRouter();
-  const newPage = ():void=>{
-    console.log(submitAssessementId)
-    debugger
-    router.push(`/result-screen/${submitAssessementId}`);
-   }
-
    const[submitPopupValue, setsubmitPopupValue] = useState<SubmitPopupProps>({
     title:"Assessment Score",
     subTitle:"subTitle",
     message:"",
     setIsModalOpen:setIsModalOpen,
-    submitFn:newPage,
     total:0,
     atemmpt:0,
     correct:0,
     incorrect:0,
     loaderShow:false,
+    submitAssessmentId:''
   })
    
   const getPracticePaper = async () => {
@@ -99,11 +90,8 @@ const PracticeScreen = () => {
         totalSubmitTime:totalSubmitTime
       });
 
-      debugger
-      setSubmitAssessementId(data._id);
       setSubmitLoading(false);
-      showModal();
-      
+      showModal(data._id);
    
     } catch (error) {
       console.log(error);
@@ -113,9 +101,7 @@ const PracticeScreen = () => {
    }
    
 
-
- 
-  const showModal=():void=>{
+  const showModal=(id:string):void=>{
     const total = userPracticePaper.length;
     let totalAttempt = 0;
     let correct = 0;
@@ -134,7 +120,9 @@ const PracticeScreen = () => {
       total:total,
       atemmpt:totalAttempt,
       correct:correct,
-      incorrect:totalAttempt-correct
+      incorrect:totalAttempt-correct,
+      submitAssessmentId:id
+
     }))
      
     setIsModalOpen(true);
@@ -217,7 +205,7 @@ const PracticeScreen = () => {
 
 
           {  isModalOpen && 
-            <SubmitPopup title={submitPopupValue.title} subTitle={submitPopupValue.subTitle} total={submitPopupValue.total} atemmpt={submitPopupValue.atemmpt} correct={submitPopupValue.correct} incorrect={submitPopupValue.incorrect}  message={submitPopupValue.message} setIsModalOpen={submitPopupValue.setIsModalOpen}  submitFn={submitPopupValue.submitFn} 
+            <SubmitPopup title={submitPopupValue.title} subTitle={submitPopupValue.subTitle} total={submitPopupValue.total} atemmpt={submitPopupValue.atemmpt} correct={submitPopupValue.correct} incorrect={submitPopupValue.incorrect}  message={submitPopupValue.message} setIsModalOpen={submitPopupValue.setIsModalOpen}  submitAssessmentId={submitPopupValue.submitAssessmentId}
             loaderShow={loaderShow}  
             />
           }

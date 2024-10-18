@@ -11,15 +11,15 @@ export type SubmitPopupProps = {
   subTitle: string;
   message: string;
   setIsModalOpen: (open: boolean) => void;
-  submitFn: () => void;
   loaderShow: boolean;
   total: number;
   atemmpt: number;
   correct: number;
   incorrect: number;
+  submitAssessmentId:string
 };
 
-const SubmitPopup: React.FC<SubmitPopupProps> = ({ title, subTitle, message, setIsModalOpen, submitFn, loaderShow, total, atemmpt, correct, incorrect }) => {
+const SubmitPopup: React.FC<SubmitPopupProps> = ({ title, subTitle, message, setIsModalOpen, loaderShow, total, atemmpt, correct, incorrect, submitAssessmentId}) => {
   const router = useRouter();
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [searchText, setSearchText] = useState('');
@@ -29,6 +29,10 @@ const SubmitPopup: React.FC<SubmitPopupProps> = ({ title, subTitle, message, set
       router.push(`/e-paper/${formattedText}`); // Navigate to the formatted URL
     }
   };
+
+  const resultPage = ()=>{
+    router.push(`/result-screen?id=${encodeURIComponent(submitAssessmentId)}`);
+  }
 
   const handleMicClick = () => {
     if ('webkitSpeechRecognition' in window) {
@@ -65,6 +69,7 @@ const SubmitPopup: React.FC<SubmitPopupProps> = ({ title, subTitle, message, set
       alert('Your browser does not support speech recognition.');
     }
   };
+
   const closeModal = () => {
     setIsModalOpen(false);
   }
@@ -141,8 +146,7 @@ const SubmitPopup: React.FC<SubmitPopupProps> = ({ title, subTitle, message, set
 
 
             <div className='flex gap-2 mt-4 mb-1 cursor-pointer'>
-              <div className={`${text2} `}  onClick={submitFn}>View Detail Summary
-
+              <div className={`${text2} `}  onClick={resultPage}>View Detail Summary
               </div>
 
               <svg
