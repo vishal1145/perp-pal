@@ -1,27 +1,25 @@
- 
-import connectDB from '../../../../../../libs/DB';
+import connectDB from '../../../../../../libs/DB'; // Adjust this path if necessary
 import mongoose from 'mongoose';
 import { NextResponse } from 'next/server';
-import Assessment from '@/models/submitAssesment';
-
-interface Params {
-    id: string;  
-}
-
-export async function GET({ params }: { params: Params }) {
+import SubmitAssessment from '@/models/submitAssesment';
+export async function GET(request: Request, { params }: { params: { id: string } }) {
     await connectDB();
+
+    console.log("Received params:", params);
+
     const { id } = params;
+
     if (!mongoose.Types.ObjectId.isValid(id)) {
         return NextResponse.json({ message: 'Invalid ID format.' }, { status: 400 });
     }
 
     try {
-        const assessment = await Assessment.findById(id)
+        const assessment = await SubmitAssessment.findById(id)
             .populate('questions.questionId') 
             .exec();
 
         if (!assessment) {
-            return NextResponse.json({ message: 'Assessment not found.' }, { status: 404 });
+            return NextResponse.json({ message: 'SubmitAssessment not found.' }, { status: 404 });
         }
 
         return NextResponse.json(assessment, { status: 200 });

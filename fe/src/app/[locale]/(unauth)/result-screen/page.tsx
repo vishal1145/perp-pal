@@ -8,17 +8,30 @@ import {
   Legend,
 } from "chart.js"; // Import from chart.js
 import { DemoBanner } from "@/components/DemoBanner";
-import { UserPracticePaper } from "@/types/type";
+import { useSearchParams } from 'next/navigation';
+import axios from 'axios';
+import { SubmitAssessment } from "@/types/type";
+
 // Register necessary components
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-interface ResultPageProps {
-  userPracticePaper: UserPracticePaper[];
-}
 
-const ResultPage: React.FC<ResultPageProps> = (props) => {
+const ResultPage  = ( ) => {
+  
+  const searchParams = useSearchParams();
+  const id = searchParams.get('id');
+  const[submitAssessment, setSubmitAssessment] = useState<SubmitAssessment[]>([]);
+  const getSubmitAsseessment = async()=>{
+      try {
+        const {data} = await axios.get(`${process.env.NEXT_PUBLIC_API_URI}/assessment/${id}`)
+        setSubmitAssessment(data?.questions);
+      } catch (error) {
+        console.log(error);
+      }
+  }
+
   useEffect(() => {
-    console.log(props);
+     getSubmitAsseessment();
   }, []);
 
   const data = {
@@ -66,14 +79,7 @@ const ResultPage: React.FC<ResultPageProps> = (props) => {
       answer: "Information on how to retake the same practice paper and track your progress.",
     },
   ];
-  const [formattedText, setFormattedText] = useState('');
-  useEffect(() => {
-    // Retrieve the data from sessionStorage
-    const storedFormattedText = sessionStorage.getItem('formattedText');
-   
-    if (storedFormattedText) setFormattedText(storedFormattedText);
-
-  }, []);
+ 
   return (
     <>
       <DemoBanner notMainPage={true} />
@@ -87,7 +93,7 @@ const ResultPage: React.FC<ResultPageProps> = (props) => {
           <div className="w-full">
           <div className="">
       <div className='text-md font-medium'>Your Questions</div>
-      <div className='text-gray-500 font-sm text-md'>{formattedText}</div>
+      <div className='text-gray-500 font-sm text-md'>{"formattedText"}</div>
       </div>
       <div className="py-2 mb-4" style={{ borderBottom: "1px solid #E2E2E2" }}></div>
             <div className="w-full flex flex-col ">
@@ -97,8 +103,8 @@ const ResultPage: React.FC<ResultPageProps> = (props) => {
               </div>
             </div>
             <div className="mt-5">
-              {props.userPracticePaper.map((item, index) => {
-                const question = item.McqQuestion; // Accessing the question object
+              {submitAssessment.map((item, index) => {
+                const question = item.questionId;
                 const userSelectAns = item.userSelectAns; // Accessing the user's selected answer
                 const correctAnswer = question.correctAnswer; // Accessing the correct answer
 

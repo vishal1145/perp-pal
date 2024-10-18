@@ -18,10 +18,17 @@ export interface UserPracticePaper{
   submitTimeInSeconds?:number;
 }
 
+export interface SubmitAssessment{
+  questionId:McqQuestion
+  userSelectAns:string;
+  submitTimeInSeconds?:number;
+}
+
 export interface McqTestQuestion {
   McqQuestion: McqQuestion;
   chooseAns: string;
 }
+
 
 export interface FilterOption {
   id: string;
