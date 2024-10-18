@@ -83,7 +83,7 @@ const SubmitPopup: React.FC<SubmitPopupProps> = ({ title, subTitle, message, set
       tabIndex={-1}
     >
       <div className="flex items-center justify-center h-full">
-        <div className="w-full flex flex-col bg-white border shadow-lg rounded-xl border m-3 sm:max-w-2xl sm:w-full " >
+        <div className="w-full flex flex-col bg-white border shadow-lg rounded-xl border m-3 sm:max-w-lg sm:w-full " >
           <div className="flex flex-col   p-4  ">
 
 
@@ -95,29 +95,6 @@ const SubmitPopup: React.FC<SubmitPopupProps> = ({ title, subTitle, message, set
                 {title}
               </div>
 
-
-              <button
-                type="button"
-                className="    text-gray-800 "
-                aria-label="Close"
-                onClick={closeModal}
-              >
-                <svg
-                  className="w-4 h-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width={24}
-                  height={24}
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M18 6L6 18" />
-                  <path d="M6 6l12 12" />
-                </svg>
-              </button>
             </div>
 
             <div className={`${text2} mt-1 text-left`}>
@@ -137,12 +114,16 @@ const SubmitPopup: React.FC<SubmitPopupProps> = ({ title, subTitle, message, set
                 <AssessmentCard title='Attempted' value={String(atemmpt)} />
               </div>
 
-              <div style={{ width: "100%" }}>
+             
+              <div className='hidden sm:block' style={{ width: "100%" }}>
                 <AssessmentCard title='Correct / Incorrect' value={`${String(correct)} / ${String(incorrect)}`} />
               </div>
-
             </div>
 
+
+            <div className='block sm:hidden mt-4' style={{ width: "48%" }}>
+                <AssessmentCard title='Correct / Incorrect' value={`${String(correct)} / ${String(incorrect)}`} />
+              </div>
 
 
             <div className='flex gap-2 mt-4 mb-1 cursor-pointer'>
@@ -185,7 +166,7 @@ const SubmitPopup: React.FC<SubmitPopupProps> = ({ title, subTitle, message, set
                 ref={searchInputRef}
                 type="text"
                 placeholder="Search..."
-                className="bg-gray-100 w-full pl-10 pr-10 h-9 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="bg-gray-100 w-full pl-10 pr-10 h-8 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
                 onKeyDown={handleKeyDown} // Add onKeyDown event handler

@@ -25,7 +25,7 @@ const PracticeScreen = () => {
   const panelRef = useRef<HTMLDivElement | null>(null);
   const [panelHeight, setPanelHeight] = useState(0);
   const[resultScreen, setResultScreen] = useState<boolean>(false);
-  const[isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const[isModalOpen, setIsModalOpen] = useState<boolean>(true);
   const[totalSeconds, setTotalSeconds] = useState(0);
   const[totalMinutes, setTotalMinutes] = useState(0);
   const[totalHours, setTotalHours] = useState(0);

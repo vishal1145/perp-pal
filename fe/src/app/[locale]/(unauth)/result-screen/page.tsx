@@ -15,9 +15,7 @@ import { SubmitAssessment } from "@/types/type";
 // Register necessary components
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-
 const ResultPage  = ( ) => {
-  
   const searchParams = useSearchParams();
   const id = searchParams.get('id');
   const[submitAssessment, setSubmitAssessment] = useState<SubmitAssessment[]>([]);
