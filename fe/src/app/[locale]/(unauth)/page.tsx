@@ -66,14 +66,14 @@ export default function Layout() {
     }
   }, []);
   const handleCardClick = (promptText: string) => {
-    const formattedText = promptText.replace(/\s+/g, '-');
+    const formattedText = promptText.replace(/\s+/g, '_');
     router.push(`/e-paper/${formattedText}`);
     trackEvent(first_card);
     trackGAEvent('Card', 'cardClick', promptText); 
   };
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && searchText.trim() !== '') {
-      const formattedText = searchText.trim().replace(/\s+/g, '-'); // Format the text
+      const formattedText = searchText.trim().replace(' ', '_'); // Format the text
       router.push(`/e-paper/${formattedText}`); // Navigate to the formatted URL
     }
   };
@@ -115,7 +115,7 @@ const CustomCardLoader = () => (
       ref={searchInputRef}
       type="text"
       placeholder="Search..."
-      className="bg-gray-100 w-full h-11 py-2 sm:py-3 pl-12 sm:pl-14 pr-10 border border-gray-300 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+      className="bg-gray-100 w-full h-10 py-2 sm:py-3 pl-12 sm:pl-14 pr-10 border border-gray-300 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
       value={searchText}
       onChange={(e) => setSearchText(e.target.value)}
       onKeyDown={handleKeyDown}

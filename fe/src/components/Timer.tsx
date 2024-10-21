@@ -50,33 +50,29 @@ const Timer: React.FC<TimerProps> = ({ qsnChange, setSubmitTime, loading }) => {
     {
          loading ?  <CustomCardLoader viewBox={`0 0 200 40`} className={'mt-2'} rectW='100%' rectH='40'/>
          :
-         <div className="flex flex-wrap items-center justify-start w-full gap-2 md:gap-4">
-     
+         <div className="flex mt-2 flex-wrap items-center justify-start w-full gap-2 md:gap-4">
          <div className="timer w-10">
            <h3 className="text-blue-700 font-semibold text-base md:text-lg lg:text-xl text-black text-center">
              {String(hours).padStart(2, '0')}
            </h3>
-           <div className={`${text2} text-center`}>hours</div>
+           <div className={`${text2} text-center`}>Hours</div>
          </div>
-         <h3 className="font-semibold text-base md:text-lg lg:text-xl text-gray-900 mb-7">:</h3>
+         <h3 className="font-semibold text-base md:text-lg lg:text-xl text-gray-900 mb-6">:</h3>
         
-    
          <div className="timer w-10">
-           <h3 className="text-blue-700 font-semibold text-base md:text-lg lg:text-xl text-center">
+           <h3 className="text-blue-700 font-semibold text-base md:text-lg lg:text-xl text-black text-center">
              {String(minutes).padStart(2, '0')}
            </h3>
-           <div className={`${text2} text-center`}>minutes</div>
+           <div className={`${text2} text-center`}>Minutes</div>
          </div>
-         <h3 className="colon font-semibold text-xl text-gray-900 mx-1 mb-7">:</h3>
-       
-  
-       <div className="timer w-10">
-         <h3 className="text-blue-700 font-semibold text-base md:text-lg lg:text-xl text-center">
-           {String(seconds).padStart(2, '0')}
-         </h3>
-         <div className={`${text2} text-center`}>seconds</div>
-       </div>
-     
+         <h3 className="font-semibold text-base md:text-lg lg:text-xl text-gray-900 mb-6">:</h3>
+
+         <div className="timer w-10">
+           <h3 className="text-blue-700 font-semibold text-base md:text-lg lg:text-xl text-black text-center">
+             {String(seconds).padStart(2, '0')}
+           </h3>
+           <div className={`${text2} text-center`}>Seconds</div>
+         </div>
    </div>
     }
     </>

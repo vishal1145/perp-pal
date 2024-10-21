@@ -28,3 +28,15 @@
     }
 }
 
+#qsn-text-main-id{
+  width: 100%;
+}
+
+@media (min-width: 639px) {
+  #qsn-text-main-id{
+    width: 80%;
+  }
+}
+
+
+ 

@@ -44,7 +44,7 @@ const Assessment: React.FC = () => {
   const [subjectFilter, setSubjectFilter] = useState<FilterOption[]>([]);
   const [chapterFilter, setChapterFilter] = useState<FilterOption[]>([]);
   const [levelFilter, setLevelFilter] = useState<FilterOption[]>([]);
-  const [formattedText, setFormattedText] = useState('');
+  const [formattedText, setFormattedText] = useState<string>('');
   const [alreadyCall, setAlreadyCall] = useState<boolean>(false);
   const [selectedFilters, setSelectedFilters] = useState({
     classId: null as string | null,
@@ -55,7 +55,11 @@ const Assessment: React.FC = () => {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setFormattedText(window.location?.pathname.split('/').pop());
+     let text = window.location?.pathname.split('/').pop();
+     text = text?.split("_").join(" ");
+     if(text){
+        setFormattedText(text);
+      }
     }
   }, []);
 
@@ -201,13 +205,15 @@ const Assessment: React.FC = () => {
         </aside>
 
         <div className="px-4 sm:px-1 col-span-12 sm:col-span-9 md:col-span-9 lg:col-span-6 bg-white">
-          <div className='flex justify-between'>
+          <div className='flex justify-between relative'>
             {
               questionloading === false ?
                 <>
-                  <div>
+                  <div id='qsn-text-main-id' className='mt-1 md:mt-0'>
                     <div className='text-md font-medium'>Your Questions</div>
-                    <div className='text-gray-500 font-sm text-md'>{formattedText}</div>
+                    <div className='text-gray-500 font-sm text-md pr-2  max-w-full h-auto break-words mt-4 md:mt-0'>
+  {formattedText}
+</div>
                   </div>
 
 
@@ -215,9 +221,10 @@ const Assessment: React.FC = () => {
                     showLoader == true ?
                       (<Loader />) :
                       (
+                        <div className='h-100  absolute right-0 -mt-[5px] md:static md:mt-0'   >
                         <button
                           type="button"
-                          className="border border-gray-500  bg-transparent cursor-pointer font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none hover:bg-gray-200"
+                          className="border border-gray-500 w-[132px] h-[42px] bg-transparent cursor-pointer font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none hover:bg-gray-200 "
                           onClick={handlePracticeClick}
                           style={{
                             border: "1px solid rgb(226, 226, 226)",
@@ -226,6 +233,7 @@ const Assessment: React.FC = () => {
                         >
                           Start Practice
                         </button>
+                        </div>
                       )
                   }
                 </>

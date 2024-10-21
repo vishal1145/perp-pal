@@ -293,7 +293,7 @@ const PracticeScreen = () => {
               </div>
             </div>
           </div>
-          <div className="flex-none md:w-1/3 w-full  pt-1 ">
+          <div className="flex-none md:w-1/3 w-full  pt-4 pl-4 md:pt-1 md:pl-0 ">
 
             <div className="pb-2">
               <h3 className="text-sm font-medium ">
