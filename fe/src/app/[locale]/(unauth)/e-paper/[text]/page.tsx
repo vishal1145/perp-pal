@@ -56,7 +56,7 @@ const Assessment: React.FC = () => {
   useEffect(() => {
     if (typeof window !== 'undefined') {
      let text = window.location?.pathname.split('/').pop();
-     text = text?.split("_").join(" ");
+     text = text?.split("--").join(" ");
      if(text){
         setFormattedText(text);
       }

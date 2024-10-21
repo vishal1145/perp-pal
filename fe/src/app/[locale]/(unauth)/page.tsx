@@ -66,14 +66,14 @@ export default function Layout() {
     }
   }, []);
   const handleCardClick = (promptText: string) => {
-    const formattedText = promptText.replace(/\s+/g, '_');
+    const formattedText = promptText.replace(/\s+/g, '--');
     router.push(`/e-paper/${formattedText}`);
     trackEvent(first_card);
     trackGAEvent('Card', 'cardClick', promptText); 
   };
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && searchText.trim() !== '') {
-      const formattedText = searchText.trim().replace(' ', '_'); // Format the text
+      const formattedText = searchText.trim().replace(/\s+/g, '--'); // Format the text
       router.push(`/e-paper/${formattedText}`); // Navigate to the formatted URL
     }
   };
