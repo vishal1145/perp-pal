@@ -115,7 +115,7 @@ const CustomCardLoader = () => (
       ref={searchInputRef}
       type="text"
       placeholder="Search..."
-      className="bg-gray-100 w-full py-2 sm:py-3 pl-12 sm:pl-14 pr-10 border border-gray-300 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+      className="bg-gray-100 w-full h-11 py-2 sm:py-3 pl-12 sm:pl-14 pr-10 border border-gray-300 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
       value={searchText}
       onChange={(e) => setSearchText(e.target.value)}
       onKeyDown={handleKeyDown}
