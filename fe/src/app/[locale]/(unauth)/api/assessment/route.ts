@@ -4,12 +4,12 @@ import mongoose from 'mongoose';
 import { NextRequest, NextResponse } from 'next/server';
 import { McqQuestion } from '@/types/type';
 import SubmitAssessment from '@/models/submitAssesment';
+import { Question } from '@/models/question';
 
 export async function POST(req: NextRequest) {
     await connectDB();
   
     try {  
-        console.log("*******************8")
         const { userId, questions, totalSubmitTime } = await req.json(); 
 
         if (!userId || !Array.isArray(questions) || questions.length === 0) {
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
             questions: formattedQuestions,
             totalSubmitTime  
         });
-        
+ 
         const savedAssessment = await newAssessment.save();
         return NextResponse.json(savedAssessment, { status: 201 });
 

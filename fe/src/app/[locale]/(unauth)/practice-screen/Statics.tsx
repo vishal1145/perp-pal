@@ -1,10 +1,23 @@
 import { text2 } from '@/data/data';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import axios from 'axios';
 
 const Statics = () => {
     const [hours, setHours] = useState<number>(10);
     const [minutes, setMinutes] = useState<number>(10);
     const [seconds, setSeconds] = useState<number>(10); 
+
+    const getStatics = async()=>{
+      try {
+        // const response =  await axios.get()
+       } catch (error) {
+        console.log(error);
+       }
+    }
+    useEffect(()=>{
+    
+    }, []);
+
   return (
     <div className="flex mt-2 flex-wrap items-center justify-start w-full gap-2 md:gap-4">
          <div className="timer w-10">

@@ -1,10 +1,10 @@
-import connectDB from '../../../../../../libs/DB'; // Adjust this path if necessary
+import connectDB from '@/libs/DB';
 import mongoose from 'mongoose';
 import { NextResponse } from 'next/server';
 import SubmitAssessment from '@/models/submitAssesment';
 export async function GET(request: Request, { params }: { params: { id: string } }) {
     await connectDB();
- 
+
     const { id } = params;
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -15,6 +15,8 @@ export async function GET(request: Request, { params }: { params: { id: string }
         const assessment = await SubmitAssessment.findById(id)
             .populate('questions.questionId') 
             .exec();
+
+            console.log("assessment", assessment);
 
         if (!assessment) {
             return NextResponse.json({ message: 'SubmitAssessment not found.' }, { status: 404 });
