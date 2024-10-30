@@ -8,3 +8,8 @@ export const getTotalSeconds = (seconds:number, minutes:number, hours:number):nu
      const total = hours * 3600 + minutes * 60 + seconds;
      return total;
 }
+
+export let yourQuestions = '';
+export const setYourQuestions=(str:string)=>{
+      yourQuestions = str
+}

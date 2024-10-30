@@ -74,8 +74,9 @@ const Assessment: React.FC = () => {
       setShowLoader(true);
       const { data } = await axios.post(`https://prep-pal.algofolks.com/api/Question/generate-guid`);
       //  await axios.post(`${process.env.NEXT_PUBLIC_API_URI}/questions`, questions);
-      router.push(`/practice-screen?data=${encodeURIComponent(data.id)}`);
 
+      const text = formattedText.trim().replace(/\s+/g, '--');  
+      router.push(`/practice-screen?paper=${encodeURIComponent(text)}&id=${encodeURIComponent(data.id)}`);
     } catch (error) {
       console.error('Error generating practice:', error);
       setAlreadyCall(false);
@@ -146,7 +147,7 @@ const Assessment: React.FC = () => {
   return (
     <>
       <DemoBanner notMainPage={true} />
-      <div id='maidiv' className="grid grid-cols-1 sm:grid-cols-12 gap-4 py-0 sm:py-4 sm:pl-4" style={{height:"100%", overflowY:"auto"}}>
+      <div id='maidiv' className="grid grid-cols-1 sm:grid-cols-12 gap-4 py-0 sm:py-4 sm:pl-4" style={{height:"90%", overflowY:"auto"}}>
 
         <aside className="col-span-12 sm:col-span-3 py-4 rounded-sm bg-gray-50  h-full" aria-label="Sidebar">
           <div className="h-full px-3 rounded-md overflow-y-auto">
@@ -279,24 +280,29 @@ const Assessment: React.FC = () => {
                   correctAnswer={item.correctAnswer}
                   key={item.questionId}
                   index={index + 1}
+                  minTime={item.minTime}
+                  maxTime={item.maxTime}
+                  avgTime={item.avgTime}
+                  showHints={item.showHints}
                 />
               ))
             )}
           </div>
-
-         <div className='mb-4  mt-3' style={{border:"2px solid red"}}>
-          btn
-         </div>
-
-          {
+ 
+         {
             showLoader === true ?
 
               <Loader className={'flex justify-center'} />
               :
 
-          <>
-          jsb asb asb b asb asb sabn  ash asb asb asb asn san san nsa 
-          </>
+              <button
+                type="button"
+                className={`text-white ${logoBtnColor}  focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 w-full`}
+                disabled={showLoader}
+                onClick={handlePracticeClick}
+              >
+                Start Practice
+              </button>
           }
 
         </div>

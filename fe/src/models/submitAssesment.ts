@@ -1,5 +1,4 @@
 import mongoose, { Document, Model, Schema } from 'mongoose';
-import { Question } from '@/models/question'; // Ensure this path is correct
 
 export interface IAssessment extends Document {
     userId: string;

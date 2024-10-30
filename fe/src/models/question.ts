@@ -25,9 +25,10 @@ const QuestionSchema: Schema = new Schema({
     question: { type: String, required: true },
     options: { type: [OptionSchema], required: true },
     correctAnswer: { type: String, required: true },
-    minTime: { type: Number, default: Number.MIN_VALUE }, 
-    maxTime: { type: Number, default: Number.MAX_VALUE },  
-    avgTime: { type: Number, default:0}
+    minTime: { type: Number, default: Number.MAX_VALUE  }, 
+    maxTime: { type: Number, default: 0},  
+    avgTime: { type: Number, default:0},
+    showHints:{type:String, default:"working....."}
 });
 
 export const Question: Model<IQuestion> = mongoose.models.Question || mongoose.model<IQuestion>('Question', QuestionSchema);

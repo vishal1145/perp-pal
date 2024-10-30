@@ -10,6 +10,10 @@ export interface McqQuestion {
   question: string;
   options: { optionText: string; optionFlag: string }[];
   correctAnswer: string;
+  minTime:Number;
+  maxTime:Number;
+  avgTime:Number;
+  showHints:String;
 }
 
 export interface UserPracticePaper{

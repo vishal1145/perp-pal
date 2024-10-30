@@ -8,7 +8,7 @@ import CustomCardLoader from "@/components/CustomCardLoader";
 import ResultPage from "../result-screen/page";
 import SubmitPopup, { SubmitPopupProps } from "@/components/PopupModal/SubmitPopup";
 import Timer from "@/components/Timer";
-import { getTotalSeconds, makeDate } from "@/data/functions";
+import { getTotalSeconds,  setYourQuestions    } from "@/data/functions";
 import Statics from "./Statics";
 import { logoBtnColor } from "@/data/data";
 import Loader from "@/components/Loader";
@@ -30,7 +30,7 @@ const PracticeScreen = () => {
   const[totalMinutes, setTotalMinutes] = useState(0);
   const[totalHours, setTotalHours] = useState(0);
   const[alreadySaveCall, setAlreadySaveCall] = useState(false);
-   const[submitPopupValue, setsubmitPopupValue] = useState<SubmitPopupProps>({
+  const[submitPopupValue, setsubmitPopupValue] = useState<SubmitPopupProps>({
     title:"Assessment Score",
     subTitle:"subTitle",
     message:"",
@@ -42,7 +42,27 @@ const PracticeScreen = () => {
     loaderShow:false,
     submitAssessmentId:''
   })
-   
+    
+  const [id, setId] = useState('');
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    let paperValue = params.get('paper');
+    const idValue = params.get('id');
+
+    if (paperValue) {
+      paperValue =  paperValue.split("--").join(" ") 
+      setYourQuestions(paperValue);
+      setsubmitPopupValue(prev=>({
+        ...prev,
+        subTitle:String(paperValue)
+      }))
+    }
+    if (idValue) {
+      setId(idValue);
+    }
+  }, []);
+  
   const getPracticePaper = async () => {
     try {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URI}/questions`);
@@ -73,15 +93,13 @@ const PracticeScreen = () => {
       return totalTimeInSeconds;
   }
 
- 
-   const submitPaper = async()=>{
+  const submitPaper = async()=>{
     if(alreadySaveCall){
       return;
     }
     setAlreadySaveCall(true);
     setSubmitLoading(true);
 
-    
     try { 
       const totalSubmitTime = getTotalSubmitTime();
       const {data} = await axios.post(`${process.env.NEXT_PUBLIC_API_URI}/assessment`, {
@@ -114,7 +132,10 @@ const PracticeScreen = () => {
         }
       }
     }
+
+    const incorrect = totalAttempt-correct;
     
+
     setsubmitPopupValue(prev=>({
       ...prev,
       total:total,
@@ -122,7 +143,6 @@ const PracticeScreen = () => {
       correct:correct,
       incorrect:totalAttempt-correct,
       submitAssessmentId:id
-
     }))
      
     setIsModalOpen(true);
@@ -288,7 +308,7 @@ const PracticeScreen = () => {
                 style={{ height: panelHeight }}
               >
                 <div className="px-4 pb-2 text-sm text-gray-500">
-                  <p>Your hints content goes here.</p>
+                  <p>{questions[index]?.showHints}</p>
                 </div>
               </div>
             </div>
@@ -313,7 +333,7 @@ const PracticeScreen = () => {
              
              {
               loading ?  <CustomCardLoader viewBox={`0 0 200 40`} className={'mt-2'} rectW='100%' rectH='40'/>
-              :  <Statics/>
+              :  <Statics minTime={Number(questions[index]?.minTime)  } maxTime={Number(questions[index]?.maxTime)} avgTime={Number(questions[index]?.avgTime)} />
              }
 
              

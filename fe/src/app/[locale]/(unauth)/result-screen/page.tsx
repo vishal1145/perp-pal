@@ -1,5 +1,5 @@
 "use client"; // Ensure the component is a client component
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Pie } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -11,32 +11,62 @@ import { DemoBanner } from "@/components/DemoBanner";
 import { useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import { SubmitAssessment } from "@/types/type";
+import {   yourQuestions } from "@/data/functions";
 
 // Register necessary components
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 const ResultPage  = ( ) => {
   const searchParams = useSearchParams();
-  const id = searchParams.get('id');
   const[submitAssessment, setSubmitAssessment] = useState<SubmitAssessment[]>([]);
-  const getSubmitAsseessment = async()=>{
-      try {
-        const {data} = await axios.get(`${process.env.NEXT_PUBLIC_API_URI}/assessment/${id}`)
-        setSubmitAssessment(data?.questions);
-      } catch (error) {
-        console.log(error);
+  const[correct, setCorrect] = useState(0);
+  const[inCorrect, setInCorrect] = useState(0);
+  const[notAttempt, setNotAttempt] = useState(0);
+
+  const id = searchParams.get('id');
+  const hasFetched = useRef(false);
+
+  const getSubmitAssessment = async () => {
+    try { 
+      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URI}/assessment/${id}`);
+      const questions = data?.questions
+      setSubmitAssessment(questions);
+
+      const total = questions.length;
+      let totalAttempt = 0;
+      let correct = 0;
+      for(let i=0;i<questions.length; i++){
+        if(questions[i]?.userSelectAns != ""){
+          totalAttempt++;
+          if(questions[i]?.questionId?.correctAnswer === questions[i]?.userSelectAns){
+            correct++;
+          }
+        }
       }
-  }
+  
+      setCorrect(correct);
+      setInCorrect(totalAttempt-correct);
+      setNotAttempt(total-totalAttempt);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+ 
+ 
 
   useEffect(() => {
-     getSubmitAsseessment();
-  }, []);
+    if (id && !hasFetched.current) {
+      hasFetched.current = true;
+      getSubmitAssessment(); 
+    }
+  }, [id]);
+  
 
   const data = {
-    labels: ["High", "Low", "Average"],
+    labels: ["correct", "incorrect", "not attempted"],
     datasets: [
       {
-        data: [70, 20, 10],
+        data: [ correct, inCorrect, notAttempt],
         backgroundColor: ["#4CAF50", "#F44336", "#2196F3"],
         hoverBackgroundColor: ["#66BB6A", "#EF5350", "#42A5F5"],
       },
@@ -45,14 +75,14 @@ const ResultPage  = ( ) => {
   const options = {
     plugins: {
       legend: {
-        display: false, // This will hide the legend
+        display: false,  
       },
     },
   };
-  const [openIndex, setOpenIndex] = useState(null); // Track the open FAQ index
+  const [openIndex, setOpenIndex] = useState(null); 
 
   const handleFaqToggle = (index: any) => {
-    setOpenIndex(openIndex === index ? null : index); // Toggle the FAQ
+    setOpenIndex(openIndex === index ? null : index);
   };
 
   const faqs = [
@@ -83,7 +113,7 @@ const ResultPage  = ( ) => {
       <DemoBanner notMainPage={true} />
      
    
-      <div className="flex flex-col md:flex-row h-screen ">
+      <div className="flex flex-col md:flex-row h-screen "  style={{height:"90%", overflowY:"auto"}}>
 
         {/* Left Side - Pie Chart */}
         <div className="w-full md:w-9/12 p-10 flex ">
@@ -91,7 +121,7 @@ const ResultPage  = ( ) => {
           <div className="w-full">
           <div className="">
       <div className='text-md font-medium'>Your Questions</div>
-      <div className='text-gray-500 font-sm text-md'>{"formattedText"}</div>
+      <div className='text-gray-500 font-sm text-md'>{yourQuestions}</div>
       </div>
       <div className="py-2 mb-4" style={{ borderBottom: "1px solid #E2E2E2" }}></div>
             <div className="w-full flex flex-col ">
