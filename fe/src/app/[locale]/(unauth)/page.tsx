@@ -12,6 +12,8 @@ import { initGA, trackGAEvent } from '../(unauth)/googleAnalytics';
 import { initMixpanel, trackEvent } from './mixpanel';
 import { first_card } from "./mixpanelEventConstent";
 import axios from 'axios';
+import Head from 'next/head';
+
 
 export default function Layout() {
   const [cardData, setCardData] = useState([]);
@@ -72,7 +74,7 @@ export default function Layout() {
       searchInputRef.current.focus();
     }
   }, []);
-  
+
   const handleCardClick = (promptText: string) => {
     const formattedText = promptText.replace(/\s+/g, '--');
     router.push(`/e-paper/${formattedText}`);
@@ -101,6 +103,25 @@ const CustomCardLoader = () => (
 );
   return (
     <div className="flex flex-col min-h-screen">
+       <Head>
+        <title>Create and Practice Online Papers | Customizable Student Practice Tests</title>
+        <meta name="description" content="Empower students to create customizable online papers and practice tests by topic. Enhance learning with tailored questions and topics. Start practicing now!" />
+        <meta name="keywords" content="Online paper creation, student practice tests, customizable practice papers, study aid for students, online quiz creation, subject-based practice papers, topic-specific tests, student learning platform, practice exams for students" />
+     
+        <meta property="og:title" content="Create and Practice Online Papers | Customizable Student Practice Tests" />
+        <meta property="og:description" content="Empower students to create customizable online papers and practice tests by topic. Start practicing and enhance learning with tailored questions." />
+        <meta property="og:image" content="URL_TO_YOUR_IMAGE" />
+        <meta property="og:url" content="YOUR_APPLICATION_URL" />
+        
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Create and Practice Online Papers | Customizable Student Practice Tests" />
+        <meta name="twitter:description" content="Create customizable online papers and practice tests by topic. A perfect tool for students to practice and learn!" />
+        <meta name="twitter:image" content="URL_TO_YOUR_IMAGE" />
+
+        <meta name="robots" content="index, follow" />
+      </Head>
+
+
        <Banner notMainPage={false}/>
       <div className="flex justify-center items-center mb-5 mt-5">
   <div className="relative w-full max-w-lg">
