@@ -11,6 +11,7 @@ import { Banner } from '@/components/Banner';
 import { initGA, trackGAEvent } from '../(unauth)/googleAnalytics';
 import { initMixpanel, trackEvent } from './mixpanel';
 import { first_card } from "./mixpanelEventConstent";
+import axios from 'axios';
 
 export default function Layout() {
   const [cardData, setCardData] = useState([]);
@@ -45,26 +46,33 @@ export default function Layout() {
       alert('Your browser does not support speech recognition.');
     }
   };
+
+
+  const getHomeData =  async()=>{
+    try {
+      const {data} = await axios.get('https://prep-pal.algofolks.com/api/Prompt?page=1&pageSize=8');
+      setCardData(data.records);
+      setLoading(false);
+    } catch (err) {
+      setLoading(false);
+    }
+    initMixpanel();
+    initGA();
+  }
+  const hasFetched = useRef(false);
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch('https://prep-pal.algofolks.com/api/Prompt?page=1&pageSize=8');
-        const data = await res.json();
-        setCardData(data.records);
-        setLoading(false);
-      } catch (err) {
-        setLoading(false);
-      }
-      initMixpanel();
-      initGA();
-    };
-    fetchData();
+    if (!hasFetched.current) {
+      hasFetched.current = true;
+       getHomeData()
+    }
   }, []);
+
   useEffect(() => {
     if (searchInputRef.current) {
       searchInputRef.current.focus();
     }
   }, []);
+  
   const handleCardClick = (promptText: string) => {
     const formattedText = promptText.replace(/\s+/g, '--');
     router.push(`/e-paper/${formattedText}`);
@@ -73,8 +81,8 @@ export default function Layout() {
   };
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && searchText.trim() !== '') {
-      const formattedText = searchText.trim().replace(/\s+/g, '--'); // Format the text
-      router.push(`/e-paper/${formattedText}`); // Navigate to the formatted URL
+      const formattedText = searchText.trim().replace(/\s+/g, '--');  
+      router.push(`/e-paper/${formattedText}`); 
     }
   };
  // Custom Content Loader for Cards with reduced height

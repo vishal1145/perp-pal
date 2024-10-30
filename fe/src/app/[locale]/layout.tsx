@@ -8,6 +8,7 @@ import { AppConfig } from '@/utils/AppConfig';
 
 export const metadata: Metadata = {
   title: 'prepal',
+  description:"Create and Practice Online Papers | Customizable Student Practice Tests",
   icons: [
     {
       rel: 'apple-touch-icon',

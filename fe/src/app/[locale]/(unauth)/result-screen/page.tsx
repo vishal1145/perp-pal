@@ -12,7 +12,7 @@ import { useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import { SubmitAssessment } from "@/types/type";
 import {   yourQuestions } from "@/data/functions";
-
+import { useRouter } from 'next/navigation';
 // Register necessary components
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -22,7 +22,8 @@ const ResultPage  = ( ) => {
   const[correct, setCorrect] = useState(0);
   const[inCorrect, setInCorrect] = useState(0);
   const[notAttempt, setNotAttempt] = useState(0);
-
+  const [cardData, setCardData] = useState([]);
+  const router = useRouter();
   const id = searchParams.get('id');
   const hasFetched = useRef(false);
 
@@ -51,13 +52,20 @@ const ResultPage  = ( ) => {
       console.log(error);
     }
   };
- 
- 
+
+  const getHomeData =  async()=>{
+    try {
+      const {data} = await axios.get('https://prep-pal.algofolks.com/api/Prompt?page=1&pageSize=8');
+      setCardData(data.records);
+    } catch (err) {
+    }
+  }
 
   useEffect(() => {
     if (id && !hasFetched.current) {
       hasFetched.current = true;
       getSubmitAssessment(); 
+      getHomeData();
     }
   }, [id]);
   
@@ -84,6 +92,12 @@ const ResultPage  = ( ) => {
   const handleFaqToggle = (index: any) => {
     setOpenIndex(openIndex === index ? null : index);
   };
+
+  const handleCardClick = (promptText: string) => {
+    const formattedText = promptText.replace(/\s+/g, '--');
+    router.push(`/e-paper/${formattedText}`); 
+  };
+ 
 
   const faqs = [
     {
@@ -114,8 +128,7 @@ const ResultPage  = ( ) => {
      
    
       <div className="flex flex-col md:flex-row h-screen "  style={{height:"90%", overflowY:"auto"}}>
-
-        {/* Left Side - Pie Chart */}
+         
         <div className="w-full md:w-9/12 p-10 flex ">
         
           <div className="w-full">
@@ -178,10 +191,18 @@ const ResultPage  = ( ) => {
             </div>
           </div>
         </div>
-        {/* Right Side - Information */}
+        
         <div className="w-full md:w-3/12 p-6">
-          <h2 className="text-sm  font-medium leading-[3.25rem]">Your Next Adapting Path</h2>
-          <p className="text-sm  text-gray-500 ">detail</p>
+          <div className="text-sm  font-medium leading-[3.25rem]">Your Next Adapting Path</div>
+          
+        {
+          cardData.map((item)=>(
+            <p className="text-sm text-gray-500 mt-0 pt-0 mb-2 hover:text-indigo-500 transition cursor-pointer" onClick={()=>handleCardClick(item.prompt_text)}>
+            {item.prompt_text}
+            </p>
+          ))
+        }          
+        
           <div className="mb-4">
             <div className="py-2" style={{ borderBottom: "1px solid #E2E2E2" }}></div>
             <h3 className="text-sm  font-medium leading-[3.25rem]">Key Points to Remember</h3>

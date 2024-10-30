@@ -134,7 +134,6 @@ const PracticeScreen = () => {
     }
 
     const incorrect = totalAttempt-correct;
-    
 
     setsubmitPopupValue(prev=>({
       ...prev,
