@@ -7,7 +7,7 @@ import { unstable_setRequestLocale } from 'next-intl/server';
 import { AppConfig } from '@/utils/AppConfig';
 
 export const metadata: Metadata = {
-  
+  title: 'prepal',
   icons: [
     {
       rel: 'apple-touch-icon',
