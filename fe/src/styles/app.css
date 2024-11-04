@@ -40,3 +40,12 @@
 
 
  
+.howitworks {
+  height: 100%;
+  overflow-y: scroll;  
+  scrollbar-width: none;  
+}
+
+.howitworks::-webkit-scrollbar {
+  display: none; 
+}

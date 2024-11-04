@@ -147,7 +147,7 @@ const Assessment: React.FC = () => {
   return (
     <>
       <DemoBanner notMainPage={true} />
-      <div id='maidiv' className="grid grid-cols-1 sm:grid-cols-12 gap-4 py-0 sm:py-4 sm:pl-4" style={{height:"90%", overflowY:"auto"}}>
+      <div id='maidiv' className="grid grid-cols-1 sm:grid-cols-12 gap-4 py-0 sm:py-4 sm:pl-4" style={{height:"88%", overflowY:"auto"}}>
 
         <aside className="col-span-12 sm:col-span-3 py-4 rounded-sm bg-gray-50  h-full" aria-label="Sidebar">
           <div className="h-full px-3 rounded-md overflow-y-auto">
