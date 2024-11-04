@@ -28,10 +28,6 @@ export async function POST(req: NextRequest) {
             totalSubmitTime
         });
 
-        console.log("qsns", questions)
-
-
-
         let array = [];
 
         let promises = [];
@@ -42,7 +38,9 @@ export async function POST(req: NextRequest) {
             if (question && question.correctAnswer === questions[i].userSelectAns) {
                 const prevMinTime = question.minTime;
                 const prevMaxTime = question.maxTime;
-
+                const prevAvgTime = question.avgTime;
+                
+                const newAvgTime = prevAvgTime === 0 ? questions[i].submitTimeInSeconds : (prevAvgTime + questions[i].submitTimeInSeconds)/2;
 
                 const newMinTime = questions[i].submitTimeInSeconds < prevMinTime
                     ? questions[i].submitTimeInSeconds
@@ -55,7 +53,7 @@ export async function POST(req: NextRequest) {
                 promises.push(
                     Question.findByIdAndUpdate(
                         question._id,
-                        { minTime: newMinTime, maxTime: newMaxTime },
+                        { minTime: newMinTime, maxTime: newMaxTime, avgTime:newAvgTime },
                         { new: true }
                     ));
             }

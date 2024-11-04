@@ -221,15 +221,13 @@ const PracticeScreen = () => {
         :  <div className="flex flex-col min-h-screen bg-white px-2 md:px-4">
         <DemoBanner notMainPage={true} />
         <div className="flex flex-col w-100 md:flex-row   overflow-hidden p-2 md:p-4">
-
-
           {  isModalOpen && 
             <SubmitPopup title={submitPopupValue.title} subTitle={submitPopupValue.subTitle} total={submitPopupValue.total} atemmpt={submitPopupValue.atemmpt} correct={submitPopupValue.correct} incorrect={submitPopupValue.incorrect}  message={submitPopupValue.message} setIsModalOpen={submitPopupValue.setIsModalOpen}  submitAssessmentId={submitPopupValue.submitAssessmentId}
             loaderShow={loaderShow}  
             />
           }
-         <div className="flex-1 md:mr-4 space-y-4 overflow-hidden p-2">
 
+         <div className="flex-1 md:mr-4 space-y-4 overflow-hidden p-2">
             {
               loading ? <CustomCardLoader viewBox={`0 0 380 80`} className={' rounded-lg'} rectW='100%' rectH='68'/> :
                 <div className="mb-4 text-sm font-medium bg-gray-100 p-4 rounded-lg shadow ">
@@ -312,6 +310,7 @@ const PracticeScreen = () => {
               </div>
             </div>
           </div>
+
           <div className="flex-none md:w-1/3 w-full  pt-4 pl-4 md:pt-1 md:pl-0 ">
 
             <div className="pb-2">
@@ -347,6 +346,8 @@ const PracticeScreen = () => {
               <p className="text-sm text-gray-500 fs-700 font-normal py-2">Integration / discuss</p>
             </div>
           </div>
+
+          
         </div>
       </div>
     }
