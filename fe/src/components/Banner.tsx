@@ -1,14 +1,18 @@
 import Link from 'next/link';
+import { useState } from 'react';
 import { FaSearch, FaTelegramPlane, FaWhatsapp, FaInstagram, FaFacebook } from 'react-icons/fa';
-
+import SignUp from '@/app/[locale]/(unauth)/signUp/page';
 interface DemoBannerProps {
   notMainPage: boolean;
 }
 
 export const Banner: React.FC<DemoBannerProps> = (props) => {
   const { notMainPage } = props;
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
   return (
+    <>
     <header className="sticky top-0 z-50 bg-white p-4 text-lg font-normal text-gray-900 flex items-center justify-between ">
       <div className="flex items-center space-x-3">
         <div className="flex items-center space-x-8">
@@ -51,7 +55,31 @@ export const Banner: React.FC<DemoBannerProps> = (props) => {
         <a href="https://facebook.com/your-facebook-link" target="_blank" rel="noopener noreferrer">
           <FaFacebook className="text-gray-900 hover:text-indigo-500 transition" size={24} />
         </a>
+        <button
+            onClick={openModal}
+            className="font-bold text-gray-900 hover:text-indigo-500 transition"
+          >
+            Login
+          </button>
       </div>
+      
     </header>
+    {isModalOpen && (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="relative bg-white rounded-lg shadow-lg w-full max-w-md p-8 flex flex-col items-centern ">
+    {/* <button
+  className="absolute  right-2 text-gray-500 hover:text-gray-700 z-20"
+  style={{top:"-185px"}}
+  onClick={closeModal}
+>
+  &times;
+</button> */}
+
+      <SignUp onClose={closeModal}/>
+    </div>
+  </div>
+)}
+
+</>
   );
 };
