@@ -46,7 +46,12 @@ const ForgetPassword = ({ onClose, onSwitchToSignUp }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20" id='modalWrapper' onClick={handleOutsideClick}>
       <div className="relative w-full max-w-md p-5 bg-white rounded-lg shadow-lg space-y-1">
-        
+      <button
+          onClick={onClose}
+          className="absolute top-2 right-2 text-gray-600 hover:text-gray-700 text-4xl px-4"
+        >
+          &times;
+        </button>
         <div className="flex justify-center">
           <img src="/assets/images/logo1.png" alt="Logo" className="w-30 h-20" />
         </div>
@@ -97,7 +102,7 @@ const ForgetPassword = ({ onClose, onSwitchToSignUp }) => {
           </div>
           <button
             type="submit"
-            className="w-full py-2 mt-4 text-white bg-blue-500 rounded-md hover:bg-blue-600 focus:outline-none"
+            className="w-full py-2 mt-4 text-white bg-cyan-600 rounded-md hover:bg-cyan-700 focus:outline-none"
           >
             Reset Password
           </button>

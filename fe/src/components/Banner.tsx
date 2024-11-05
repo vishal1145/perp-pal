@@ -110,7 +110,7 @@ const signOut = async () => {
           <a href="https://facebook.com/your-facebook-link" target="_blank" rel="noopener noreferrer">
             <FaFacebook className="text-gray-900 hover:text-indigo-500 transition" size={24} />
           </a>
-          {user ? (
+          {(user || localuser)? (
               <div className="relative">
               {/* <img
                 id="avatarButton"
@@ -127,8 +127,8 @@ const signOut = async () => {
                   className="absolute right-0 mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-44"
                 >
                   <div className="px-4 py-3 text-sm text-gray-900">
-                    <div>{user.data.username}</div>
-                    <div className="font-medium truncate">{user.data.email}</div>
+                    <div>{localuser.data.username}</div>
+                    <div className="font-medium truncate">{localuser.data.email}</div>
                   </div>
                   <ul className="py-2 text-sm text-gray-700">
                   <ul className="py-2 text-sm text-gray-700">
