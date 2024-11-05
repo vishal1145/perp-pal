@@ -20,6 +20,7 @@ export default function Layout() {
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState('');
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const [user, setUser] = useState(null); // State for user data
   const router = useRouter();
   const handleMicClick = () => {
     if ('webkitSpeechRecognition' in window) {
@@ -61,17 +62,40 @@ export default function Layout() {
     initMixpanel();
     initGA();
   }
+
+  const fetchUserData = async () => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/users/me`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (response.ok) {
+        const userData = await response.json();
+        setUser(userData);
+      } else if (response.status === 400) {
+        console.warn('User is not logged in or session has expired');
+        setUser(null); // Show login button
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      setUser(null); // Show login button on error
+    }
+  };
+ 
   const hasFetched = useRef(false);
   useEffect(() => {
     if (!hasFetched.current) {
       hasFetched.current = true;
        getHomeData()
+       fetchUserData();
     }
   }, []);
 
   useEffect(() => {
     if (searchInputRef.current) {
       searchInputRef.current.focus();
+     
     }
   }, []);
 
@@ -87,6 +111,7 @@ export default function Layout() {
       router.push(`/e-paper/${formattedText}`); 
     }
   };
+  
  // Custom Content Loader for Cards with reduced height
 const CustomCardLoader = () => (
   <ContentLoader
@@ -122,7 +147,7 @@ const CustomCardLoader = () => (
       </Head>
 
 
-       <Banner notMainPage={false}/>
+       <Banner notMainPage={false} user={user}  />
       <div className="flex justify-center items-center mb-5 mt-5">
   <div className="relative w-full max-w-lg">
     <Image
