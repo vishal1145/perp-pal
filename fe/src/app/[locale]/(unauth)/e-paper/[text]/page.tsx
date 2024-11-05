@@ -53,16 +53,30 @@ const Assessment: React.FC = () => {
     levelId: null as string | null
   });
 
+
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
      let text = window.location?.pathname.split('/').pop();
      text = text?.split("--").join(" ");
      if(text){
         setFormattedText(text);
+        getQuestions(text);
       }
     }
   }, []);
 
+  const getQuestions= async(text:string)=>{
+    setQuestionLoading(true);
+    try {
+      const {data} = await axios.post(`${process.env.NEXT_PUBLIC_API_URI}get/questions`, {prompt:text});
+      setQuestions(data);
+      debugger
+      setQuestionLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const router = useRouter();
   const handlePracticeClick = async () => {
     if (alreadyCall) {
@@ -83,8 +97,10 @@ const Assessment: React.FC = () => {
     }
   };
 
+
+
+
   useFetchData(`https://prep-pal.algofolks.com/api/Education/class`, setClassFilter, setLoading);
-  useFetchData(`https://prep-pal.algofolks.com/api/Question`, setQuestions, setQuestionLoading, "Questions");
 
   const fetchFilterOptions = async (type: string, id: string) => {
     try {
@@ -107,38 +123,11 @@ const Assessment: React.FC = () => {
       return [];
     }
   };
-
-  // useEffect(() => {
-  //   const { classId, subjectId, chapterId } = selectedFilters;
-
-  //   if (classId) {
-  //     fetchFilterOptions('subject', classId).then(setSubjectFilter);
-  //   } else {
-  //     setSubjectFilter([]);
-  //   }
-
-  //   if (subjectId) {
-  //     fetchFilterOptions('chapter', subjectId).then(setChapterFilter);
-  //   } else {
-  //     setChapterFilter([]);
-  //   }
-
-  //   if (chapterId) {
-  //     fetchFilterOptions('level', chapterId).then(setLevelFilter);
-  //   } else {
-  //     setLevelFilter([]);
-  //   }
-  // }, [selectedFilters]);
-
+ 
   useEffect(() => {
     fetchFilterOptions('subject', '67069f86fc430151577d39fd').then(setSubjectFilter);
     fetchFilterOptions('chapter', '670788242e0e06e67865a429').then(setChapterFilter);
-    fetchFilterOptions('level', 'chapterId').then(setLevelFilter);
-
-    // fetchFilterOptions('subject', '67069f86fc430151577d39fd').then(setSubjectFilter);
-    // fetchFilterOptions('chapter', '670786588730a1e5d31aa614').then(setSubjectFilter);
-    // fetchFilterOptions('subject', '67069f86fc430151577d39fd').then(setSubjectFilter);
-
+    fetchFilterOptions('level', 'chapterId').then(setLevelFilter);  
   }, [])
   const handleFilterChange = (filter: 'classId' | 'subjectId' | 'chapterId' | 'levelId', value: string | null) => {
     setSelectedFilters((prev) => ({ ...prev, [filter]: value }));
@@ -254,11 +243,7 @@ const Assessment: React.FC = () => {
                     <CustomCardLoader viewBox={`0 0 380 105`} className={'   rounded-lg'} rectW='100%' rectH='105' />
                   </div>
                 </div>
-
-
             }
-
-
 
 
           </div>
