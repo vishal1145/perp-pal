@@ -69,7 +69,7 @@ const Assessment: React.FC = () => {
   const getQuestions= async(text:string)=>{
     setQuestionLoading(true);
     try {
-      const {data} = await axios.post(`${process.env.NEXT_PUBLIC_API_URI}get/questions`, {prompt:text});
+      const {data} = await axios.post(`${process.env.NEXT_PUBLIC_API_URI}/get/questions`, {prompt:text});
       setQuestions(data);
       debugger
       setQuestionLoading(false);

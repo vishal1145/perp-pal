@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: "prompt not valid" }, { status: 400 });
         }
         
-        const apiResponse = await axios.post(`${process.env.NEXT_PUBLIC_API_URI_PROMPT}/get_questions`, {
+        const apiResponse = await axios.post(`${process.env.NEXT_PUBLIC_API_URI_PROMPT}get_questions`, {
             prompt,
         });
   
