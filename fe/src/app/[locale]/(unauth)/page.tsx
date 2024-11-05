@@ -72,7 +72,8 @@ export default function Layout() {
 
       if (response.ok) {
         const userData = await response.json();
-        setUser(userData);
+        setUser(userData.data);
+         debugger
       } else if (response.status === 400) {
         console.warn('User is not logged in or session has expired');
         setUser(null); // Show login button

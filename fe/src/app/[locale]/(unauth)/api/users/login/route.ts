@@ -11,8 +11,9 @@ export async function POST(request: NextRequest){
         connectDB()
         const reqBody = await request.json()
         const {email, password} = reqBody;
-
-        const user = await User.findOne({email})
+      
+        const user = await User.findOne({ email }) 
+      
         if(!user){
             return NextResponse.json({error: "User does not exist"}, {status: 400})
         }
@@ -28,11 +29,12 @@ export async function POST(request: NextRequest){
             email: user.email
         }
 
-        const token = await jwt.sign(tokenData, 'process.env.TOKEN_SECRET!', {expiresIn: "1d"})
+        const token = await jwt.sign(tokenData, `${process.env.TOKEN_SECRET}`, {expiresIn: "1d"})
 
         const response = NextResponse.json({
             message: "Login successful",
             success: true,
+            data: user
         })
         response.cookies.set("token", token, {
             httpOnly: true, 

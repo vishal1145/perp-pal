@@ -10,6 +10,11 @@ export async function GET(request:NextRequest){
         connectDB();
         const userId = await getDataFromToken(request);
         const user = await User.findOne({_id: userId}).select("-password");
+
+        if(!user){
+            return NextResponse.json({message: "user not found"}, {status: 400});
+        }
+
         return NextResponse.json({
             mesaaage: "User found",
             data: user
