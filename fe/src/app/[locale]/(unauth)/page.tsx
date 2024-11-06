@@ -65,15 +65,15 @@ export default function Layout() {
 
   const fetchUserData = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/users/me`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}users/me`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });
 
       if (response.ok) {
         const userData = await response.json();
-        setUser(userData.data);
-         debugger
+        setUser(userData);
+        debugger
       } else if (response.status === 400) {
         console.warn('User is not logged in or session has expired');
         setUser(null); // Show login button

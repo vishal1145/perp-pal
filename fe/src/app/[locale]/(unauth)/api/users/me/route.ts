@@ -9,6 +9,11 @@ export async function GET(request:NextRequest){
     try {
         connectDB();
         const userId = await getDataFromToken(request);
+
+        if(!userId){
+        return NextResponse.json({error:"token is invalid"}, {status: 400});
+        }
+
         const user = await User.findOne({_id: userId}).select("-password");
 
         if(!user){
