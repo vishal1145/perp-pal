@@ -13,9 +13,7 @@ export let yourQuestions = '';
 export const setYourQuestions=(str:string)=>{
       yourQuestions = str
 }
-
-
-
+ 
 export let userProfile = null;
 export const setUserProfile =(user:any)=>{
       userProfile = user

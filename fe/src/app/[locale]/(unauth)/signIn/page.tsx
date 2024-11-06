@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { logoBtnColor } from '@/data/data';
+import { setUserProfile } from '@/data/functions';
 const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword ,onLogin}) => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
@@ -35,7 +36,7 @@ const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword ,onLogin}) => {
         });
   
         const userData = await userResponse.json();
-         
+        setUserProfile(userData.data);
         onLogin(userData);
         onClose(); 
       } else {
@@ -53,6 +54,12 @@ const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword ,onLogin}) => {
       onClose();
     }
   };
+
+
+
+
+
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20" id='modalWrapper' onClick={handleOutsideClick}>
       <div className="relative w-full max-w-md p-5 bg-white rounded-lg shadow-lg space-y-1">
@@ -65,7 +72,7 @@ const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword ,onLogin}) => {
         <div className="flex justify-center">
           <img src="/assets/images/logo1.png" alt="Logo" className="w-30 h-20" />
         </div>
-        <h3 className="text-xl font-semibold text-center text-gray-600">Welcome to PrepPal! 👋</h3>
+        <h3 className="text-xl font-semibold text-center text-gray-600 py-2">Welcome to PrepPal! 👋</h3>
         {errorMessage && <p className="text-red-500 text-center">{errorMessage}</p>}
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>

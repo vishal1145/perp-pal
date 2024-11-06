@@ -4,6 +4,7 @@ import { FaSearch, FaTelegramPlane, FaWhatsapp, FaInstagram, FaFacebook,FaUser }
 import SignIn from '@/app/[locale]/(unauth)/signIn/page';
 import SignUp from '@/app/[locale]/(unauth)/SignUP/page';
 import ForgetPassword from '@/app/[locale]/(unauth)/forgetPassword/page';
+import { setUserProfile, userProfile } from '@/data/functions';
 
 interface DemoBannerProps {
   notMainPage: boolean;
@@ -12,7 +13,7 @@ interface DemoBannerProps {
   onLogout: () => void; // Prop to handle logout
 }
 
-export const Banner: React.FC<DemoBannerProps> = ({ notMainPage,user , onLogin, onLogout}) => {
+export const Banner: React.FC<DemoBannerProps> = ({ notMainPage,user , onLogin,onLogout}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSignIn, setIsSignIn] = useState(true);
   const [isForgetPassword, setIsForgetPassword] = useState(false);
@@ -36,7 +37,7 @@ export const Banner: React.FC<DemoBannerProps> = ({ notMainPage,user , onLogin, 
     setLocalUser(userData); // Update state with user data
     closeModal();
   };
-
+console.log("dfjhveiroitoit",localuser)
   const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
 
   // Close dropdown when clicking outside
@@ -63,6 +64,8 @@ const signOut = async () => {
     if (response.ok) {
       // Clear user state
       setLocalUser(null);
+      setUserProfile(null);
+     user(null)
       // Optionally, you can redirect the user to a different page or show a success message
       console.log('Successfully signed out');
     } else {
@@ -73,6 +76,13 @@ const signOut = async () => {
   }
   setIsDropdownOpen(false); // Close the dropdown after sign out
 };
+
+
+const handleSignUp = (userData) => {
+  setLocalUser(userData); // Update state with user data after sign-up
+  closeModal();
+};
+
   return (
     <>
       <header className="sticky top-0 z-50 bg-white p-4 text-lg font-normal text-gray-900 flex items-center justify-between px-4">
@@ -110,7 +120,7 @@ const signOut = async () => {
           <a href="https://facebook.com/your-facebook-link" target="_blank" rel="noopener noreferrer">
             <FaFacebook className="text-gray-900 hover:text-indigo-500 transition" size={24} />
           </a>
-          {(user || localuser)? (
+          {( userProfile) ? (
               <div className="relative">
               {/* <img
                 id="avatarButton"
@@ -127,25 +137,25 @@ const signOut = async () => {
                   className="absolute right-0 mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-44"
                 >
                   <div className="px-4 py-3 text-sm text-gray-900">
-                    <div>{localuser.data.username}</div>
-                    <div className="font-medium truncate">{localuser.data.email}</div>
+                  <div>{userProfile.username}</div>
+                  <div className="font-medium truncate">{userProfile.email}</div>
                   </div>
-                  <ul className="py-2 text-sm text-gray-700">
+                 
                   <ul className="py-2 text-sm text-gray-700">
   <li>
-    <Link href="/profile" className="block px-4 py-2 hover:bg-gray-100">
+    <Link href="/profile" className="block px-4  hover:bg-gray-100">
       User Profile
     </Link>
   </li>
 </ul>
 
-                  </ul>
-                  <div className="py-1">
-                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"     
+                   <div className="">
+                    <button
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       onClick={signOut}
-                      >
+                    >
                       Sign out
-                    </a>
+                    </button>
                   </div>
                 </div>
               )}
@@ -165,7 +175,7 @@ const signOut = async () => {
             ) : isSignIn ? (
               <SignIn onClose={closeModal} onSwitchToSignUp={() => openModal(false)} onForgotPassword={openForgetPassword} onLogin={handleLogin} />
             ) : (
-              <SignUp onClose={closeModal} onSwitchToSignIn={() => openModal(true)}/>
+              <SignUp onClose={closeModal} onSwitchToSignIn={() => openModal(true)}  onSignUp={handleSignUp} />
             )}
           </div>
         </div>

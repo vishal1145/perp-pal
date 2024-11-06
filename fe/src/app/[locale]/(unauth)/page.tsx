@@ -13,7 +13,10 @@ import { initMixpanel, trackEvent } from './mixpanel';
 import { first_card } from "./mixpanelEventConstent";
 import axios from 'axios';
 import Head from 'next/head';
-
+import SignIn from '@/app/[locale]/(unauth)/signIn/page';
+import SignUp from '@/app/[locale]/(unauth)/SignUP/page';
+import ForgetPassword from '@/app/[locale]/(unauth)/forgetPassword/page';
+import { setUserProfile, userProfile } from '@/data/functions';
 
 export default function Layout() {
   const [cardData, setCardData] = useState([]);
@@ -21,7 +24,12 @@ export default function Layout() {
   const [searchText, setSearchText] = useState('');
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [user, setUser] = useState(null); // State for user data
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openSignInModal = () => setIsModalOpen(true); 
   const router = useRouter();
+  const [isSignIn, setIsSignIn] = useState(true);
+  const [isForgetPassword, setIsForgetPassword] = useState(false);
+  const [localuser, setLocalUser] = useState(null);
   const handleMicClick = () => {
     if ('webkitSpeechRecognition' in window) {
       const recognition = new (window as any).webkitSpeechRecognition();
@@ -62,10 +70,21 @@ export default function Layout() {
     initMixpanel();
     initGA();
   }
+  // useEffect(() => {
+  //   const handleRouteChange = () => {
+  //     if (!userProfile) {
+  //       openSignInModal(); // Open login modal if user is not logged in
+  //     }
+  //   };
 
+  //   router.events.on('routeChangeStart', handleRouteChange);
+  //   return () => {
+  //     router.events.off('routeChangeStart', handleRouteChange);
+  //   };
+  // }, [userProfile, router]);
   const fetchUserData = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}users/me`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/users/me`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });
@@ -73,7 +92,7 @@ export default function Layout() {
       if (response.ok) {
         const userData = await response.json();
         setUser(userData);
-        debugger
+        setUserProfile(userData.data);
       } else if (response.status === 400) {
         console.warn('User is not logged in or session has expired');
         setUser(null); // Show login button
@@ -90,8 +109,14 @@ export default function Layout() {
       hasFetched.current = true;
        getHomeData()
        fetchUserData();
+        // Check if userProfile has data and show modal if empty
+    // if (!userProfile) {
+    //   setIsModalOpen(true);
+    // }
     }
   }, []);
+ 
+
 
   useEffect(() => {
     if (searchInputRef.current) {
@@ -101,15 +126,25 @@ export default function Layout() {
   }, []);
 
   const handleCardClick = (promptText: string) => {
+    if (!userProfile) {
+
+      openSignInModal();
+    }else{
     const formattedText = promptText.replace(/\s+/g, '--');
     router.push(`/e-paper/${formattedText}`);
     trackEvent(first_card);
     trackGAEvent('Card', 'cardClick', promptText); 
+    }
   };
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && searchText.trim() !== '') {
+      if (!userProfile) {
+       
+        openSignInModal();
+      } else{
       const formattedText = searchText.trim().replace(/\s+/g, '--');  
       router.push(`/e-paper/${formattedText}`); 
+      }
     }
   };
   
@@ -127,6 +162,34 @@ const CustomCardLoader = () => (
   <rect x="15" y="60" rx="5" ry="20" width="260" height="20" /> {/* Smaller text */}
 </ContentLoader>
 );
+
+
+
+
+
+const openModal = (isSignInModal: boolean) => {
+  setIsSignIn(isSignInModal);
+  setIsModalOpen(true);
+  setIsForgetPassword(false);
+};
+
+const closeModal = () => {
+  setIsModalOpen(false);
+  setIsForgetPassword(false);
+};
+
+const openForgetPassword = () => {
+  setIsForgetPassword(true);
+  setIsModalOpen(true);
+};
+const handleLogin = (userData) => {
+  setLocalUser(userData); // Update state with user data
+  closeModal();
+};
+const handleSignUp = (userData) => {
+  setLocalUser(userData); // Update state with user data after sign-up
+  closeModal();
+};
   return (
     <div className="flex flex-col min-h-screen">
        <Head>
@@ -208,6 +271,19 @@ const CustomCardLoader = () => (
             ))}
       </div>
       <Footer />
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="relative bg-white rounded-lg shadow-lg w-full max-w-md p-8 flex flex-col items-center">
+            {isForgetPassword ? (
+              <ForgetPassword onClose={closeModal} />
+            ) : isSignIn ? (
+              <SignIn onClose={closeModal} onSwitchToSignUp={() => openModal(false)} onForgotPassword={openForgetPassword} onLogin={handleLogin} />
+            ) : (
+              <SignUp onClose={closeModal} onSwitchToSignIn={() => openModal(true)}  onSignUp={handleSignUp} />
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

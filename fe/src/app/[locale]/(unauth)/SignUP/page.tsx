@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { logoBtnColor } from '@/data/data';
-const SignUp = ({ onClose,onSwitchToSignIn}) => {
+const SignUp = ({ onClose,onSwitchToSignIn,onSignUp}) => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({ username: '', email: '', password: '' });
   const [errorMessage, setErrorMessage] = useState('');
@@ -38,6 +38,7 @@ const SignUp = ({ onClose,onSwitchToSignIn}) => {
       }
 
       const data = await response.json();
+      onSignUp(data)
       setSuccessMessage('Sign up successful!');
       onClose(); // Close the modal if sign-up is successful
     } catch (error) {
@@ -51,7 +52,7 @@ const SignUp = ({ onClose,onSwitchToSignIn}) => {
     }
   };
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20" id="modalWrapper"  onClick={handleOutsideClick}>
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-50" id="modalWrapper"  onClick={handleOutsideClick}>
       <div className="relative w-full max-w-md p-5 bg-white rounded-lg shadow-lg space-y-1"
       >
          <button
@@ -67,7 +68,7 @@ const SignUp = ({ onClose,onSwitchToSignIn}) => {
           <img src="/assets/images/logo1.png" alt="Logo" className="w-30 h-20" />
         </div>
 
-        <h3 className="text-xl font-semibold text-center text-gray-600">Welcome to PrepPal! 👋</h3>
+        <h3 className="text-xl font-semibold text-center text-gray-600 py-2">Welcome to PrepPal! 👋</h3>
 
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>

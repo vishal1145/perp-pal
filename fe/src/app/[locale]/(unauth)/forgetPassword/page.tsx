@@ -55,7 +55,7 @@ const ForgetPassword = ({ onClose, onSwitchToSignUp }) => {
         <div className="flex justify-center">
           <img src="/assets/images/logo1.png" alt="Logo" className="w-30 h-20" />
         </div>
-        <h3 className="text-xl font-semibold text-center text-gray-600">Welcome to PrepPal! 👋</h3>
+        <h3 className="text-xl font-semibold text-center text-gray-600 py-2">Welcome to PrepPal! 👋</h3>
         
         {errorMessage && <p className="text-red-500 text-center">{errorMessage}</p>}
         {successMessage && <p className="text-green-500 text-center">{successMessage}</p>}
