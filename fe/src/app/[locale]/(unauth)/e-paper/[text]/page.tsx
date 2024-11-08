@@ -11,6 +11,8 @@ import CustomCardLoader from '@/components/CustomCardLoader';
 import { useRouter } from 'next/navigation';
 import Loader from '@/components/Loader';
 import { FilterLoader, logoBtnColor } from '@/data/data';
+import { Banner } from '@/components/Banner';
+import { setUserProfile, userProfile } from '@/data/functions';
 
 const useFetchData = (url: string, setData: React.Dispatch<React.SetStateAction<any>>, setLoading: React.Dispatch<React.SetStateAction<boolean>>, dataType?: string | null) => {
   useEffect(() => {
@@ -46,6 +48,7 @@ const Assessment: React.FC = () => {
   const [levelFilter, setLevelFilter] = useState<FilterOption[]>([]);
   const [formattedText, setFormattedText] = useState<string>('');
   const [alreadyCall, setAlreadyCall] = useState<boolean>(false);
+  const [loadingUserData, setLoadingUserData] = useState(true);
   const [selectedFilters, setSelectedFilters] = useState({
     classId: null as string | null,
     subjectId: null as string | null,
@@ -125,20 +128,44 @@ const Assessment: React.FC = () => {
       return [];
     }
   };
+  const fetchUserData = async () => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/users/me`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (response.ok) {
+        const userData = await response.json();
+        // setUser(userData);
+        setUserProfile(userData.data);
+      } else if (response.status === 400) {
+        console.warn('User is not logged in or session has expired');
+        // setUser(null); // Show login button
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      // setUser(null); // Show login button on error
+    }finally {
+      setLoadingUserData(false); // Set loading to false after fetching user data
+    }
+  };
  
   useEffect(() => {
     fetchFilterOptions('subject', '67069f86fc430151577d39fd').then(setSubjectFilter);
     fetchFilterOptions('chapter', '670788242e0e06e67865a429').then(setChapterFilter);
     fetchFilterOptions('level', 'chapterId').then(setLevelFilter);  
+    fetchUserData();
   }, [])
   const handleFilterChange = (filter: 'classId' | 'subjectId' | 'chapterId' | 'levelId', value: string | null) => {
     setSelectedFilters((prev) => ({ ...prev, [filter]: value }));
   };
-
+  // const isNotMainPage = router.pathname !== '/';
   return (
     <>
-      <DemoBanner notMainPage={true} />
-      <div id='maidiv' className="grid grid-cols-1 sm:grid-cols-12 gap-4 py-0 sm:py-4 sm:pl-4" style={{height:"88%", overflowY:"auto"}}>
+    <Banner notMainPage={true} loadingUserData={loadingUserData}/>
+      {/* <DemoBanner notMainPage={true} /> */}
+      <div id='maidiv' className="practixe-main grid grid-cols-1 sm:grid-cols-12 gap-4 py-0 sm:py-4 sm:pl-4" style={{height:"85%", overflowY:"auto"}}>
 
         <aside className="col-span-12 sm:col-span-3 py-4 rounded-sm bg-gray-50  h-full" aria-label="Sidebar">
           <div className="h-full px-3 rounded-md overflow-y-auto">

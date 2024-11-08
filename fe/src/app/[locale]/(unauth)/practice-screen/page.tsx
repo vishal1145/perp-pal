@@ -8,10 +8,11 @@ import CustomCardLoader from "@/components/CustomCardLoader";
 import ResultPage from "../result-screen/page";
 import SubmitPopup, { SubmitPopupProps } from "@/components/PopupModal/SubmitPopup";
 import Timer from "@/components/Timer";
-import { getTotalSeconds,  setYourQuestions    } from "@/data/functions";
+import { getTotalSeconds,  setYourQuestions, userProfile    } from "@/data/functions";
 import Statics from "./Statics";
 import { logoBtnColor } from "@/data/data";
 import Loader from "@/components/Loader";
+import { Banner } from '@/components/Banner';
 
 const PracticeScreen = () => {
   const [showHints, setShowHints] = useState(false);
@@ -103,6 +104,7 @@ const PracticeScreen = () => {
     try { 
       const totalSubmitTime = getTotalSubmitTime();
       const {data} = await axios.post(`${process.env.NEXT_PUBLIC_API_URI}/assessments`, {
+// userId:userProfile?userProfile._id:null,
         userId:"uyg34b43nbh43r34nb4rb3br",
         questions:userPracticePaper,
         totalSubmitTime:totalSubmitTime
@@ -219,7 +221,8 @@ const PracticeScreen = () => {
     {
         resultScreen === true ?   <ResultPage userPracticePaper={userPracticePaper} />
         :  <div className="flex flex-col min-h-screen bg-white px-2 md:px-4">
-        <DemoBanner notMainPage={true} />
+        {/* <DemoBanner notMainPage={true} /> */}
+        <Banner notMainPage={true}/>
         <div className="flex flex-col w-100 md:flex-row   overflow-hidden p-2 md:p-4">
           {  isModalOpen && 
             <SubmitPopup title={submitPopupValue.title} subTitle={submitPopupValue.subTitle} total={submitPopupValue.total} atemmpt={submitPopupValue.atemmpt} correct={submitPopupValue.correct} incorrect={submitPopupValue.incorrect}  message={submitPopupValue.message} setIsModalOpen={submitPopupValue.setIsModalOpen}  submitAssessmentId={submitPopupValue.submitAssessmentId}

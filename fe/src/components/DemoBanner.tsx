@@ -104,19 +104,15 @@ export const DemoBanner: React.FC<DemoBannerProps> = (props) => {
   
       {/* Div 3: Colspan 3 */}
       <div className="col-span-1 lg:col-span-3 flex items-center justify-end" id="div3">
-        {/* <img
-          src="https://randomuser.me/api/portraits/men/75.jpg"
-          alt="Profile"
-          width={40}
-          height={40}
-          className="rounded-full"
-        /> */}
+ 
+
           <a href="/how-it-work" target='_blank' className={`flex ${text2} items-center space-x-3 rtl:space-x-reverse`}>
           How It Works
         </a>
 
        
       </div>
+      
     </div>
   </header>
   

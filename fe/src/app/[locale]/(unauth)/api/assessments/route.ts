@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 import { NextRequest, NextResponse } from 'next/server';
 import { McqQuestion } from '@/types/type';
 import SubmitAssessment from '@/models/submitAssesment';
-import { Question } from '@/models/QuestionAssessment';
+import { Question } from '@/models/AssesmentQuestion';
 
 export async function POST(req: NextRequest) {
     await connectDB();
@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
                     : prevMaxTime;
 
                 promises.push(
-                    Question.findByIdAndUpdate(
+                    Question. findByIdAndUpdate(
                         question._id,
                         { minTime: newMinTime, maxTime: newMaxTime, avgTime:newAvgTime },
                         { new: true }

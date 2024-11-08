@@ -1,3 +1,4 @@
+"use client"
 import React, { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
@@ -14,8 +15,8 @@ const ForgetPassword = ({ onClose, onSwitchToSignUp }) => {
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
-    setErrorMessage(''); // Reset error message
-    setSuccessMessage(''); // Reset success message
+    setErrorMessage('');
+    setSuccessMessage('');
 
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/users/reset/password`, {
@@ -27,10 +28,8 @@ const ForgetPassword = ({ onClose, onSwitchToSignUp }) => {
       const data = await response.json();
 
       if (response.ok) {
-        // Handle successful password reset
         setSuccessMessage(data.message || 'Password reset successful. Please check your email.');
       } else {
-        // Handle errors (e.g., invalid input, user not found)
         setErrorMessage(data.message || 'Password reset failed. Please try again.');
       }
     } catch (error) {
@@ -38,51 +37,56 @@ const ForgetPassword = ({ onClose, onSwitchToSignUp }) => {
       setErrorMessage('An unexpected error occurred. Please try again later.');
     }
   };
+
   const handleOutsideClick = (e) => {
     if (e.target.id === 'modalWrapper') {
       onClose();
     }
   };
+
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20" id='modalWrapper' onClick={handleOutsideClick}>
-      <div className="relative w-full max-w-md p-5 bg-white rounded-lg shadow-lg space-y-1">
-      <button
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-50" id="modalWrapper" onClick={handleOutsideClick}>
+      <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg p-6 bg-white rounded-lg shadow-lg space-y-4">
+        <button
           onClick={onClose}
-          className="absolute top-2 right-2 text-gray-600 hover:text-gray-700 text-4xl px-4"
+          className="absolute top-2 right-2 text-gray-600 hover:text-gray-700 text-2xl sm:text-3xl md:text-4xl"
         >
           &times;
         </button>
-        <div className="flex justify-center">
-          <img src="/assets/images/logo1.png" alt="Logo" className="w-30 h-20" />
+
+        {/* Logo */}
+        <div className="flex justify-center ">
+          <img src="/assets/images/logo1.png" alt="Logo" className="w-20 h-14 sm:w-24 sm:h-16 md:w-28 md:h-20" />
         </div>
-        <h3 className="text-xl font-semibold text-center text-gray-600 py-2">Welcome to PrepPal! 👋</h3>
-        
+
+        <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-center text-gray-600 mb-4" style={{marginTop:"1px" , marginBottom:"2rem"}}>
+          Welcome to PrepPal! 👋
+        </h3>
+
         {errorMessage && <p className="text-red-500 text-center">{errorMessage}</p>}
         {successMessage && <p className="text-green-500 text-center">{successMessage}</p>}
-        
+
         <form className="space-y-4" onSubmit={handleResetPassword}>
           <div>
-            <label className="block text-sm font-medium text-gray-600" style={{ marginBottom: "3px" }}>Email</label>
+            <label className="block text-sm font-medium text-gray-600 mb-1">Email</label>
             <input
               type="email"
               placeholder="Enter your email"
-              style={{fontSize:"14px"}}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-1 border rounded-md focus:outline-none focus:border-blue-500"
+              className="w-full px-4 py-2 text-sm border rounded-md focus:outline-none focus:border-blue-500"
               required
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-600" style={{ marginBottom: "3px" }}>New Password</label>
+            <label className="block text-sm font-medium text-gray-600 mb-1">New Password</label>
             <div className="relative">
               <input
                 type={showPassword ? 'text' : 'password'}
                 placeholder="New Password"
-                style={{fontSize:"14px"}}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-1 border rounded-md focus:outline-none focus:border-blue-500"
+                className="w-full px-4 py-2 text-sm border rounded-md focus:outline-none focus:border-blue-500"
                 required
               />
               <button

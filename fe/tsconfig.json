@@ -66,5 +66,5 @@
     ".storybook/*.ts",
     ".next/types/**/*.ts",
     "**/*.mts"
-, "src/app/[locale]/(unauth)/api/assessment/[id]"  ]
+, "src/app/[locale]/(unauth)/api/assessments/[id]"  ]
 }

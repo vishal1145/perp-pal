@@ -30,6 +30,10 @@ export default function Layout() {
   const [isSignIn, setIsSignIn] = useState(true);
   const [isForgetPassword, setIsForgetPassword] = useState(false);
   const [localuser, setLocalUser] = useState(null);
+  const [loadingUserData, setLoadingUserData] = useState(true);
+
+
+
   const handleMicClick = () => {
     if ('webkitSpeechRecognition' in window) {
       const recognition = new (window as any).webkitSpeechRecognition();
@@ -70,18 +74,7 @@ export default function Layout() {
     initMixpanel();
     initGA();
   }
-  // useEffect(() => {
-  //   const handleRouteChange = () => {
-  //     if (!userProfile) {
-  //       openSignInModal(); // Open login modal if user is not logged in
-  //     }
-  //   };
-
-  //   router.events.on('routeChangeStart', handleRouteChange);
-  //   return () => {
-  //     router.events.off('routeChangeStart', handleRouteChange);
-  //   };
-  // }, [userProfile, router]);
+ 
   const fetchUserData = async () => {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/users/me`, {
@@ -100,6 +93,8 @@ export default function Layout() {
     } catch (error) {
       console.error('Error fetching user data:', error);
       setUser(null); // Show login button on error
+    }finally {
+      setLoadingUserData(false); // Set loading to false after fetching user data
     }
   };
  
@@ -126,25 +121,19 @@ export default function Layout() {
   }, []);
 
   const handleCardClick = (promptText: string) => {
-    if (!userProfile) {
-
-      openSignInModal();
-    }else{
+    
     const formattedText = promptText.replace(/\s+/g, '--');
     router.push(`/e-paper/${formattedText}`);
     trackEvent(first_card);
     trackGAEvent('Card', 'cardClick', promptText); 
-    }
+    
   };
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && searchText.trim() !== '') {
-      if (!userProfile) {
-       
-        openSignInModal();
-      } else{
+     
       const formattedText = searchText.trim().replace(/\s+/g, '--');  
       router.push(`/e-paper/${formattedText}`); 
-      }
+      
     }
   };
   
@@ -191,7 +180,7 @@ const handleSignUp = (userData) => {
   closeModal();
 };
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen " style={{height:"88%", overflowY:"auto"}}>
        <Head>
         <title>Create and Practice Online Papers | Customizable Student Practice Tests</title>
         <meta name="description" content="Empower students to create customizable online papers and practice tests by topic. Enhance learning with tailored questions and topics. Start practicing now!" />
@@ -211,7 +200,7 @@ const handleSignUp = (userData) => {
       </Head>
 
 
-       <Banner notMainPage={false} user={user}  />
+       <Banner notMainPage={false} user={user}  loadingUserData={loadingUserData}/>
       <div className="flex justify-center items-center mb-5 mt-5">
   <div className="relative w-full max-w-lg">
     <Image
@@ -273,7 +262,7 @@ const handleSignUp = (userData) => {
       <Footer />
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="relative bg-white rounded-lg shadow-lg w-full max-w-md p-8 flex flex-col items-center">
+          {/* <div className="relative bg-white rounded-lg shadow-lg w-full max-w-md p-8 flex flex-col items-center"> */}
             {isForgetPassword ? (
               <ForgetPassword onClose={closeModal} />
             ) : isSignIn ? (
@@ -281,7 +270,7 @@ const handleSignUp = (userData) => {
             ) : (
               <SignUp onClose={closeModal} onSwitchToSignIn={() => openModal(true)}  onSignUp={handleSignUp} />
             )}
-          </div>
+          {/* </div> */}
         </div>
       )}
     </div>

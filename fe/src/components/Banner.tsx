@@ -1,46 +1,53 @@
 import Link from 'next/link';
-import { useState,useEffect } from 'react';
-import { FaSearch, FaTelegramPlane, FaWhatsapp, FaInstagram, FaFacebook,FaUser } from 'react-icons/fa';
+import { useState, useEffect ,useRef} from 'react';
+import { FaSearch, FaTelegramPlane, FaWhatsapp, FaInstagram, FaFacebook, FaUser ,FaMicrophone} from 'react-icons/fa';
 import SignIn from '@/app/[locale]/(unauth)/signIn/page';
 import SignUp from '@/app/[locale]/(unauth)/SignUP/page';
 import ForgetPassword from '@/app/[locale]/(unauth)/forgetPassword/page';
 import { setUserProfile, userProfile } from '@/data/functions';
-
+import logo from "../images/logo1.png"
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 interface DemoBannerProps {
   notMainPage: boolean;
   user: any;
-  onLogin: (userData: any) => void; // Prop to handle login
-  onLogout: () => void; // Prop to handle logout
+  loadingUserData: any;
+  onLogin: (userData: any) => void;
+  onLogout: () => void;
 }
 
-export const Banner: React.FC<DemoBannerProps> = ({ notMainPage,user , onLogin,onLogout}) => {
+export const Banner: React.FC<DemoBannerProps> = ({ notMainPage, user, onLogin, onLogout, loadingUserData }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSignIn, setIsSignIn] = useState(true);
   const [isForgetPassword, setIsForgetPassword] = useState(false);
-  const [localuser, setLocalUser] = useState(null); // State for user data
+  const [localuser, setLocalUser] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const [searchText, setSearchText] = useState('');
+  const router = useRouter();
   const openModal = (isSignInModal: boolean) => {
     setIsSignIn(isSignInModal);
     setIsModalOpen(true);
     setIsForgetPassword(false);
   };
+
   const closeModal = () => {
     setIsModalOpen(false);
     setIsForgetPassword(false);
   };
+
   const openForgetPassword = () => {
     setIsForgetPassword(true);
     setIsModalOpen(true);
   };
 
   const handleLogin = (userData) => {
-    setLocalUser(userData); // Update state with user data
+    setLocalUser(userData);
     closeModal();
   };
-console.log("dfjhveiroitoit",localuser)
+
   const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (!event.target.closest('#avatarButton') && !event.target.closest('#userDropdown')) {
@@ -50,134 +57,190 @@ console.log("dfjhveiroitoit",localuser)
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-console.log("muskan",user)
 
-const signOut = async () => {
-  try {
-    const response = await fetch('http://localhost:3000/api/users/logout', {
-      method: 'Get', // Assuming POST is the correct method for logging out
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+  const signOut = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/api/users/logout', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
 
-    if (response.ok) {
-      // Clear user state
-      setLocalUser(null);
-      setUserProfile(null);
-     user(null)
-      // Optionally, you can redirect the user to a different page or show a success message
-      console.log('Successfully signed out');
-    } else {
-      console.error('Failed to sign out');
+      if (response.ok) {
+        setLocalUser(null);
+        setUserProfile(null);
+        user(null);
+        console.log('Successfully signed out');
+      } else {
+        console.error('Failed to sign out');
+      }
+    } catch (error) {
+      console.error('Error during sign out:', error);
     }
-  } catch (error) {
-    console.error('Error during sign out:', error);
-  }
-  setIsDropdownOpen(false); // Close the dropdown after sign out
-};
+    setIsDropdownOpen(false);
+  };
 
+  const handleSignUp = (userData) => {
+    setLocalUser(userData);
+    closeModal();
+  };
 
-const handleSignUp = (userData) => {
-  setLocalUser(userData); // Update state with user data after sign-up
-  closeModal();
-};
+  useEffect(() => {
+    if (searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  }, []);
+
+  const handleMicClick = () => {
+    if ('webkitSpeechRecognition' in window) {
+      const recognition = new (window as any).webkitSpeechRecognition();
+      recognition.continuous = true; 
+      recognition.interimResults = true; 
+      recognition.lang = 'en-US';
+  
+      let timeoutId: NodeJS.Timeout;
+  
+      recognition.start();
+  
+      recognition.onresult = (event:any) => {
+        const results = event.results;
+        const transcript = results[results.length - 1][0].transcript; // Get the latest result
+        setSearchText(transcript);
+        
+        clearTimeout(timeoutId);
+  
+        timeoutId = setTimeout(() => {
+          recognition.stop();
+        }, 2000); 
+      };
+  
+      recognition.onerror = (event:any) => {
+        console.error('Speech recognition error:', event.error);
+      };
+  
+      recognition.onend = () => {
+        console.log('Speech recognition service disconnected');
+        clearTimeout(timeoutId);
+      };
+    } else {
+      alert('Your browser does not support speech recognition.');
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && searchText.trim() !== '') {
+      const formattedText = searchText.trim().replace(/\s+/g, '-'); // Format the text
+      router.push(`/e-paper/${formattedText}`); // Navigate to the formatted URL
+    }
+  };
 
   return (
     <>
-      <header className="sticky top-0 z-50 bg-white p-4 text-lg font-normal text-gray-900 flex items-center justify-between px-4">
-        <div className="flex items-center px-4">
-          <ul className="flex ">
-            <li>
-              <Link href="/how-it-work">
-                <p className="text-base text-gray-900">How It Works</p>
-              </Link>
-            </li>
-          </ul>
+      <header className="sticky top-0 z-50 bg-white p-4 text-lg font-normal text-gray-900 flex items-center justify-between px-4 sm:px-6 lg:px-8">
+
+
+
+      
+        <div className="flex items-center px-2 sm:px-4">
+          {!notMainPage ? (
+            <ul className="flex">
+              <li>
+                <Link href="/how-it-work">
+                  <p className="text-sm sm:text-base text-gray-900">How It Works</p>
+                </Link>
+              </li>
+            </ul>
+          ) : (
+            <div className="flex items-center" id="div1">
+              <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+                <Image src={logo} className="h-10 w-full" alt="Flowbite Logo" />
+              </a>
+            </div>
+          )}
         </div>
+
+       
+        
         {notMainPage && (
-          <div className="absolute right-20">
-            <span className="absolute inset-y-0 left-0 flex items-center pl-5 sm:pl-7">
-              <FaSearch className="text-gray-400" />
-            </span>
-            <input
-              type="text"
-              placeholder="Search..."
-              className="bg-gray-100 w-full sm:p-2.5 pl-12 sm:pl-16 border border-gray-300 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
-          </div>
+           <div className="col-span-8 lg:col-span-6 relative flex items-center w-1/2 mr-7" id="div2">
+          <span className="absolute inset-y-0 left-3 flex items-center">
+            <FaSearch className="text-gray-400" />
+          </span>
+          <input
+            ref={searchInputRef}
+            type="text"
+            placeholder="Search..."
+            className="bg-gray-100 w-full pl-10 pr-10 h-9 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            onKeyDown={handleKeyDown} // Add onKeyDown event handler
+          />
+          <span className="absolute inset-y-0 right-3 flex items-center">
+            <FaMicrophone className="text-gray-400 cursor-pointer" onClick={handleMicClick} />
+          </span>
+        </div>
         )}
-        <div className="flex space-x-5 ml-4 px-4">
+        
+        <div className="flex space-x-2 sm:space-x-5 ml-2 sm:ml-4 px-2 sm:px-4">
+        {!notMainPage && (
+          <>
           <a href="https://t.me/your-telegram-link" target="_blank" rel="noopener noreferrer">
-            <FaTelegramPlane className="text-gray-900 hover:text-indigo-500 transition" size={24} />
+            <FaTelegramPlane className="text-gray-900 hover:text-indigo-500 transition" size={20} />
           </a>
           <a href="https://chat.whatsapp.com/DYl8T4Iuimw6WZ3WWcZD3W" target="_blank" rel="noopener noreferrer">
-            <FaWhatsapp className="text-gray-900 hover:text-indigo-500 transition" size={24} />
+            <FaWhatsapp className="text-gray-900 hover:text-indigo-500 transition" size={20} />
           </a>
           <a href="https://instagram.com/your-instagram-link" target="_blank" rel="noopener noreferrer">
-            <FaInstagram className="text-gray-900 hover:text-indigo-500 transition" size={24} />
+            <FaInstagram className="text-gray-900 hover:text-indigo-500 transition" size={20} />
           </a>
           <a href="https://facebook.com/your-facebook-link" target="_blank" rel="noopener noreferrer">
-            <FaFacebook className="text-gray-900 hover:text-indigo-500 transition" size={24} />
+            <FaFacebook className="text-gray-900 hover:text-indigo-500 transition" size={20} />
           </a>
-          {( userProfile) ? (
-              <div className="relative">
-              {/* <img
-                id="avatarButton"
-                className="w-10 h-8 rounded-full cursor-pointer"
-                style={{marginTop:"-4px",marginLeft:"-2px"}}
-                src="/assets/images/profile.png"
-                alt="User dropdown"
-                onClick={toggleDropdown}
-              /> */}
-                <FaUser className="text-gray-900 hover:text-indigo-500 transition" size={24} onClick={toggleDropdown} />
+          </>
+        )}
+          {loadingUserData ? (
+              <div className="relative w-8 h-8"></div> 
+          ) : userProfile ? (
+            <div className="relative">
+              <FaUser id="avatarButton" className="text-gray-900 hover:text-indigo-500 transition" size={20} onClick={toggleDropdown} />
               {isDropdownOpen && (
-                <div
-                  id="userDropdown"
-                  className="absolute right-0 mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-44"
-                >
+                <div id="userDropdown" className="absolute right-0 mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-44">
                   <div className="px-4 py-3 text-sm text-gray-900">
-                  <div>{userProfile.username}</div>
-                  <div className="font-medium truncate">{userProfile.email}</div>
+                    <div>{userProfile.username}</div>
+                    <div className="font-medium truncate">{userProfile.email}</div>
                   </div>
-                 
-                  <ul className="py-2 text-sm text-gray-700">
-  <li>
-    <Link href="/profile" className="block px-4  hover:bg-gray-100">
-      User Profile
-    </Link>
-  </li>
-</ul>
-
-                   <div className="">
-                    <button
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      onClick={signOut}
-                    >
-                      Sign out
-                    </button>
-                  </div>
+                  <ul className="py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    <li>
+                      <Link href="/user-profile">
+                        <p className="block px-4 ">User Profile</p>
+                      </Link>
+                    </li>
+                  </ul>
+                  <button
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    onClick={signOut}
+                  >
+                    Sign out
+                  </button>
                 </div>
               )}
             </div>
           ) : (
-            <button onClick={() => openModal(true)} className="font-bold text-gray-900 hover:text-indigo-500 transition">
+            <button onClick={() => openModal(true)} className="font-bold text-gray-900 hover:text-indigo-500 transition text-sm sm:text-base">
               Login
             </button>
           )}
         </div>
       </header>
+      
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="relative bg-white rounded-lg shadow-lg w-full max-w-md p-8 flex flex-col items-center">
-            {isForgetPassword ? (
-              <ForgetPassword onClose={closeModal} />
-            ) : isSignIn ? (
-              <SignIn onClose={closeModal} onSwitchToSignUp={() => openModal(false)} onForgotPassword={openForgetPassword} onLogin={handleLogin} />
-            ) : (
-              <SignUp onClose={closeModal} onSwitchToSignIn={() => openModal(true)}  onSignUp={handleSignUp} />
-            )}
-          </div>
+          {isForgetPassword ? (
+            <ForgetPassword onClose={closeModal} />
+          ) : isSignIn ? (
+            <SignIn onClose={closeModal} onSwitchToSignUp={() => openModal(false)} onForgotPassword={openForgetPassword} onLogin={handleLogin} />
+          ) : (
+            <SignUp onClose={closeModal} onSwitchToSignIn={() => openModal(true)} onSignUp={handleSignUp} />
+          )}
         </div>
       )}
     </>
