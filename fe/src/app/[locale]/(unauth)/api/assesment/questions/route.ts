@@ -1,5 +1,5 @@
-import connectDB from '../../../../../libs/DB';
-import { IQuestion, AssesmentQuestion } from '../../../../../models/AssesmentQuestion';  
+import connectDB from '../../../../../../libs/DB';
+import { IQuestion, AssesmentQuestion } from '../../../../../../models/AssesmentQuestion';  
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
