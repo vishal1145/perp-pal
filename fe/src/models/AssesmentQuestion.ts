@@ -6,7 +6,6 @@ interface IOption {
 }
 
 export interface IQuestion extends Document {
-    questionId: mongoose.Types.ObjectId;
     question: string;
     options: IOption[];
     correctAnswer: string;
@@ -21,7 +20,6 @@ const OptionSchema: Schema = new Schema({
 }, { _id: false });
 
 const QuestionSchema: Schema = new Schema({
-    questionId: { type: mongoose.Types.ObjectId, required: true },
     question: { type: String, required: true },
     options: { type: [OptionSchema], required: true },
     correctAnswer: { type: String, required: true },
@@ -31,7 +29,7 @@ const QuestionSchema: Schema = new Schema({
     showHints: { type: String, default: "working....." }
 });
 
-// Check if the model is already compiled before defining it
+
 const AssesmentQuestion: Model<IQuestion> =
     mongoose.models.AssesmentQuestion ||
     mongoose.model<IQuestion>('AssesmentQuestion', QuestionSchema);

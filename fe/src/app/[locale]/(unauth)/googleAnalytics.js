@@ -2,14 +2,14 @@ const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_TRACKING_ID;
 
 export const initGA = () => {
     if (GA_MEASUREMENT_ID) {
-        // Load Google Analytics script
+ 
         if (typeof window !== 'undefined') {
             const script = document.createElement('script');
             script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
             script.async = true;
             document.head.appendChild(script);
 
-            // Define gtag function
+           
             window.dataLayer = window.dataLayer || [];
             function gtag() {
                 window.dataLayer.push(arguments);

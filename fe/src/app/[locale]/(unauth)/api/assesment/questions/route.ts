@@ -8,10 +8,13 @@ export async function POST(req: NextRequest) {
     try {  
         const questions: IQuestion[] = await req.json(); 
 
-        for (const question of questions) {
-            const { questionId, question: questionText, options, correctAnswer } = question;
 
-            if (!questionId || !questionText || !options || !correctAnswer) {
+        console.log(questions);
+
+        for (const question of questions) {
+            const {  question: questionText, options, correctAnswer } = question;
+      
+            if ( !questionText || !options || !correctAnswer) {
                 return NextResponse.json({ message: 'All fields are required for each question.' }, { status: 400 });
             }
         }
@@ -27,7 +30,7 @@ export async function POST(req: NextRequest) {
 export async function GET() {
     await connectDB();
     try {  
-        const assessments = await AssesmentQuestion.find({}); // Use await here
+        const assessments = await AssesmentQuestion.find({}); 
         return NextResponse.json(assessments, { status: 200 });
     } catch (error) {
         console.error('Error fetching assessments:', error);
