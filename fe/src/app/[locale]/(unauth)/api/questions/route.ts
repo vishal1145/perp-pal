@@ -1,5 +1,5 @@
 import connectDB from '../../../../../libs/DB';
-import { IQuestion, Question } from '../../../../../models/question';  
+import { IQuestion, AssesmentQuestion } from '../../../../../models/AssesmentQuestion';  
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
             }
         }
 
-        const savedAssessments = await Question.insertMany(questions);
+        const savedAssessments = await AssesmentQuestion.insertMany(questions);
         return NextResponse.json(savedAssessments, { status: 201 });
     } catch (error) {
         console.error('Error saving assessments:', error);
@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
 export async function GET() {
     await connectDB();
     try {  
-        const assessments = await Question.find({}); // Use await here
+        const assessments = await AssesmentQuestion.find({}); // Use await here
         return NextResponse.json(assessments, { status: 200 });
     } catch (error) {
         console.error('Error fetching assessments:', error);

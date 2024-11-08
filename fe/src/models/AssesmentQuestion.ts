@@ -31,4 +31,4 @@ const QuestionSchema: Schema = new Schema({
     showHints:{type:String, default:"working....."}
 });
 
-export const Question: Model<IQuestion> = mongoose.models.Question || mongoose.model<IQuestion>('Question', QuestionSchema);
+export const AssesmentQuestion: Model<IQuestion> = mongoose.models.Question || mongoose.model<IQuestion>('AssesmentQuestion', QuestionSchema);
