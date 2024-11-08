@@ -29,7 +29,7 @@ const ResultPage  = ( ) => {
 
   const getSubmitAssessment = async () => {
     try { 
-      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URI}/assessment/${id}`);
+      const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URI}/assessments/${id}`);
       const questions = data?.questions
       setSubmitAssessment(questions);
 

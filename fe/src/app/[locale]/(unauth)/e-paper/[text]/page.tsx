@@ -89,7 +89,7 @@ const Assessment: React.FC = () => {
     try {
       setShowLoader(true);
       const { data } = await axios.post(`https://prep-pal.algofolks.com/api/Question/generate-guid`);
-       await axios.post(`${process.env.NEXT_PUBLIC_API_URI}/assesment/questions`, questions);
+      //  await axios.post(`${process.env.NEXT_PUBLIC_API_URI}/assesment/questions`, questions);
 
       const text = formattedText.trim().replace(/\s+/g, '--');  
       router.push(`/practice-screen?paper=${encodeURIComponent(text)}&id=${encodeURIComponent(data.id)}`);

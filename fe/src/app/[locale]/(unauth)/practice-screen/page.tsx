@@ -102,7 +102,7 @@ const PracticeScreen = () => {
 
     try { 
       const totalSubmitTime = getTotalSubmitTime();
-      const {data} = await axios.post(`${process.env.NEXT_PUBLIC_API_URI}/assessment`, {
+      const {data} = await axios.post(`${process.env.NEXT_PUBLIC_API_URI}/assessments`, {
         userId:"uyg34b43nbh43r34nb4rb3br",
         questions:userPracticePaper,
         totalSubmitTime:totalSubmitTime
