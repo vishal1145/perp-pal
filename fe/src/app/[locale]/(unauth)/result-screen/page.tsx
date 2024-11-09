@@ -147,11 +147,9 @@ const ResultPage  = ( ) => {
               {submitAssessment.map((item, index) => {
                 const question = item.questionId;
                 const userSelectAnsString = item.userSelectAnsString;
-
                 const userSelectAns = item.userSelectAns;  
                 const correctAnswer = question.correctAnswer;
-                console.log(userSelectAnsString)  ;
-                debugger
+           
 
                 return (
                   <div key={question.questionId} className="w-full flex flex-col mb-4">
@@ -162,10 +160,9 @@ const ResultPage  = ( ) => {
                       <ul className="mt-2 text-sm text-gray-500 font-normal">
                         {question.options.map((option, idx) => {
                          
-                          const isUserSelected = userSelectAns == option.optionText;
-                          const isCorrect = option.optionText == correctAnswer;
-                      
-                          const notSelected = userSelectAns == ''; 
+                          const isUserSelected = userSelectAnsString == option.optionText;
+                          const isCorrect = (idx+1 )===Number(correctAnswer);
+                          const notSelected = userSelectAnsString == ''; 
                        
                           let bgColor = "";
                           if (isUserSelected && isCorrect) {
