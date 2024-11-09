@@ -163,9 +163,10 @@ const Assessment: React.FC = () => {
   // const isNotMainPage = router.pathname !== '/';
   return (
     <>
+    <div id="e-paper" className="h-screen overflow-auto">
     <Banner notMainPage={true} loadingUserData={loadingUserData}/>
       {/* <DemoBanner notMainPage={true} /> */}
-      <div id='maidiv' className="practixe-main grid grid-cols-1 sm:grid-cols-12 gap-4 py-0 sm:py-4 sm:pl-4" style={{height:"85%", overflowY:"auto"}}>
+      <div id='maidiv' className="practixe-main grid grid-cols-1 sm:grid-cols-12 gap-4 py-0 sm:py-4 sm:pl-4" >
 
         <aside className="col-span-12 sm:col-span-3 py-4 rounded-sm bg-gray-50  h-full" aria-label="Sidebar">
           <div className="h-full px-3 rounded-md overflow-y-auto">
@@ -324,6 +325,7 @@ const Assessment: React.FC = () => {
         <div className="col-span-12 sm:col-span-3">
           <Faq title={''} description={''} imageUrl={''} />
         </div>
+      </div>
       </div>
     </>
   );

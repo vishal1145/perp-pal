@@ -2,6 +2,7 @@ import React from 'react'
 
 const page = () => {
   return (
+    <div className='h-screen overflow-auto'>
     <div className="container mx-auto p-8 bg-gray-50 rounded-lg shadow-md p-12">
     <h1 className="text-3xl font-bold text-gray-800 mb-6">Privacy Policy</h1>
 
@@ -92,6 +93,7 @@ const page = () => {
   <li>Mailing Address: <span className="ml-2">Algofolks Pvt Ltd</span></li>
 </ul>
 
+  </div>
   </div>
   )
 }

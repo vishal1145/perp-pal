@@ -53,7 +53,7 @@ export default function AdaptiveLearningOverview() {
     
   };
   return (
-    <div className="container mx-auto px-4 py-8 howitworks">
+    <div className="container mx-auto px-4 py-8 howitworks h-screen overflow-auto">
     <h1 className="text-3xl font-bold text-center text-gray-600 mb-8">
       Adaptive Learning System: Step-by-Step Guide
     </h1>
@@ -237,7 +237,7 @@ export default function AdaptiveLearningOverview() {
       <FaMicrophone className="text-gray-400 cursor-pointer" onClick={handleMicClick} />
     </span>
   </div>
-  <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium px-4 py-2 rounded w-full mt-6 relative flex  max-w-xl items-center justify-center" onClick={handleClick}>
+  <button className="text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-300 font-medium px-4 py-2 rounded w-full mt-6 relative flex  max-w-xl items-center justify-center" onClick={handleClick}>
                   Start Practice
                 </button>
 </div>

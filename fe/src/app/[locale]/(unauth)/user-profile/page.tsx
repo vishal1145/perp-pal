@@ -131,8 +131,9 @@ const userProfile = () => {
       }, []);
   return (
     <>
+    <div className='h-screen overflow-auto'>
       <Banner notMainPage={false} />
-      <div className="bg-white min-h-screen" style={{ height: "100%", overflowY: "auto" }}>
+      <div className="bg-white min-h-screen">
         <div className="container mx-auto py-8 px-4 pb-24">
           
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
@@ -238,7 +239,9 @@ const userProfile = () => {
             
 
 
-
+                {loading ? (
+                  <CustomCardLoader viewBox={FilterLoader.viewBox} className={FilterLoader.className} rectW={FilterLoader.rectW} rectH={120}/> // Show loader while loading
+                ) : (
               <div className="bg-gray-100 rounded-lg shadow-lg p-6">
                 <h3 className="text-md font-semibold">History</h3>
                 <ul className="mt-4">
@@ -250,10 +253,11 @@ const userProfile = () => {
         ))}
                 </ul>
               </div>
-            
+                )}
             </div>
           </div>
         </div>
+      </div>
       </div>
     </>
   )

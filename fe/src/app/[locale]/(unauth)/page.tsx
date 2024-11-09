@@ -180,7 +180,7 @@ const handleSignUp = (userData) => {
   closeModal();
 };
   return (
-    <div className="flex flex-col min-h-screen " style={{height:"88%", overflowY:"auto"}}>
+    <div className="flex flex-col min-h-screen h-screen overflow-auto" >
        <Head>
         <title>Create and Practice Online Papers | Customizable Student Practice Tests</title>
         <meta name="description" content="Empower students to create customizable online papers and practice tests by topic. Enhance learning with tailored questions and topics. Start practicing now!" />
