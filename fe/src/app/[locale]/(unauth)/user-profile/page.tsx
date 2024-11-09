@@ -7,6 +7,7 @@ import { FaChartBar, FaClipboardList, FaClipboardCheck } from 'react-icons/fa'
 import CustomCardLoader from '@/components/CustomCardLoader';
 import { FilterLoader } from '@/data/data';
 import { Bar } from 'react-chartjs-2'
+import { useRouter } from 'next/navigation';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -27,8 +28,11 @@ import {
 //     class: '',
 //     preparation: '',
 //   });
-   const [loading, setLoading] = useState<boolean>(true);
-
+const router = useRouter();
+const[todayAssesment, setTodayAssesment]    = useState(0);
+const[user, setUser] = useState(null);
+const [loading, setLoading] = useState<boolean>(true);
+   
   
 //   useEffect(() => {
 //     // Fetch data from the hardcoded "about" API
@@ -122,6 +126,7 @@ import {
             const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/users/history`);
             const data = await response.json();
             setHistory(data);
+            
           } catch (error) {
             console.error("Error fetching history data:", error);
           }
@@ -140,7 +145,8 @@ import {
     
                 if (response.ok) {
                     const userData = await response.json();
-                    setUserProfile(userData.data);  
+                    setUserProfile(userData.data); 
+                    setUser(userData.data); 
                 } else if (response.status === 400) {
                     console.warn('User is not logged in or session has expired');
                 }
@@ -148,11 +154,24 @@ import {
                 console.error('Error fetching user data:', error);
             }
         };
-    
-        // Fetch user profile data once on component mount
+   
         fetchUserData();
-    }, []);  // This runs only once when the component mounts
+    }, []);   
     
+
+   
+function isCreatedAtToday(createdAt:any) {
+  const today = new Date();
+  const todayStr = today.toISOString().split('T')[0];
+  const createdAtDate = new Date(createdAt);   
+  const createdAtStr = createdAtDate.toISOString().split('T')[0];   
+  return todayStr === createdAtStr;
+}
+ 
+
+
+
+
 
       const [profile, setProfile] = useState<any[]>([]); 
       const userId = userProfile?._id ?? null; 
@@ -167,9 +186,20 @@ import {
                     headers: { 'Content-Type': 'application/json' },
                 });
                 const data = await response.json();
-                console.log("fafds",data)
+                
                 setProfile(data.userAssesments); 
-                console.log("profile",profile)
+
+                let val = 0;
+                for(let i=0; i<data.userAssesments.length; i++){
+                  let isCreatedToday = isCreatedAtToday(data.userAssesments[i].createdAt);
+                  if(isCreatedToday){
+                   val++;
+                  }
+                }
+               
+                setTodayAssesment(val);
+                
+                debugger
             } catch (error) {
                 console.error("Error fetching history data:", error);
             }
@@ -179,6 +209,10 @@ import {
     }, [userId]);  
     const totalAssessments = profile.length
 
+
+    const goTOResult = (id:string)=>{
+      router.push(`/result-screen?id=${encodeURIComponent(id)}`);
+    }
     
   return (
     <>
@@ -201,7 +235,7 @@ import {
                   </button>
                   <div className="text-center">
                     <img src="/path-to-profile-image.jpg" alt="Profile" className="w-24 h-24 mx-auto rounded-full" />
-                  <h2 className="text-md font-semibold mt-4">{profile?.userId?.username || 'Default Username'}</h2>
+                  <h2 className="text-md font-semibold mt-4">{user?.username || 'Default Username'}</h2>
                     <p className="text-gray-500 text-sm">New York</p>
                     <div className="mt-4">
                       <button className="bg-blue-500 text-white py-2 px-4 rounded-lg">Connect</button>
@@ -270,8 +304,8 @@ import {
     <FaClipboardCheck className="text-3xl text-gray-700" />
   </div>
   <div className='flex flex-col justify-center items-center'>
-    <h3 className="text-md font-semibold text-gray-500">Total Problem Solved</h3>
-    <p className="text-xl font-bold">{statisticsData.totalProblemSolved}</p>
+    <h3 className="text-md font-semibold text-gray-500">Today Assesments</h3>
+    <p className="text-xl font-bold">{todayAssesment}</p>
   </div>
 </div>
                
@@ -299,7 +333,7 @@ import {
                 {profile && Array.isArray(profile) && profile.length > 0 ? (
   profile.map((job, index) => (
     <li key={index} className="flex justify-between py-2 text-gray-500">
-      <span className="text-sm">{job.paperTitle}</span>
+      <span className="text-sm" onClick={()=>goTOResult(job._id)}>{job.paperTitle}</span>
     </li>
   ))
 ) : (
