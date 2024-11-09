@@ -259,7 +259,7 @@ const Assessment: React.FC = () => {
                     </div>
 
                     <div className='mt-6 h-8 mt-4' style={{ width: "95%" }}>
-                      <CustomCardLoader viewBox={`0 0 380 25`} className={'   rounded-lg'} rectW='100%' rectH='18' />
+                      <CustomCardLoader viewBox={`0 0 380 25`} className={'   rounded-lg'} rectW='100%' rectH='24' />
                     </div>
                   </div>
 
