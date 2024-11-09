@@ -9,7 +9,8 @@ export interface IAssessment extends Document {
         userSelectAns: string;
         submitTimeInSeconds: number;
     }[];
-    paperTitle:string
+    paperTitle:string,
+    createdAt:Date
 }
 
 const QuestionAssessmentSchema: Schema = new Schema({
@@ -28,7 +29,8 @@ const SubmitAssessmentSchema: Schema = new Schema({
     },
     totalSubmitTime: { type: Number, required: true },
     questions: [QuestionAssessmentSchema],
-    paperTitle:{type:String}
+    paperTitle:{type:String},
+    createdAt:{type:Date, default:Date.now()}
 });
 
  

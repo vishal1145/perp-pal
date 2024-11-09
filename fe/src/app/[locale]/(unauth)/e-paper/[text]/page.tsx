@@ -252,19 +252,19 @@ const Assessment: React.FC = () => {
                   }
                 </>
                 :
-                <div className='w-full h-16 flex'  >
+                <div className='w-full h-20 flex'  >
                   <div style={{ width: "77%" }}>
                     <div className='h-4' style={{ width: "55%" }}>
-                      <CustomCardLoader viewBox={`0 0 380 40`} className={'   rounded-lg'} rectW='100%' rectH='40' />
+                      <CustomCardLoader viewBox={`0 0 380 45`} className={'   rounded-lg'} rectW='100%' rectH='30' />
                     </div>
 
-                    <div className='mt-6 h-10' style={{ width: "95%" }}>
-                      <CustomCardLoader viewBox={`0 0 380 25`} className={'   rounded-lg'} rectW='100%' rectH='25' />
+                    <div className='mt-6 h-8 mt-4' style={{ width: "95%" }}>
+                      <CustomCardLoader viewBox={`0 0 380 25`} className={'   rounded-lg'} rectW='100%' rectH='18' />
                     </div>
                   </div>
 
-                  <div style={{ width: "23%" }}>
-                    <CustomCardLoader viewBox={`0 0 380 105`} className={'   rounded-lg'} rectW='100%' rectH='105' />
+                  <div  style={{ width: "23%" }}>
+                    <CustomCardLoader viewBox={`0 0 380 105`} className={'   rounded-lg'} rectW='100%' rectH='80' />
                   </div>
                 </div>
             }

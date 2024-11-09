@@ -334,8 +334,6 @@ const PracticeScreen = () => {
                    <button className={`text-white   ${logoBtnColor} font-medium px-4 py-2 rounded`} onClick={nextQuestion} disabled={loaderShow}>
                   Submit
                 </button>
-               
-                
               }
             </div>
             <div className="mb-4 rounded-lg shadow ">
