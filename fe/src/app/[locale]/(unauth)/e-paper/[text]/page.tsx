@@ -72,10 +72,11 @@ const Assessment: React.FC = () => {
   const getQuestions= async(text:string)=>{
     setQuestionLoading(true);
     try {
-      // const {data} = await axios.post(`${process.env.NEXT_PUBLIC_API_URI}/get/questions`, {prompt:text});
-      const {data} = await axios.get(`https://prep-pal.algofolks.com/api/Question`);
-
-      setQuestions(data);
+      const {data} = await axios.post(`${process.env.NEXT_PUBLIC_API_URI}/get/questions`, {prompt:text});
+      // const {data} = await axios.get(`https://prep-pal.algofolks.com/api/Question`);
+      
+      const mcqQuestions = data.filter((item)=>item.questionType === "Single Choice");
+      setQuestions(mcqQuestions);
     
       setQuestionLoading(false);
     } catch (error) {
@@ -91,11 +92,18 @@ const Assessment: React.FC = () => {
     setAlreadyCall(true);
     try {
       setShowLoader(true);
-      const { data } = await axios.post(`https://prep-pal.algofolks.com/api/Question/generate-guid`);
-      //  await axios.post(`${process.env.NEXT_PUBLIC_API_URI}/assesment/questions`, questions);
 
-      const text = formattedText.trim().replace(/\s+/g, '--');  
-      router.push(`/practice-screen?paper=${encodeURIComponent(text)}&id=${encodeURIComponent(data.id)}`);
+
+       const userId = userProfile?._id ?? null; 
+       //  const { data } = await axios.post(`https://prep-pal.algofolks.com/api/Question/generate-guid`);
+       const response =  await axios.post(`${process.env.NEXT_PUBLIC_API_URI}/questions`, questions);
+       const quetionsIds =  response.data?.quetionsIds;
+
+       console.log(quetionsIds);
+       debugger
+       const {data} =  await axios.post(`${process.env.NEXT_PUBLIC_API_URI}/startassesment`, {quetionsIds:quetionsIds, userId:userId});
+       const text = formattedText.trim().replace(/\s+/g, '--');  
+       router.push(`/practice-screen?paper=${encodeURIComponent(text)}&id=${encodeURIComponent(data.saveStartAssesment._id)}`);
     } catch (error) {
       console.error('Error generating practice:', error);
       setAlreadyCall(false);

@@ -18,7 +18,7 @@ export interface McqQuestion {
 
 export interface UserPracticePaper{
   McqQuestion:McqQuestion;
-  userSelectAns:string;
+  userSelectAns:string|number;
   submitTimeInSeconds?:number;
 }
 
