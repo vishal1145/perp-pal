@@ -1,6 +1,6 @@
 import connectDB from "@/libs/DB";
 import { IQuestion, Question} from '../../../../../models/Question';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server'; 
 
 export async function POST(req: NextRequest) {
     await connectDB();
@@ -9,17 +9,18 @@ export async function POST(req: NextRequest) {
         const questions: IQuestion[] = await req.json(); 
         let quetionsIds = [];
 
-        for (const question of questions) {
-            const { questionId   } = question;
+        for (const item of questions) {
+            const { questionId, question, solution, answer, options, correctAnswer } = item;
+
         
             if (!questionId ) {
                 return NextResponse.json({ message: 'All fields are required for each question.' }, { status: 400 });
             }
-        
+
             await Question.updateOne(
                 { questionId },  
                 {
-                    $set: {  question},
+                    $set: {  question, questionId, solution, answer, options, correctAnswer},
                 },
                 { upsert: true } 
             );

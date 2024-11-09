@@ -10,12 +10,8 @@ export async function POST(req: NextRequest) {
     await connectDB();
 
     try {
-        const { userId, questions, totalSubmitTime } = await req.json();
-
-        if (!userId || !Array.isArray(questions) || questions.length === 0) {
-            return NextResponse.json({ message: 'Invalid input: userId and questions are required.' }, { status: 400 });
-        }
-
+        const { userId, questions, totalSubmitTime } = await req.json(); 
+        
         const formattedQuestions: any = questions.map((q: { McqQuestion: McqQuestion; userSelectAns: string, submitTimeInSeconds: number }) => ({
             questionId: new mongoose.Types.ObjectId(q.McqQuestion._id),
             userSelectAns: q.userSelectAns,
@@ -35,12 +31,12 @@ export async function POST(req: NextRequest) {
         for (let i = 0; i < questions.length; i++) {
             const question = questions[i]?.McqQuestion;
 
-            if (question && question.correctAnswer === questions[i].userSelectAns) {
+            if (question && question.correctAnswer == questions[i].userSelectAns) {
                 const prevMinTime = question.minTime;
                 const prevMaxTime = question.maxTime;
                 const prevAvgTime = question.avgTime;
                 
-                const newAvgTime = prevAvgTime === 0 ? questions[i].submitTimeInSeconds : (prevAvgTime + questions[i].submitTimeInSeconds)/2;
+                const newAvgTime = prevAvgTime == 0 ? questions[i].submitTimeInSeconds : (prevAvgTime + questions[i].submitTimeInSeconds)/2;
 
                 const newMinTime = questions[i].submitTimeInSeconds < prevMinTime
                     ? questions[i].submitTimeInSeconds

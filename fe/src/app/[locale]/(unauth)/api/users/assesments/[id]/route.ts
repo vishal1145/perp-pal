@@ -8,9 +8,9 @@ export async function GET(request: Request, { params }: { params: { id: string }
 
         const { id } = params;
      
-        const userAssesments = await SubmitAssessment.findOne({
+        const userAssesments = await SubmitAssessment.find({
             userId:new mongoose.Types.ObjectId(id),
-        })
+        }).populate('userId')
                 
         return NextResponse.json( { status: 200, userAssesments });
 
