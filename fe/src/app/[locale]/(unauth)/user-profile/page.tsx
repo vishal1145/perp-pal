@@ -16,31 +16,31 @@ import {
     Tooltip,
     Legend,
   } from 'chart.js'
-  
+  import { userProfile,setUserProfile } from '@/data/functions'
 
   ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
-const userProfile = () => {
-  const [aboutData, setAboutData] = useState({
-    name:'',
-    description: '',
-    location: '',
-    class: '',
-    preparation: '',
-  });
-  const [loading, setLoading] = useState<boolean>(true);
+ const ProfileUser = () => {
+//   const [aboutData, setAboutData] = useState({
+//     name:'',
+//     description: '',
+//     location: '',
+//     class: '',
+//     preparation: '',
+//   });
+   const [loading, setLoading] = useState<boolean>(true);
 
   
-  useEffect(() => {
-    // Fetch data from the hardcoded "about" API
-    axios.get(`${process.env.NEXT_PUBLIC_API_URI}/users/about`)
-      .then((response) => {
-        setAboutData(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error fetching about data:', error);
-      });
-  }, []);
+//   useEffect(() => {
+//     // Fetch data from the hardcoded "about" API
+//     axios.get(`${process.env.NEXT_PUBLIC_API_URI}/users/about`)
+//       .then((response) => {
+//         setAboutData(response.data);
+//         setLoading(false);
+//       })
+//       .catch((error) => {
+//         console.error('Error fetching about data:', error);
+//       });
+//   }, []);
   const [barData, setBarData] = useState({
     labels: [] as string[],
     datasets: [
@@ -54,7 +54,7 @@ const userProfile = () => {
     ],
   })
     
-  
+
       const barOptions = {
         responsive: true,
         maintainAspectRatio: false,
@@ -126,9 +126,60 @@ const userProfile = () => {
             console.error("Error fetching history data:", error);
           }
         };
-    
+     
         fetchHistoryData();
       }, []);
+
+      useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/users/me`, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' },
+                });
+    
+                if (response.ok) {
+                    const userData = await response.json();
+                    setUserProfile(userData.data);  
+                } else if (response.status === 400) {
+                    console.warn('User is not logged in or session has expired');
+                }
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
+        };
+    
+        // Fetch user profile data once on component mount
+        fetchUserData();
+    }, []);  // This runs only once when the component mounts
+    
+
+      const [profile, setProfile] = useState<any[]>([]); 
+      const userId = userProfile?._id ?? null; 
+      console.log(userId)
+      useEffect(() => {
+        if (!userId) return; // Avoid API call until userId is available
+    
+        const fetchProfileData = async () => {
+            try {
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/users/assesments/${userId}`, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' },
+                });
+                const data = await response.json();
+                console.log("fafds",data)
+                setProfile(data.userAssesments); 
+                console.log("profile",profile)
+            } catch (error) {
+                console.error("Error fetching history data:", error);
+            }
+        };
+    
+        fetchProfileData();  
+    }, [userId]);  
+    const totalAssessments = profile.length
+
+    
   return (
     <>
     <div className='h-screen overflow-auto'>
@@ -141,23 +192,23 @@ const userProfile = () => {
             <div className="col-span-1 md:col-span-3">
               <div className="grid grid-cols-1 gap-6">
    
-              {loading ? (
+              {/* {loading ? (
                   <CustomCardLoader viewBox={FilterLoader.viewBox} className={FilterLoader.className} rectW={FilterLoader.rectW} rectH={500}/> // Show loader while loading
-                ) : (
+                ) : ( */}
                 <div className="bg-gray-100 rounded-lg shadow-lg p-6 relative">
                 <button className="absolute top-3 right-3 text-gray-500 hover:text-blue-500">
                     <FaPen className="h-4 w-4" />
                   </button>
                   <div className="text-center">
                     <img src="/path-to-profile-image.jpg" alt="Profile" className="w-24 h-24 mx-auto rounded-full" />
-                  <h2 className="text-md font-semibold mt-4">{aboutData.name}</h2>
-                    <p className="text-gray-500 text-sm">{aboutData.location}</p>
+                  <h2 className="text-md font-semibold mt-4">{profile?.userId?.username || 'Default Username'}</h2>
+                    <p className="text-gray-500 text-sm">New York</p>
                     <div className="mt-4">
                       <button className="bg-blue-500 text-white py-2 px-4 rounded-lg">Connect</button>
                       <button className="ml-2 bg-gray-300 text-gray-700 py-2 px-4 rounded-lg">Message</button>
                     </div>
                   </div>
-                  <div className="flex justify-around mt-6">
+                  {/* <div className="flex justify-around mt-6">
                     <div>
                       <p className="text-md font-bold">{aboutData.class}</p>
                       <p className="text-gray-500 text-md">Class</p>
@@ -167,11 +218,11 @@ const userProfile = () => {
                       <p className="text-md font-bold">{aboutData.preparation}</p>
                       <p className="text-gray-500 text-md">Preparing For</p>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
-                )}
+                {/* //  )} */}
            
-           {loading ? (
+           {/* {loading ? (
                   <CustomCardLoader viewBox={FilterLoader.viewBox} className={FilterLoader.className} rectW={FilterLoader.rectW} rectH={150}/> // Show loader while loading
                 ) : (
                 <div className="bg-gray-100 rounded-lg shadow-lg p-6 relative">
@@ -181,7 +232,7 @@ const userProfile = () => {
                   <h3 className="text-md font-semibold text-center">About Me</h3>
                   <p className="text-gray-500 text-sm mt-2">{aboutData.description}</p>
                 </div>
-                )}
+                )} */}
               </div>
             </div>
 
@@ -207,8 +258,8 @@ const userProfile = () => {
           <FaClipboardList className="text-3xl text-gray-700" />
         </div>
         <div className='flex flex-col justify-center items-center'>
-                  <h3 className="text-md font-semibold text-gray-500">Total Interview</h3>
-                  <p className="text-xl font-bold">{statisticsData.totalInterview}</p>
+                  <h3 className="text-md font-semibold text-gray-500">Total Assesment</h3>
+                  <p className="text-xl font-bold">{totalAssessments }</p>
                   </div>
                 </div>
           
@@ -239,21 +290,25 @@ const userProfile = () => {
             
 
 
-                {loading ? (
+                {/* {loading ? (
                   <CustomCardLoader viewBox={FilterLoader.viewBox} className={FilterLoader.className} rectW={FilterLoader.rectW} rectH={120}/> // Show loader while loading
-                ) : (
+                ) : ( */}
               <div className="bg-gray-100 rounded-lg shadow-lg p-6">
                 <h3 className="text-md font-semibold">History</h3>
                 <ul className="mt-4">
-                {history.map((job, index) => (
-          <li key={index} className="flex justify-between py-2 text-gray-500">
-            <span className="text-sm">{job.title}</span>
-            <span className="text-sm">{job.duration}</span>
-          </li>
-        ))}
+                {profile && Array.isArray(profile) && profile.length > 0 ? (
+  profile.map((job, index) => (
+    <li key={index} className="flex justify-between py-2 text-gray-500">
+      <span className="text-sm">{job.paperTitle}</span>
+    </li>
+  ))
+) : (
+  <li>No history available</li>
+)}
+
                 </ul>
               </div>
-                )}
+                {/* // )} */}
             </div>
           </div>
         </div>
@@ -263,4 +318,4 @@ const userProfile = () => {
   )
 }
 
-export default userProfile
+export default ProfileUser
