@@ -5,12 +5,8 @@ import SubmitAssessment from '@/models/submitAssesment';
 export async function GET(request: Request, { params }: { params: { id: string } }) {
     await connectDB();
  
-    const { id } = params;
-
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return NextResponse.json({ message: 'Invalid ID format.' }, { status: 400 });
-    }
-
+    const { id } = params; 
+    
     try {
         const assessment = await SubmitAssessment.findById(id)
             .populate('questions.questionId') 

@@ -1,5 +1,5 @@
-import connectDB from '../../../../../../libs/DB';
-import { IQuestion, AssesmentQuestion } from '../../../../../../models/AssesmentQuestion';  
+import connectDB from "@/libs/DB";
+import { IQuestion, Question} from '../../../../../models/Question';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
@@ -7,20 +7,31 @@ export async function POST(req: NextRequest) {
 
     try {  
         const questions: IQuestion[] = await req.json(); 
-
-
-        console.log(questions);
+        let quetionsIds = [];
 
         for (const question of questions) {
-            const {  question: questionText, options, correctAnswer } = question;
-      
-            if ( !questionText || !options || !correctAnswer) {
+            const { questionId   } = question;
+        
+            if (!questionId ) {
                 return NextResponse.json({ message: 'All fields are required for each question.' }, { status: 400 });
+            }
+        
+            await Question.updateOne(
+                { questionId },  
+                {
+                    $set: {  question},
+                },
+                { upsert: true } 
+            );
+            const savedQuestion = await Question.findOne({ questionId });
+    
+            if (savedQuestion) {
+                quetionsIds.push(savedQuestion._id);   
             }
         }
 
-        const savedAssessments = await AssesmentQuestion.insertMany(questions);
-        return NextResponse.json(savedAssessments, { status: 201 });
+        return NextResponse.json({ message: 'Questions processed successfully.', quetionsIds:quetionsIds });
+
     } catch (error) {
         console.error('Error saving assessments:', error);
         return NextResponse.json({ message: 'Error saving assessments' }, { status: 500 });
@@ -30,7 +41,7 @@ export async function POST(req: NextRequest) {
 export async function GET() {
     await connectDB();
     try {  
-        const assessments = await AssesmentQuestion.find({}); 
+        const assessments = await Question.find({}); 
         return NextResponse.json(assessments, { status: 200 });
     } catch (error) {
         console.error('Error fetching assessments:', error);

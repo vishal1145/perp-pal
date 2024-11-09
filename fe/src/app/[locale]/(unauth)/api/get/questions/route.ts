@@ -15,12 +15,15 @@ export async function POST(request: NextRequest) {
         const apiResponse = await axios.post(`${process.env.NEXT_PUBLIC_API_URI_PROMPT}get_questions`, {
             prompt,
         });
-  
-        let jsonResponse = '...';  
-        jsonResponse = apiResponse.data.replace(/NaN/g, 'null');
-        const responseArray = JSON.parse(jsonResponse);
 
-     
+        let responseArray = apiResponse.data;
+ 
+        if(typeof(apiResponse.data) !== 'object'){
+            let jsonResponse = '...';  
+            jsonResponse = apiResponse.data.replace(/NaN/g, 'null');
+              responseArray = JSON.parse(jsonResponse);
+        }
+
  
 const enrichedData = Array.isArray(responseArray.questions) ? responseArray.questions.map(item => {
     const optionsObj = item.options;
@@ -41,30 +44,7 @@ const enrichedData = Array.isArray(responseArray.questions) ? responseArray.ques
         questionType:item.questionType
     };
 }) : [];
-
-
-
-        // const enrichedData = responseArray.qsns.map(item => {
-     
-        //     const options = Object.keys(item.options).map(key => {
-        //         return {
-        //             optionText: item.options[key].value, 
-        //             optionFlag: key.toUpperCase(), 
-        //         };
-        //     });
-        
-        //     return {
-        //         questionId: item._id,  
-        //         options: options, 
-        //         correctAnswer: item.answer,  
-        //         hints: item.hint.value,  
-        //         solutions: item.solution,  
-        //         question: item.question,  
-        //         questionType: item.questionType, 
-        //         difficulty: item.difficulty,  
-        //         topic: item.topic  
-        //     };
-        // });
+ 
 
         return NextResponse.json(enrichedData);
 

@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 import { NextRequest, NextResponse } from 'next/server';
 import { McqQuestion } from '@/types/type';
 import SubmitAssessment from '@/models/submitAssesment';
-import { Question } from '@/models/AssesmentQuestion';
+import { Question } from '@/models/Question';
 
 export async function POST(req: NextRequest) {
     await connectDB();
