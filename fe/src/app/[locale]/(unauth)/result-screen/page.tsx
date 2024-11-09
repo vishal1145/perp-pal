@@ -13,6 +13,8 @@ import axios from 'axios';
 import { SubmitAssessment } from "@/types/type";
 import {   yourQuestions } from "@/data/functions";
 import { useRouter } from 'next/navigation';
+import { Banner } from "@/components/Banner";
+import { setUserProfile, userProfile } from '@/data/functions';
 // Register necessary components
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -26,7 +28,8 @@ const ResultPage  = ( ) => {
   const router = useRouter();
   const id = searchParams.get('id');
   const hasFetched = useRef(false);
-
+  const [loadingUserData, setLoadingUserData] = useState(true);
+ 
   const getSubmitAssessment = async () => {
     try { 
       const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URI}/assessments/${id}`);
@@ -61,11 +64,35 @@ const ResultPage  = ( ) => {
     }
   }
 
+  const fetchUserData = async () => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/users/me`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
+
+      if (response.ok) {
+        const userData = await response.json();
+        // setUser(userData);
+        setUserProfile(userData.data);
+      } else if (response.status === 400) {
+        console.warn('User is not logged in or session has expired');
+        // setUser(null); // Show login button
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      // setUser(null); // Show login button on error
+    }finally {
+      setLoadingUserData(false); // Set loading to false after fetching user data
+    }
+  };
+ 
   useEffect(() => {
     if (id && !hasFetched.current) {
       hasFetched.current = true;
       getSubmitAssessment(); 
       getHomeData();
+      fetchUserData()
     }
   }, [id]);
   
@@ -124,8 +151,8 @@ const ResultPage  = ( ) => {
  
   return (
     <>
-      <DemoBanner notMainPage={true} />
-     
+      {/* <DemoBanner notMainPage={true} /> */}
+     <Banner notMainPage={true} loadingUserData={loadingUserData}/>
    
       <div className="flex flex-col md:flex-row h-screen "  style={{height:"90%", overflowY:"auto"}}>
          

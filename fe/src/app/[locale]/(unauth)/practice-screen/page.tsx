@@ -8,12 +8,12 @@ import CustomCardLoader from "@/components/CustomCardLoader";
 import ResultPage from "../result-screen/page";
 import SubmitPopup, { SubmitPopupProps } from "@/components/PopupModal/SubmitPopup";
 import Timer from "@/components/Timer";
-import { getTotalSeconds,  setYourQuestions, userProfile, yourQuestions    } from "@/data/functions";
+import { getTotalSeconds,  setYourQuestions, yourQuestions    } from "@/data/functions";
 import Statics from "./Statics";
 import { logoBtnColor } from "@/data/data";
 import Loader from "@/components/Loader";
 import { Banner } from '@/components/Banner';
-
+import { setUserProfile, userProfile } from '@/data/functions';
 const PracticeScreen = () => {
   const [showHints, setShowHints] = useState(false);
   const [loading, setLoading] = useState<boolean>(true);
@@ -178,6 +178,7 @@ const PracticeScreen = () => {
   
 
   useEffect(() => {
+    fetchUserData();
     getPracticePaper();
   }, []);
 
