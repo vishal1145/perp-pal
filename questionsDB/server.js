@@ -5,6 +5,7 @@ const { default: axios } = require('axios');
 const questions = require('./model/questions');
 const fs = require('fs');
 const path = require('path');
+const dbQuestion = require('./model/dbQuestion');
 const app = express();
 
 app.use(express.json());
@@ -16,10 +17,9 @@ app.get('/getcsvdata', async (req, res) => {
     
     if (response.data && response.data.qsns) {
       const data = response.data.qsns;
-      
-      // Iterate through questions and save them to the database
+   
       for (const q of data) {
-        const question = new questions({
+        const question = new dbQuestion({
           tags: q.tags,
           hint: q.hint,
           options: q.options,
@@ -45,7 +45,7 @@ app.get('/getcsvdata', async (req, res) => {
 
 app.get('/generateJson', async (req, res) => {
   try {
-    const response = await questions.find({});
+    const response = await dbQuestion.find({});
 
     const filePath = path.join(__dirname, 'questions.json');
 
@@ -69,7 +69,7 @@ app.get('/generateJson', async (req, res) => {
 });
 
  
-const PORT = process.env.PORT || 10000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

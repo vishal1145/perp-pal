@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const questionSchema = new mongoose.Schema({
+const dbQuestionSchema = new mongoose.Schema({
   type: { type: String  }, 
   tags: { type: String },  
   hint: {
@@ -21,4 +21,4 @@ const questionSchema = new mongoose.Schema({
   topic: { type: String, },  
 });
 
-module.exports = mongoose.model("questions", questionSchema);
+module.exports = mongoose.model("dbquestions", dbQuestionSchema);
