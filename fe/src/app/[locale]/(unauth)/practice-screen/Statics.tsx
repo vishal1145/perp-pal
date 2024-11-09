@@ -11,7 +11,7 @@ const Statics: React.FC<StaticProps> = ({ minTime, maxTime, avgTime }) => {
     <div className="flex mt-2 flex-wrap items-center justify-start w-full gap-2 md:gap-4">
       <div className="timer w-10">
         <h3 className="text-blue-700 font-semibold text-base md:text-lg lg:text-xl text-black text-center">
-          {minTime === Number.MAX_VALUE ? 0 : minTime}
+          {minTime === Number.MAX_VALUE ? 0 : Math.ceil(minTime)}
         </h3>
         <div className={`${text2} text-center`}>Min</div>
       </div>
@@ -19,7 +19,7 @@ const Statics: React.FC<StaticProps> = ({ minTime, maxTime, avgTime }) => {
 
       <div className="timer w-10">
         <h3 className="text-blue-700 font-semibold text-base md:text-lg lg:text-xl text-black text-center">
-          {maxTime}
+          { Math.ceil(2)}
         </h3>
         <div className={`${text2} text-center`}>Max</div>
       </div>
@@ -27,7 +27,7 @@ const Statics: React.FC<StaticProps> = ({ minTime, maxTime, avgTime }) => {
 
       <div className="timer w-10">
         <h3 className="text-blue-700 font-semibold text-base md:text-lg lg:text-xl text-black text-center">
-          {avgTime}
+          { Math.ceil(2)}
         </h3>
         <div className={`${text2} text-center`}>Avg</div>
       </div>

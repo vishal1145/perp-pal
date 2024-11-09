@@ -10,18 +10,22 @@ export async function POST(req: NextRequest) {
     await connectDB();
 
     try {
-        const { userId, questions, totalSubmitTime } = await req.json(); 
+        const { userId, questions, totalSubmitTime, paperTitle } = await req.json(); 
         
-        const formattedQuestions: any = questions.map((q: { McqQuestion: McqQuestion; userSelectAns: string, submitTimeInSeconds: number }) => ({
+
+        const formattedQuestions: any = questions.map((q: { McqQuestion: McqQuestion; userSelectAns: string, submitTimeInSeconds: number, userSelectAnsString:string }) => ({
             questionId: new mongoose.Types.ObjectId(q.McqQuestion._id),
             userSelectAns: q.userSelectAns,
-            submitTimeInSeconds: q?.submitTimeInSeconds ?? 0
+            submitTimeInSeconds: q?.submitTimeInSeconds ?? 0,
+            userSelectAnsString:q?.userSelectAnsString
         }));
 
+        console.log("formattedQuestions", formattedQuestions);
         const newAssessment = new SubmitAssessment({
             userId,
             questions: formattedQuestions,
-            totalSubmitTime
+            totalSubmitTime,
+            paperTitle
         });
 
         let array = [];
@@ -57,9 +61,7 @@ export async function POST(req: NextRequest) {
 
         const savedAssessment = await newAssessment.save();
         await Promise.all(promises);
-
         return NextResponse.json(savedAssessment, { status: 201 });
-
     } catch (error) {
         console.error('Error saving assessment:', error);
         return NextResponse.json({ message: 'Error saving assessment', error }, { status: 500 });

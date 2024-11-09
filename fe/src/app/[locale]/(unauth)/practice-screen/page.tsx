@@ -8,7 +8,7 @@ import CustomCardLoader from "@/components/CustomCardLoader";
 import ResultPage from "../result-screen/page";
 import SubmitPopup, { SubmitPopupProps } from "@/components/PopupModal/SubmitPopup";
 import Timer from "@/components/Timer";
-import { getTotalSeconds,  setYourQuestions, userProfile    } from "@/data/functions";
+import { getTotalSeconds,  setYourQuestions, userProfile, yourQuestions    } from "@/data/functions";
 import Statics from "./Statics";
 import { logoBtnColor } from "@/data/data";
 import Loader from "@/components/Loader";
@@ -67,7 +67,7 @@ const PracticeScreen = () => {
   }, []);
   
   const getPracticePaper = async () => {
-    try {
+    try { 
       const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URI}/startassesment/672f0b6e5584714fe6fc0350`);
       setQuestions(response?.data?.questions);
       setLoading(false);
@@ -106,11 +106,12 @@ const PracticeScreen = () => {
     try { 
       const totalSubmitTime = getTotalSubmitTime();
       const userId = userProfile?._id ?? null; 
-      debugger
+    
       const {data} = await axios.post(`${process.env.NEXT_PUBLIC_API_URI}/assessments`, {
         userId:userId,
         questions:userPracticePaper,
-        totalSubmitTime:totalSubmitTime
+        totalSubmitTime:totalSubmitTime,
+        paperTitle:yourQuestions
       });
 
       setSubmitLoading(false);
@@ -217,16 +218,19 @@ const PracticeScreen = () => {
   // setUserPracticePaper(newPracticePaper);
   // };
 
-  const handleCheckboxChange = (idx:number) => {
-  
+  const handleCheckboxChange = ( event: React.ChangeEvent<HTMLInputElement>, idx:number) => {
+    const value = event?.target.value;
+
     const newPracticePaper = [...userPracticePaper];
     const currentQuestion = newPracticePaper[index];
 
     if(currentQuestion){
       if (currentQuestion?.userSelectAns === idx) {
         currentQuestion.userSelectAns = ''; 
+        currentQuestion.userSelectAnsString = ''; 
       } else {
         currentQuestion.userSelectAns = idx;  
+        currentQuestion.userSelectAnsString = value;  
       }
     }
 
@@ -292,7 +296,7 @@ const PracticeScreen = () => {
                             type="checkbox"
                             value={option.optionText}
                             checked={userPracticePaper[index]?.userSelectAns === idx+1}
-                            onChange={()=>handleCheckboxChange(idx+1)}
+                            onChange={(e)=>handleCheckboxChange(e,idx+1)}
                             className="mr-2"
                           />
                           {option.optionText}

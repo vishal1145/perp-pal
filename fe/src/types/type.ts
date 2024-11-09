@@ -19,6 +19,7 @@ export interface McqQuestion {
 export interface UserPracticePaper{
   McqQuestion:McqQuestion;
   userSelectAns:string|number;
+  userSelectAnsString:string;
   submitTimeInSeconds?:number;
 }
 
@@ -26,6 +27,7 @@ export interface SubmitAssessment{
   questionId:McqQuestion
   userSelectAns:string;
   submitTimeInSeconds?:number;
+  userSelectAnsString:string;
 }
 
 export interface McqTestQuestion {

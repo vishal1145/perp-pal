@@ -24,8 +24,7 @@ export async function POST(request: NextRequest) {
               responseArray = JSON.parse(jsonResponse);
         }
 
- 
-const enrichedData = Array.isArray(responseArray.questions) ? responseArray.questions.map(item => {
+    const enrichedData = Array.isArray(responseArray.questions) ? responseArray.questions.map(item => {
     const optionsObj = item.options;
 
     let optionsArray = [];

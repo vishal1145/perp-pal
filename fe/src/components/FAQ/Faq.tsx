@@ -115,17 +115,17 @@ const Faq = ({ title, description, imageUrl }) => {
             {/* <Link href="https://t.me/your-telegram-link" target="_blank" rel="noopener noreferrer">
               <FaTelegramPlane className="text-gray-900 hover:text-indigo-500 transition" size={24} />
             </Link> */}
-            <button onClick={shareOnTelegram} className="flex items-center">
+            {/* <button onClick={shareOnTelegram} className="flex items-center">
             <FaTelegramPlane className="text-gray-900 hover:text-indigo-500 transition" size={24} />
             </button>
-           
+            */}
             <button onClick={shareOnWhatsapp} className="flex items-center">
               <FaWhatsapp className="text-gray-900 hover:text-indigo-500 transition" size={24} />
             </button>
           
-            <button onClick={shareOnTwitter} className="flex items-center">
+            {/* <button onClick={shareOnTwitter} className="flex items-center">
             <FaTwitter className="text-gray-900 hover:text-indigo-500 transition" size={24} />
-            </button>
+            </button> */}
 
             <button onClick={shareOnFacebook} className="flex items-center">
               <FaFacebook className="text-gray-900 hover:text-indigo-500 transition" size={24} />

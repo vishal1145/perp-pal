@@ -183,15 +183,15 @@ export const Banner: React.FC<DemoBannerProps> = ({ notMainPage, user, onLogin, 
         <div className="flex space-x-2 sm:space-x-5 ml-2 sm:ml-4 px-2 sm:px-4">
         {!notMainPage && (
           <>
-          <a href="https://t.me/your-telegram-link" target="_blank" rel="noopener noreferrer">
+          {/* <a href="https://t.me/your-telegram-link" target="_blank" rel="noopener noreferrer">
             <FaTelegramPlane className="text-gray-900 hover:text-indigo-500 transition" size={20} />
-          </a>
+          </a> */}
           <a href="https://chat.whatsapp.com/DYl8T4Iuimw6WZ3WWcZD3W" target="_blank" rel="noopener noreferrer">
             <FaWhatsapp className="text-gray-900 hover:text-indigo-500 transition" size={20} />
           </a>
-          <a href="https://instagram.com/your-instagram-link" target="_blank" rel="noopener noreferrer">
+          {/* <a href="https://instagram.com/your-instagram-link" target="_blank" rel="noopener noreferrer">
             <FaInstagram className="text-gray-900 hover:text-indigo-500 transition" size={20} />
-          </a>
+          </a> */}
           <a href="https://facebook.com/your-facebook-link" target="_blank" rel="noopener noreferrer">
             <FaFacebook className="text-gray-900 hover:text-indigo-500 transition" size={20} />
           </a>

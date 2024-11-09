@@ -9,11 +9,13 @@ export interface IAssessment extends Document {
         userSelectAns: string;
         submitTimeInSeconds: number;
     }[];
+    paperTitle:string
 }
 
 const QuestionAssessmentSchema: Schema = new Schema({
     questionId: { type: mongoose.Types.ObjectId, ref: 'Question', required: true },
     userSelectAns: { type: String },
+    userSelectAnsString: { type: String },
     submitTimeInSeconds: { type: Number, required: true, default: 0 },
 }, { _id: false });
 
@@ -26,6 +28,7 @@ const SubmitAssessmentSchema: Schema = new Schema({
     },
     totalSubmitTime: { type: Number, required: true },
     questions: [QuestionAssessmentSchema],
+    paperTitle:{type:String}
 });
 
  

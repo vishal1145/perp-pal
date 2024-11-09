@@ -39,7 +39,7 @@ const ResultPage  = ( ) => {
       for(let i=0;i<questions.length; i++){
         if(questions[i]?.userSelectAns != ""){
           totalAttempt++;
-          if(questions[i]?.questionId?.correctAnswer === questions[i]?.userSelectAns){
+          if(questions[i]?.questionId?.correctAnswer == questions[i]?.userSelectAns){
             correct++;
           }
         }
@@ -90,7 +90,7 @@ const ResultPage  = ( ) => {
   const [openIndex, setOpenIndex] = useState(null); 
 
   const handleFaqToggle = (index: any) => {
-    setOpenIndex(openIndex === index ? null : index);
+    setOpenIndex(openIndex == index ? null : index);
   };
 
   const handleCardClick = (promptText: string) => {
@@ -146,8 +146,12 @@ const ResultPage  = ( ) => {
             <div className="mt-5">
               {submitAssessment.map((item, index) => {
                 const question = item.questionId;
-                const userSelectAns = item.userSelectAns; // Accessing the user's selected answer
-                const correctAnswer = question.correctAnswer; // Accessing the correct answer
+                const userSelectAnsString = item.userSelectAnsString;
+
+                const userSelectAns = item.userSelectAns;  
+                const correctAnswer = question.correctAnswer;
+                console.log(userSelectAnsString)  ;
+                debugger
 
                 return (
                   <div key={question.questionId} className="w-full flex flex-col mb-4">
@@ -158,9 +162,10 @@ const ResultPage  = ( ) => {
                       <ul className="mt-2 text-sm text-gray-500 font-normal">
                         {question.options.map((option, idx) => {
                          
-                          const isUserSelected = userSelectAns === option.optionText;
-                          const isCorrect = option.optionText === correctAnswer;
-                          const notSelected = userSelectAns === ''; 
+                          const isUserSelected = userSelectAns == option.optionText;
+                          const isCorrect = option.optionText == correctAnswer;
+                      
+                          const notSelected = userSelectAns == ''; 
                        
                           let bgColor = "";
                           if (isUserSelected && isCorrect) {
@@ -211,14 +216,14 @@ const ResultPage  = ( ) => {
                 {faqs.map((faq, index) => (
                   <div
                     key={index}
-                    className={`accordion faq-border  rounded-xl transition duration-500 ${openIndex === index ? "accordion-active:bg-indigo-50 accordion-active:border-indigo-600" : ""
+                    className={`accordion faq-border  rounded-xl transition duration-500 ${openIndex == index ? "accordion-active:bg-indigo-50 accordion-active:border-indigo-600" : ""
                       } mb-2  py-2 pl-2 pr-4`}
                   >
                     <button
                       className="accordion-toggle group inline-flex items-center   text-left text-lg font-normal leading-8 text-gray-900 w-full transition duration-500 hover:text-indigo-600 accordion-active:font-medium accordion-active:text-indigo-600"
                       onClick={() => handleFaqToggle(index)}
                     >
-                      {openIndex === index ? (
+                      {openIndex == index ? (
                         <svg
                           className="w-6 h-6 text-gray-900 transition duration-500"
                           viewBox="0 0 24 24"
@@ -251,7 +256,7 @@ const ResultPage  = ( ) => {
                       )}
                       <p className="text-sm  text-gray-500 ml-2">{faq.question}</p>
                     </button>
-                    {openIndex === index && (
+                    {openIndex == index && (
                       <div
                         className="accordion-content w-full overflow-hidden pr-4"
                         style={{ maxHeight: 250 }}

@@ -174,9 +174,9 @@ const Assessment: React.FC = () => {
     <div id="e-paper" className="h-screen overflow-auto">
     <Banner notMainPage={true} loadingUserData={loadingUserData}/>
       {/* <DemoBanner notMainPage={true} /> */}
-      <div id='maidiv' className="practixe-main grid grid-cols-1 sm:grid-cols-12 gap-4 py-0 sm:py-4 sm:pl-4" >
+      <div id='maidiv' className="practixe-main grid grid-cols-1 sm:grid-cols-12 gap-4 py-0 sm:py-4 sm:pl-4 mt-4 lg:mt-0" style={{marginLeft:"1.5rem", marginRight:"1.5rem"}} >
 
-        <aside className="col-span-12 sm:col-span-3 py-4 rounded-sm bg-gray-50  h-full" aria-label="Sidebar">
+        {/* <aside className="col-span-12 sm:col-span-3 py-4 rounded-sm bg-gray-50  h-full" aria-label="Sidebar">
           <div className="h-full px-3 rounded-md overflow-y-auto">
             <ul className="space-y-2 font-medium px-2">
               <li className='text-md font-medium pl-2'>Assessment Filter</li>
@@ -190,21 +190,7 @@ const Assessment: React.FC = () => {
                   <CustomCardLoader viewBox={FilterLoader.viewBox} className={FilterLoader.className} rectW={FilterLoader.rectW} rectH={FilterLoader.rectH} />
               }
 
-              {/* {selectedFilters.classId && (
-                   <li>
-                     <DropdownSearch filter="Subject" options={subjectFilter} filterOptionSelect={(value) => handleFilterChange('subjectId', value)} />
-                   </li>
-                 )}
-                 {selectedFilters.subjectId && selectedFilters.classId && (
-                   <li>
-                     <DropdownSearch filter="Chapter" options={chapterFilter} filterOptionSelect={(value) => handleFilterChange('chapterId', value)} />
-                   </li>
-                 )}
-                 {selectedFilters.chapterId && selectedFilters.subjectId && selectedFilters.classId && (
-                   <li>
-                     <DropdownSearch filter="Level" options={levelFilter} filterOptionSelect={(value) => handleFilterChange('levelId', value)} />
-                   </li>
-                 )} */}
+       
 
 
 
@@ -230,9 +216,9 @@ const Assessment: React.FC = () => {
               }
             </ul>
           </div>
-        </aside>
+        </aside> */}
 
-        <div className="px-4 sm:px-1 col-span-12 sm:col-span-9 md:col-span-9 lg:col-span-6 bg-white">
+        <div className="px-4 sm:px-1 col-span-12 sm:col-span-9 md:col-span-9 lg:col-span-9   bg-white">
           <div className='flex justify-between relative'>
             {
               questionloading === false ?
