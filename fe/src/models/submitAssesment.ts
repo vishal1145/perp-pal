@@ -1,7 +1,8 @@
 import mongoose, { Document, Model, Schema } from 'mongoose';
 
+ 
 export interface IAssessment extends Document {
-    userId: string;
+    userId: mongoose.Types.ObjectId;   
     totalSubmitTime: number;
     questions: {
         questionId: mongoose.Types.ObjectId;
@@ -17,11 +18,17 @@ const QuestionAssessmentSchema: Schema = new Schema({
 }, { _id: false });
 
 const SubmitAssessmentSchema: Schema = new Schema({
-    userId: { type: String, required: true },
+    userId: { 
+        type: mongoose.Types.ObjectId, 
+        ref: 'User',    
+        require:false,
+        default: null     
+    },
     totalSubmitTime: { type: Number, required: true },
     questions: [QuestionAssessmentSchema],
 });
 
+ 
 const SubmitAssessment: Model<IAssessment> = mongoose.models.SubmitAssessment || mongoose.model<IAssessment>('SubmitAssessment', SubmitAssessmentSchema);
 
 export default SubmitAssessment;
