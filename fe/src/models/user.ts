@@ -5,6 +5,7 @@ interface IUser extends Document {
     email: string;
     password: string;
     about:string;
+    address:string;
 }
 
 const userSchema: Schema<IUser> = new Schema({
@@ -24,6 +25,9 @@ const userSchema: Schema<IUser> = new Schema({
     },
     
     about: {
+        type: String, 
+    },
+    address: {
         type: String, 
     },
 });

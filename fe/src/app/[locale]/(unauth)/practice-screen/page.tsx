@@ -31,7 +31,7 @@ const PracticeScreen = () => {
   const[totalMinutes, setTotalMinutes] = useState(0);
   const[totalHours, setTotalHours] = useState(0);
   const[alreadySaveCall, setAlreadySaveCall] = useState(false);
-  const [loadingUserData, setLoadingUserData] = useState(true);
+  const [loadingUserData, setLoadingUserData] = useState();
 
   const[submitPopupValue, setsubmitPopupValue] = useState<SubmitPopupProps>({
     title:"Assessment Score",
@@ -153,32 +153,11 @@ const PracticeScreen = () => {
     setIsModalOpen(true);
   }
 
-  const fetchUserData = async () => {
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/users/me`, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      });
-
-      if (response.ok) {
-        const userData = await response.json();
-        // setUser(userData);
-        setUserProfile(userData.data);
-      } else if (response.status === 400) {
-        console.warn('User is not logged in or session has expired');
-        // setUser(null); // Show login button
-      }
-    } catch (error) {
-      console.error('Error fetching user data:', error);
-      // setUser(null); // Show login button on error
-    }finally {
-      setLoadingUserData(false); // Set loading to false after fetching user data
-    }
-  };
+  
   
 
   useEffect(() => {
-    fetchUserData();
+    // fetchUserData();
     getPracticePaper();
   }, []);
 
@@ -269,10 +248,10 @@ const PracticeScreen = () => {
     <>
     {
         resultScreen === true ?   <ResultPage userPracticePaper={userPracticePaper} />
-        :  <div className="flex flex-col min-h-screen bg-white px-2 md:px-4">
+        :  <div className="flex flex-col min-h-screen bg-white  ">
         {/* <DemoBanner notMainPage={true} /> */}
         <Banner notMainPage={true} loadingUserData={loadingUserData}/>
-        <div className="flex flex-col w-100 md:flex-row   overflow-hidden p-2 md:p-4">
+        <div className="flex flex-col w-100 md:flex-row   overflow-hidden p-2 md:p-8 ">
           {  isModalOpen && 
             <SubmitPopup title={submitPopupValue.title} subTitle={submitPopupValue.subTitle} total={submitPopupValue.total} atemmpt={submitPopupValue.atemmpt} correct={submitPopupValue.correct} incorrect={submitPopupValue.incorrect}  message={submitPopupValue.message} setIsModalOpen={submitPopupValue.setIsModalOpen}  submitAssessmentId={submitPopupValue.submitAssessmentId}
             loaderShow={loaderShow}  

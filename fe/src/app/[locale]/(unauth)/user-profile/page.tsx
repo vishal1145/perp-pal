@@ -17,90 +17,98 @@ import {
     Tooltip,
     Legend,
   } from 'chart.js'
-  import { userProfile,setUserProfile } from '@/data/functions'
+  import { userProfile,setUserProfile,userProfileLoading } from '@/data/functions'
 
   ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
  const ProfileUser = () => {
-//   const [aboutData, setAboutData] = useState({
-//     name:'',
-//     description: '',
-//     location: '',
-//     class: '',
-//     preparation: '',
-//   });
+  const [aboutData, setAboutData] = useState({ about: "" });
+  const [usernameData, setUsernameData] = useState({ username: "" });
+  const [addressData,setAddressData] = useState({address : ""})
+  const [newAboutData, setNewAboutData] = useState("");
+  const [newAddressData, setNewAddressData] = useState("");
+  const [newUsernameData, setNewUsernameData] = useState("");
+  const [editAboutMode, setEditAboutMode] = useState(false);
+  const [editUsernameMode, setEditUsernameMode] = useState(false);
+  const [monthData, setMonthData] = useState([]);
 const router = useRouter();
 const[todayAssesment, setTodayAssesment]    = useState(0);
 const[user, setUser] = useState(null);
 const [loading, setLoading] = useState<boolean>(true);
-   
+const userId = userProfile?._id ?? null; 
   
-//   useEffect(() => {
-//     // Fetch data from the hardcoded "about" API
-//     axios.get(`${process.env.NEXT_PUBLIC_API_URI}/users/about`)
-//       .then((response) => {
-//         setAboutData(response.data);
-//         setLoading(false);
-//       })
-//       .catch((error) => {
-//         console.error('Error fetching about data:', error);
-//       });
-//   }, []);
-  const [barData, setBarData] = useState({
-    labels: [] as string[],
-    datasets: [
-      {
-        label: 'Lines of Code',
-        data: [] as number[],
-        backgroundColor: 'rgba(54, 162, 235, 0.6)',
-        borderColor: 'rgba(54, 162, 235, 1)',
-        borderWidth: 1,
-      },
-    ],
-  })
+useEffect(() => {
+  if (userId) {
+    axios.put(`${process.env.NEXT_PUBLIC_API_URI}/users/about/${userId}`)
+      .then(response => {
+      
+        setAboutData(response.data)
+        setUsernameData(response.data)
+        setAddressData(response.data);
+        setLoading(false)
+      })
+      .catch(error => console.error('Error fetching about data:', error))
+  }
+}, [userId])
+const [barData, setBarData] = useState({
+  labels: [],
+  datasets: [{
+    // label: 'Lines of Code',
+    data: [],
+    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+    borderColor: 'rgba(54, 162, 235, 1)',
+    borderWidth: 1,
+  }],
+})
     
 
-      const barOptions = {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            beginAtZero: true,
-            title: {
+const barOptions = {
+  responsive: true,
+  maintainAspectRatio: false,
+  scales: {
+      y: {
+          beginAtZero: true,
+          title: {
               display: true,
-              text: 'Lines of Code',
-            },
+              // text: 'Lines of Code',
           },
-          x: {
-            title: {
+      },
+      x: {
+          title: {
               display: true,
               text: 'Months',
-            },
           },
-        },
+      },
+  },
+  plugins: {
+      legend: {
+          display: false
       }
+  }
+};
 
-      useEffect(() => {
-        // Fetch data from the API
-        axios.get(`${process.env.NEXT_PUBLIC_API_URI}/users/graph`)
-          .then((response) => {
-            const { labels, data } = response.data
-            setBarData({
-              labels,
-              datasets: [
-                {
-                  label: 'Lines of Code',
-                  data,
-                  backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                  borderColor: 'rgba(54, 162, 235, 1)',
-                  borderWidth: 1,
-                },
-              ],
-            })
-          })
-          .catch((error) => {
-            console.error('Error fetching bar chart data:', error)
-          })
-      }, [])
+
+      // useEffect(() => {
+      //   // Fetch data from the API
+      //   axios.get(`${process.env.NEXT_PUBLIC_API_URI}/users/graph`)
+      //     .then((response) => {
+      //       const { labels, data } = response.data
+      //       setBarData({
+      //         labels,
+      //         datasets: [
+      //           {
+      //             label: 'Lines of Code',
+      //             data,
+      //             backgroundColor: 'rgba(54, 162, 235, 0.6)',
+      //             borderColor: 'rgba(54, 162, 235, 1)',
+      //             borderWidth: 1,
+      //           },
+      //         ],
+      //       })
+      //     })
+      //     .catch((error) => {
+      //       console.error('Error fetching bar chart data:', error)
+      //     })
+      // }, [])
 
       const [statisticsData, setStatisticsData] = useState({
         projectView: 0,
@@ -117,50 +125,11 @@ const [loading, setLoading] = useState<boolean>(true);
       },[])
 
 
-      const [history, setHistory] = useState([]);
-
-      useEffect(() => {
-        
-        const fetchHistoryData = async () => {
-          try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/users/history`);
-            const data = await response.json();
-            setHistory(data);
-            
-          } catch (error) {
-            console.error("Error fetching history data:", error);
-          }
-        };
-     
-        fetchHistoryData();
-      }, []);
-
-      useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/users/me`, {
-                    method: 'GET',
-                    headers: { 'Content-Type': 'application/json' },
-                });
-    
-                if (response.ok) {
-                    const userData = await response.json();
-                    setUserProfile(userData.data); 
-                    setUser(userData.data); 
-                } else if (response.status === 400) {
-                    console.warn('User is not logged in or session has expired');
-                }
-            } catch (error) {
-                console.error('Error fetching user data:', error);
-            }
-        };
-   
-        fetchUserData();
-    }, []);   
-    
+  
 
    
 function isCreatedAtToday(createdAt:any) {
+  console.log("createdAt", createdAt)
   const today = new Date();
   const todayStr = today.toISOString().split('T')[0];
   const createdAtDate = new Date(createdAt);   
@@ -174,7 +143,8 @@ function isCreatedAtToday(createdAt:any) {
 
 
       const [profile, setProfile] = useState<any[]>([]); 
-      const userId = userProfile?._id ?? null; 
+   
+      const name = userProfile?.username ?? null;
       console.log(userId)
       useEffect(() => {
         if (!userId) return; // Avoid API call until userId is available
@@ -189,17 +159,41 @@ function isCreatedAtToday(createdAt:any) {
                 
                 setProfile(data.userAssesments); 
 
+                const monthCounts = new Map();
+                data.userAssesments.forEach(assessment => {
+                    const date = new Date(assessment.createdAt);
+                    const month = date.toLocaleString('default', { month: 'short' });
+    
+                    monthCounts.set(month, (monthCounts.get(month) || 0) + 1);
+                });
+                const monthOrder = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+                // Normalize the month names in the monthCounts to ensure consistency
+                const normalizedMonthCounts = Array.from(monthCounts, ([month, count]) => {
+                    // Normalize months like 'Sept' to 'Sep'
+                    const normalizedMonth = month === 'Sept' ? 'Sep' : month;
+                    return { month: normalizedMonth, count };
+                });
+        
+                // Sort the monthDataArray based on the index in monthOrder
+                const monthDataArray = normalizedMonthCounts.sort((a, b) => monthOrder.indexOf(a.month) - monthOrder.indexOf(b.month));
+                
+                setMonthData(monthDataArray);
+    
+               
+setLoading(false)
                 let val = 0;
                 for(let i=0; i<data.userAssesments.length; i++){
+                
                   let isCreatedToday = isCreatedAtToday(data.userAssesments[i].createdAt);
                   if(isCreatedToday){
                    val++;
                   }
                 }
-               
+             
                 setTodayAssesment(val);
                 
-                debugger
+               
             } catch (error) {
                 console.error("Error fetching history data:", error);
             }
@@ -214,6 +208,69 @@ function isCreatedAtToday(createdAt:any) {
       router.push(`/result-screen?id=${encodeURIComponent(id)}`);
     }
     
+    useEffect(() => {
+      setBarData({
+        labels: monthData.map(item => item.month),
+        datasets: [
+          {
+            // label: 'Lines of Code',
+            data: monthData.map(item => item.count),
+            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1,
+          },
+        ],
+      });
+    }, [monthData]);
+   
+   
+    const handleSaveAbout = () => {
+      if (userId && newAboutData.trim()) {
+        setLoading(true)
+        axios.put(`${process.env.NEXT_PUBLIC_API_URI}/users/about/${userId}`, { about: newAboutData.trim() })
+          .then(response => {
+            setAboutData(response.data)
+            setEditAboutMode(false)
+            setLoading(false)
+          })
+          .catch(error => console.error('Error saving about data:', error))
+      } else {
+        alert('Please enter valid about data')
+      }
+    }
+  
+   
+    const handleSaveData = () => {
+      if (userId && (newUsernameData.trim() || newAddressData.trim())) {
+        setLoading(true)
+        axios
+          .put(`${process.env.NEXT_PUBLIC_API_URI}/users/about/${userId}`, {
+            username: newUsernameData.trim(),
+            address: newAddressData.trim(),
+          })
+          .then(response => {
+            setUsernameData(response.data)
+            setAddressData(response.data)
+            setEditUsernameMode(false)
+            setLoading(false)
+          })
+          .catch(error => console.error('Error saving user data:', error))
+      } else {
+        alert('Please enter valid username and address')
+      }
+    }
+  
+    const handleEditUsername = () => {
+      setNewUsernameData(usernameData.username);  
+      setNewAddressData(addressData.address);
+      setEditUsernameMode(true); 
+    };
+    
+    const handleEditAbout = () => {
+      setNewAboutData(aboutData.about);  
+      setEditAboutMode(true);  
+    };
+    
   return (
     <>
     <div className='h-screen overflow-auto'>
@@ -226,21 +283,59 @@ function isCreatedAtToday(createdAt:any) {
             <div className="col-span-1 md:col-span-3">
               <div className="grid grid-cols-1 gap-6">
    
-              {/* {loading ? (
-                  <CustomCardLoader viewBox={FilterLoader.viewBox} className={FilterLoader.className} rectW={FilterLoader.rectW} rectH={500}/> // Show loader while loading
-                ) : ( */}
+              {loading ? (
+                  <div className="bg-gray-100 rounded-lg shadow-lg p-4 text-center flex items-center">
+                  <CustomCardLoader viewBox="0 0 380 350" className="text-3xl text-gray-700" rectW="100%" rectH="310" />
+                </div>
+                ) : (
                 <div className="bg-gray-100 rounded-lg shadow-lg p-6 relative">
-                <button className="absolute top-3 right-3 text-gray-500 hover:text-blue-500">
+                <button className="absolute top-3 right-3 text-gray-500 hover:text-blue-500" onClick={handleEditUsername}>
                     <FaPen className="h-4 w-4" />
                   </button>
                   <div className="text-center">
                     <img src="/path-to-profile-image.jpg" alt="Profile" className="w-24 h-24 mx-auto rounded-full" />
-                  <h2 className="text-md font-semibold mt-4">{user?.username || 'Default Username'}</h2>
-                    <p className="text-gray-500 text-sm">New York</p>
-                    <div className="mt-4">
+                    {editUsernameMode ? (
+                        <div>
+                          <input
+                            type="text"
+                            className="w-full p-2 mt-2 border border-gray-300 rounded-lg"
+                            value={newUsernameData}  
+                            onChange={(e) => setNewUsernameData(e.target.value)}
+                          />
+                          <input
+                              type="text"
+                              className="w-full p-2 mt-2 border border-gray-300 rounded-lg"
+                              value={newAddressData}
+                              onChange={(e) => setNewAddressData(e.target.value)}
+                              placeholder="Enter new address"
+                            />
+                          <div className="mt-4">
+                            <button
+                              className="bg-blue-500 text-white py-2 px-4 rounded-lg"
+                              onClick={handleSaveData}
+                            >
+                              Save
+                            </button>
+                            <button
+                              className="ml-2 bg-gray-300 text-gray-700 py-2 px-4 rounded-lg"
+                              onClick={() => setEditUsernameMode(false)}  // Cancel edit
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </div>
+                    ) : (
+                      <>
+                  <h2 className="text-md font-semibold mt-4">{usernameData.username || 'Default Username'}</h2>
+                  <p className="text-gray-500 text-sm">{addressData.address || 'Default Address'}</p>
+                  </>
+                  )}
+                  
+                    
+                    {/* <div className="mt-4">
                       <button className="bg-blue-500 text-white py-2 px-4 rounded-lg">Connect</button>
                       <button className="ml-2 bg-gray-300 text-gray-700 py-2 px-4 rounded-lg">Message</button>
-                    </div>
+                    </div> */}
                   </div>
                   {/* <div className="flex justify-around mt-6">
                     <div>
@@ -254,64 +349,109 @@ function isCreatedAtToday(createdAt:any) {
                     </div>
                   </div> */}
                 </div>
-                {/* //  )} */}
+                  )}
            
-           {/* {loading ? (
-                  <CustomCardLoader viewBox={FilterLoader.viewBox} className={FilterLoader.className} rectW={FilterLoader.rectW} rectH={150}/> // Show loader while loading
+           {loading ? (
+                <div className="bg-gray-100 rounded-lg shadow-lg p-4 text-center flex items-center">
+                <CustomCardLoader viewBox="0 0 380 200" className="text-3xl text-gray-700" rectW="100%" rectH="200" />
+              </div>
                 ) : (
                 <div className="bg-gray-100 rounded-lg shadow-lg p-6 relative">
-                <button className="absolute top-3 right-3 text-gray-500 hover:text-blue-500">
+                <button className="absolute top-3 right-3 text-gray-500 hover:text-blue-500"   onClick={handleEditAbout}>
                     <FaPen className="h-4 w-4" />
                   </button>
                   <h3 className="text-md font-semibold text-center">About Me</h3>
-                  <p className="text-gray-500 text-sm mt-2">{aboutData.description}</p>
+                  {editAboutMode ? (
+                    <div>
+                      <textarea
+                        className="w-full p-2 mt-2 border border-gray-300 rounded-lg"
+                         value={newAboutData}
+                         onChange={(e) => setNewAboutData(e.target.value)}
+                        rows={4}
+                      />
+                      <div className="mt-4">
+                        <button
+                          className="bg-blue-500 text-white py-2 px-4 rounded-lg"
+                           onClick={handleSaveAbout}
+                        >
+                          Save
+                        </button>
+                        <button
+                          className="ml-2 bg-gray-300 text-gray-700 py-2 px-4 rounded-lg "
+                          onClick={() => setEditAboutMode(false)}  // Cancel edit
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="text-gray-500 text-sm mt-2">{aboutData.about}</p>
+                  )}
                 </div>
-                )} */}
+                 )} 
               </div>
             </div>
 
            
             <div className="col-span-1 md:col-span-9 space-y-6">
-              
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-             
-                <div className="bg-gray-100 rounded-lg shadow-lg p-4 text-center flex items-center">
-                <div className="flex items-start mr-5">
-          <FaChartBar className="text-3xl text-gray-700" />
-        </div>
-        <div className='flex flex-col justify-center items-center'>
-                  <h3 className="text-md font-semibold text-gray-500">Project View</h3>
-                  <p className="text-xl font-bold">{statisticsData.projectView}</p>
-                  </div>
-                </div >
-                
 
-
-                <div className="bg-gray-100 rounded-lg shadow-lg p-4 text-center flex items-center">
-                <div className="flex items-start mr-5">
-          <FaClipboardList className="text-3xl text-gray-700" />
-        </div>
-        <div className='flex flex-col justify-center items-center'>
-                  <h3 className="text-md font-semibold text-gray-500">Total Assesment</h3>
-                  <p className="text-xl font-bold">{totalAssessments }</p>
+            {loading ? (
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                   
+                    <div className="bg-gray-100 rounded-lg shadow-lg p-4 text-center flex items-center">
+                      <CustomCardLoader viewBox="0 0 380 75" className="text-3xl text-gray-700" rectW="100%" rectH="90" />
+                    </div>
+                    
+                    <div className="bg-gray-100 rounded-lg shadow-lg p-4 text-center flex items-center">
+                      <CustomCardLoader viewBox="0 0 380 75" className="text-3xl text-gray-700" rectW="100%" rectH="90" />
+                    </div>
+                    
+                    <div className="bg-gray-100 rounded-lg shadow-lg p-4 text-center flex items-center">
+                      <CustomCardLoader viewBox="0 0 380 75" className="text-3xl text-gray-700" rectW="100%" rectH="90" />
+                    </div>
                   </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {/* Card for Project View */}
+                    <div className="bg-gray-100 rounded-lg shadow-lg p-4 text-center flex items-center">
+                      <div className="flex items-start mr-5">
+                        <FaChartBar className="text-3xl text-gray-700" />
+                      </div>
+                      <div className="flex flex-col justify-center items-center">
+                        <h3 className="text-md font-semibold text-gray-500">Project View</h3>
+                        <p className="text-xl font-bold">{statisticsData.projectView}</p>
+                      </div>
+                    </div>
+
+                   
+                    <div className="bg-gray-100 rounded-lg shadow-lg p-4 text-center flex items-center">
+                      <div className="flex items-start mr-5">
+                        <FaClipboardList className="text-3xl text-gray-700" />
+                      </div>
+                      <div className="flex flex-col justify-center items-center">
+                        <h3 className="text-md font-semibold text-gray-500">Total Assessments</h3>
+                        <p className="text-xl font-bold">{totalAssessments}</p>
+                      </div>
+                    </div>
+
+                    {/* Card for Today Assessments */}
+                    <div className="bg-gray-100 rounded-lg shadow-lg p-4 text-center flex items-center">
+                      <div className="flex items-start mr-5">
+                        <FaClipboardCheck className="text-3xl text-gray-700" />
+                      </div>
+                      <div className="flex flex-col justify-center items-center">
+                        <h3 className="text-md font-semibold text-gray-500">Today Assessments</h3>
+                        <p className="text-xl font-bold">{todayAssesment}</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+           
+           {loading ? (
+                  <div className="bg-gray-100 rounded-lg shadow-lg p-4 text-center flex items-center">
+                  <CustomCardLoader viewBox="0 0 380 100" className="text-3xl text-gray-700" rectW="100%" rectH="310" />
                 </div>
-          
-
-
-                <div className="bg-gray-100 rounded-lg shadow-lg p-4 text-center flex items-center ">
-  <div className="flex items-start mr-5">
-    <FaClipboardCheck className="text-3xl text-gray-700" />
-  </div>
-  <div className='flex flex-col justify-center items-center'>
-    <h3 className="text-md font-semibold text-gray-500">Today Assesments</h3>
-    <p className="text-xl font-bold">{todayAssesment}</p>
-  </div>
-</div>
-               
-              </div>
-
-              
+                ) : (
               <div className="bg-gray-100 rounded-lg shadow-lg p-6">
                   <h3 className="text-md font-semibold">Total data</h3>
                
@@ -321,18 +461,20 @@ function isCreatedAtToday(createdAt:any) {
                   </div>
                 
                 </div>
-            
+                )}
 
 
-                {/* {loading ? (
-                  <CustomCardLoader viewBox={FilterLoader.viewBox} className={FilterLoader.className} rectW={FilterLoader.rectW} rectH={120}/> // Show loader while loading
-                ) : ( */}
+                {loading ? (
+                  <div className="bg-gray-100 rounded-lg shadow-lg p-4 text-center flex items-center">
+                  <CustomCardLoader viewBox="0 0 380 55" className="text-3xl text-gray-700" rectW="100%" rectH="70" />
+                </div>
+                ) : (
               <div className="bg-gray-100 rounded-lg shadow-lg p-6">
                 <h3 className="text-md font-semibold">History</h3>
                 <ul className="mt-4">
                 {profile && Array.isArray(profile) && profile.length > 0 ? (
   profile.map((job, index) => (
-    <li key={index} className="flex justify-between py-2 text-gray-500">
+    <li key={index} className="flex justify-between py-2 text-gray-500 cursor-pointer hover:text-indigo-500">
       <span className="text-sm" onClick={()=>goTOResult(job._id)}>{job.paperTitle}</span>
     </li>
   ))
@@ -342,7 +484,7 @@ function isCreatedAtToday(createdAt:any) {
 
                 </ul>
               </div>
-                {/* // )} */}
+                 )} 
             </div>
           </div>
         </div>

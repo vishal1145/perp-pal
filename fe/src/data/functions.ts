@@ -15,6 +15,10 @@ export const setYourQuestions=(str:string)=>{
 }
  
 export let userProfile = null;
+export let userProfileLoading = true;
+
 export const setUserProfile =(user:any)=>{
-      userProfile = user
+      userProfile = user;
+      userProfileLoading=false;
 }
+

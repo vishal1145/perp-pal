@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
 
     const chartData = {
       labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-      data: [500, 600, 700, 800, 900, 1000],
+      data: [50, 100, 150, 200, 250, 300],
     };
 
     return NextResponse.json(chartData, { status: 200 });

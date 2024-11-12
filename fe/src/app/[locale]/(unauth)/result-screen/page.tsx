@@ -28,7 +28,7 @@ const ResultPage  = ( ) => {
   const router = useRouter();
   const id = searchParams.get('id');
   const hasFetched = useRef(false);
-  const [loadingUserData, setLoadingUserData] = useState(true);
+  const [loadingUserData, setLoadingUserData] = useState();
  
   const getSubmitAssessment = async () => {
     try { 
@@ -64,35 +64,14 @@ const ResultPage  = ( ) => {
     }
   }
 
-  const fetchUserData = async () => {
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/users/me`, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      });
-
-      if (response.ok) {
-        const userData = await response.json();
-        // setUser(userData);
-        setUserProfile(userData.data);
-      } else if (response.status === 400) {
-        console.warn('User is not logged in or session has expired');
-        // setUser(null); // Show login button
-      }
-    } catch (error) {
-      console.error('Error fetching user data:', error);
-      // setUser(null); // Show login button on error
-    }finally {
-      setLoadingUserData(false); // Set loading to false after fetching user data
-    }
-  };
+  
  
   useEffect(() => {
     if (id && !hasFetched.current) {
       hasFetched.current = true;
       getSubmitAssessment(); 
       getHomeData();
-      fetchUserData()
+    
     }
   }, [id]);
   

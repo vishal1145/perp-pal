@@ -4,7 +4,7 @@ import { FaSearch, FaTelegramPlane, FaWhatsapp, FaInstagram, FaFacebook, FaUser 
 import SignIn from '@/app/[locale]/(unauth)/signIn/page';
 import SignUp from '@/app/[locale]/(unauth)/SignUP/page';
 import ForgetPassword from '@/app/[locale]/(unauth)/forgetPassword/page';
-import { setUserProfile, userProfile } from '@/data/functions';
+import { setUserProfile, userProfile, userProfileLoading } from '@/data/functions';
 import logo from "../images/logo1.png"
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -197,9 +197,9 @@ export const Banner: React.FC<DemoBannerProps> = ({ notMainPage, user, onLogin, 
           </a>
           </>
         )}
-          {loadingUserData ? (
+          {loadingUserData && userProfileLoading == false   ? (
               <div className="relative w-8 h-8"></div> 
-          ) : userProfile ? (
+          ) :  userProfile  ? (
             <div className="relative">
               <FaUser id="avatarButton" className="text-gray-900 hover:text-indigo-500 transition" size={20} onClick={toggleDropdown} />
               {isDropdownOpen && (
@@ -224,11 +224,11 @@ export const Banner: React.FC<DemoBannerProps> = ({ notMainPage, user, onLogin, 
                 </div>
               )}
             </div>
-          ) : (
+          ) : userProfileLoading == false ? (
             <button onClick={() => openModal(true)} className="font-bold text-gray-900 hover:text-indigo-500 transition text-sm sm:text-base">
               Login
             </button>
-          )}
+          ):null}
         </div>
       </header>
       

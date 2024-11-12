@@ -2,16 +2,16 @@
 
 // import { LocaleSwitcher } from '@/components/LocaleSwitcher';
 // import { BaseTemplate } from '@/templates/BaseTemplate';
-
+// 'use client'
 import '@/styles/global.css';
 import "../../../styles/app.css"
 import type { Metadata } from 'next';
 import { NextIntlClientProvider, useMessages } from 'next-intl';
 import { unstable_setRequestLocale } from 'next-intl/server';
-
+import DefaultPage from './default/page';
 // import { DemoBadge } from '@/components/DemoBadge';
 import { AppConfig } from '@/utils/AppConfig';
-  
+
 
 export const metadata: Metadata = {
   title: 'prepal',
@@ -52,6 +52,7 @@ export default function RootLayout(props: {
   // Using internationalization in Client Components
   const messages = useMessages();
 
+  
   return (
     <html lang={props.params.locale}>
       <body>
@@ -61,11 +62,11 @@ export default function RootLayout(props: {
           messages={messages}
         >
           {props.children}
-
-
+       
+<DefaultPage/>
           {/* <DemoBadge /> */}
         </NextIntlClientProvider>
-        
+    
       {/* <Footer/> */}
       </body>
     </html>

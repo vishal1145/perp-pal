@@ -48,7 +48,7 @@ const Assessment: React.FC = () => {
   const [levelFilter, setLevelFilter] = useState<FilterOption[]>([]);
   const [formattedText, setFormattedText] = useState<string>('');
   const [alreadyCall, setAlreadyCall] = useState<boolean>(false);
-  const [loadingUserData, setLoadingUserData] = useState(true);
+  const [loadingUserData, setLoadingUserData] = useState();
   const [selectedFilters, setSelectedFilters] = useState({
     classId: null as string | null,
     subjectId: null as string | null,
@@ -136,34 +136,13 @@ const Assessment: React.FC = () => {
       return [];
     }
   };
-  const fetchUserData = async () => {
-    try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/users/me`, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      });
-
-      if (response.ok) {
-        const userData = await response.json();
-        // setUser(userData);
-        setUserProfile(userData.data);
-      } else if (response.status === 400) {
-        console.warn('User is not logged in or session has expired');
-        // setUser(null); // Show login button
-      }
-    } catch (error) {
-      console.error('Error fetching user data:', error);
-      // setUser(null); // Show login button on error
-    }finally {
-      setLoadingUserData(false); // Set loading to false after fetching user data
-    }
-  };
+ 
  
   useEffect(() => {
     fetchFilterOptions('subject', '67069f86fc430151577d39fd').then(setSubjectFilter);
     fetchFilterOptions('chapter', '670788242e0e06e67865a429').then(setChapterFilter);
     fetchFilterOptions('level', 'chapterId').then(setLevelFilter);  
-    fetchUserData();
+    // fetchUserData();
   }, [])
   const handleFilterChange = (filter: 'classId' | 'subjectId' | 'chapterId' | 'levelId', value: string | null) => {
     setSelectedFilters((prev) => ({ ...prev, [filter]: value }));
@@ -263,9 +242,10 @@ const Assessment: React.FC = () => {
                     </div>
                   </div>
 
-                  <div  style={{ width: "23%" }}>
-                    <CustomCardLoader viewBox={`0 0 380 105`} className={'   rounded-lg'} rectW='100%' rectH='80' />
+                  <div  style={{ width: "15%",marginLeft:"70px" }}>
+                    <CustomCardLoader viewBox={`0 0 280 105`} className={'   rounded-lg'} rectW='100%' rectH='80' />                    
                   </div>
+                  
                 </div>
             }
 
