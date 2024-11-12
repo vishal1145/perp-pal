@@ -63,12 +63,13 @@ const PracticeScreen = () => {
     }
     if (idValue) {
       setId(idValue);
+      getPracticePaper(idValue)
     }
   }, []);
   
-  const getPracticePaper = async () => {
+  const getPracticePaper = async (id:string) => {
     try { 
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URI}/startassesment/672f0b6e5584714fe6fc0350`);
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URI}/startassesment/${id}`);
       setQuestions(response?.data?.questions);
       setLoading(false);
       const initialPracticePaper = response?.data?.questions.map((q: McqTestQuestion) => ({
@@ -155,12 +156,6 @@ const PracticeScreen = () => {
 
   
   
-
-  useEffect(() => {
-    // fetchUserData();
-    getPracticePaper();
-  }, []);
-
   useEffect(() => {
     if (panelRef.current) {
       setPanelHeight(showHints ? panelRef.current.scrollHeight : 0);

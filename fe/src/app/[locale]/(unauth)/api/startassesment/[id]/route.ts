@@ -9,8 +9,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
         await connectDB();
         const { id } = params;
 
-        console.log("pramas", id)
-
+        console.log('id',id);
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return NextResponse.json({ message: 'Invalid ID format.' }, { status: 400 });
         }

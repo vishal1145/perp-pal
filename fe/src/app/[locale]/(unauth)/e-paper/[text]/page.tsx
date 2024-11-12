@@ -73,8 +73,7 @@ const Assessment: React.FC = () => {
     setQuestionLoading(true);
     try {
       const {data} = await axios.post(`${process.env.NEXT_PUBLIC_API_URI}/get/questions`, {prompt:text});
-      // const {data} = await axios.get(`https://prep-pal.algofolks.com/api/Question`);
-      
+    
       const mcqQuestions = data.filter((item)=>item.questionType === "Single Choice");
       setQuestions(mcqQuestions);
     
@@ -93,17 +92,18 @@ const Assessment: React.FC = () => {
     try {
       setShowLoader(true);
 
-
        const userId = userProfile?._id ?? null; 
        //  const { data } = await axios.post(`https://prep-pal.algofolks.com/api/Question/generate-guid`);
        const response =  await axios.post(`${process.env.NEXT_PUBLIC_API_URI}/questions`, questions);
        const quetionsIds =  response.data?.quetionsIds;
 
-       console.log(quetionsIds);
-       debugger
+    
        const {data} =  await axios.post(`${process.env.NEXT_PUBLIC_API_URI}/startassesment`, {quetionsIds:quetionsIds, userId:userId});
        const text = formattedText.trim().replace(/\s+/g, '--');  
+       console.log("data", data);
+       debugger 
        router.push(`/practice-screen?paper=${encodeURIComponent(text)}&id=${encodeURIComponent(data.saveStartAssesment._id)}`);
+
     } catch (error) {
       console.error('Error generating practice:', error);
       setAlreadyCall(false);

@@ -12,7 +12,6 @@ export async function POST(req: NextRequest) {
     try {
         const { userId, questions, totalSubmitTime, paperTitle } = await req.json(); 
         
-
         const formattedQuestions: any = questions.map((q: { McqQuestion: McqQuestion; userSelectAns: string, submitTimeInSeconds: number, userSelectAnsString:string }) => ({
             questionId: new mongoose.Types.ObjectId(q.McqQuestion._id),
             userSelectAns: q.userSelectAns,
