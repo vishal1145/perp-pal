@@ -57,7 +57,7 @@ const Faq = ({ title, description, imageUrl }) => {
   }, []);
 // console.log(window.location.href)
   const shareOnFacebook = () => {
-    const urlToShare = "https://preppal.club/e-paper/What-is-the-difference-between-speed-and-velocity";
+    const urlToShare = window.location.href; ;
     window.FB.ui({
       method: 'share',
       href: urlToShare,
@@ -100,7 +100,7 @@ const Faq = ({ title, description, imageUrl }) => {
     <>
       <Head>
         <title>{title}</title>
-        <meta property="og:url" content="https://preppal.club/e-paper/What-is-the-difference-between-speed-and-velocity" />
+        <meta property="og:url" content="" />
         <meta property="og:type" content="article" />
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />

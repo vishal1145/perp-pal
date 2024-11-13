@@ -140,7 +140,7 @@ export const Banner: React.FC<DemoBannerProps> = ({ notMainPage, user, onLogin, 
 
 
       
-        <div className="flex items-center px-2 sm:px-4">
+        <div className="flex items-center ">
           {!notMainPage ? (
             <ul className="flex">
               <li>
@@ -180,7 +180,7 @@ export const Banner: React.FC<DemoBannerProps> = ({ notMainPage, user, onLogin, 
         </div>
         )}
         
-        <div className="flex space-x-2 sm:space-x-5 ml-2 sm:ml-4 px-2 sm:px-4">
+        <div className="flex space-x-2 sm:space-x-5 ml-2 sm:ml-4 ">
         {!notMainPage && (
           <>
           {/* <a href="https://t.me/your-telegram-link" target="_blank" rel="noopener noreferrer">
@@ -200,7 +200,7 @@ export const Banner: React.FC<DemoBannerProps> = ({ notMainPage, user, onLogin, 
           {loadingUserData && userProfileLoading == false   ? (
               <div className="relative w-8 h-8"></div> 
           ) :  userProfile  ? (
-            <div className="relative">
+            <div className="relative cursor-pointer">
               <FaUser id="avatarButton" className="text-gray-900 hover:text-indigo-500 transition" size={20} onClick={toggleDropdown} />
               {isDropdownOpen && (
                 <div id="userDropdown" className="absolute right-0 mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-44">

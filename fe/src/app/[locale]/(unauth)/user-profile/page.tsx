@@ -8,6 +8,7 @@ import CustomCardLoader from '@/components/CustomCardLoader';
 import { FilterLoader } from '@/data/data';
 import { Bar } from 'react-chartjs-2'
 import { useRouter } from 'next/navigation';
+
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -204,9 +205,14 @@ setLoading(false)
     const totalAssessments = profile.length
 
 
-    const goTOResult = (id:string)=>{
-      router.push(`/result-screen?id=${encodeURIComponent(id)}`);
-    }
+    // const goTOResult = (id:string,)=>{
+    //   router.push(`/result-screen?id=${encodeURIComponent(id)}`);
+    // }
+
+    const goTOResult = (id: string, title: string) => {
+      router.push(`/result-screen?id=${encodeURIComponent(id)}&title=${encodeURIComponent(title)}`);
+    };
+    
     
     useEffect(() => {
       setBarData({
@@ -275,8 +281,8 @@ setLoading(false)
     <>
     <div className='h-screen overflow-auto'>
       <Banner notMainPage={false} />
-      <div className="bg-white min-h-screen">
-        <div className="container mx-auto py-8 px-4 pb-24">
+      <div className="bg-white min-h-screen p-4">
+        <div className=" mx-auto py-8 px-4 pb-24">
           
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
             
@@ -293,7 +299,7 @@ setLoading(false)
                     <FaPen className="h-4 w-4" />
                   </button>
                   <div className="text-center">
-                    <img src="/path-to-profile-image.jpg" alt="Profile" className="w-24 h-24 mx-auto rounded-full" />
+                    <img src="/assets/images/profile-icon-design-free-vector.jpg" alt="Profile" className="w-24 h-24 mx-auto rounded-full" />
                     {editUsernameMode ? (
                         <div>
                           <input
@@ -360,7 +366,7 @@ setLoading(false)
                 <button className="absolute top-3 right-3 text-gray-500 hover:text-blue-500"   onClick={handleEditAbout}>
                     <FaPen className="h-4 w-4" />
                   </button>
-                  <h3 className="text-md font-semibold text-center">About Me</h3>
+                  <h3 className="text-md font-semibold text-center mb-4">About Me</h3>
                   {editAboutMode ? (
                     <div>
                       <textarea
@@ -396,12 +402,12 @@ setLoading(false)
             <div className="col-span-1 md:col-span-9 space-y-6">
 
             {loading ? (
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                    
-                    <div className="bg-gray-100 rounded-lg shadow-lg p-4 text-center flex items-center">
+                    {/* <div className="bg-gray-100 rounded-lg shadow-lg p-4 text-center flex items-center">
                       <CustomCardLoader viewBox="0 0 380 75" className="text-3xl text-gray-700" rectW="100%" rectH="90" />
                     </div>
-                    
+                     */}
                     <div className="bg-gray-100 rounded-lg shadow-lg p-4 text-center flex items-center">
                       <CustomCardLoader viewBox="0 0 380 75" className="text-3xl text-gray-700" rectW="100%" rectH="90" />
                     </div>
@@ -411,9 +417,9 @@ setLoading(false)
                     </div>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* Card for Project View */}
-                    <div className="bg-gray-100 rounded-lg shadow-lg p-4 text-center flex items-center">
+                    {/* <div className="bg-gray-100 rounded-lg shadow-lg p-4 text-center flex items-center">
                       <div className="flex items-start mr-5">
                         <FaChartBar className="text-3xl text-gray-700" />
                       </div>
@@ -421,7 +427,7 @@ setLoading(false)
                         <h3 className="text-md font-semibold text-gray-500">Project View</h3>
                         <p className="text-xl font-bold">{statisticsData.projectView}</p>
                       </div>
-                    </div>
+                    </div> */}
 
                    
                     <div className="bg-gray-100 rounded-lg shadow-lg p-4 text-center flex items-center">
@@ -475,7 +481,8 @@ setLoading(false)
                 {profile && Array.isArray(profile) && profile.length > 0 ? (
   profile.map((job, index) => (
     <li key={index} className="flex justify-between py-2 text-gray-500 cursor-pointer hover:text-indigo-500">
-      <span className="text-sm" onClick={()=>goTOResult(job._id)}>{job.paperTitle}</span>
+      <span className="text-sm" onClick={() => goTOResult(job._id, job.paperTitle)}
+      >{job.paperTitle}</span>
     </li>
   ))
 ) : (

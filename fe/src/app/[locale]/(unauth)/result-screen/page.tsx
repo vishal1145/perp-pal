@@ -29,7 +29,7 @@ const ResultPage  = ( ) => {
   const id = searchParams.get('id');
   const hasFetched = useRef(false);
   const [loadingUserData, setLoadingUserData] = useState();
- 
+  const title = searchParams.get("title");
   const getSubmitAssessment = async () => {
     try { 
       const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URI}/assessments/${id}`);
@@ -140,7 +140,9 @@ const ResultPage  = ( ) => {
           <div className="w-full">
           <div className="">
       <div className='text-md font-medium'>Your Questions</div>
-      <div className='text-gray-500 font-sm text-md'>{yourQuestions}</div>
+      {/* <div className='text-gray-500 font-sm text-md'>{yourQuestions}</div> */}
+      <div className="text-gray-500 font-sm text-md">{title ? title : yourQuestions}</div>
+      <div className="text-gray-500 font-sm text-md"></div>
       </div>
       <div className="py-2 mb-4" style={{ borderBottom: "1px solid #E2E2E2" }}></div>
             <div className="w-full flex flex-col ">

@@ -101,7 +101,7 @@ const Assessment: React.FC = () => {
        const {data} =  await axios.post(`${process.env.NEXT_PUBLIC_API_URI}/startassesment`, {quetionsIds:quetionsIds, userId:userId});
        const text = formattedText.trim().replace(/\s+/g, '--');  
        console.log("data", data);
-       debugger 
+      //  debugger 
        router.push(`/practice-screen?paper=${encodeURIComponent(text)}&id=${encodeURIComponent(data.saveStartAssesment._id)}`);
 
     } catch (error) {

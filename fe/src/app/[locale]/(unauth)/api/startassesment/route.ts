@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
     try {
         const { userId, quetionsIds } = await req.json();
  
-        if (!userId || !quetionsIds) {
+        if (!userId && !quetionsIds) {
             return NextResponse.json({ message: 'Invalid input: userId and questions are required.' }, { status: 400 });
         }
  

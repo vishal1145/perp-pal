@@ -213,8 +213,8 @@ const handleSignUp = (userData) => {
   </div>
 </div>
 {/* Search Bar */}
-<div className="flex justify-center items-center mb-6 px-4 sm:px-6 lg:px-8">
-  <div className="relative w-full max-w-xl sm:max-w-2xl">
+<div className="flex justify-center items-center mb-6 px-5 sm:px-6 lg:px-12">
+  <div className="relative w-1/2 max-w-xl sm:max-w-2xl">
     <span className="absolute inset-y-0 left-0 flex items-center pl-4 sm:pl-5">
       <FaSearch className="text-gray-400" />
     </span>
