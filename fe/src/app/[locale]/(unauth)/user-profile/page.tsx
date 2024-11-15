@@ -36,7 +36,13 @@ const[todayAssesment, setTodayAssesment]    = useState(0);
 const[user, setUser] = useState(null);
 const [loading, setLoading] = useState<boolean>(true);
 const userId = userProfile?._id ?? null; 
-  
+const [showAll, setShowAll] = useState(false);
+
+const toggleShowAll = () => {
+  setShowAll(!showAll);
+};
+
+
 useEffect(() => {
   if (userId) {
     axios.put(`${process.env.NEXT_PUBLIC_API_URI}/users/about/${userId}`)
@@ -184,22 +190,26 @@ function isCreatedAtToday(createdAt:any) {
                
 setLoading(false)
                 let val = 0;
-                for(let i=0; i<data.userAssesments.length; i++){
                 
-                  let isCreatedToday = isCreatedAtToday(data.userAssesments[i].createdAt);
-                  if(isCreatedToday){
-                   val++;
-                  }
-                }
+        data.userAssesments.forEach((assessment: any) => {
+          // Check if the assessment was created today
+          if (isCreatedAtToday(assessment.createdAt)) {
+            val++;
+          }
+
+         
+        });
              
-                setTodayAssesment(val);
-                
-               
+
+ 
+          
+                  setTodayAssesment(val);
+           
             } catch (error) {
                 console.error("Error fetching history data:", error);
             }
         };
-    
+  
         fetchProfileData();  
     }, [userId]);  
     const totalAssessments = profile.length
@@ -299,7 +309,7 @@ setLoading(false)
                     <FaPen className="h-4 w-4" />
                   </button>
                   <div className="text-center">
-                    <img src="/assets/images/profile-icon-design-free-vector.jpg" alt="Profile" className="w-24 h-24 mx-auto rounded-full" />
+                    <img src="/assets/profileImage.jpg" alt="Profile" className="w-24 h-24 mx-auto rounded-full" />
                     {editUsernameMode ? (
                         <div>
                           <input
@@ -475,22 +485,71 @@ setLoading(false)
                   <CustomCardLoader viewBox="0 0 380 55" className="text-3xl text-gray-700" rectW="100%" rectH="70" />
                 </div>
                 ) : (
-              <div className="bg-gray-100 rounded-lg shadow-lg p-6">
-                <h3 className="text-md font-semibold">History</h3>
-                <ul className="mt-4">
-                {profile && Array.isArray(profile) && profile.length > 0 ? (
-  profile.map((job, index) => (
-    <li key={index} className="flex justify-between py-2 text-gray-500 cursor-pointer hover:text-indigo-500">
-      <span className="text-sm" onClick={() => goTOResult(job._id, job.paperTitle)}
-      >{job.paperTitle}</span>
-    </li>
-  ))
-) : (
-  <li>No history available</li>
-)}
 
-                </ul>
+ <div className="bg-gray-100 rounded-lg shadow-lg p-6"> 
+  <h3 className="text-md font-semibold">History</h3>
+  <ul className="mt-4">
+    {profile && Array.isArray(profile) && profile.length > 0 ? (
+      (showAll ? profile : profile.slice(0, 5)).map((job, index) => {
+        let correctCount = 0;
+        let incorrectCount = 0;
+        let notAttemptedCount = 0;
+        
+         job.questions?.forEach(q => {
+          const correctAnswer = q.questionId?.correctAnswer;
+
+       
+          console.log("userSelectedans",q.userSelectAns)
+          console.log("correctAns",correctAnswer)
+          if (!q.userSelectAns || q.userSelectAns === "") {
+            notAttemptedCount++;
+          } else {
+         
+            if (q.userSelectAns === correctAnswer) {
+              correctCount++;
+            } else {
+              incorrectCount++;
+            }
+          }
+        });
+
+        const totalQuestions = job.questions?.length || 0;
+ 
+        return (
+          <li key={index} className="flex justify-between py-4 text-gray-500 cursor-pointer hover:text-indigo-500 " style={{ borderBottom: '1px solid #e2e2e2' }}>
+            <div className="flex flex-col w-full">
+              <div className="flex justify-between">
+                <span className="text-sm font-medium" onClick={() => goTOResult(job._id, job.paperTitle)}>
+                  {job.paperTitle}
+                </span>
+                <span className="text-sm ">{new Date(job.createdAt).toLocaleDateString()}</span>
               </div>
+              
+              <div className="flex justify-between mt-1 text-gray-400 text-sm w-60">
+  <span>Total- {totalQuestions}</span> |
+  <span>Correct- {correctCount}</span> |
+  <span>Incorrect- {incorrectCount}</span>
+</div>
+
+            </div>
+            
+          </li>
+        );
+      })
+    ) : (
+      <li>No history available</li>
+    )}
+  </ul>
+  {profile && profile.length > 2 && (
+        <button
+          onClick={toggleShowAll}
+          className="mt-4 text-indigo-500 font-semibold"
+        >
+          {showAll ? 'Show Less' : 'View All'}
+        </button>
+      )}
+</div>
+
                  )} 
             </div>
           </div>

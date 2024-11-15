@@ -10,7 +10,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
      
         const userAssesments = await SubmitAssessment.find({
             userId:new mongoose.Types.ObjectId(id),
-        }).populate('userId');
+        }).populate('userId').populate('questions.questionId');
                 
         return NextResponse.json( { status: 200, userAssesments });
 

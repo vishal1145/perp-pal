@@ -1,6 +1,4 @@
 import mongoose, { Document, Model, Schema } from 'mongoose';
-
- 
 export interface IAssessment extends Document {
     userId: mongoose.Types.ObjectId;   
     totalSubmitTime: number;
