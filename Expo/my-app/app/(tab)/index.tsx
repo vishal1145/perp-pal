@@ -18,10 +18,12 @@ const App = () => {
     <View style={styles.container}>
       
       <Image
-        source={require('../assets/images/logo1.png')}
+        source={require('../../assets/images/logo1.png')}
+        
         style={styles.logo}
         resizeMode="contain"
       />
+
 
      
       <View style={styles.searchContainer}>
@@ -40,6 +42,7 @@ const App = () => {
       <FlatList
         data={questions}
         keyExtractor={(item, index) => `${item}-${index}`}
+      showsVerticalScrollIndicator={false}
         numColumns={1}
         renderItem={({ item }) => (
           <View style={styles.card}>
@@ -58,6 +61,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: '#FFFFFF',
+    
   },
   logo: {
     width: 150,
@@ -74,6 +78,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     marginBottom: 20,
+    marginLeft:10,
+    marginRight:10
   },
   icon: {
     marginHorizontal: 5,
@@ -96,6 +102,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 3,
+    
   },
   cardText: {
     fontSize: 16,
