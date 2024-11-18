@@ -3,7 +3,6 @@ export const makeDate = (seconds:number, minutes:number, hours:number):Date=>{
       return date;
 }
 
-
 export const getTotalSeconds = (seconds:number, minutes:number, hours:number):number=>{
      const total = hours * 3600 + minutes * 60 + seconds;
      return total;

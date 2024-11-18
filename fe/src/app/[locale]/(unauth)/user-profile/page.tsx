@@ -94,28 +94,7 @@ const barOptions = {
 };
 
 
-      // useEffect(() => {
-      //   // Fetch data from the API
-      //   axios.get(`${process.env.NEXT_PUBLIC_API_URI}/users/graph`)
-      //     .then((response) => {
-      //       const { labels, data } = response.data
-      //       setBarData({
-      //         labels,
-      //         datasets: [
-      //           {
-      //             label: 'Lines of Code',
-      //             data,
-      //             backgroundColor: 'rgba(54, 162, 235, 0.6)',
-      //             borderColor: 'rgba(54, 162, 235, 1)',
-      //             borderWidth: 1,
-      //           },
-      //         ],
-      //       })
-      //     })
-      //     .catch((error) => {
-      //       console.error('Error fetching bar chart data:', error)
-      //     })
-      // }, [])
+      
 
       const [statisticsData, setStatisticsData] = useState({
         projectView: 0,

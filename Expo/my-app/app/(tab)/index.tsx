@@ -1,53 +1,89 @@
-import React from 'react';
-import { View, Text, TextInput, FlatList, StyleSheet, Image } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, FlatList, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-
-const questions = [
-  "What is the principle of superposition?",
-  "Define isotopes.",
-  "What is the role of enzymes in biological reactions?",
-  "What are the types of chemical bonds?",
-  "What are the uses of radioisotopes?",
-  "Define cellular respiration.",
-  "What is homeostasis?",
-  "What are the laws of thermodynamics?",
-];
+import { data } from '@/app-example/data/data';
+import { useRouter } from 'expo-router';
 
 const App = () => {
+  const [searchText, setSearchText] = useState('');
+  const [hoveredCardId, setHoveredCardId] = useState(null);
+  const records = data.records;
+  const router = useRouter();
+
+  const handleMouseEnter = (id) => {
+    setHoveredCardId(id); 
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredCardId(null);
+  };
+
+  const handleTouch = (id) => {
+    setHoveredCardId(id); 
+    router.push(`/e-paper?id=${id}`); 
+  };
+
+  const handleTouchOut = () => {
+    setHoveredCardId(null); 
+  };
+
+  const handleSearch = () => {
+    if (searchText.trim()) {
+      router.push(`/e-paper?query=${encodeURIComponent(searchText)}`); 
+    }
+  };
+
   return (
     <View style={styles.container}>
-      
       <Image
         source={require('../../assets/images/logo1.png')}
-        
         style={styles.logo}
         resizeMode="contain"
       />
 
-
-     
+      {/* Search Bar */}
       <View style={styles.searchContainer}>
         <Ionicons name="search" size={20} color="#888" style={styles.icon} />
         <TextInput
           style={styles.searchInput}
           placeholder="Search..."
           placeholderTextColor="#aaa"
+          value={searchText}
+          onChangeText={setSearchText}
+          onSubmitEditing={handleSearch}
           accessible
           accessibilityLabel="Search Input"
         />
-        <Ionicons name="mic" size={20} color="#888" style={styles.icon} />
+        
+        <TouchableOpacity onPress={handleSearch}>
+          <Ionicons name="mic" size={20} color="#888"  style={styles.icon} />
+        </TouchableOpacity>
+        
       </View>
 
   
       <FlatList
-        data={questions}
-        keyExtractor={(item, index) => `${item}-${index}`}
-      showsVerticalScrollIndicator={false}
+        data={records}
+        keyExtractor={(item) => item.id}
+        showsVerticalScrollIndicator={false}
         numColumns={1}
         renderItem={({ item }) => (
-          <View style={styles.card}>
-            <Text style={styles.cardText}>{item}</Text>
-          </View>
+          <TouchableOpacity
+            style={styles.card}
+            onMouseEnter={() => handleMouseEnter(item.id)} 
+            onMouseLeave={handleMouseLeave} 
+            onPress={() => handleTouch(item.id)} 
+            onPressOut={handleTouchOut} 
+          >
+            <Text style={styles.prompt_text}>{item.prompt_text}</Text>
+            
+            {hoveredCardId === item.id && (
+              <View style={styles.tooltip}>
+                <Text style={styles.tooltipText}>{item.prompt_Description}</Text>
+                <View style={styles.tooltipArrow} />
+              </View>
+            )}
+          </TouchableOpacity>
         )}
         contentContainerStyle={styles.grid}
         ListEmptyComponent={<Text style={styles.emptyText}>No questions available</Text>}
@@ -61,7 +97,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: '#FFFFFF',
-    
   },
   logo: {
     width: 150,
@@ -78,8 +113,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
     marginBottom: 20,
-    marginLeft:10,
-    marginRight:10
+    marginLeft: 10,
+    marginRight: 10,
   },
   icon: {
     marginHorizontal: 5,
@@ -102,12 +137,38 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 3,
-    
+    position: 'relative',
   },
-  cardText: {
+  prompt_text: {
     fontSize: 16,
     color: '#333',
     textAlign: 'center',
+  },
+  tooltip: {
+    position: 'absolute',
+    left: '50%',
+    bottom: '100%',
+    transform: [{ translateX: '-50%' }],
+    backgroundColor: '#4B5563',
+    borderRadius: 6,
+    padding: 8,
+    zIndex: 10,
+    marginBottom: 5,
+  },
+  tooltipText: {
+    color: '#fff',
+    fontSize: 14,
+    textAlign: 'center',
+  },
+  tooltipArrow: {
+    position: 'absolute',
+    width: 10,
+    height: 10,
+    backgroundColor: '#4B5563',
+    transform: [{ rotate: '45deg' }],
+    left: '50%',
+    bottom: -5,
+    marginLeft: -5,
   },
   emptyText: {
     fontSize: 16,
