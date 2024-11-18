@@ -17,7 +17,6 @@ const TabLayout = () => {
         }} 
       />
       
-    
       <Tabs.Screen 
         name="profile" 
         options={{

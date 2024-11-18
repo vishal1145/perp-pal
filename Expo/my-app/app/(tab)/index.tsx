@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, FlatList, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { data } from '@/app-example/data/data';
+ 
 import { useRouter } from 'expo-router';
+import { data } from '@/assets/data/data';
 
 const App = () => {
   const [searchText, setSearchText] = useState('');
@@ -95,7 +96,7 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 16,
     backgroundColor: '#FFFFFF',
   },
   logo: {
@@ -112,9 +113,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingHorizontal: 10,
     paddingVertical: 5,
-    marginBottom: 20,
-    marginLeft: 10,
-    marginRight: 10,
+    marginBottom: 10,
   },
   icon: {
     marginHorizontal: 5,
@@ -126,14 +125,13 @@ const styles = StyleSheet.create({
   },
   grid: {
     flexGrow: 1,
-    paddingVertical: 10,
   },
   card: {
     flex: 1,
     backgroundColor: '#f0f0f0',
     borderRadius: 10,
     padding: 20,
-    margin: 10,
+    marginVertical: 10,
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 3,
@@ -151,7 +149,6 @@ const styles = StyleSheet.create({
     transform: [{ translateX: '-50%' }],
     backgroundColor: '#4B5563',
     borderRadius: 6,
-    padding: 8,
     zIndex: 10,
     marginBottom: 5,
   },

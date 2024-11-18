@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, TouchableOpacity, Text, StyleSheet, Image, ActivityIndicator, FlatList } from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet, Image, ActivityIndicator, FlatList, Dimensions } from 'react-native';
 import * as Sharing from 'expo-sharing';
 import { Ionicons } from '@expo/vector-icons';
 const App = () => {
   const [questions, setQuestions] = useState<any[]>([]);
   const [questionLoading, setQuestionLoading] = useState(false);
-  
+  const { width } = Dimensions.get('window');
   const getQuestions = async (text: string) => {
     setQuestionLoading(true);
     try {
@@ -94,17 +94,19 @@ const App = () => {
           />
         )}
       </View>
-      {/* Fixed bottom button */}
-      <TouchableOpacity style={styles.button2} activeOpacity={0.7}>
-        <Text style={styles.buttonText2}>Button Text</Text>
+    
+ 
+      <TouchableOpacity style={[styles.button2, { width: width }]} activeOpacity={0.7}>
+        <Text style={styles.buttonText2}>Start Practice</Text>
       </TouchableOpacity>
+
     </View>
   );
 };
 const styles = StyleSheet.create({
   container: {
     flex: 1, // Ensures the container takes the full height
-    paddingHorizontal: 10,
+    paddingHorizontal: 16,
     backgroundColor: '#FFFFFF',
   },
   shareButtons: {
@@ -149,20 +151,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#00B5D8',
     paddingVertical: 10,
     paddingHorizontal: 20,
-    borderRadius: 8,
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems:'center',    
     elevation: 3,
-    position: 'absolute',
-    bottom: 0, 
-    left: 0, 
-    right: 0,
+    position:'absolute',
+    bottom:'0'
   },
   buttonText2: {
     color: 'white',
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '500',
+    textAlign:'center'
   },
   optionsContainer: {
     marginVertical: 5,

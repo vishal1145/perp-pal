@@ -24,8 +24,7 @@ const ProfilePage = () => {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      {/* Profile Section */}
+    <ScrollView style={styles.container}> 
       <View style={styles.card}>
         <Image
           source={require('../../assets/images/profileImage.jpg')}
@@ -37,8 +36,7 @@ const ProfilePage = () => {
           <Text>✏️</Text>
         </TouchableOpacity>
       </View>
-
-      {/* About Me Section */}
+ 
       <View style={styles.card}>
         <Text style={styles.sectionTitle}>About Me</Text>
         <Text style={styles.description}>this is about section</Text>
@@ -46,8 +44,7 @@ const ProfilePage = () => {
           <Text>✏️</Text>
         </TouchableOpacity>
       </View>
-
-      {/* Assessments Section */}
+ 
       <View style={styles.card}>
         <Text style={styles.sectionTitle}>Total Assessments</Text>
         <Text style={styles.value}>3</Text>
@@ -56,8 +53,7 @@ const ProfilePage = () => {
         <Text style={styles.sectionTitle}>Today Assessments</Text>
         <Text style={styles.value}>0</Text>
       </View>
-
-      {/* Chart Section */}
+ 
       <View style={styles.card}>
         <Text style={styles.sectionTitle}>Total Data</Text>
         <BarChart
@@ -72,7 +68,6 @@ const ProfilePage = () => {
    
       <View style={styles.card}>
         <Text style={styles.sectionTitle}>History</Text>
-        
       </View>
     </ScrollView>
   );
