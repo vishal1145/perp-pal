@@ -22,7 +22,7 @@ import {
 
   ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
  const ProfileUser = () => {
-  const [aboutData, setAboutData] = useState({ about: "" });
+  const [aboutData, setAboutData] = useState({ about: " " });
   const [usernameData, setUsernameData] = useState({ username: "" });
   const [addressData,setAddressData] = useState({address : ""})
   const [newAboutData, setNewAboutData] = useState("");
@@ -37,7 +37,7 @@ const[user, setUser] = useState(null);
 const [loading, setLoading] = useState<boolean>(true);
 const userId = userProfile?._id ?? null; 
 const [showAll, setShowAll] = useState(false);
-
+const [loadingUserData, setLoadingUserData] = useState();
 const toggleShowAll = () => {
   setShowAll(!showAll);
 };
@@ -78,6 +78,13 @@ const barOptions = {
               display: true,
               // text: 'Lines of Code',
           },
+          ticks: {
+            stepSize: 1, // Ensure values are shown in steps of 1
+            callback: function (value: any) {
+              return Number.isInteger(value) ? value : null; // Show only integers
+            },
+          },
+        
       },
       x: {
           title: {
@@ -269,7 +276,8 @@ setLoading(false)
   return (
     <>
     <div className='h-screen overflow-auto'>
-      <Banner notMainPage={false} />
+      {/* <Banner notMainPage={false} /> */}
+      <Banner notMainPage={true} loadingUserData={loadingUserData}/>
       <div className="bg-white min-h-screen p-4">
         <div className=" mx-auto py-8 px-4 pb-24">
           
@@ -293,26 +301,26 @@ setLoading(false)
                         <div>
                           <input
                             type="text"
-                            className="w-full p-2 mt-2 border border-gray-300 rounded-lg"
+                            className="w-full p-1 pl-2 mt-2 text-sm border border-gray-300 rounded-lg"
                             value={newUsernameData}  
                             onChange={(e) => setNewUsernameData(e.target.value)}
                           />
                           <input
                               type="text"
-                              className="w-full p-2 mt-2 border border-gray-300 rounded-lg"
+                              className="w-full p-1 pl-2 text-sm mt-2 border border-gray-300 rounded-lg"
                               value={newAddressData}
                               onChange={(e) => setNewAddressData(e.target.value)}
                               placeholder="Enter new address"
                             />
                           <div className="mt-4">
                             <button
-                              className="bg-blue-500 text-white py-2 px-4 rounded-lg"
+                              className="bg-blue-500 text-white py-1 px-4 rounded-md text-sm"
                               onClick={handleSaveData}
                             >
                               Save
                             </button>
                             <button
-                              className="ml-2 bg-gray-300 text-gray-700 py-2 px-4 rounded-lg"
+                              className="ml-2 bg-gray-300 text-gray-700 py-1 px-4 rounded-md text-sm"
                               onClick={() => setEditUsernameMode(false)}  // Cancel edit
                             >
                               Cancel
@@ -359,20 +367,20 @@ setLoading(false)
                   {editAboutMode ? (
                     <div>
                       <textarea
-                        className="w-full p-2 mt-2 border border-gray-300 rounded-lg"
+                        className="w-full p-2 mt-2 border border-gray-300 rounded-lg text-sm"
                          value={newAboutData}
                          onChange={(e) => setNewAboutData(e.target.value)}
                         rows={4}
                       />
                       <div className="mt-4">
                         <button
-                          className="bg-blue-500 text-white py-2 px-4 rounded-lg"
+                          className="bg-blue-500 text-white py-1 px-4 rounded-md text-sm"
                            onClick={handleSaveAbout}
                         >
                           Save
                         </button>
                         <button
-                          className="ml-2 bg-gray-300 text-gray-700 py-2 px-4 rounded-lg "
+                          className="ml-2 bg-gray-300 text-gray-700 py-1 px-4 rounded-md text-sm"
                           onClick={() => setEditAboutMode(false)}  // Cancel edit
                         >
                           Cancel
@@ -380,7 +388,7 @@ setLoading(false)
                       </div>
                     </div>
                   ) : (
-                    <p className="text-gray-500 text-sm mt-2">{aboutData.about}</p>
+                    <p className="text-gray-500 text-sm mt-2">{aboutData.about || "this is about section"}</p>
                   )}
                 </div>
                  )} 
@@ -519,7 +527,7 @@ setLoading(false)
       <li>No history available</li>
     )}
   </ul>
-  {profile && profile.length > 2 && (
+  {profile && profile.length >5 && (
         <button
           onClick={toggleShowAll}
           className="mt-4 text-indigo-500 font-semibold"

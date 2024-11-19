@@ -168,7 +168,7 @@ export const Banner: React.FC<DemoBannerProps> = ({ notMainPage, user, onLogin, 
           <input
             ref={searchInputRef}
             type="text"
-            placeholder="Search..."
+            placeholder="Type a text to generate practice questions."
             className="bg-gray-100 w-full pl-10 pr-10 h-9 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
@@ -192,7 +192,7 @@ export const Banner: React.FC<DemoBannerProps> = ({ notMainPage, user, onLogin, 
           {/* <a href="https://instagram.com/your-instagram-link" target="_blank" rel="noopener noreferrer">
             <FaInstagram className="text-gray-900 hover:text-indigo-500 transition" size={20} />
           </a> */}
-          <a href="https://facebook.com/your-facebook-link" target="_blank" rel="noopener noreferrer">
+          <a href=" https://www.facebook.com/profile.php?id=61567170720121 " target="_blank" rel="noopener noreferrer">
             <FaFacebook className="text-gray-900 hover:text-indigo-500 transition" size={20} />
           </a>
           </>

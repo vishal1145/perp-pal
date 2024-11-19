@@ -1,17 +1,18 @@
-"use client"
-import React, { useState } from 'react';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { logoBtnColor } from '@/data/data';
+"use client";
+import React, { useState } from "react";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { logoBtnColor } from "@/data/data";
+import Loader from "@/components/Loader";
+import Snackbar from "@/components/snackbar";
+
 
 const SignUp = ({ onClose, onSwitchToSignIn, onSignUp }) => {
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({ username: '', email: '', password: '' });
-  const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
+  const [formData, setFormData] = useState({ username: "", email: "", password: "" });
+  const [snackbar, setSnackbar] = useState({ message: "", type: "" });
+  const [showLoader, setShowLoader] = useState(false);
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
+  const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   const handleChange = (e) => {
     setFormData({
@@ -22,56 +23,56 @@ const SignUp = ({ onClose, onSwitchToSignIn, onSignUp }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage('');
-    setSuccessMessage('');
+    setShowLoader(true);
+    setSnackbar({ message: "", type: "" });
 
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/users/signup`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to sign up');
-      }
+      if (!response.ok) throw new Error("Failed to sign up");
 
       const data = await response.json();
       onSignUp(data);
-      setSuccessMessage('Sign up successful!');
-      onClose(); // Close the modal if sign-up is successful
+      setSnackbar({ message: "Sign up successful!", type: "success" });
+      setTimeout(() => onClose(), 2000); // Close modal after showing success
     } catch (error) {
-      setErrorMessage(error.message);
+      setSnackbar({ message: error.message, type: "error" });
+    } finally {
+      setShowLoader(false);
     }
   };
 
   const handleOutsideClick = (e) => {
-    if (e.target.id === 'modalWrapper') {
-      onClose();
-    }
+    if (e.target.id === "modalWrapper") onClose();
   };
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50" id="modalWrapper" onClick={handleOutsideClick} >
-      <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg p-6 bg-white rounded-lg shadow-lg space-y-2 ">
+    <div
+      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+      id="modalWrapper"
+      onClick={handleOutsideClick}
+    >
+      <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg p-6 bg-white rounded-lg shadow-lg space-y-2">
         <button
           onClick={onClose}
           className="absolute top-2 right-2 text-gray-600 hover:text-gray-700 text-2xl sm:text-3xl md:text-4xl"
         >
           &times;
         </button>
-
-        {/* Logo */}
-        <div className="flex justify-center ">
-          <img src="/assets/images/logo1.png" alt="Logo" className="w-20 h-14 sm:w-24 sm:h-16 md:w-28 md:h-18" />
-        </div>
-
-        <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-center text-gray-600 mb-4" style={{marginBottom:"2rem",marginTop:"1px"}}>
+        <div className="flex justify-center">
+  <img
+    src="/assets/images/logo1.png"
+    alt="Logo"
+    className="w-24 sm:w-28 md:w-30 object-contain"
+  />
+</div>
+        <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-center text-gray-600 mb-4">
           Welcome to PrepPal! 👋
         </h3>
-
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
             <label className="block text-sm font-medium text-gray-600 mb-1">Username</label>
@@ -99,7 +100,7 @@ const SignUp = ({ onClose, onSwitchToSignIn, onSignUp }) => {
             <label className="block text-sm font-medium text-gray-600 mb-1">Password</label>
             <div className="relative">
               <input
-                type={showPassword ? 'text' : 'password'}
+                type={showPassword ? "text" : "password"}
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
@@ -115,29 +116,55 @@ const SignUp = ({ onClose, onSwitchToSignIn, onSignUp }) => {
               </button>
             </div>
           </div>
-
           <div className="flex items-center justify-between">
             <label className="flex items-center text-sm text-gray-600">
               <input type="checkbox" className="mr-2" />
-              I agree to &nbsp;<span className="text-cyan-600">privacy policy & terms</span>
+              I agree to &nbsp;
+              <a
+                href="/privacy-policy"
+                className="text-cyan-600"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                privacy policy
+              </a>
+              &nbsp; and &nbsp;
+              <a
+                href="/terms-and-conditions"
+                className="text-cyan-600"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                terms
+              </a>
             </label>
           </div>
-
-          <button
-            type="submit"
-            className={`w-full text-white ${logoBtnColor} font-medium px-4 py-2 rounded`}
-          >
-            Sign Up
-          </button>
+          {showLoader ? (
+            <div className="flex items-center justify-center h-full">
+              <Loader />
+            </div>
+          ) : (
+            <button
+              type="submit"
+              className={`w-full text-white ${logoBtnColor} font-medium px-4 py-2 rounded`}
+            >
+              Sign Up
+            </button>
+          )}
           <p className="text-center text-sm text-gray-600">
-            Already have an account?{' '}
+            Already have an account?{" "}
             <button type="button" onClick={onSwitchToSignIn} className="font-bold text-cyan-600 hover:underline">
               Sign in instead
             </button>
           </p>
-          {errorMessage && <p className="text-red-500 text-sm text-center">{errorMessage}</p>}
-          {successMessage && <p className="text-green-500 text-sm text-center">{successMessage}</p>}
         </form>
+        {snackbar.message && (
+          <Snackbar
+            message={snackbar.message}
+            type={snackbar.type}
+            onClose={() => setSnackbar({ message: "", type: "" })}
+          />
+        )}
       </div>
     </div>
   );

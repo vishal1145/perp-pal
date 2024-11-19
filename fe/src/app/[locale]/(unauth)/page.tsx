@@ -17,7 +17,7 @@ import SignIn from '@/app/[locale]/(unauth)/signIn/page';
 import SignUp from '@/app/[locale]/(unauth)/SignUP/page';
 import ForgetPassword from '@/app/[locale]/(unauth)/forgetPassword/page';
 import { setUserProfile, userProfile } from '@/data/functions';
-
+import { cardData } from '@/data/cardData';
 export default function Layout() {
   const [cardData, setCardData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -179,10 +179,12 @@ const handleSignUp = (userData) => {
   setLocalUser(userData); // Update state with user data after sign-up
   closeModal();
 };
+
+
   return (
     <div className="flex flex-col min-h-screen h-screen overflow-auto" >
        <Head>
-        <title>Create and Practice Online Papers | Customizable Student Practice Tests</title>
+        <title> paper text | Create and practice online papers </title>
         <meta name="description" content="Empower students to create customizable online papers and practice tests by topic. Enhance learning with tailored questions and topics. Start practicing now!" />
         <meta name="keywords" content="Online paper creation, student practice tests, customizable practice papers, study aid for students, online quiz creation, subject-based practice papers, topic-specific tests, student learning platform, practice exams for students" />
      
@@ -221,7 +223,7 @@ const handleSignUp = (userData) => {
     <input
       ref={searchInputRef}
       type="text"
-      placeholder="Search..."
+      placeholder="Type a text to generate practice questions."
       className="bg-gray-100 w-full h-10 py-2 sm:py-3 pl-12 sm:pl-14 pr-10 border border-gray-300 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
       value={searchText}
       onChange={(e) => setSearchText(e.target.value)}
@@ -264,7 +266,7 @@ const handleSignUp = (userData) => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           {/* <div className="relative bg-white rounded-lg shadow-lg w-full max-w-md p-8 flex flex-col items-center"> */}
             {isForgetPassword ? (
-              <ForgetPassword onClose={closeModal} />
+              <ForgetPassword onClose={closeModal} onSwitchToSignIn={() => openModal(true)} />
             ) : isSignIn ? (
               <SignIn onClose={closeModal} onSwitchToSignUp={() => openModal(false)} onForgotPassword={openForgetPassword} onLogin={handleLogin} />
             ) : (

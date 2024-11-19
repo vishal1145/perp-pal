@@ -1,14 +1,14 @@
 "use client"
 import React, { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-
-const ForgetPassword = ({ onClose, onSwitchToSignUp }) => {
+import Snackbar from "@/components/snackbar";
+const ForgetPassword = ({ onClose, onSwitchToSignUp ,onSwitchToSignIn }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-
+  const [snackbar, setSnackbar] = useState({ message: "", type: "" });
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -17,6 +17,7 @@ const ForgetPassword = ({ onClose, onSwitchToSignUp }) => {
     e.preventDefault();
     setErrorMessage('');
     setSuccessMessage('');
+    setSnackbar({ message: "", type: "" });
 
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/users/reset/password`, {
@@ -29,12 +30,16 @@ const ForgetPassword = ({ onClose, onSwitchToSignUp }) => {
 
       if (response.ok) {
         setSuccessMessage(data.message || 'Password reset successful. Please check your email.');
+        setSnackbar({ message: "Password reset successful. Please check your email.!", type: "success" });
+        setTimeout(() => onClose(), 2000);
       } else {
         setErrorMessage(data.message || 'Password reset failed. Please try again.');
+        setSnackbar({ message: data.message, type: "" });
       }
     } catch (error) {
       console.error('Error:', error);
       setErrorMessage('An unexpected error occurred. Please try again later.');
+      setSnackbar({ message: error.message, type: "error" });
     }
   };
 
@@ -55,9 +60,13 @@ const ForgetPassword = ({ onClose, onSwitchToSignUp }) => {
         </button>
 
         {/* Logo */}
-        <div className="flex justify-center ">
-          <img src="/assets/images/logo1.png" alt="Logo" className="w-20 h-14 sm:w-24 sm:h-16 md:w-28 md:h-20" />
-        </div>
+        <div className="flex justify-center">
+  <img
+    src="/assets/images/logo1.png"
+    alt="Logo"
+    className="w-24 sm:w-28 md:w-30 object-contain"
+  />
+</div>
 
         <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-center text-gray-600 mb-4" style={{marginTop:"1px" , marginBottom:"2rem"}}>
           Welcome to PrepPal! 👋
@@ -110,6 +119,12 @@ const ForgetPassword = ({ onClose, onSwitchToSignUp }) => {
           >
             Reset Password
           </button>
+          <p className="text-center text-sm text-gray-600">
+            Already have an account?{' '}
+            <button type="button" onClick={onSwitchToSignIn} className="font-bold text-cyan-600 hover:underline">
+              Sign in instead
+            </button>
+          </p>
         </form>
       </div>
     </div>

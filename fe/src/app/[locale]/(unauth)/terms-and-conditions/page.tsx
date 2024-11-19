@@ -64,7 +64,7 @@ const page = () => {
     0120 4444859
   </a>
 </li>
-      <li>Mailing Address: <span className="ml-2">Algofolk pvt.ltd noida,sector 65 C block 104</span></li>
+      <li>Mailing Address: <span className="ml-2"> Algofolks Private Limited noida,sector 65 C block 104</span></li>
     </ul>
   </div>
   </div>

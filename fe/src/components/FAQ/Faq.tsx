@@ -73,7 +73,7 @@ const Faq = ({ title, description, imageUrl }) => {
    // Function to share on WhatsApp
    const shareOnWhatsapp = () => {
     const currentUrl = window.location.href; 
-    const message = `Check out this page: ${currentUrl}`; 
+    const message = `${currentUrl}`; 
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`; 
   
     window.open(whatsappUrl, '_blank'); 

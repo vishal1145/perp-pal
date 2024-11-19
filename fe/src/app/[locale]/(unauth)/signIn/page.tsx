@@ -3,13 +3,17 @@ import React, { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { logoBtnColor } from '@/data/data';
 import { setUserProfile } from '@/data/functions';
+import Loader from '@/components/Loader';
+import Snackbar from "@/components/snackbar";
 
 const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword, onLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-
+  const [showLoader, setShowLoader] = useState<boolean>(false);
+  const [rememberMe, setRememberMe] = useState(true); 
+  const [snackbar, setSnackbar] = useState({ message: "", type: "" });
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -17,6 +21,8 @@ const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword, onLogin }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage('');
+    setShowLoader(true);
+    setSnackbar({ message: "", type: "" });
 
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/users/login`, {
@@ -26,7 +32,7 @@ const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword, onLogin }) => {
       });
 
       const data = await response.json();
-
+     
       if (response.ok) {
         console.log('Login successful:', data);
         
@@ -38,13 +44,21 @@ const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword, onLogin }) => {
         const userData = await userResponse.json();
         setUserProfile(userData.data);
         onLogin(userData);
+        setSnackbar({ message: "Sign up successful!", type: "success" });
+        setTimeout(() => onClose(), 2000);
         onClose();
       } else {
         setErrorMessage(data.message || 'Login failed. Please try again.');
+        setErrorMessage('An unexpected error occurred. Please try again later.');
+        setSnackbar({ message: data.message, type: "" });
       }
     } catch (error) {
       console.error('Error:', error);
       setErrorMessage('An unexpected error occurred. Please try again later.');
+      setSnackbar({ message: error.message, type: "error" });
+    }
+    finally {
+      setShowLoader(false); // Stop the loader after the API call finishes
     }
   };
 
@@ -69,16 +83,23 @@ const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword, onLogin }) => {
           &times;
         </button>
         <div className="flex justify-center">
-          <img
-            src="/assets/images/logo1.png"
-            alt="Logo"
-            className="w-24 h-16 sm:w-28 sm:h-18 md:w-30 md:h-20"
-          />
-        </div>
+  <img
+    src="/assets/images/logo1.png"
+    alt="Logo"
+    className="w-24 sm:w-28 md:w-30 object-contain"
+  />
+</div>
+
         <h3 className="text-lg sm:text-xl font-semibold text-center text-gray-600 mb-4" style={{marginBottom:"2rem",marginTop:"1px"}}>
           Welcome to PrepPal! 👋
         </h3>
-        {errorMessage && <p className="text-red-500 text-center">{errorMessage}</p>}
+        {snackbar.message && (
+          <Snackbar
+            message={snackbar.message}
+            type={snackbar.type}
+            onClose={() => setSnackbar({ message: "", type: "" })}
+          />
+        )}
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
             <label className="block text-sm font-medium text-gray-600 mb-1">Email</label>
@@ -113,19 +134,27 @@ const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword, onLogin }) => {
           </div>
           <div className="flex items-center justify-between">
             <label className="flex items-center text-sm text-gray-600">
-              <input type="checkbox" className="mr-2" />
+              <input type="checkbox" className="mr-2"  checked={rememberMe}
+                onChange={() => setRememberMe(!rememberMe)}/>
               Remember Me
             </label>
             <a href="#" className="text-sm text-cyan-600 hover:underline" onClick={onForgotPassword}>
               Forgot Password?
             </a>
           </div>
+          {
+                    showLoader == true ?
+                    <div className="flex items-center justify-center h-full">
+                    <Loader /> 
+                  </div> :
+                      (
           <button
             type="submit"
             className={`w-full text-white ${logoBtnColor} font-medium px-4 py-2 rounded`}
           >
             Sign In
           </button>
+                      )}
           <p className="text-center text-sm text-gray-600">
             Don't have an account?{' '}
             <button type="button" onClick={onSwitchToSignUp} className="font-bold text-cyan-600 hover:underline">

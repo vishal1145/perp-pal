@@ -227,7 +227,7 @@ export default function AdaptiveLearningOverview() {
     <input
       ref={searchInputRef}
       type="text"
-      placeholder="Search..."
+      placeholder="Type a text to generate practice questions."
       className="bg-gray-100 w-full p-2 sm:p-3 pl-12 sm:pl-14 border border-gray-300 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
       value={searchText}
       onChange={(e) => setSearchText(e.target.value)}
