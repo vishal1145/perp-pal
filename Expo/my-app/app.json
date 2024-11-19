@@ -15,8 +15,18 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      
+        "expo": {
+          "android": {
+            "permissions": ["RECORD_AUDIO"]
+          }
+        }
+      
+      
     },
+    
+    
     "web": {
       "bundler": "metro",
       "output": "static",

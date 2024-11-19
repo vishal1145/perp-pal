@@ -6,6 +6,7 @@ const RootLayout = () => {
      
       <Stack.Screen name="(tab)" />
       <Stack.Screen name="e-paper/index"/>
+      <Stack.Screen name="howItWork/index"/>
     </Stack>
   );
 };

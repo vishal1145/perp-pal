@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, Image, ActivityIndicator, FlatList, Dimensions } from 'react-native';
 import * as Sharing from 'expo-sharing';
 import { Ionicons } from '@expo/vector-icons';
+
 const App = () => {
   const [questions, setQuestions] = useState<any[]>([]);
   const [questionLoading, setQuestionLoading] = useState(false);
   const { width } = Dimensions.get('window');
+
   const getQuestions = async (text: string) => {
     setQuestionLoading(true);
     try {
@@ -18,7 +20,8 @@ const App = () => {
       });
       const data = await response.json();
       const mcqQuestions = data.filter((item: any) => item.questionType === 'Single Choice');
-      setQuestions(mcqQuestions);
+      const dataSingh = [...mcqQuestions, ...mcqQuestions]
+      setQuestions(dataSingh);
       setQuestionLoading(false);
     } catch (error) {
       setQuestionLoading(false);
@@ -27,6 +30,7 @@ const App = () => {
   useEffect(() => {
     getQuestions("math");
   }, []);
+
   const shareOnWhatsapp = async () => {
     try {
       await Sharing.shareAsync('Check out this content!');
@@ -34,6 +38,7 @@ const App = () => {
       console.error('Error sharing on WhatsApp', error);
     }
   };
+
   const shareOnFacebook = async () => {
     try {
       await Sharing.shareAsync('Check out this content!');
@@ -41,12 +46,12 @@ const App = () => {
       console.error('Error sharing on Facebook', error);
     }
   };
-  const [isPressed, setIsPressed] = React.useState(false);
+
   return (
-    
     <View style={styles.container}>
-      <View style={styles.shareButtons}>
-        <TouchableOpacity onPress={() => alert('log')} style={styles.logoWrapper}>
+    
+      <View style={styles.header}>
+        <TouchableOpacity style={styles.logoWrapper}>
           <Image
             source={require('../../assets/images/logo.png')}
             style={styles.logo}
@@ -60,125 +65,135 @@ const App = () => {
           <TouchableOpacity onPress={shareOnFacebook} style={styles.shareButton}>
             <Ionicons name="logo-facebook" size={24} color="#4267B2" />
           </TouchableOpacity>
-          <TouchableOpacity onPress={shareOnFacebook} style={styles.shareButton}>
-            <Text style={styles.login}>Login</Text>
+          <TouchableOpacity style={styles.loginButton}>
+            <Text style={styles.loginText}>Login</Text>
           </TouchableOpacity>
         </View>
       </View>
-      <View style={styles.div}></View>
-      <View style={{ marginVertical: 5 }}>
-        <Text style={styles.title}>Questions</Text>
-        <Text style={styles.content}>List of questions available below:</Text>
+
+      {/* Divider */}
+      <View style={styles.divider} />
+
+      {/* Questions Section */}
+      <View style={styles.contentContainer}>
+        <Text style={styles.sectionTitle}>Questions</Text>
+        <Text style={styles.sectionSubtitle}>List of questions available below:</Text>
         {questionLoading ? (
-          <ActivityIndicator size="large" color="#007BFF" />
+          <ActivityIndicator size="large" color="#007BFF" style={styles.loadingIndicator} />
         ) : (
           <FlatList
             data={questions}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item, index }) => (
-              <View style={styles.questionContainer}>
-                <Text style={styles.title}>{`Q${index + 1}. ${item.question}`}</Text>
+              <View style={styles.questionCard}>
+                <Text style={styles.questionText}>{`Q${index + 1}. ${item.question}`}</Text>
                 <View style={styles.optionsContainer}>
                   {item.options.map((option, optionIndex) => (
                     <Text key={optionIndex} style={styles.optionText}>
                       {`${option.optionFlag}. ${option.optionText}`}
                     </Text>
                   ))}
-                  <View style={styles.div2}></View>
                 </View>
               </View>
             )}
             ListEmptyComponent={<Text style={styles.noQuestionsText}>No Questions Available</Text>}
             showsVerticalScrollIndicator={false}
-            contentContainerStyle={styles.grid}
+            contentContainerStyle={styles.listContent}
           />
         )}
       </View>
-    
- 
-      <TouchableOpacity style={[styles.button2, { width: width }]} activeOpacity={0.7}>
-        <Text style={styles.buttonText2}>Start Practice</Text>
-      </TouchableOpacity>
 
+      {/* Footer Button */}
+      <TouchableOpacity style={[styles.footerButton, { width }]} activeOpacity={0.7}>
+        <Text style={styles.footerButtonText}>Start Practice</Text>
+      </TouchableOpacity>
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
-    flex: 1, // Ensures the container takes the full height
-    paddingHorizontal: 16,
+    flex: 1,
     backgroundColor: '#FFFFFF',
+    padding: 16,
   },
-  shareButtons: {
+  header: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
+    marginBottom: 16,
   },
   logoWrapper: {
-    marginRight: '45%',
+    flex: 1,
   },
   logo: {
     width: 60,
-    height: 70,
+    height: 60,
   },
   shareIconsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   shareButton: {
-    marginRight: 20,
+    marginHorizontal: 10,
   },
-  login: {
-    fontSize: 16,
-    fontWeight: '500',
+  loginButton: {
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    backgroundColor: '#007BFF',
   },
-  title: {
-    fontSize: 16,
-    fontWeight: '500',
+  loginText: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontWeight: '600',
   },
-  content: {
+  divider: {
+    height: 1,
+    backgroundColor: '#E0E0E0',
+    marginVertical: 10,
+  },
+  contentContainer: {
+    flex: 1,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#333',
+    marginBottom: 4,
+  },
+  sectionSubtitle: {
     fontSize: 14,
     color: '#6B7280',
-    fontWeight: '400',
-    marginVertical: 5,
+    marginBottom: 16,
   },
-  grid: {
-    flexGrow: 1,
-    paddingVertical: 10,
-    height: '200%',
+  loadingIndicator: {
+    marginTop: 20,
   },
-  button2: {
-    backgroundColor: '#00B5D8',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    alignItems:'center',    
-    elevation: 3,
-    position:'absolute',
-    bottom:'0'
+  questionCard: {
+    backgroundColor: '#F9F9F9',
+    borderRadius: 8,
+    padding: 16,
+    marginBottom: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
   },
-  buttonText2: {
-    color: 'white',
+  questionText: {
     fontSize: 16,
     fontWeight: '500',
-    textAlign:'center'
+    color: '#333',
+    marginBottom: 8,
   },
   optionsContainer: {
-    marginVertical: 5,
+    marginTop: 8,
   },
   optionText: {
     fontSize: 14,
     color: '#555',
-  },
-  questionContainer: {
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 1,
-    elevation: 3,
-  },
-  questionText: {
-    fontSize: 16,
-    color: '#333',
+    marginBottom: 4,
   },
   noQuestionsText: {
     fontSize: 16,
@@ -186,15 +201,24 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 20,
   },
-  div: {
-    paddingVertical: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: '#F2F2F2',
+  listContent: {
+    paddingBottom: 80,
   },
-  div2: {
-    marginTop: 5,
-    borderBottomWidth: 1,
-    borderBottomColor: '#F2F2F2',
+  footerButton: {
+    position: 'absolute',
+    bottom: 0,
+    backgroundColor: '#00B5D8',
+    paddingVertical: 16,
+    borderRadius: 8,
+    elevation: 4,
+    alignSelf: 'center',
+  },
+  footerButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '600',
+    textAlign: 'center',
   },
 });
+
 export default App;

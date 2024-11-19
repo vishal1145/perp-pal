@@ -4,6 +4,8 @@ import { Ionicons } from '@expo/vector-icons';
  
 import { useRouter } from 'expo-router';
 import { data } from '@/assets/data/data';
+import Voice from 'react-native-voice';
+
 
 const App = () => {
   const [searchText, setSearchText] = useState('');
