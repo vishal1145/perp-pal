@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, Image, ActivityIndicator, FlatList, Dimensions } from 'react-native';
-import * as Sharing from 'expo-sharing';
+import * as Linking from 'expo-linking';
 import { Ionicons } from '@expo/vector-icons';
 
 const App = () => {
@@ -19,7 +19,7 @@ const App = () => {
         body: JSON.stringify({ prompt: text }),
       });
       const data = await response.json();
-      const mcqQuestions = data.filter((item: any) => item.questionType === 'Single Choice');
+      const mcqQuestions = data.filter((item: any) => item.questionType == 'Single Choice');
       const dataSingh = [...mcqQuestions, ...mcqQuestions]
       setQuestions(dataSingh);
       setQuestionLoading(false);
@@ -27,31 +27,32 @@ const App = () => {
       setQuestionLoading(false);
     }
   };
+
   useEffect(() => {
     getQuestions("math");
   }, []);
 
-  const shareOnWhatsapp = async () => {
-    try {
-      await Sharing.shareAsync('Check out this content!');
-    } catch (error) {
-      console.error('Error sharing on WhatsApp', error);
-    }
+  const shareOnWhatsApp = () => {
+    const message = encodeURIComponent(`Check out this page: https://preppal.club/e-paper/Explain--Newton's--three--laws--of--motion.`);   
+    const whatsappUrl = `whatsapp://send?text=${message}`;   
+    Linking.openURL(whatsappUrl).catch(() => {
+      alert('Make sure WhatsApp is installed on your device.');
+    });
   };
 
-  const shareOnFacebook = async () => {
-    try {
-      await Sharing.shareAsync('Check out this content!');
-    } catch (error) {
-      console.error('Error sharing on Facebook', error);
-    }
+  const shareOnFacebook = () => {
+    const urlToShare = `Check out this page: https://preppal.club/e-paper/Explain--Newton's--three--laws--of--motion.`;  
+    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(urlToShare)}`;
+    Linking.openURL(facebookUrl).catch(() => {
+      alert("Unable to open Facebook. Please ensure the app or browser is installed.");
+    });
   };
 
   return (
     <View style={styles.container}>
     
       <View style={styles.header}>
-        <TouchableOpacity style={styles.logoWrapper}>
+        <TouchableOpacity style={styles.logoWrapper} onPress={() => navigation.navigate('(tab)')}>
           <Image
             source={require('../../assets/images/logo.png')}
             style={styles.logo}
@@ -59,7 +60,7 @@ const App = () => {
           />
         </TouchableOpacity>
         <View style={styles.shareIconsContainer}>
-          <TouchableOpacity onPress={shareOnWhatsapp} style={styles.shareButton}>
+          <TouchableOpacity onPress={shareOnWhatsApp} style={styles.shareButton}>
             <Ionicons name="logo-whatsapp" size={24} color="#25D366" />
           </TouchableOpacity>
           <TouchableOpacity onPress={shareOnFacebook} style={styles.shareButton}>
@@ -85,15 +86,16 @@ const App = () => {
             data={questions}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item, index }) => (
-              <View style={styles.questionCard}>
+              <View  >
                 <Text style={styles.questionText}>{`Q${index + 1}. ${item.question}`}</Text>
-                <View style={styles.optionsContainer}>
+                <View >
                   {item.options.map((option, optionIndex) => (
                     <Text key={optionIndex} style={styles.optionText}>
                       {`${option.optionFlag}. ${option.optionText}`}
                     </Text>
                   ))}
                 </View>
+                <View style={{   borderBottomWidth: 1, borderBottomColor: '#f2f2f2', marginBottom:10}} />
               </View>
             )}
             ListEmptyComponent={<Text style={styles.noQuestionsText}>No Questions Available</Text>}
@@ -135,13 +137,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   shareButton: {
-    marginHorizontal: 10,
+    marginRight: 16,
   },
   loginButton: {
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: 8,
-    backgroundColor: '#007BFF',
+    backgroundColor: '#00B5D8',
   },
   loginText: {
     color: '#FFFFFF',
@@ -165,13 +167,12 @@ const styles = StyleSheet.create({
   sectionSubtitle: {
     fontSize: 14,
     color: '#6B7280',
-    marginBottom: 16,
+    marginBottom:10
   },
   loadingIndicator: {
     marginTop: 20,
   },
   questionCard: {
-    backgroundColor: '#F9F9F9',
     borderRadius: 8,
     padding: 16,
     marginBottom: 12,
@@ -182,19 +183,18 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   questionText: {
-    fontSize: 16,
-    fontWeight: '500',
+    fontSize: 12,
+    fontWeight: '400',
     color: '#333',
-    marginBottom: 8,
+    marginBottom: 10,
   },
-  optionsContainer: {
-    marginTop: 8,
-  },
+  
   optionText: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#555',
-    marginBottom: 4,
+    marginBottom: 10,
   },
+
   noQuestionsText: {
     fontSize: 16,
     color: '#999',
@@ -209,7 +209,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     backgroundColor: '#00B5D8',
     paddingVertical: 16,
-    borderRadius: 8,
     elevation: 4,
     alignSelf: 'center',
   },

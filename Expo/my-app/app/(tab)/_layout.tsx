@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import { MaterialCommunityIcons } from '@expo/vector-icons';  
+import { MaterialIcons } from '@expo/vector-icons';  
 
 const TabLayout = () => {
   return (
@@ -9,9 +9,16 @@ const TabLayout = () => {
         options={{
           headerShown: false,
           title: 'Home',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home-outline" size={size} color={color} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <MaterialIcons 
+              name="home" 
+              size={size} 
+              color={focused ? "#00B5D8" : color}   
+            />
           ),
+          tabBarLabelStyle: {
+            color: 'black',   
+          },
         }} 
       />
       
@@ -20,9 +27,16 @@ const TabLayout = () => {
         options={{
           headerShown: false,
           title: 'Profile',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account-outline" size={size} color={color} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <MaterialIcons 
+              name="account-circle" 
+              size={size} 
+              color={focused ? "#00B5D8" : color}   
+            />
           ),
+          tabBarLabelStyle: {
+            color: 'black',   
+          },
         }} 
       />
     </Tabs>
@@ -30,4 +44,3 @@ const TabLayout = () => {
 };
 
 export default TabLayout;
-

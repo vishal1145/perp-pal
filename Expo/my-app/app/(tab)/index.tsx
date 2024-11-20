@@ -21,9 +21,9 @@ const App = () => {
     setHoveredCardId(null);
   };
 
-  const handleTouch = (id) => {
-    setHoveredCardId(id); 
-    router.push(`/e-paper?id=${id}`); 
+  const handleTouch = (text:string) => {
+    // setHoveredCardId(id); 
+    router.push(`/e-paper?paper=${text}`); 
   };
 
   const handleTouchOut = () => {
@@ -75,7 +75,7 @@ const App = () => {
             style={styles.card}
             onMouseEnter={() => handleMouseEnter(item.id)} 
             onMouseLeave={handleMouseLeave} 
-            onPress={() => handleTouch(item.id)} 
+            onPress={() => handleTouch(item.prompt_text)} 
             onPressOut={handleTouchOut} 
           >
             <Text style={styles.prompt_text}>{item.prompt_text}</Text>
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingHorizontal: 10,
     paddingVertical: 5,
-    marginBottom: 10,
+    marginBottom: 12,
   },
   icon: {
     marginHorizontal: 5,

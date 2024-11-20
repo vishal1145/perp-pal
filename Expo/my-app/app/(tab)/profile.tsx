@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { BarChart } from 'react-native-chart-kit';
 import { Dimensions } from 'react-native';
+import axios from 'axios';
 
 const ProfilePage = () => {
   const screenWidth = Dimensions.get('window').width;
+  const[user, setUser] = useState({});
 
   const chartConfig = {
     backgroundGradientFrom: "#f0f0f0",
@@ -22,6 +24,20 @@ const ProfilePage = () => {
       },
     ],
   };
+  
+  const getAboutUser = async()=>{
+    try {
+      let response = await axios.put(`https://preppal.club/api//users/about/673c640319a6dc997e0ea738`);
+      setUser(response.data);
+      console.log('djdhvsdv', response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(()=>{
+    getAboutUser();
+  }, [])
 
   return (
     <ScrollView style={styles.container}> 
@@ -30,8 +46,8 @@ const ProfilePage = () => {
           source={require('../../assets/images/profileImage.jpg')}
           style={styles.avatar}
         />
-        <Text style={styles.name}>Muskan</Text>
-        <Text style={styles.location}>noida</Text>
+        <Text style={styles.name}>{user.username}</Text>
+        <Text style={styles.location}>{user.address}</Text>
         <TouchableOpacity style={styles.editIcon}>
           <Text>✏️</Text>
         </TouchableOpacity>
@@ -39,20 +55,23 @@ const ProfilePage = () => {
  
       <View style={styles.card}>
         <Text style={styles.sectionTitle}>About Me</Text>
-        <Text style={styles.description}>this is about section</Text>
+        <Text style={styles.description}>{user.about}</Text>
         <TouchableOpacity style={styles.editIcon}>
           <Text>✏️</Text>
         </TouchableOpacity>
       </View>
  
-      <View style={styles.card}>
-        <Text style={styles.sectionTitle}>Total Assessments</Text>
-        <Text style={styles.value}>3</Text>
-      </View>
-      <View style={styles.card}>
-        <Text style={styles.sectionTitle}>Today Assessments</Text>
-        <Text style={styles.value}>0</Text>
-      </View>
+      <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+  <View style={[styles.card2 ]}>
+    <Text style={styles.sectionTitle}>Total Assessments</Text>
+    <Text style={styles.value}>3</Text>
+  </View>
+  <View style={styles.card2}>
+    <Text style={styles.sectionTitle}>Today Assessments</Text>
+    <Text style={styles.value}>0</Text>
+  </View>
+</View>
+      
  
       <View style={styles.card}>
         <Text style={styles.sectionTitle}>Total Data</Text>
@@ -77,12 +96,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
+    padding:16,
   },
   card: {
     backgroundColor: '#f0f0f0',
     borderRadius: 10,
     padding: 15,
-    marginHorizontal: 20,
+    marginBottom: 15,
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 3,
+    position: 'relative',
+  },
+
+  card2:{
+    backgroundColor: '#f0f0f0',
+    borderRadius: 10, 
+    padding: 15,
     marginBottom: 15,
     shadowColor: '#000',
     shadowOpacity: 0.1,

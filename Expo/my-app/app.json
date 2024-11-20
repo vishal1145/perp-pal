@@ -16,17 +16,15 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      
-        "expo": {
-          "android": {
-            "permissions": ["RECORD_AUDIO"]
-          }
+      "expo": {
+        "android": {
+          "permissions": [
+            "RECORD_AUDIO"
+          ]
         }
-      
-      
+      },
+      "package": "com.vipulkumar995318.myapp"
     },
-    
-    
     "web": {
       "bundler": "metro",
       "output": "static",
@@ -46,6 +44,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "e4351572-7ff1-4352-9b37-a32c8eff3775"
+      }
     }
   }
 }
