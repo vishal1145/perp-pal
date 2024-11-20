@@ -60,7 +60,7 @@ export const Banner: React.FC<DemoBannerProps> = ({ notMainPage, user, onLogin, 
 
   const signOut = async () => {
     try {
-      const response = await fetch('http://localhost:3000/api/users/logout', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/users/logout`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });
@@ -133,6 +133,9 @@ export const Banner: React.FC<DemoBannerProps> = ({ notMainPage, user, onLogin, 
     }
   };
 
+
+  
+
   return (
     <>
       <header className="sticky top-0 z-50 bg-white p-4 text-lg font-normal text-gray-900 flex items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -169,7 +172,7 @@ export const Banner: React.FC<DemoBannerProps> = ({ notMainPage, user, onLogin, 
             ref={searchInputRef}
             type="text"
             placeholder="Type a text to generate practice questions."
-            className="bg-gray-100 w-full pl-10 pr-10 h-9 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            className="bg-gray-100 w-full pl-10 pr-10 h-9 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
             onKeyDown={handleKeyDown} // Add onKeyDown event handler
