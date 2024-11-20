@@ -59,7 +59,7 @@ const SignUp = ({ onClose, onSwitchToSignIn, onSignUp }) => {
       <div className="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg p-6 bg-white rounded-lg shadow-lg space-y-2">
         <button
           onClick={onClose}
-          className="absolute top-2 right-2 text-gray-600 hover:text-gray-700 text-2xl sm:text-3xl md:text-4xl"
+          className="absolute top-2 right-4 text-gray-600 hover:text-gray-700 text-2xl sm:text-3xl md:text-4xl"
         >
           &times;
         </button>
@@ -78,6 +78,7 @@ const SignUp = ({ onClose, onSwitchToSignIn, onSignUp }) => {
             <label className="block text-sm font-medium text-gray-600 mb-1">Username</label>
             <input
               type="text"
+              required
               name="username"
               value={formData.username}
               onChange={handleChange}
@@ -89,6 +90,7 @@ const SignUp = ({ onClose, onSwitchToSignIn, onSignUp }) => {
             <label className="block text-sm font-medium text-gray-600 mb-1">Email</label>
             <input
               type="email"
+              required
               name="email"
               value={formData.email}
               onChange={handleChange}
@@ -102,6 +104,7 @@ const SignUp = ({ onClose, onSwitchToSignIn, onSignUp }) => {
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
+                required
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="Password"

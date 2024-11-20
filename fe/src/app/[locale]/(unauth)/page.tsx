@@ -9,7 +9,7 @@ import logo from '../../../images/logo1.png';
 import Footer from './Footer/page';
 import { Banner } from '@/components/Banner';
 import { initGA, trackGAEvent } from '../(unauth)/googleAnalytics';
-import { initMixpanel, trackEvent } from './mixpanel';
+// import { initMixpanel, trackEvent } from './mixpanel';
 import { first_card } from "./mixpanelEventConstent";
 import axios from 'axios';
 import Head from 'next/head';
@@ -19,7 +19,7 @@ import ForgetPassword from '@/app/[locale]/(unauth)/forgetPassword/page';
 import { setUserProfile, userProfile } from '@/data/functions';
 import { cardData } from '@/data/cardData';
 export default function Layout() {
-  const [cardData, setCardData] = useState([]);
+  // const [cardData, setCardData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState('');
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -63,17 +63,17 @@ export default function Layout() {
   };
 
 
-  const getHomeData =  async()=>{
-    try {
-      const {data} = await axios.get('https://prep-pal.algofolks.com/api/Prompt?page=1&pageSize=8');
-      setCardData(data.records);
-      setLoading(false);
-    } catch (err) {
-      setLoading(false);
-    }
-    initMixpanel();
-    initGA();
-  }
+  // const getHomeData =  async()=>{
+  //   try {
+  //     const {data} = await axios.get('https://prep-pal.algofolks.com/api/Prompt?page=1&pageSize=8');
+  //     setCardData(data.records);
+  //     setLoading(false);
+  //   } catch (err) {
+  //     setLoading(false);
+  //   }
+  //   initMixpanel();
+  //   initGA();
+  // }
  
   const fetchUserData = async () => {
     try {
@@ -102,7 +102,7 @@ export default function Layout() {
   useEffect(() => {
     if (!hasFetched.current) {
       hasFetched.current = true;
-       getHomeData()
+      //  getHomeData()
        fetchUserData();
         // Check if userProfile has data and show modal if empty
     // if (!userProfile) {
@@ -124,7 +124,7 @@ export default function Layout() {
     
     const formattedText = promptText.replace(/\s+/g, '--');
     router.push(`/e-paper/${formattedText}`);
-    trackEvent(first_card);
+    // trackEvent(first_card);
     trackGAEvent('Card', 'cardClick', promptText); 
     
   };
@@ -202,7 +202,8 @@ const handleSignUp = (userData) => {
       </Head>
 
 
-       <Banner notMainPage={false} user={user}  loadingUserData={loadingUserData}/>
+       <Banner notMainPage={false} loadingUserData={loadingUserData}/>
+       <div className="flex-grow">
       <div className="flex justify-center items-center mb-5 mt-5">
   <div className="relative w-full max-w-lg">
     <Image
@@ -236,37 +237,33 @@ const handleSignUp = (userData) => {
 </div>
 
       {/* Card Section */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4 sm:px-8 mb-6 flex-grow">
-        {loading
-          ? Array(8)
-              .fill(0)
-              .map((_, index) => (
-                <div key={index} className="flex justify-center items-center h-10 mt-2">
-                  <CustomCardLoader />
-                </div>
-              ))
-          : cardData.map((card: any) => (
-              <div
-                key={card.prompt_text}
-                className="relative group bg-gray-100 p-4 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow"
-                onClick={() => handleCardClick(card.prompt_text)}
-              >
-                <p className="text-gray-600">{card.prompt_text}</p>
-                <div className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 hidden group-hover:block bg-gray-700 rounded-md px-2">
-                  <span className="tooltiptext text-gray-50 text-sm rounded py-1 z-10">
-                    {card.prompt_Description}
-                  </span>
-                  <span className="absolute w-2 h-2 bg-gray-700 rotate-45 -bottom-1 left-1/2 transform -translate-x-1/2" />
-                </div>
-              </div>
-            ))}
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4 sm:px-8 mb-6">
+  {cardData.records.map((card: any) => (
+    <div
+      key={card.prompt_text}
+      className="relative group bg-gray-100 p-4 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow"
+      onClick={() => handleCardClick(card.prompt_text)}
+    >
+      <p className="text-gray-600">{card.prompt_text}</p>
+      <div className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 hidden group-hover:block bg-gray-700 rounded-md px-2">
+        <span className="tooltiptext text-gray-50 text-sm rounded py-1 z-10">
+          {card.prompt_Description}
+        </span>
+        <span className="absolute w-2 h-2 bg-gray-700 rotate-45 -bottom-1 left-1/2 transform -translate-x-1/2" />
       </div>
+    </div>
+  ))}
+</div>
+
+</div>
       <Footer />
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           {/* <div className="relative bg-white rounded-lg shadow-lg w-full max-w-md p-8 flex flex-col items-center"> */}
             {isForgetPassword ? (
-              <ForgetPassword onClose={closeModal} onSwitchToSignIn={() => openModal(true)} />
+              <ForgetPassword  onClose={closeModal}
+              onSwitchToSignIn={() => openModal(true)} 
+              onSwitchToSignUp={() => openModal(false)} />
             ) : isSignIn ? (
               <SignIn onClose={closeModal} onSwitchToSignUp={() => openModal(false)} onForgotPassword={openForgetPassword} onLogin={handleLogin} />
             ) : (

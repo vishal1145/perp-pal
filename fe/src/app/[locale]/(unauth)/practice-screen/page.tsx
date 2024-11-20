@@ -358,8 +358,6 @@ const PracticeScreen = () => {
               :  <Statics minTime={Number(questions[index]?.minTime)  } maxTime={Number(questions[index]?.maxTime)} avgTime={Number(questions[index]?.avgTime)} />
              }
 
-             
-        
               
             </div>
             <div className='py-2' style={{ borderBottom: '1px solid #E2E2E2' }}></div>

@@ -24,6 +24,7 @@ export const Banner: React.FC<DemoBannerProps> = ({ notMainPage, user, onLogin, 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [searchText, setSearchText] = useState('');
+  
   const router = useRouter();
   const openModal = (isSignInModal: boolean) => {
     setIsSignIn(isSignInModal);
@@ -138,7 +139,7 @@ export const Banner: React.FC<DemoBannerProps> = ({ notMainPage, user, onLogin, 
 
   return (
     <>
-      <header className="sticky top-0 z-50 bg-white p-4 text-lg font-normal text-gray-900 flex items-center justify-between px-4 sm:px-6 lg:px-8">
+      <header className="sticky top-0 z-50 bg-white p-4 text-lg font-normal text-gray-900 flex items-center justify-between px-4 sm:px-6 lg:px-8 shadow-md" >
 
 
 
@@ -183,7 +184,7 @@ export const Banner: React.FC<DemoBannerProps> = ({ notMainPage, user, onLogin, 
         </div>
         )}
         
-        <div className="flex space-x-2 sm:space-x-5 ml-2 sm:ml-4 ">
+        <div className="flex space-x-2 sm:space-x-5 ml-2 sm:ml-4 " style={{justifyContent:'center',alignItems:'center'}}>
         {!notMainPage && (
           <>
           {/* <a href="https://t.me/your-telegram-link" target="_blank" rel="noopener noreferrer">
@@ -228,7 +229,10 @@ export const Banner: React.FC<DemoBannerProps> = ({ notMainPage, user, onLogin, 
               )}
             </div>
           ) : userProfileLoading == false ? (
-            <button onClick={() => openModal(true)} className="font-bold text-gray-900 hover:text-indigo-500 transition text-sm sm:text-base">
+            <button onClick={() => openModal(true)} className="border border-gray-500 w-[80px] h-[42 px] bg-transparent cursor-pointer font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none hover:bg-gray-200 " style={{
+              border: "1px solid rgb(226, 226, 226)",
+              color: "rgb(107 114 128)"
+            }}>
               Login
             </button>
           ):null}

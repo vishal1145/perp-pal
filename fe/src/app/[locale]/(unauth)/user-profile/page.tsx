@@ -247,8 +247,8 @@ setLoading(false)
         setLoading(true)
         axios
           .put(`${process.env.NEXT_PUBLIC_API_URI}/users/about/${userId}`, {
-            username: newUsernameData.trim(),
-            address: newAddressData.trim(),
+            username: newUsernameData?.trim() || "",
+            address: newAddressData?.trim() || "",
           })
           .then(response => {
             setUsernameData(response.data)
@@ -369,16 +369,19 @@ setLoading(false)
                       <textarea
                         className="w-full p-2 mt-2 border border-gray-300 rounded-lg text-sm"
                          value={newAboutData}
+                         placeholder='Write something about yourself...'
                          onChange={(e) => setNewAboutData(e.target.value)}
                         rows={4}
                       />
                       <div className="mt-4">
-                        <button
-                          className="bg-blue-500 text-white py-1 px-4 rounded-md text-sm"
-                           onClick={handleSaveAbout}
-                        >
-                          Save
-                        </button>
+                      {newAboutData?.trim() && ( // Safe check for undefined
+        <button
+          className="bg-blue-500 text-white py-1 px-4 rounded-md text-sm"
+          onClick={handleSaveAbout}
+        >
+          Save
+        </button>
+      )}
                         <button
                           className="ml-2 bg-gray-300 text-gray-700 py-1 px-4 rounded-md text-sm"
                           onClick={() => setEditAboutMode(false)}  // Cancel edit
@@ -388,7 +391,7 @@ setLoading(false)
                       </div>
                     </div>
                   ) : (
-                    <p className="text-gray-500 text-sm mt-2">{aboutData.about || "this is about section"}</p>
+                    <p className="text-gray-500 text-sm mt-2">{aboutData.about || "This is about section"}</p>
                   )}
                 </div>
                  )} 

@@ -1,22 +1,20 @@
-"use client"
+"use client";
 import React, { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import Snackbar from "@/components/snackbar";
-const ForgetPassword = ({ onClose, onSwitchToSignUp ,onSwitchToSignIn }) => {
+
+const ForgetPassword = ({ onClose, onSwitchToSignUp, onSwitchToSignIn }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
   const [snackbar, setSnackbar] = useState({ message: "", type: "" });
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
   const handleResetPassword = async (e) => {
     e.preventDefault();
-    setErrorMessage('');
-    setSuccessMessage('');
     setSnackbar({ message: "", type: "" });
 
     try {
@@ -29,17 +27,23 @@ const ForgetPassword = ({ onClose, onSwitchToSignUp ,onSwitchToSignIn }) => {
       const data = await response.json();
 
       if (response.ok) {
-        setSuccessMessage(data.message || 'Password reset successful. Please check your email.');
-        setSnackbar({ message: "Password reset successful. Please check your email.!", type: "success" });
+        setSnackbar({
+          message: data.message || 'Password reset successful. Please check your email.',
+          type: 'success',
+        });
         setTimeout(() => onClose(), 2000);
       } else {
-        setErrorMessage(data.message || 'Password reset failed. Please try again.');
-        setSnackbar({ message: data.message, type: "" });
+        setSnackbar({
+          message: data.message || 'Password reset failed. Please try again.',
+          type: 'error',
+        });
       }
     } catch (error) {
       console.error('Error:', error);
-      setErrorMessage('An unexpected error occurred. Please try again later.');
-      setSnackbar({ message: error.message, type: "error" });
+      setSnackbar({
+        message: 'An unexpected error occurred. Please try again later.',
+        type: 'error',
+      });
     }
   };
 
@@ -61,19 +65,19 @@ const ForgetPassword = ({ onClose, onSwitchToSignUp ,onSwitchToSignIn }) => {
 
         {/* Logo */}
         <div className="flex justify-center">
-  <img
-    src="/assets/images/logo1.png"
-    alt="Logo"
-    className="w-24 sm:w-28 md:w-30 object-contain"
-  />
-</div>
+          <img
+            src="/assets/images/logo1.png"
+            alt="Logo"
+            className="w-24 sm:w-28 md:w-30 object-contain"
+          />
+        </div>
 
-        <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-center text-gray-600 mb-4" style={{marginTop:"1px" , marginBottom:"2rem"}}>
+        <h3
+          className="text-lg sm:text-xl md:text-2xl font-semibold text-center text-gray-600 mb-4"
+          style={{ marginTop: "1px", marginBottom: "2rem" }}
+        >
           Welcome to PrepPal! 👋
         </h3>
-
-        {errorMessage && <p className="text-red-500 text-center">{errorMessage}</p>}
-        {successMessage && <p className="text-green-500 text-center">{successMessage}</p>}
 
         <form className="space-y-4" onSubmit={handleResetPassword}>
           <div>
@@ -126,6 +130,15 @@ const ForgetPassword = ({ onClose, onSwitchToSignUp ,onSwitchToSignIn }) => {
             </button>
           </p>
         </form>
+
+      
+        {snackbar.message && (
+          <Snackbar
+            message={snackbar.message}
+            type={snackbar.type}
+            onClose={() => setSnackbar({ message: "", type: "" })}
+          />
+        )}
       </div>
     </div>
   );

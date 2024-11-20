@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import DropdownSearch from '@/components/Multiselect';
 import { DemoBanner } from '@/components/DemoBanner';
+import { FaArrowDown } from 'react-icons/fa';
 import Faq from '@/components/FAQ/Faq';
 import axios from 'axios';
 import QuestionOptions from '@/components/QuestionOptions';
@@ -150,12 +151,13 @@ const Assessment: React.FC = () => {
   // const isNotMainPage = router.pathname !== '/';
 
 
-
   
   return (
     <>
     <div id="e-paper" className="h-screen overflow-auto">
-    <Banner notMainPage={true} loadingUserData={loadingUserData}/>
+    <Banner notMainPage={true} loadingUserData={loadingUserData} />
+    
+
       {/* <DemoBanner notMainPage={true} /> */}
       <div id='maidiv' className="practixe-main grid grid-cols-1 sm:grid-cols-12 gap-4 py-0 sm:py-4 sm:pl-4 mt-4 lg:mt-0" style={{marginLeft:"1.5rem", marginRight:"1.5rem"}} >
 

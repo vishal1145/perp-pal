@@ -6,12 +6,18 @@ type StaticProps = {
 };
 
 const Statics: React.FC<StaticProps> = ({ minTime, maxTime, avgTime }) => {
+    const convertSectoMint = (seconds:number)=>{
+      const minutes = Math.floor(seconds / 60);
+      const secs = seconds % 60;
+      return `${minutes}:${secs.toString().padStart(2, '0')}`;  
+    }
 
   return (
     <div className="flex mt-2 flex-wrap items-center justify-start w-full gap-2 md:gap-4">
       <div className="timer w-10">
         <h3 className="text-blue-700 font-semibold text-base md:text-lg lg:text-xl text-black text-center">
-          {minTime === Number.MAX_VALUE ? 0 : Math.ceil(minTime)}
+          {/* {minTime === Number.MAX_VALUE ? 0 : Math.ceil(minTime)} */}
+          {minTime === Number.MAX_VALUE ? '0:00' : convertSectoMint(minTime)}
         </h3>
         <div className={`${text2} text-center`}>Min</div>
       </div>
@@ -19,7 +25,8 @@ const Statics: React.FC<StaticProps> = ({ minTime, maxTime, avgTime }) => {
 
       <div className="timer w-10">
         <h3 className="text-blue-700 font-semibold text-base md:text-lg lg:text-xl text-black text-center">
-          { Math.ceil(2)}
+          {/* { Math.ceil(maxTime)} */}
+          {convertSectoMint(maxTime)}
         </h3>
         <div className={`${text2} text-center`}>Max</div>
       </div>
@@ -27,7 +34,8 @@ const Statics: React.FC<StaticProps> = ({ minTime, maxTime, avgTime }) => {
 
       <div className="timer w-10">
         <h3 className="text-blue-700 font-semibold text-base md:text-lg lg:text-xl text-black text-center">
-          { Math.ceil(2)}
+          {/* { Math.ceil(avgTime)} */}
+          {convertSectoMint(avgTime)}
         </h3>
         <div className={`${text2} text-center`}>Avg</div>
       </div>

@@ -44,18 +44,19 @@ const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword, onLogin }) => {
         const userData = await userResponse.json();
         setUserProfile(userData.data);
         onLogin(userData);
-        setSnackbar({ message: "Sign up successful!", type: "success" });
-        setTimeout(() => onClose(), 2000);
+      
         onClose();
+        setSnackbar({ message: "Login successful!", type: "success" });
       } else {
         setErrorMessage(data.message || 'Login failed. Please try again.');
         setErrorMessage('An unexpected error occurred. Please try again later.');
-        setSnackbar({ message: data.message, type: "" });
+        setSnackbar({ message: data.message || 'Login failed. Please try again.', type: "error" });
+      
       }
     } catch (error) {
       console.error('Error:', error);
       setErrorMessage('An unexpected error occurred. Please try again later.');
-      setSnackbar({ message: error.message, type: "error" });
+      setSnackbar({ message: 'An unexpected error occurred. Please try again later.', type: "error" });
     }
     finally {
       setShowLoader(false); // Stop the loader after the API call finishes
@@ -93,13 +94,7 @@ const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword, onLogin }) => {
         <h3 className="text-lg sm:text-xl font-semibold text-center text-gray-600 mb-4" style={{marginBottom:"2rem",marginTop:"1px"}}>
           Welcome to PrepPal! 👋
         </h3>
-        {snackbar.message && (
-          <Snackbar
-            message={snackbar.message}
-            type={snackbar.type}
-            onClose={() => setSnackbar({ message: "", type: "" })}
-          />
-        )}
+       
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
             <label className="block text-sm font-medium text-gray-600 mb-1">Email</label>
@@ -162,6 +157,9 @@ const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword, onLogin }) => {
             </button>
           </p>
         </form>
+        {snackbar.message && (
+          <Snackbar message={snackbar.message} type={snackbar.type} />
+        )}
       </div>
     </div>
   );
