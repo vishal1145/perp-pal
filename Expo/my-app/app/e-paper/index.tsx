@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet, Image, ActivityIndicator, FlatList, Dimensions } from 'react-native';
-import * as Linking from 'expo-linking';
-import { Ionicons } from '@expo/vector-icons';
+import { prompt_text, setAssesmentId } from '@/assets/data/dataAndFunction';
+import { useRouter } from 'expo-router';
+import axios from 'axios'; 
+import Nav from '../components/Nav';
 
 const App = () => {
   const [questions, setQuestions] = useState<any[]>([]);
   const [questionLoading, setQuestionLoading] = useState(false);
   const { width } = Dimensions.get('window');
-
+  const router = useRouter();
+  const[startPracticeClicked, setStartPracticeClicked] = useState<boolean>(false);
   const getQuestions = async (text: string) => {
     setQuestionLoading(true);
     try {
@@ -20,8 +23,7 @@ const App = () => {
       });
       const data = await response.json();
       const mcqQuestions = data.filter((item: any) => item.questionType == 'Single Choice');
-      const dataSingh = [...mcqQuestions, ...mcqQuestions]
-      setQuestions(dataSingh);
+      setQuestions(mcqQuestions);
       setQuestionLoading(false);
     } catch (error) {
       setQuestionLoading(false);
@@ -29,56 +31,31 @@ const App = () => {
   };
 
   useEffect(() => {
-    getQuestions("math");
+    getQuestions(prompt_text);
   }, []);
-
-  const shareOnWhatsApp = () => {
-    const message = encodeURIComponent(`Check out this page: https://preppal.club/e-paper/Explain--Newton's--three--laws--of--motion.`);   
-    const whatsappUrl = `whatsapp://send?text=${message}`;   
-    Linking.openURL(whatsappUrl).catch(() => {
-      alert('Make sure WhatsApp is installed on your device.');
-    });
-  };
-
-  const shareOnFacebook = () => {
-    const urlToShare = `Check out this page: https://preppal.club/e-paper/Explain--Newton's--three--laws--of--motion.`;  
-    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(urlToShare)}`;
-    Linking.openURL(facebookUrl).catch(() => {
-      alert("Unable to open Facebook. Please ensure the app or browser is installed.");
-    });
-  };
+ 
+  const startPractice = async()=>{
+    setStartPracticeClicked(true);
+     try {
+      const response =  await axios.post(`https://preppal.club/api/questions`, questions);
+      const quetionsIds =  response.data?.quetionsIds;
+      const {data} =  await axios.post(`https://preppal.club/api/startassesment`, {quetionsIds:quetionsIds, userId:null});
+      router.push(`/practice-screen`);
+      setAssesmentId(data.saveStartAssesment._id);
+      setStartPracticeClicked(false);
+     } catch (error) {
+      console.log(error);
+      setStartPracticeClicked(false);
+     }
+  }
 
   return (
     <View style={styles.container}>
-    
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.logoWrapper} onPress={() => navigation.navigate('(tab)')}>
-          <Image
-            source={require('../../assets/images/logo.png')}
-            style={styles.logo}
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
-        <View style={styles.shareIconsContainer}>
-          <TouchableOpacity onPress={shareOnWhatsApp} style={styles.shareButton}>
-            <Ionicons name="logo-whatsapp" size={24} color="#25D366" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={shareOnFacebook} style={styles.shareButton}>
-            <Ionicons name="logo-facebook" size={24} color="#4267B2" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.loginButton}>
-            <Text style={styles.loginText}>Login</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      {/* Divider */}
+      <Nav/>
       <View style={styles.divider} />
-
-      {/* Questions Section */}
       <View style={styles.contentContainer}>
-        <Text style={styles.sectionTitle}>Questions</Text>
-        <Text style={styles.sectionSubtitle}>List of questions available below:</Text>
+        <Text style={styles.sectionTitle}>Your Questions</Text>
+        <Text style={styles.sectionSubtitle}>{prompt_text}</Text>
         {questionLoading ? (
           <ActivityIndicator size="large" color="#007BFF" style={styles.loadingIndicator} />
         ) : (
@@ -105,10 +82,14 @@ const App = () => {
         )}
       </View>
 
-      {/* Footer Button */}
-      <TouchableOpacity style={[styles.footerButton, { width }]} activeOpacity={0.7}>
+    {
+        startPracticeClicked === true ? 
+         <ActivityIndicator size="large" color="#007BFF" style={styles.loadingIndicator} /> :
+        <TouchableOpacity style={[styles.footerButton, { width }]} activeOpacity={0.7} onPress={startPractice}>
         <Text style={styles.footerButtonText}>Start Practice</Text>
       </TouchableOpacity>
+    }
+      
     </View>
   );
 };
@@ -119,6 +100,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     padding: 16,
   },
+
+  fontMedium: {
+    fontWeight: '500', 
+  },
+  textSm: {
+    fontSize: 14, 
+    lineHeight: 18,  
+  },
+  
   header: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -159,7 +149,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: 14,
     fontWeight: '600',
     color: '#333',
     marginBottom: 4,
@@ -183,18 +173,19 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   questionText: {
-    fontSize: 12,
-    fontWeight: '400',
+    fontSize: 13,
+    fontWeight: '500',
     color: '#333',
+    marginBottom: 10,
+    lineHeight: 18,
+  },
+   
+  optionText: {
+    fontSize: 13,  
+    color: '#6B7280',  
     marginBottom: 10,
   },
   
-  optionText: {
-    fontSize: 12,
-    color: '#555',
-    marginBottom: 10,
-  },
-
   noQuestionsText: {
     fontSize: 16,
     color: '#999',

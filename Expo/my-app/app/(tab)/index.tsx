@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { data } from '@/assets/data/data';
 import Voice from 'react-native-voice';
+import { setPrompt_Text } from '@/assets/data/dataAndFunction';
 
 
 const App = () => {
@@ -24,6 +25,7 @@ const App = () => {
   const handleTouch = (text:string) => {
     // setHoveredCardId(id); 
     router.push(`/e-paper?paper=${text}`); 
+    setPrompt_Text(text);
   };
 
   const handleTouchOut = () => {
@@ -33,6 +35,7 @@ const App = () => {
   const handleSearch = () => {
     if (searchText.trim()) {
       router.push(`/e-paper?query=${encodeURIComponent(searchText)}`); 
+      setPrompt_Text(searchText)
     }
   };
 
