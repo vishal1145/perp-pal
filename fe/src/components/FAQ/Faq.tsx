@@ -57,7 +57,7 @@ const Faq = ({ title, description, imageUrl }) => {
   }, []);
 // console.log(window.location.href)
   const shareOnFacebook = () => {
-    const urlToShare = window.location.href; ;
+    const urlToShare = window.location.href;
     window.FB.ui({
       method: 'share',
       href: urlToShare,

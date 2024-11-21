@@ -158,11 +158,12 @@ const SubmitPopup: React.FC<SubmitPopupProps> = ({ title, subTitle, message, set
               <div >
          <b>  Don't let your last attempt discourage you!</b> 
   <br />
- <p className='mt-4'> It’s perfectly normal to face challenges while studying. Remember, every question is an opportunity to learn and improve!</p>
+ <p className='mt-1'> It’s perfectly normal to face challenges while studying. Remember, every question is an opportunity to learn and improve!</p>
   <br />
   </div>
-  <div className='mb-5'>
-  <b>Ready to tackle more?</b> Generate a new MCQ-based test on Life Processes for Class 10 Biology and sharpen your skills. Each practice session brings you one step closer to mastery.
+  <div className=''>
+  <b>Ready to tackle more?</b>
+  <p className='mt-1'>Generate a new MCQ-based test on Life Processes for Class 10 Biology and sharpen your skills. Each practice session brings you one step closer to mastery.</p> 
   <br />
   </div>
  <b> Click below to start your next practice test!</b>
@@ -175,7 +176,7 @@ const SubmitPopup: React.FC<SubmitPopupProps> = ({ title, subTitle, message, set
               <input
                 ref={searchInputRef}
                 type="text"
-                placeholder="Search..."
+                placeholder="Type a text to generate practice questions."
                 className="bg-gray-100 w-full pl-10 pr-10 h-8 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}

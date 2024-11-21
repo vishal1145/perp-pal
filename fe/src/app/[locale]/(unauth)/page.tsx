@@ -171,6 +171,7 @@ const closeModal = () => {
 
 const openForgetPassword = () => {
   setIsForgetPassword(true);
+  setIsSignIn(false);
   setIsModalOpen(true);
 };
 const handleLogin = (userData) => {
@@ -187,6 +188,7 @@ const handleSignUp = (userData) => {
     <div className="flex flex-col min-h-screen h-screen overflow-auto" >
        <Head>
         <title> paper text | Create and practice online papers </title>
+        <meta name="google-adsense-account" content="ca-pub-3647530800329908"></meta>
         <meta name="description" content="Empower students to create customizable online papers and practice tests by topic. Enhance learning with tailored questions and topics. Start practicing now!" />
         <meta name="keywords" content="Online paper creation, student practice tests, customizable practice papers, study aid for students, online quiz creation, subject-based practice papers, topic-specific tests, student learning platform, practice exams for students" />
      
@@ -265,7 +267,10 @@ const handleSignUp = (userData) => {
           {/* <div className="relative bg-white rounded-lg shadow-lg w-full max-w-md p-8 flex flex-col items-center"> */}
             {isForgetPassword ? (
               <ForgetPassword  onClose={closeModal}
-              onSwitchToSignIn={() => openModal(true)} 
+              onSwitchToSignIn={() => { 
+                setIsForgetPassword(false); 
+                setIsSignIn(true); // Show Sign In form when switching from Forget Password
+              }}
               onSwitchToSignUp={() => openModal(false)} />
             ) : isSignIn ? (
               <SignIn onClose={closeModal} onSwitchToSignUp={() => openModal(false)} onForgotPassword={openForgetPassword} onLogin={handleLogin} />

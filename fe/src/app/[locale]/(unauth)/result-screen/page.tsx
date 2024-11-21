@@ -135,7 +135,7 @@ const ResultPage  = ( ) => {
    
       <div className="flex flex-col md:flex-row h-screen "  style={{height:"90%", overflowY:"auto"}}>
          
-        <div className="w-full md:w-9/12 p-10 flex ">
+        <div className="w-full md:w-9/12 p-5 flex lg:p-10">
         
           <div className="w-full">
           <div className="">

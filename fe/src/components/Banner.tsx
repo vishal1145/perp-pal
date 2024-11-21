@@ -141,7 +141,7 @@ export const Banner: React.FC<DemoBannerProps> = ({ notMainPage, user, onLogin, 
 
   return (
     <>
-      <header className="sticky top-0 z-50 bg-white p-4 text-lg font-normal text-gray-900 flex items-center justify-between px-4 sm:px-6 lg:px-8 shadow-md" >
+      <header className="sticky top-0 z-50 bg-white p-4 text-lg font-normal text-gray-900 flex items-center justify-between px-4 sm:px-4 lg:px-8 shadow-md" >
 
 
 
@@ -151,7 +151,7 @@ export const Banner: React.FC<DemoBannerProps> = ({ notMainPage, user, onLogin, 
             <ul className="flex">
               <li>
                 <Link href="/how-it-work">
-                  <p className="text-sm sm:text-base text-gray-900 hover:text-cyan-500">How It Works</p>
+                  <p className="text-sm sm:text-base text-cyan-600 hover:text-cyan-900  ">How It Works</p>
                 </Link>
               </li>
             </ul>

@@ -279,7 +279,7 @@ setLoading(false)
       {/* <Banner notMainPage={false} /> */}
       <Banner notMainPage={true} loadingUserData={loadingUserData}/>
       <div className="bg-white min-h-screen p-4">
-        <div className=" mx-auto py-8 px-4 pb-24">
+        <div className=" mx-auto py-8  pb-24 lg:px-4">
           
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
             
