@@ -13,7 +13,7 @@ import { useRouter } from 'next/navigation';
 import Loader from '@/components/Loader';
 import { FilterLoader, logoBtnColor } from '@/data/data';
 import { Banner } from '@/components/Banner';
-import { setUserProfile, userProfile } from '@/data/functions';
+import { setUserProfile, userProfile,userProfileLoading } from '@/data/functions';
 
 const useFetchData = (url: string, setData: React.Dispatch<React.SetStateAction<any>>, setLoading: React.Dispatch<React.SetStateAction<boolean>>, dataType?: string | null) => {
   useEffect(() => {
@@ -150,7 +150,7 @@ const Assessment: React.FC = () => {
   };
   // const isNotMainPage = router.pathname !== '/';
 
-
+  // console.log("e-paper",{ userProfile, userProfileLoading, loadingUserData });
   
   return (
     <>

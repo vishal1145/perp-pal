@@ -16,7 +16,7 @@ import Head from 'next/head';
 import SignIn from '@/app/[locale]/(unauth)/signIn/page';
 import SignUp from '@/app/[locale]/(unauth)/SignUP/page';
 import ForgetPassword from '@/app/[locale]/(unauth)/forgetPassword/page';
-import { setUserProfile, userProfile } from '@/data/functions';
+import { setUserProfile, userProfile,userProfileLoading } from '@/data/functions';
 import { cardData } from '@/data/cardData';
 export default function Layout() {
   // const [cardData, setCardData] = useState([]);
@@ -31,7 +31,7 @@ export default function Layout() {
   const [isForgetPassword, setIsForgetPassword] = useState(false);
   const [localuser, setLocalUser] = useState(null);
   const [loadingUserData, setLoadingUserData] = useState(true);
-
+  const[userProfileLoading,setUserProfileLoading]=useState(true)
 
 
   const handleMicClick = () => {
@@ -93,6 +93,8 @@ export default function Layout() {
     } catch (error) {
       console.error('Error fetching user data:', error);
       setUser(null); // Show login button on error
+      setLoadingUserData(false);
+      setUserProfileLoading(false);
     }finally {
       setLoadingUserData(false); // Set loading to false after fetching user data
     }
@@ -180,7 +182,7 @@ const handleSignUp = (userData) => {
   closeModal();
 };
 
-
+// console.log("main",{ userProfile, userProfileLoading, loadingUserData });
   return (
     <div className="flex flex-col min-h-screen h-screen overflow-auto" >
        <Head>
@@ -216,8 +218,8 @@ const handleSignUp = (userData) => {
   </div>
 </div>
 {/* Search Bar */}
-<div className="flex justify-center items-center mb-6 px-5 sm:px-6 lg:px-12">
-  <div className="relative w-1/2 max-w-xl sm:max-w-2xl">
+<div className="flex justify-center items-center mb-6 px-5 sm:px-6 lg:px-12 ">
+  <div className="relative w-full max-w-lg sm:max-w-xl  md:max-w-[49.6667%] ml-2" >
     <span className="absolute inset-y-0 left-0 flex items-center pl-4 sm:pl-5">
       <FaSearch className="text-gray-400" />
     </span>
@@ -225,7 +227,7 @@ const handleSignUp = (userData) => {
       ref={searchInputRef}
       type="text"
       placeholder="Type a text to generate practice questions."
-      className="bg-gray-100 w-full h-10 py-2 sm:py-3 pl-12 sm:pl-14 pr-10 border border-gray-300 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+      className="bg-gray-100 w-full h-10 py-2 sm:py-3 pl-12 sm:pl-14 pr-10 border border-gray-300 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm md:text-base" // Added md:text-base for larger text size on tablets and up
       value={searchText}
       onChange={(e) => setSearchText(e.target.value)}
       onKeyDown={handleKeyDown}
@@ -235,6 +237,7 @@ const handleSignUp = (userData) => {
     </span>
   </div>
 </div>
+
 
       {/* Card Section */}
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4 sm:px-8 mb-6">

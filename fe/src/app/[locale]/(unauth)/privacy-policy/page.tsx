@@ -90,7 +90,7 @@ const page = () => {
   </a>
 </li>
 
-  <li>Mailing Address: <span className="ml-2">Algofolks Private Limited</span></li>
+  <li>Mailing Address: <span className="ml-2">Algofolks Private Limited, C-104 Sector 65 Noida</span></li>
 </ul>
 
   </div>

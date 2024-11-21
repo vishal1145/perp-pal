@@ -32,6 +32,7 @@ export const Banner: React.FC<DemoBannerProps> = ({ notMainPage, user, onLogin, 
     setIsForgetPassword(false);
   };
 
+  
   const closeModal = () => {
     setIsModalOpen(false);
     setIsForgetPassword(false);
@@ -135,6 +136,7 @@ export const Banner: React.FC<DemoBannerProps> = ({ notMainPage, user, onLogin, 
   };
 
 
+  console.log("userProfileLoading", userProfileLoading)
   
 
   return (
@@ -149,7 +151,7 @@ export const Banner: React.FC<DemoBannerProps> = ({ notMainPage, user, onLogin, 
             <ul className="flex">
               <li>
                 <Link href="/how-it-work">
-                  <p className="text-sm sm:text-base text-gray-900">How It Works</p>
+                  <p className="text-sm sm:text-base text-gray-900 hover:text-cyan-500">How It Works</p>
                 </Link>
               </li>
             </ul>
@@ -165,7 +167,7 @@ export const Banner: React.FC<DemoBannerProps> = ({ notMainPage, user, onLogin, 
        
         
         {notMainPage && (
-           <div className="col-span-8 lg:col-span-6 relative flex items-center w-1/2 mr-7" id="div2">
+          <div className="col-span-8 lg:col-span-6 relative flex items-center w-2/5 mr-7" id="div2">
           <span className="absolute inset-y-0 left-3 flex items-center">
             <FaSearch className="text-gray-400" />
           </span>
@@ -176,12 +178,13 @@ export const Banner: React.FC<DemoBannerProps> = ({ notMainPage, user, onLogin, 
             className="bg-gray-100 w-full pl-10 pr-10 h-9 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
-            onKeyDown={handleKeyDown} // Add onKeyDown event handler
+            onKeyDown={handleKeyDown}
           />
           <span className="absolute inset-y-0 right-3 flex items-center">
             <FaMicrophone className="text-gray-400 cursor-pointer" onClick={handleMicClick} />
           </span>
         </div>
+        
         )}
         
         <div className="flex space-x-2 sm:space-x-5 ml-2 sm:ml-4 " style={{justifyContent:'center',alignItems:'center'}}>
@@ -229,12 +232,17 @@ export const Banner: React.FC<DemoBannerProps> = ({ notMainPage, user, onLogin, 
               )}
             </div>
           ) : userProfileLoading == false ? (
-            <button onClick={() => openModal(true)} className="border border-gray-500 w-[80px] h-[42 px] bg-transparent cursor-pointer font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none hover:bg-gray-200 " style={{
+            <button 
+            onClick={() => openModal(true)} 
+            className="border w-[80px] h-9 bg-transparent cursor-pointer font-medium rounded-lg text-sm flex items-center justify-center focus:outline-none hover:bg-gray-200" 
+            style={{
               border: "1px solid rgb(226, 226, 226)",
-              color: "rgb(107 114 128)"
-            }}>
-              Login
-            </button>
+              color: "rgb(107, 114, 128)"
+            }}
+          >
+            Login
+          </button>
+          
           ):null}
         </div>
       </header>

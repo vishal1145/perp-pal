@@ -68,6 +68,10 @@ const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword, onLogin }) => {
       onClose();
     }
   };
+  const handleSnackbarClose = () => {
+    setSnackbar({ message: "", type: "" }); // Clear the snackbar message
+  };
+
 
   return (
     <div
@@ -158,7 +162,7 @@ const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword, onLogin }) => {
           </p>
         </form>
         {snackbar.message && (
-          <Snackbar message={snackbar.message} type={snackbar.type} />
+          <Snackbar message={snackbar.message} type={snackbar.type} onClose={handleSnackbarClose}/>
         )}
       </div>
     </div>

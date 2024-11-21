@@ -14,15 +14,34 @@ const SignUp = ({ onClose, onSwitchToSignIn, onSignUp }) => {
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
+  // const handleChange = (e) => {
+  //   setFormData({
+  //     ...formData,
+  //     [e.target.name]: e.target.value,
+  //   });
+  // };
+
   const handleChange = (e) => {
+    const { name, value } = e.target;
+
+   
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value.trimStart(),
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (
+      !formData.username.trim() ||
+      !formData.email.trim() ||
+      !formData.password.trim()
+    ) {
+      setSnackbar({ message: "All fields are required and cannot start with whitespace.", type: "error" });
+      return;
+    }
+
     setShowLoader(true);
     setSnackbar({ message: "", type: "" });
 
@@ -40,7 +59,7 @@ const SignUp = ({ onClose, onSwitchToSignIn, onSignUp }) => {
       setSnackbar({ message: "Sign up successful!", type: "success" });
       setTimeout(() => onClose(), 2000); // Close modal after showing success
     } catch (error) {
-      setSnackbar({ message: error.message, type: "error" });
+      setSnackbar({ message: "User already exist", type: "error" });
     } finally {
       setShowLoader(false);
     }
@@ -48,6 +67,10 @@ const SignUp = ({ onClose, onSwitchToSignIn, onSignUp }) => {
 
   const handleOutsideClick = (e) => {
     if (e.target.id === "modalWrapper") onClose();
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbar({ message: "", type: "" }); // Clear the snackbar message
   };
 
   return (
@@ -165,7 +188,7 @@ const SignUp = ({ onClose, onSwitchToSignIn, onSignUp }) => {
           <Snackbar
             message={snackbar.message}
             type={snackbar.type}
-            onClose={() => setSnackbar({ message: "", type: "" })}
+           onClose={handleSnackbarClose}
           />
         )}
       </div>

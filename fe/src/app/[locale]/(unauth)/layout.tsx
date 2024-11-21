@@ -61,9 +61,10 @@ export default function RootLayout(props: {
           locale={props.params.locale}
           messages={messages}
         >
-          {props.children}
+          
        
 <DefaultPage/>
+{props.children}
           {/* <DemoBadge /> */}
         </NextIntlClientProvider>
     

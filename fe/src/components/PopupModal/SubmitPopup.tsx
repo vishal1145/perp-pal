@@ -155,7 +155,17 @@ const SubmitPopup: React.FC<SubmitPopupProps> = ({ title, subTitle, message, set
             </div>
 
             <div className={`${text2} mt-4`}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit quibusdam architecto quae nam dolores id voluptate, voluptates, placeat doloribus perferendis vitae quisquam nisi unde beatae quidem animi molestiae molestias necessitatibus?
+              <div >
+         <b>  Don't let your last attempt discourage you!</b> 
+  <br />
+ <p className='mt-4'> It’s perfectly normal to face challenges while studying. Remember, every question is an opportunity to learn and improve!</p>
+  <br />
+  </div>
+  <div className='mb-5'>
+  <b>Ready to tackle more?</b> Generate a new MCQ-based test on Life Processes for Class 10 Biology and sharpen your skills. Each practice session brings you one step closer to mastery.
+  <br />
+  </div>
+ <b> Click below to start your next practice test!</b>
             </div>
 
             <div className="col-span-8 lg:col-span-6 relative flex items-center mt-4" id="div2">

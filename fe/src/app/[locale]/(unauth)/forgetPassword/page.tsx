@@ -52,6 +52,9 @@ const ForgetPassword = ({ onClose, onSwitchToSignUp, onSwitchToSignIn }) => {
       onClose();
     }
   };
+  const handleSnackbarClose = () => {
+    setSnackbar({ message: "", type: "" }); // Clear the snackbar message
+  };
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20 z-50" id="modalWrapper" onClick={handleOutsideClick}>
@@ -136,7 +139,7 @@ const ForgetPassword = ({ onClose, onSwitchToSignUp, onSwitchToSignIn }) => {
           <Snackbar
             message={snackbar.message}
             type={snackbar.type}
-            onClose={() => setSnackbar({ message: "", type: "" })}
+           onClose={handleSnackbarClose}
           />
         )}
       </div>
