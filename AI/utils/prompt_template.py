@@ -5,7 +5,11 @@ Please extract the following details:
 
 1. **Subject**: Academic subject.
 2. **Topic**: Academic topic name.
-3. **Difficulty**: Hard, Medium, Easy
+3. **Chapter**:Chapter name.
+4. **Class**: class 5,6 ? Standard
+4. **Difficulty**: Hard, Medium, Easy
+5. **NumberOfQuestion**: Number of Question
+6. **QuestionType**: Single Choice,Multiple choice
 
 ### INPUT
 

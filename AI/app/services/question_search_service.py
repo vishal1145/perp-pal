@@ -24,7 +24,7 @@ _initialize_index_and_metadata()
 def query_embedding(prompt):
     return _model.encode(prompt)
 
-def search_questions(prompt_embedding, top_k=10):
+def search_questions(prompt_embedding, top_k):
     if _index is None or _df is None:
         raise ValueError("Index and metadata not initialized.")
 

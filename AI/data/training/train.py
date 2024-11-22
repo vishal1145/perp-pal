@@ -4,9 +4,20 @@ import numpy as np
 from sentence_transformers import SentenceTransformer
 import sys
 import os
+import time
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 
 from utils.config import INDEX_FILE, METADATA_FILE, MODEL_NAME,DATA_FILE
+
+
+class Automatic_train_Model(FileSystemEventHandler):
+    def on_modified(self, event):
+        if event.src_path.endswith("questions.json"):
+            print("Detected changes in questions.json. Regenerating index and metadata...")
+            generate_embeddings_and_index()
 
 def generate_embeddings_and_index():
     model = SentenceTransformer(MODEL_NAME)
@@ -15,7 +26,7 @@ def generate_embeddings_and_index():
         print("Generating embeddings and creating index...")
         df = pd.read_json(DATA_FILE)
         df.fillna("", inplace=True)
-        df['combined'] = df['subject'] + " " + df['topic'] + " " + df['difficulty']
+        df['combined'] = df['subject'] + " " + df['topic'] + " " + df['difficulty'] + " " +df['questionType'] + " " + df ['chapter']
         
         question_embeddings = model.encode(df['combined'].tolist(), show_progress_bar=True)
 
