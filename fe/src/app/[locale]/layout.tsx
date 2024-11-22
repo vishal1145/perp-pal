@@ -48,7 +48,24 @@ export default function RootLayout(props: {
 
   return (
     <html lang={props.params.locale}>
-       
+        <head>
+        <title> paper text | Create and practice online papers </title>
+        <meta name="google-adsense-account" content="ca-pub-3647530800329908"></meta>
+        <meta name="description" content="Empower students to create customizable online papers and practice tests by topic. Enhance learning with tailored questions and topics. Start practicing now!" />
+        <meta name="google-adsense-account" content="ca-pub-3647530800329908" />
+        <meta name="keywords" content="Online paper creation, student practice tests, customizable practice papers, study aid for students, online quiz creation, subject-based practice papers, topic-specific tests, student learning platform, practice exams for students" />
+        <meta property="og:title" content="Create and Practice Online Papers | Customizable Student Practice Tests" />
+        <meta property="og:description" content="Empower students to create customizable online papers and practice tests by topic. Start practicing and enhance learning with tailored questions." />
+        <meta property="og:image" content="URL_TO_YOUR_IMAGE" />
+        <meta property="og:url" content="YOUR_APPLICATION_URL" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Create and Practice Online Papers | Customizable Student Practice Tests" />
+        <meta name="twitter:description" content="Create customizable online papers and practice tests by topic. A perfect tool for students to practice and learn!" />
+        <meta name="twitter:image" content="URL_TO_YOUR_IMAGE" />
+        <meta name="robots" content="index, follow" />
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3647530800329908"
+         crossOrigin="anonymous"></script>
+      </head>
       <body>
         <NextIntlClientProvider
           locale={props.params.locale}

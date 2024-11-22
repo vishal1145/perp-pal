@@ -98,16 +98,7 @@ const Faq = ({ title, description, imageUrl }) => {
   
   return (
     <>
-      <Head>
-        <title>{title}</title>
-        <meta property="og:url" content="" />
-        <meta property="og:type" content="article" />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        
-        <meta property="og:image" content={imageUrl} />
-      </Head>
-
+     
       <section className="px-4 hidden lg:block lg:col-span-3">
         <div className="rounded-md">
           <h2 className="text-sm font-medium font-bold pb-2">Share us</h2>
