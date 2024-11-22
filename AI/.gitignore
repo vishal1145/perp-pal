@@ -1,0 +1,5 @@
+env
+.venv
+.env
+=0.26.0
+**/__pycache__/
