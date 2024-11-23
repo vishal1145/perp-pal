@@ -6,6 +6,7 @@ interface IUser extends Document {
     password: string;
     about:string;
     address:string;
+    profileImage:string;
 }
 
 const userSchema: Schema<IUser> = new Schema({
@@ -30,6 +31,9 @@ const userSchema: Schema<IUser> = new Schema({
     address: {
         type: String, 
     },
+    profileImage:{
+      type:String,
+    }
 });
 
 const User: Model<IUser> = mongoose.models.User || mongoose.model<IUser>("User", userSchema);

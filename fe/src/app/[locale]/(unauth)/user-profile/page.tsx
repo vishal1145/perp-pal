@@ -3,9 +3,8 @@ import { Banner } from '@/components/Banner'
 import React,{useEffect,useState} from 'react'
 import { FaPen } from 'react-icons/fa'
 import axios from 'axios'
-import { FaChartBar, FaClipboardList, FaClipboardCheck } from 'react-icons/fa'
+import { FaClipboardList, FaClipboardCheck } from 'react-icons/fa'
 import CustomCardLoader from '@/components/CustomCardLoader';
-import { FilterLoader } from '@/data/data';
 import { Bar } from 'react-chartjs-2'
 import { useRouter } from 'next/navigation';
 
@@ -18,7 +17,7 @@ import {
     Tooltip,
     Legend,
   } from 'chart.js'
-  import { userProfile,setUserProfile,userProfileLoading } from '@/data/functions'
+  import { userProfile} from '@/data/functions'
 
   ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
  const ProfileUser = () => {
@@ -38,10 +37,11 @@ const [loading, setLoading] = useState<boolean>(true);
 const userId = userProfile?._id ?? null; 
 const [showAll, setShowAll] = useState(false);
 const [loadingUserData, setLoadingUserData] = useState();
+const [file, setFile] = useState<File | null>(null);
+const [imagePreview, setImagePreview] = useState<string | null>("/assets/profileImage.jpg"); 
 const toggleShowAll = () => {
   setShowAll(!showAll);
 };
-
 
 useEffect(() => {
   if (userId) {
@@ -76,12 +76,11 @@ const barOptions = {
           beginAtZero: true,
           title: {
               display: true,
-              // text: 'Lines of Code',
           },
           ticks: {
-            stepSize: 1, // Ensure values are shown in steps of 1
+            stepSize: 1,  
             callback: function (value: any) {
-              return Number.isInteger(value) ? value : null; // Show only integers
+              return Number.isInteger(value) ? value : null; 
             },
           },
         
@@ -99,10 +98,7 @@ const barOptions = {
       }
   }
 };
-
-
-      
-
+ 
       const [statisticsData, setStatisticsData] = useState({
         projectView: 0,
         totalInterview: 0,
@@ -116,11 +112,7 @@ const barOptions = {
           console.error('Error fetching about data:', error);
         });
       },[])
-
-
   
-
-   
 function isCreatedAtToday(createdAt:any) {
   console.log("createdAt", createdAt)
   const today = new Date();
@@ -129,12 +121,6 @@ function isCreatedAtToday(createdAt:any) {
   const createdAtStr = createdAtDate.toISOString().split('T')[0];   
   return todayStr === createdAtStr;
 }
- 
-
-
-
-
-
       const [profile, setProfile] = useState<any[]>([]); 
    
       const name = userProfile?.username ?? null;
@@ -243,8 +229,12 @@ setLoading(false)
   
    
     const handleSaveData = () => {
+      if(file){
+        profileImageUpdate()
+      }
       if (userId && (newUsernameData.trim() || newAddressData.trim())) {
         setLoading(true)
+
         axios
           .put(`${process.env.NEXT_PUBLIC_API_URI}/users/about/${userId}`, {
             username: newUsernameData?.trim() || "",
@@ -273,6 +263,43 @@ setLoading(false)
       setEditAboutMode(true);  
     };
     
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const selectedFile = event.target.files?.[0];
+      if (selectedFile) {
+        setFile(selectedFile);
+  
+        // Create a preview URL for the selected image
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImagePreview(reader.result as string);
+        };
+        reader.readAsDataURL(selectedFile);
+      }
+    };
+  
+    const profileImageUpdate = async ( ) => {
+  
+      if (!file) {
+        alert("Please select a file to upload");
+        return;
+      }
+  
+      const formData = new FormData();
+      formData.append("file", file);
+  
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/users/userprofile`, {
+          method: "POST",
+          body: formData,
+        });
+  
+        const data = await response.json();
+        console.log(data);
+      } catch (error) {
+        console.error("Error uploading file:", error);
+      }
+    };
+
   return (
     <>
     <div className='h-screen overflow-auto'>
@@ -312,6 +339,32 @@ setLoading(false)
                               onChange={(e) => setNewAddressData(e.target.value)}
                               placeholder="Enter new address"
                             />
+                            
+                            <div
+    style={{
+      display: 'flex',
+      justifyContent: 'flex-start',
+      gap: '8px', // You can adjust the gap between elements
+      marginTop: '8px',
+      flexDirection: 'column', // Arrange items vertically
+      alignItems: 'center', // Center the items horizontally
+    }}
+  >
+    <input
+      type="file"
+      id="fileInput"
+      onChange={handleFileChange}
+      style={{ display: 'none' }}
+    />
+    <label htmlFor="fileInput" className="cursor-pointer">
+      <img
+        src={imagePreview}
+        alt="Profile"
+        className="w-10 h-10 mx-auto rounded-full"
+      />
+    </label>
+    <div className="text-sm text-center">Update image</div>
+  </div>
                           <div className="mt-4">
                             <button
                               className="bg-blue-500 text-white py-1 px-4 rounded-md text-sm"

@@ -62,19 +62,6 @@ export default function Layout() {
     }
   };
 
-
-  // const getHomeData =  async()=>{
-  //   try {
-  //     const {data} = await axios.get('https://prep-pal.algofolks.com/api/Prompt?page=1&pageSize=8');
-  //     setCardData(data.records);
-  //     setLoading(false);
-  //   } catch (err) {
-  //     setLoading(false);
-  //   }
-  //   initMixpanel();
-  //   initGA();
-  // }
- 
   const fetchUserData = async () => {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/users/me`, {
@@ -113,8 +100,6 @@ export default function Layout() {
     }
   }, []);
  
-
-
   useEffect(() => {
     if (searchInputRef.current) {
       searchInputRef.current.focus();
@@ -153,10 +138,6 @@ const CustomCardLoader = () => (
   <rect x="15" y="60" rx="5" ry="20" width="260" height="20" /> {/* Smaller text */}
 </ContentLoader>
 );
-
-
-
-
 
 const openModal = (isSignInModal: boolean) => {
   setIsSignIn(isSignInModal);
