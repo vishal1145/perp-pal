@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 from sentence_transformers import SentenceTransformer
 from utils.config import INDEX_FILE, METADATA_FILE, MODEL_NAME
+from data.training.train import generate_embeddings_and_index
 import os
 
 _model = SentenceTransformer(MODEL_NAME)
@@ -13,7 +14,8 @@ def _initialize_index_and_metadata():
     global _index, _df
 
     if not (os.path.exists(INDEX_FILE) and os.path.exists(METADATA_FILE)):
-        raise FileNotFoundError("Index or metadata not ExIst. Pls run `train.py` first.")
+        print("Metadata file not found. Generating embeddings and creating index...")
+        generate_embeddings_and_index()
     
     print("LoadIng saved Index and metadata...")
     _index = faiss.read_index(INDEX_FILE)
