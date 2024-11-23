@@ -20,6 +20,5 @@ class LLMHelper:
     def extract_information(self, input_text):
         chain_extract = self.extract_academic_info_prompt | self.llm | parser
         res = chain_extract.invoke({"user_query": input_text})
-        print(res)
         return res
 
