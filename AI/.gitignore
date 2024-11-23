@@ -1,0 +1,7 @@
+env
+.venv
+.env
+=0.26.0
+**/__pycache__/
+**/question_index.faiss
+**/questions_with_metadata.pkl
