@@ -11,6 +11,7 @@ import { unstable_setRequestLocale } from 'next-intl/server';
 import DefaultPage from './default/page';
 // import { DemoBadge } from '@/components/DemoBadge';
 import { AppConfig } from '@/utils/AppConfig';
+import Head from 'next/head';
 
 
 export const metadata: Metadata = {
@@ -55,6 +56,11 @@ export default function RootLayout(props: {
   
   return (
     <html lang={props.params.locale}>
+       <Head>
+        {/* Google Site Verification Meta Tag */}
+        <meta name="google-site-verification" content="YOUR_GOOGLE_VERIFICATION_CODE" />
+
+      </Head>
       <body>
 {/* <DemoBanner/> */}
         <NextIntlClientProvider

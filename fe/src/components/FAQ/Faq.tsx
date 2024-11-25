@@ -111,7 +111,7 @@ const Faq = ({ title, description, imageUrl }) => {
             </button>
             */}
             <button onClick={shareOnWhatsapp} className="flex items-center">
-              <FaWhatsapp className="text-gray-900 hover:text-indigo-500 transition" size={24} />
+              <FaWhatsapp className="text-gray-900 hover:text-cyan-600 transition" size={24} />
             </button>
           
             {/* <button onClick={shareOnTwitter} className="flex items-center">
@@ -119,7 +119,7 @@ const Faq = ({ title, description, imageUrl }) => {
             </button> */}
 
             <button onClick={shareOnFacebook} className="flex items-center">
-              <FaFacebook className="text-gray-900 hover:text-indigo-500 transition" size={24} />
+              <FaFacebook className="text-gray-900 hover:text-cyan-600 transition" size={24} />
             </button>
           </div>
         </div>
@@ -135,10 +135,10 @@ const Faq = ({ title, description, imageUrl }) => {
               return (
                 <div
                   key={index}
-                  className={`accordion faq-border rounded-xl transition duration-500 ${isOpen ? 'accordion-active:bg-indigo-50 accordion-active:border-indigo-600' : ''} mb-2 py-2 pl-2 pr-4`}
+                  className={`accordion faq-border rounded-xl transition duration-500 ${isOpen ? 'accordion-active:bg-indigo-50 accordion-active:border-cyan-600' : ''} mb-2 py-2 pl-2 pr-4`}
                 >
                   <button
-                    className="accordion-toggle group inline-flex items-center text-left text-lg font-normal leading-8 text-gray-900 w-full transition duration-500 hover:text-indigo-600 accordion-active:font-medium accordion-active:text-indigo-600"
+                    className="accordion-toggle group inline-flex items-center text-left text-lg font-normal leading-8 text-gray-900 w-full transition duration-500 hover:text-cyan-600 accordion-active:font-medium accordion-active:text-cyan-600"
                     onClick={() => handleFaqToggle(index)}
                   >
                     {isOpen ? (

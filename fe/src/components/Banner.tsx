@@ -157,7 +157,7 @@ export const Banner: React.FC<DemoBannerProps> = ({ notMainPage, user, onLogin, 
             </ul>
           ) : (
             <div className="flex items-center" id="div1">
-              <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
+              <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse pr-6">
                 <Image src={logo} className="h-10 w-full" alt="Flowbite Logo" />
               </a>
             </div>
@@ -167,24 +167,24 @@ export const Banner: React.FC<DemoBannerProps> = ({ notMainPage, user, onLogin, 
        
         
         {notMainPage && (
-          <div className="col-span-8 lg:col-span-6 relative flex items-center w-2/5 mr-7" id="div2">
-          <span className="absolute inset-y-0 left-3 flex items-center">
-            <FaSearch className="text-gray-400" />
-          </span>
-          <input
-            ref={searchInputRef}
-            type="text"
-            placeholder="Type a text to generate practice questions."
-            className="bg-gray-100 w-full pl-10 pr-10 h-9 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-            onKeyDown={handleKeyDown}
-          />
-          <span className="absolute inset-y-0 right-3 flex items-center">
-            <FaMicrophone className="text-gray-400 cursor-pointer" onClick={handleMicClick} />
-          </span>
-        </div>
-        
+       <div className="col-span-8 lg:col-span-6 relative flex items-center w-full sm:w-2/5 mr-7" id="div2">
+       <span className="absolute inset-y-0 left-3 flex items-center">
+         <FaSearch className="text-gray-400" />
+       </span>
+       <input
+         ref={searchInputRef}
+         type="text"
+         placeholder="Type a text to generate practice questions."
+         className="bg-gray-100 w-full pl-10 pr-10 h-9 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-600 text-sm"
+         value={searchText}
+         onChange={(e) => setSearchText(e.target.value)}
+         onKeyDown={handleKeyDown}
+       />
+       <span className="absolute inset-y-0 right-3 flex items-center">
+         <FaMicrophone className="text-gray-400 cursor-pointer" onClick={handleMicClick} />
+       </span>
+     </div>
+     
         )}
         
         <div className="flex space-x-2 sm:space-x-5 ml-2 sm:ml-4 " style={{justifyContent:'center',alignItems:'center'}}>
@@ -194,13 +194,13 @@ export const Banner: React.FC<DemoBannerProps> = ({ notMainPage, user, onLogin, 
             <FaTelegramPlane className="text-gray-900 hover:text-indigo-500 transition" size={20} />
           </a> */}
           <a href="https://chat.whatsapp.com/DYl8T4Iuimw6WZ3WWcZD3W" target="_blank" rel="noopener noreferrer">
-            <FaWhatsapp className="text-gray-900 hover:text-indigo-500 transition" size={20} />
+            <FaWhatsapp className="text-gray-900 hover:text-cyan-700 transition" size={20} />
           </a>
           {/* <a href="https://instagram.com/your-instagram-link" target="_blank" rel="noopener noreferrer">
             <FaInstagram className="text-gray-900 hover:text-indigo-500 transition" size={20} />
           </a> */}
           <a href=" https://www.facebook.com/profile.php?id=61567170720121 " target="_blank" rel="noopener noreferrer">
-            <FaFacebook className="text-gray-900 hover:text-indigo-500 transition" size={20} />
+            <FaFacebook className="text-gray-900 hover:text-cyan-600 transition" size={20} />
           </a>
           </>
         )}
@@ -208,7 +208,7 @@ export const Banner: React.FC<DemoBannerProps> = ({ notMainPage, user, onLogin, 
               <div className="relative w-8 h-8"></div> 
           ) :  userProfile  ? (
             <div className="relative cursor-pointer">
-              <FaUser id="avatarButton" className="text-gray-900 hover:text-indigo-500 transition" size={20} onClick={toggleDropdown} />
+              <FaUser id="avatarButton" className="text-gray-900 hover:text-cyan-600 transition" size={20} onClick={toggleDropdown} />
               {isDropdownOpen && (
                 <div id="userDropdown" className="absolute right-0 mt-2 bg-white divide-y divide-gray-100 rounded-lg shadow-lg w-44">
                   <div className="px-4 py-3 text-sm text-gray-900">
@@ -250,7 +250,7 @@ export const Banner: React.FC<DemoBannerProps> = ({ notMainPage, user, onLogin, 
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           {isForgetPassword ? (
-            <ForgetPassword onClose={closeModal} />
+            <ForgetPassword onClose={closeModal} onSwitchToSignIn={() => openModal(true)}/>
           ) : isSignIn ? (
             <SignIn onClose={closeModal} onSwitchToSignUp={() => openModal(false)} onForgotPassword={openForgetPassword} onLogin={handleLogin} />
           ) : (

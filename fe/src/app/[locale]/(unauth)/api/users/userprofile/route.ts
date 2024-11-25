@@ -1,34 +1,41 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import path from "path";
-import { writeFile, readdir } from "fs/promises";
+import { writeFile, readdir, mkdir } from "fs/promises";
+import connectDB from "@/libs/DB";
 
-export const POST = async (req, res) => {
-   
-  const formData = await req.formData();
-
-  const file = formData.get("file");
-  if (!file) {
-    return NextResponse.json({ error: "No files received." }, { status: 400 });
-  }
-
-  const buffer = Buffer.from(await file.arrayBuffer());
-
+export const POST = async (request: NextRequest) => {
   try {
-    const files = await readdir(path.join(process.cwd(), "public/assets/profileImage"));
-    
-    const imageFiles = files.filter((file) => file.startsWith("profileImage"));
-    const nextIndex = imageFiles.length + 1;
+    connectDB();
 
-    const filename = `profileImage${nextIndex}.png`;
+    // Parse form data
+    const formData = await request.formData();
+    const file = formData.get("file");
+    const userId = formData.get("userId"); // Retrieve userId from formData
 
-    await writeFile(
-      path.join(process.cwd(), "public/assets/profileImage", filename),
-      buffer
-    );
+    // Validate inputs
+    if (!userId || typeof userId !== "string") {
+      return NextResponse.json({ error: "User ID is required." }, { status: 400 });
+    }
 
-    return NextResponse.json({ Message: "Success", status: 201 });
+    if (!file || !(file instanceof Blob)) {
+      return NextResponse.json({ error: "No valid file received." }, { status: 400 });
+    }
+
+    const buffer = Buffer.from(await file.arrayBuffer());
+
+    // Define the file path for storing the image
+    const dirPath = path.join(process.cwd(), "public/assets/profileImage");
+    const filePath = path.join(dirPath, `profileImage_${userId}.png`);
+
+    // Ensure the directory exists
+    await mkdir(dirPath, { recursive: true });
+
+    // Save or overwrite the file
+    await writeFile(filePath, buffer);
+
+    return NextResponse.json({ message: "Image saved successfully.", status: 201 });
   } catch (error) {
-    console.log("Error occurred ", error);
-    return NextResponse.json({ Message: "Failed", status: 500 });
+    console.error("Error occurred: ", error);
+    return NextResponse.json({ message: "Failed to save the image.", status: 500 });
   }
 };

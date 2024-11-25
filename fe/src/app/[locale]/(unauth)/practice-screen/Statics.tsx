@@ -7,8 +7,9 @@ type StaticProps = {
 
 const Statics: React.FC<StaticProps> = ({ minTime, maxTime, avgTime }) => {
     const convertSectoMint = (seconds:number)=>{
-      const minutes = Math.floor(seconds / 60);
-      const secs = seconds % 60;
+      const roundedSeconds = Math.round(seconds);
+      const minutes = Math.floor(roundedSeconds / 60);
+      const secs = roundedSeconds % 60;
       return `${minutes}:${secs.toString().padStart(2, '0')}`;  
     }
 

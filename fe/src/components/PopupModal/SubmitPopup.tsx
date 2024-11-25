@@ -30,6 +30,13 @@ const SubmitPopup: React.FC<SubmitPopupProps> = ({ title, subTitle, message, set
     }
   };
 
+  const handleStartPracticeClick = () => {
+    const formattedText = searchText.trim().replace(/\s+/g, '-');
+    console.log('Formatted URL:', `/e-paper/${formattedText}`);
+    router.push(`/e-paper/${formattedText}`);
+  };
+  
+  
   const resultPage = ()=>{
     router.push(`/result-screen?id=${encodeURIComponent(submitAssessmentId)}`);
   }
@@ -168,33 +175,34 @@ const SubmitPopup: React.FC<SubmitPopupProps> = ({ title, subTitle, message, set
   </div>
  <b> Click below to start your next practice test!</b>
             </div>
-
-            <div className="col-span-8 lg:col-span-6 relative flex items-center mt-4" id="div2">
-              <span className="absolute inset-y-0 left-3 flex items-center">
-                <FaSearch className="text-gray-400" />
-              </span>
-              <input
-                ref={searchInputRef}
-                type="text"
-                placeholder="Type a text to generate practice questions."
-                className="bg-gray-100 w-full pl-10 pr-10 h-8 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                value={searchText}
-                onChange={(e) => setSearchText(e.target.value)}
-                onKeyDown={handleKeyDown} // Add onKeyDown event handler
-              />
-              <span className="absolute inset-y-0 right-3 flex items-center">
-                <FaMicrophone className="text-gray-400 cursor-pointer" onClick={handleMicClick} />
-              </span>
-            </div>
-
-
-            <button
-              type="button"
-              className={`text-white ${logoBtnColor} w-full  focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-4     `}
-
-            >
-              Start Practice
-            </button>
+            <form onSubmit={(e) => {
+    e.preventDefault(); 
+    handleStartPracticeClick();
+}}>
+    <div className="col-span-8 lg:col-span-6 relative flex items-center mt-4" id="div2">
+        <span className="absolute inset-y-0 left-3 flex items-center">
+            <FaSearch className="text-gray-400" />
+        </span>
+        <input
+            ref={searchInputRef}
+            type="text"
+            placeholder="Type a text to generate practice questions."
+            className="bg-gray-100 w-full pl-10 pr-10 h-8 border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-600"
+            value={searchText}
+            required
+            onChange={(e) => setSearchText(e.target.value)}
+        />
+        <span className="absolute inset-y-0 right-3 flex items-center">
+            <FaMicrophone className="text-gray-400 cursor-pointer" onClick={handleMicClick} />
+        </span>
+    </div>
+    <button
+        type="submit"
+        className={`text-white ${logoBtnColor} w-full focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mt-4`}
+    >
+        Start Practice
+    </button>
+</form>
 
             {/* <button
         type="button"

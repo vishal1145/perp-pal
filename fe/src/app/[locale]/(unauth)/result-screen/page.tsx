@@ -135,9 +135,9 @@ const ResultPage  = ( ) => {
    
       <div className="flex flex-col md:flex-row h-screen "  style={{height:"90%", overflowY:"auto"}}>
          
-        <div className="w-full md:w-9/12 p-5 flex lg:p-10">
+        <div className="w-full md:w-9/12 md:p-5 flex lg:p-10 sm:pl-5 sm:pr-5 sm:pt-5 !pt-5 !pl-5 !pr-5">
         
-          <div className="w-full">
+          <div className="w-full sm:pl-5">
           <div className="">
       <div className='text-md font-medium'>Your Questions</div>
       {/* <div className='text-gray-500 font-sm text-md'>{yourQuestions}</div> */}
@@ -160,7 +160,7 @@ const ResultPage  = ( ) => {
            
 
                 return (
-                  <div key={question.questionId} className="w-full flex flex-col mb-4">
+                  <div key={question.questionId} className={`w-full flex flex-col ${index !== submitAssessment.length - 1 ? "mb-4" : ""}`}>
                     <div className="mb-2">
                       <h2 className="text-sm font-medium"> 
                         Q{index + 1}. {question.question}
@@ -194,7 +194,7 @@ const ResultPage  = ( ) => {
                         })}
                       </ul>
                     </div>
-                    <div className="py-2 mb-4" style={{ borderBottom: "1px solid #E2E2E2" }}></div>
+                    <div className="" style={{ borderBottom: "1px solid #E2E2E2" }}></div>
                   </div>
                 );
               })}
@@ -202,7 +202,7 @@ const ResultPage  = ( ) => {
           </div>
         </div>
         
-        <div className="w-full md:w-3/12 p-6">
+        <div className="w-full md:w-3/12 md:p-6 sm:pl-5 sm:pr-5  !pl-5 !pr-5">
           <div className="text-sm  font-medium leading-[3.25rem]">Your Next Adapting Path</div>
           
         {
@@ -221,11 +221,11 @@ const ResultPage  = ( ) => {
                 {faqs.map((faq, index) => (
                   <div
                     key={index}
-                    className={`accordion faq-border  rounded-xl transition duration-500 ${openIndex == index ? "accordion-active:bg-indigo-50 accordion-active:border-indigo-600" : ""
+                    className={`accordion faq-border  rounded-xl transition duration-500 ${openIndex == index ? "accordion-active:bg-indigo-50 accordion-active:border-cyan-600" : ""
                       } mb-2  py-2 pl-2 pr-4`}
                   >
                     <button
-                      className="accordion-toggle group inline-flex items-center   text-left text-lg font-normal leading-8 text-gray-900 w-full transition duration-500 hover:text-indigo-600 accordion-active:font-medium accordion-active:text-indigo-600"
+                      className="accordion-toggle group inline-flex items-center   text-left text-lg font-normal leading-8 text-gray-900 w-full transition duration-500 hover:text-cyan-600 accordion-active:font-medium accordion-active:text-indigo-600"
                       onClick={() => handleFaqToggle(index)}
                     >
                       {openIndex == index ? (

@@ -24,7 +24,8 @@ import {
   const [aboutData, setAboutData] = useState({ about: " " });
   const [usernameData, setUsernameData] = useState({ username: "" });
   const [addressData,setAddressData] = useState({address : ""})
-  const [newAboutData, setNewAboutData] = useState("");
+  const [newAboutData, setNewAboutData] = useState<string>("");
+
   const [newAddressData, setNewAddressData] = useState("");
   const [newUsernameData, setNewUsernameData] = useState("");
   const [editAboutMode, setEditAboutMode] = useState(false);
@@ -35,15 +36,22 @@ const[todayAssesment, setTodayAssesment]    = useState(0);
 const[user, setUser] = useState(null);
 const [loading, setLoading] = useState<boolean>(true);
 const userId = userProfile?._id ?? null; 
+console.log("useerid",userId)
 const [showAll, setShowAll] = useState(false);
 const [loadingUserData, setLoadingUserData] = useState();
 const [file, setFile] = useState<File | null>(null);
-const [imagePreview, setImagePreview] = useState<string | null>("/assets/profileImage.jpg"); 
+const [imagePreview, setImagePreview] = useState<string | null>(null); 
+const [image, setImage] = useState(null);
+const [uploading, setUploading] = useState(false);
+
+const [imageUrl, setImageUrl] = useState(`/assets/profileImage/profileImage_${userId}.png`);
+
 const toggleShowAll = () => {
   setShowAll(!showAll);
 };
 
 useEffect(() => {
+ 
   if (userId) {
     axios.put(`${process.env.NEXT_PUBLIC_API_URI}/users/about/${userId}`)
       .then(response => {
@@ -213,24 +221,30 @@ setLoading(false)
    
    
     const handleSaveAbout = () => {
-      if (userId && newAboutData.trim()) {
-        setLoading(true)
-        axios.put(`${process.env.NEXT_PUBLIC_API_URI}/users/about/${userId}`, { about: newAboutData.trim() })
+    
+      const aboutToSave = newAboutData.trim() === "" ? "This is about section" : newAboutData.trim();
+    
+      
+      if (userId && aboutToSave) {
+        setLoading(true);
+        axios.put(`${process.env.NEXT_PUBLIC_API_URI}/users/about/${userId}`, { about: aboutToSave })
           .then(response => {
-            setAboutData(response.data)
-            setEditAboutMode(false)
-            setLoading(false)
+            setAboutData(response.data); 
+            setEditAboutMode(false);       
+            setLoading(false);             
           })
-          .catch(error => console.error('Error saving about data:', error))
+          .catch(error => {
+            console.error('Error saving about data:', error);
+            setLoading(false);            
+          });
       } else {
-        alert('Please enter valid about data')
+        alert('Please enter valid about data');
       }
-    }
-  
+    };
    
     const handleSaveData = () => {
-      if(file){
-        profileImageUpdate()
+      if (file) {
+        profileImageUpdate(file); // Ensure 'e' is passed properly here
       }
       if (userId && (newUsernameData.trim() || newAddressData.trim())) {
         setLoading(true)
@@ -263,43 +277,42 @@ setLoading(false)
       setEditAboutMode(true);  
     };
     
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const selectedFile = event.target.files?.[0];
-      if (selectedFile) {
-        setFile(selectedFile);
   
-        // Create a preview URL for the selected image
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setImagePreview(reader.result as string);
-        };
-        reader.readAsDataURL(selectedFile);
-      }
-    };
-  
-    const profileImageUpdate = async ( ) => {
-  
-      if (!file) {
-        alert("Please select a file to upload");
-        return;
-      }
-  
+   
+   
+    const profileImageUpdate = async (e) => {
+      const file = e?.target?.files?.[0];
+    
+      if (!file) return;
+      setFile(file);
+      setImagePreview(URL.createObjectURL(file)); 
       const formData = new FormData();
       formData.append("file", file);
-  
+      formData.append("userId", userId); // Pass the userId to the backend
+    
+      setUploading(true);
+    
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/users/userprofile`, {
-          method: "POST",
-          body: formData,
+        const response = await axios.post("/api/users/userprofile", formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
         });
-  
-        const data = await response.json();
-        console.log(data);
+    
+        if (response.status === 200) {
+          // Update the image URL after successful upload
+          setImageUrl(`/assets/profileImage/profileImage_${userId}.png`);
+        } else {
+          alert(response.data.error || "Failed to upload image.");
+        }
       } catch (error) {
-        console.error("Error uploading file:", error);
+        console.error("Error uploading image:", error);
+        alert("Error uploading image.");
+      } finally {
+        setUploading(false);
       }
     };
-
+    
   return (
     <>
     <div className='h-screen overflow-auto'>
@@ -315,7 +328,7 @@ setLoading(false)
    
               {loading ? (
                   <div className="bg-gray-100 rounded-lg shadow-lg p-4 text-center flex items-center">
-                  <CustomCardLoader viewBox="0 0 380 350" className="text-3xl text-gray-700" rectW="100%" rectH="310" />
+                  <CustomCardLoader viewBox="0 0 380 350" className="text-3xl text-gray-700" rectW="100%" rectH="380" />
                 </div>
                 ) : (
                 <div className="bg-gray-100 rounded-lg shadow-lg p-6 relative">
@@ -323,7 +336,7 @@ setLoading(false)
                     <FaPen className="h-4 w-4" />
                   </button>
                   <div className="text-center">
-                    <img src="/assets/profileImage.jpg" alt="Profile" className="w-24 h-24 mx-auto rounded-full" />
+                    <img  src={`/assets/profileImage/profileImage_${userId}.png`} alt="Profile" className="w-24 h-24 mx-auto rounded-full" />
                     {editUsernameMode ? (
                         <div>
                           <input
@@ -351,23 +364,25 @@ setLoading(false)
     }}
   >
     <input
-      type="file"
-      id="fileInput"
-      onChange={handleFileChange}
-      style={{ display: 'none' }}
-    />
-    <label htmlFor="fileInput" className="cursor-pointer">
-      <img
-        src={imagePreview}
-        alt="Profile"
-        className="w-10 h-10 mx-auto rounded-full"
+    className='w-full p-1 pl-2 text-sm'
+        type="file"
+        accept="image/*"
+        onChange={(e) => profileImageUpdate(e)} 
+        disabled={uploading} // Disable input while uploading
       />
+    <label htmlFor="fileInput" className="cursor-pointer">
+    <img
+  src={imagePreview ? imagePreview : `/assets/profileImage/profileImage_${userId}.png`}
+  alt="Profile"
+  className="w-10 h-10 mx-auto rounded-full"
+/>
+
     </label>
     <div className="text-sm text-center">Update image</div>
   </div>
                           <div className="mt-4">
                             <button
-                              className="bg-blue-500 text-white py-1 px-4 rounded-md text-sm"
+                              className="bg-cyan-600 text-white py-1 px-4 rounded-md text-sm"
                               onClick={handleSaveData}
                             >
                               Save
@@ -413,7 +428,7 @@ setLoading(false)
               </div>
                 ) : (
                 <div className="bg-gray-100 rounded-lg shadow-lg p-6 relative">
-                <button className="absolute top-3 right-3 text-gray-500 hover:text-blue-500"   onClick={handleEditAbout}>
+                <button className="absolute top-3 right-3 text-gray-500 hover:text-cyan-600"   onClick={handleEditAbout}>
                     <FaPen className="h-4 w-4" />
                   </button>
                   <h3 className="text-md font-semibold text-center mb-4">About Me</h3>
@@ -426,15 +441,15 @@ setLoading(false)
                          onChange={(e) => setNewAboutData(e.target.value)}
                         rows={4}
                       />
-                      <div className="mt-4">
-                      {newAboutData?.trim() && ( // Safe check for undefined
+                       <div className="mt-4">
+                      {/* {newAboutData?.trim() && ( // Safe check for undefined */}
         <button
-          className="bg-blue-500 text-white py-1 px-4 rounded-md text-sm"
+          className="bg-cyan-600 text-white py-1 px-4 rounded-md text-sm"
           onClick={handleSaveAbout}
         >
           Save
         </button>
-      )}
+      {/* )} */}
                         <button
                           className="ml-2 bg-gray-300 text-gray-700 py-1 px-4 rounded-md text-sm"
                           onClick={() => setEditAboutMode(false)}  // Cancel edit
@@ -559,7 +574,7 @@ setLoading(false)
         const totalQuestions = job.questions?.length || 0;
  
         return (
-          <li key={index} className="flex justify-between py-4 text-gray-500 cursor-pointer hover:text-indigo-500 " style={{ borderBottom: '1px solid #e2e2e2' }}>
+          <li key={index} className="flex justify-between py-4 text-gray-500 cursor-pointer hover:text-cyan-600 " style={{ borderBottom: '1px solid #e2e2e2' }}>
             <div className="flex flex-col w-full">
               <div className="flex justify-between">
                 <span className="text-sm font-medium" onClick={() => goTOResult(job._id, job.paperTitle)}>
@@ -586,7 +601,7 @@ setLoading(false)
   {profile && profile.length >5 && (
         <button
           onClick={toggleShowAll}
-          className="mt-4 text-indigo-500 font-semibold"
+          className="mt-4 text-cyan-600 font-semibold"
         >
           {showAll ? 'Show Less' : 'View All'}
         </button>

@@ -216,10 +216,17 @@ export default function AdaptiveLearningOverview() {
       learning experiences. Start now and see how you can improve your
       academic performance with our tailored papers and guided learning paths!
     </p>
+    <form 
+    onSubmit={(e) => {
+      e.preventDefault(); 
+      handleClick();
+  }}
+    >
     <div className="flex flex-col mb-6 mt-10 w-full items-center">
   {/* <h2 className="text-2xl font-semibold text-gray-600 mt-10 mb-5 w-full text-left">
     Let's start learning
   </h2> */}
+ 
   <div className="relative flex w-full max-w-xl items-center justify-center">
     <span className="absolute inset-y-0 left-0 flex items-center pl-5 sm:pl-7">
       <FaSearch className="text-gray-400" />
@@ -227,8 +234,9 @@ export default function AdaptiveLearningOverview() {
     <input
       ref={searchInputRef}
       type="text"
+      required
       placeholder="Type a text to generate practice questions."
-      className="bg-gray-100 w-full p-2 sm:p-3 pl-12 sm:pl-14 border border-gray-300 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm"
+      className="bg-gray-100 w-full p-2 sm:p-3 pl-12 sm:pl-14 border border-gray-300 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-cyan-600 text-sm"
       value={searchText}
       onChange={(e) => setSearchText(e.target.value)}
       onKeyDown={handleKeyDown}
@@ -237,11 +245,14 @@ export default function AdaptiveLearningOverview() {
       <FaMicrophone className="text-gray-400 cursor-pointer" onClick={handleMicClick} />
     </span>
   </div>
-  <button className="text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-300 font-medium px-4 py-2 rounded w-full mt-6 relative flex  max-w-xl items-center justify-center" onClick={handleClick}>
+  <button
+  type='submit'
+  className="text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-300 font-medium px-4 py-2 rounded w-full mt-6 relative flex  max-w-xl items-center justify-center">
                   Start Practice
                 </button>
+                
 </div>
-
+</form>
   </div>
   );
 }

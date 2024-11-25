@@ -148,9 +148,6 @@ const Assessment: React.FC = () => {
   const handleFilterChange = (filter: 'classId' | 'subjectId' | 'chapterId' | 'levelId', value: string | null) => {
     setSelectedFilters((prev) => ({ ...prev, [filter]: value }));
   };
-  // const isNotMainPage = router.pathname !== '/';
-
-  // console.log("e-paper",{ userProfile, userProfileLoading, loadingUserData });
   
   return (
     <>
@@ -160,48 +157,6 @@ const Assessment: React.FC = () => {
 
       {/* <DemoBanner notMainPage={true} /> */}
       <div id='maidiv' className="practixe-main grid grid-cols-1 sm:grid-cols-12 gap-4 py-0 sm:py-4 sm:px-4 mt-4 lg:mt-0 lg:px-8"  >
-
-        {/* <aside className="col-span-12 sm:col-span-3 py-4 rounded-sm bg-gray-50  h-full" aria-label="Sidebar">
-          <div className="h-full px-3 rounded-md overflow-y-auto">
-            <ul className="space-y-2 font-medium px-2">
-              <li className='text-md font-medium pl-2'>Assessment Filter</li>
-
-              {
-                classFilter.length > 0 ? (
-                  <li>
-                    <DropdownSearch filter="Class" options={classFilter} filterOptionSelect={(value) => handleFilterChange('classId', value)} />
-                  </li>
-                ) :
-                  <CustomCardLoader viewBox={FilterLoader.viewBox} className={FilterLoader.className} rectW={FilterLoader.rectW} rectH={FilterLoader.rectH} />
-              }
-
-       
-
-
-
-              {subjectFilter.length > 0 ? (
-                <li>
-                  <DropdownSearch filter="Subject" options={subjectFilter} filterOptionSelect={(value) => handleFilterChange('subjectId', value)} />
-                </li>
-              ) :
-                <CustomCardLoader viewBox={FilterLoader.viewBox} className={FilterLoader.className} rectW={FilterLoader.rectW} rectH={FilterLoader.rectH} />
-              }
-              {chapterFilter.length > 0 ? (
-                <li>
-                  <DropdownSearch filter="Chapter" options={chapterFilter} filterOptionSelect={(value) => handleFilterChange('chapterId', value)} />
-                </li>
-              ) :
-                <CustomCardLoader viewBox={FilterLoader.viewBox} className={FilterLoader.className} rectW={FilterLoader.rectW} rectH={FilterLoader.rectH} />}
-              {levelFilter.length > 0 ? (
-                <li>
-                  <DropdownSearch filter="Level" options={levelFilter} filterOptionSelect={(value) => handleFilterChange('levelId', value)} />
-                </li>
-              ) :
-                <CustomCardLoader viewBox={FilterLoader.viewBox} className={FilterLoader.className} rectW={FilterLoader.rectW} rectH={FilterLoader.rectH} />
-              }
-            </ul>
-          </div>
-        </aside> */}
 
         <div className="px-4 sm:px-1 col-span-12 sm:col-span-9 md:col-span-9 lg:col-span-9   bg-white">
           <div className='flex justify-between relative'>
@@ -237,22 +192,57 @@ const Assessment: React.FC = () => {
                   }
                 </>
                 :
-                <div className='w-full h-20 flex'  >
-                  <div style={{ width: "77%" }}>
-                    <div className='h-4' style={{ width: "55%" }}>
-                      <CustomCardLoader viewBox={`0 0 380 45`} className={'   rounded-lg'} rectW='100%' rectH='30' />
-                    </div>
 
-                    <div className='mt-6 h-8 mt-4' style={{ width: "95%" }}>
-                      <CustomCardLoader viewBox={`0 0 380 25`} className={'   rounded-lg'} rectW='100%' rectH='24' />
-                    </div>
-                  </div>
+                <div
+                className="w-full flex"
+                style={{
+                  height: window.innerWidth < 768 ? "50px" : "80px",  
+                }}
+              >
+               
+              
+ 
+  <div style={{ width: window.innerWidth < 768 ? "70%" : "77%" }}>
+    <div className="h-4" style={{ width: window.innerWidth < 768 ? "60%" : "30%" }}>
+      <CustomCardLoader
+        viewBox={`0 0 380 45`}
+        className="rounded-lg"
+        rectW="100%"
+        rectH={window.innerWidth < 768 ? "130" : "40"}
+      />
+    </div>
+ 
+    <div
+      style={{
+        width: window.innerWidth < 768 ? "100%" : "95%",
+        marginTop: "20px",
+      }}
+    >
+      <CustomCardLoader
+        viewBox={`0 0 380 25`}
+        className="rounded-lg"
+        rectW="100%"
+        rectH={window.innerWidth < 768 ? "100" : "15"}
+      />
+    </div>
+  </div>
 
-                  <div  style={{ width: "15%",marginLeft:"70px" }}>
-                    <CustomCardLoader viewBox={`0 0 280 105`} className={'   rounded-lg'} rectW='100%' rectH='80' />                    
-                  </div>
-                  
-                </div>
+
+  <div
+    style={{
+      width: window.innerWidth < 768 ? "30%" : "15%",
+      marginLeft: window.innerWidth < 768 ? "10px" : "70px",
+    }}
+  >
+    <CustomCardLoader
+      viewBox={`0 0 280 105`}
+      className="rounded-lg"
+      rectW="100%"
+      rectH={window.innerWidth < 768 ? "60" : "80"}
+    />
+  </div>
+</div>
+
             }
 
 
