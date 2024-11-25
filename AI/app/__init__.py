@@ -1,8 +1,8 @@
 from flask import Flask
 from data.training.train import Automatic_train_Model
 from watchdog.observers import Observer
-from utils.config import DATA_FILE,METADATA_FILE
-from data.training.train import generate_embeddings_and_index
+from utils.config import UNPROCESSED_FILES_DIR
+from utils.collection_Status import Collection_Status
 import os
 import atexit
 
@@ -11,17 +11,15 @@ def initialize_app():
 
     from app.routes.questions import api
     app.register_blueprint(api, url_prefix="/")
-    
-    if not os.path.exists(METADATA_FILE):
-        print("Metadata file not found. Generating embeddings and creating index...")
-        generate_embeddings_and_index()
-    
-    path_to_watch = os.path.dirname(DATA_FILE)
+
+    path_to_watch = os.path.dirname(UNPROCESSED_FILES_DIR)
     event_handler = Automatic_train_Model()
     observer = Observer()
     observer.schedule(event_handler, path=path_to_watch, recursive=False)
     observer.start()
     
+    print(f"Monitoring directory: {UNPROCESSED_FILES_DIR} for new or modified JSON files...")
+
     atexit.register(observer.stop)
     atexit.register(observer.join)
     
