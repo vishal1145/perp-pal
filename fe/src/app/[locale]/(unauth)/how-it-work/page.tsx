@@ -41,14 +41,14 @@ export default function AdaptiveLearningOverview() {
   }, []);
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && searchText.trim() !== '') {
-      const formattedText = searchText.trim().replace(/\s+/g, '-'); // Format the text
+      const formattedText = searchText.trim().replace(/\s+/g, '--'); // Format the text
       router.push(`/e-paper/${formattedText}`); // Navigate to the formatted URL
     }
   };
 
   const handleClick = () => {
     
-      const formattedText = searchText.trim().replace(/\s+/g, '-'); // Format the text
+      const formattedText = searchText.trim().replace(/\s+/g, '--'); // Format the text
       router.push(`/e-paper/${formattedText}`); // Navigate to the formatted URL
     
   };

@@ -311,6 +311,8 @@ const PracticeScreen = () => {
                 </button>
               }
             </div>
+            {
+              loading ? <CustomCardLoader viewBox={`0 0 380 80`} className={' rounded-lg'} rectW='100%' rectH='20'/> :
             <div className="mb-4 rounded-lg shadow ">
               <button
                 onClick={() => setShowHints(!showHints)}
@@ -323,16 +325,21 @@ const PracticeScreen = () => {
                   <FaChevronDown className="transition-transform duration-300" />
                 )}
               </button>
+             
               <div
                 ref={panelRef}
                 className="bg-gray-100 text-gray-500 rounded font-normal overflow-hidden transition-all duration-700 ease-in-out"
                 style={{ height: panelHeight }}
               >
+             
                 <div className="px-4 pb-2 text-sm text-gray-500">
                   <p>{questions[index]?.showHints}</p>
                 </div>
+
               </div>
+
             </div>
+}
           </div>
 
           <div className="flex-none md:w-1/3 w-full  pt-4 pl-4 md:pt-1 md:pl-0 ">

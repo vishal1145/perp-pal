@@ -130,7 +130,7 @@ export const Banner: React.FC<DemoBannerProps> = ({ notMainPage, user, onLogin, 
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && searchText.trim() !== '') {
-      const formattedText = searchText.trim().replace(/\s+/g, '-'); // Format the text
+      const formattedText = searchText.trim().replace(/\s+/g, '--'); // Format the text
       router.push(`/e-paper/${formattedText}`); // Navigate to the formatted URL
     }
   };

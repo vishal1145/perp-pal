@@ -70,6 +70,8 @@ const Assessment: React.FC = () => {
     }
   }, []);
 
+  
+
   const getQuestions= async(text:string)=>{
     setQuestionLoading(true);
     try {
@@ -238,7 +240,7 @@ const Assessment: React.FC = () => {
       viewBox={`0 0 280 105`}
       className="rounded-lg"
       rectW="100%"
-      rectH={window.innerWidth < 768 ? "60" : "80"}
+      rectH={window.innerWidth < 768 ? "80" : "80"}
     />
   </div>
 </div>

@@ -15,6 +15,7 @@ import {   yourQuestions } from "@/data/functions";
 import { useRouter } from 'next/navigation';
 import { Banner } from "@/components/Banner";
 import { setUserProfile, userProfile } from '@/data/functions';
+import CustomCardLoader from "@/components/CustomCardLoader";
 // Register necessary components
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -29,13 +30,14 @@ const ResultPage  = ( ) => {
   const id = searchParams.get('id');
   const hasFetched = useRef(false);
   const [loadingUserData, setLoadingUserData] = useState();
+  const [questionloading, setQuestionLoading] = useState(true);
   const title = searchParams.get("title");
   const getSubmitAssessment = async () => {
     try { 
       const { data } = await axios.get(`${process.env.NEXT_PUBLIC_API_URI}/assessments/${id}`);
       const questions = data?.questions
       setSubmitAssessment(questions);
-
+      setQuestionLoading(false)
       const total = questions.length;
       let totalAttempt = 0;
       let correct = 0;
@@ -147,12 +149,24 @@ const ResultPage  = ( ) => {
       <div className="py-2 mb-4" style={{ borderBottom: "1px solid #E2E2E2" }}></div>
             <div className="w-full flex flex-col ">
               {/* Pie Chart */}
-              <div className="flex w-52 h-52">
-                <Pie data={data} options={options}/>
-              </div>
+              {questionloading ? (
+  <div className="flex items-center justify-center w-full h-full">
+    <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-opacity-75"></div>
+  </div>
+) : (
+  <div className="flex w-52 h-52">
+    <Pie data={data} options={options} />
+  </div>
+)}
+
             </div>
             <div className="mt-5">
-              {submitAssessment.map((item, index) => {
+            {questionloading ? (
+
+
+Array.from({ length: 20 }, (_, i) => <CustomCardLoader key={i} viewBox={`0 0 380 80`} className={'mt-2'} rectW='100%' rectH='70' />)
+) : (
+              submitAssessment.map((item, index) => {
                 const question = item.questionId;
                 const userSelectAnsString = item.userSelectAnsString;
                 const userSelectAns = item.userSelectAns;  
@@ -197,7 +211,8 @@ const ResultPage  = ( ) => {
                     <div className="" style={{ borderBottom: "1px solid #E2E2E2" }}></div>
                   </div>
                 );
-              })}
+              })
+            )}
             </div>
           </div>
         </div>

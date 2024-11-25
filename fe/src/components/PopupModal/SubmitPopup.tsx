@@ -31,7 +31,7 @@ const SubmitPopup: React.FC<SubmitPopupProps> = ({ title, subTitle, message, set
   };
 
   const handleStartPracticeClick = () => {
-    const formattedText = searchText.trim().replace(/\s+/g, '-');
+    const formattedText = searchText.trim().replace(/\s+/g, '--');
     console.log('Formatted URL:', `/e-paper/${formattedText}`);
     router.push(`/e-paper/${formattedText}`);
   };
