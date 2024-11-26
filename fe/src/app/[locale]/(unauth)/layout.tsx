@@ -12,10 +12,12 @@ import DefaultPage from './default/page';
 // import { DemoBadge } from '@/components/DemoBadge';
 import { AppConfig } from '@/utils/AppConfig';
 import Head from 'next/head';
-
+import { metaTitle } from '@/data/functions';
 
 export const metadata: Metadata = {
-  title: 'prepal',
+  title: metaTitle,
+  description:"Create and Practice Online Papers | Customizable Student Practice Tests",
+
   icons: [
     {
       rel: 'apple-touch-icon',
