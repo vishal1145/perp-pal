@@ -1,0 +1,38 @@
+[
+  {
+    "_id":"67441b70a3e36ce2e1c058e2",
+    "question":"If a matrix has $$13$$ elements, then the possible\r\ndimensions (orders) of the matrix are ",
+    "questionType":"Single Choice",
+    "difficulty":"Easy",
+    "subject":"Maths",
+    "chapter":"Matrices",
+    "topic":"Introduction to Matrices"
+  },
+  {
+    "_id":"67441b70a3e36ce2e1c058e3",
+    "question":"A matrix has $$16$$ elements Which of the following can be the order of the matrix?",
+    "questionType":"Single Choice",
+    "difficulty":"3",
+    "subject":"Maths",
+    "chapter":"Matrices",
+    "topic":"Introduction to Matrices"
+  },
+  {
+    "_id":"67441b70a3e36ce2e1c058e4",
+    "question":"If $$A=\\displaystyle \\left[ \\begin{matrix} 1 &2 \\\\ 3& 4 \\end{matrix} \\right] $$, then which of the following is not an element of $$A$$?",
+    "questionType":"Single Choice",
+    "difficulty":"Easy",
+    "subject":"Maths",
+    "chapter":"Matrices",
+    "topic":"Introduction to Matrices"
+  },
+  {
+    "_id":"67441b70a3e36ce2e1c058e5",
+    "question":"If the order of the matrix is $$1\\times2$$, then it is a ",
+    "questionType":"Single Choice",
+    "difficulty":"2",
+    "subject":"Maths",
+    "chapter":"Matrices",
+    "topic":"Introduction to Matrices"
+  }
+]
