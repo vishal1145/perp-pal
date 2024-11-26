@@ -9,9 +9,9 @@ class Collection_Status:
 
         if collection.count() == 0:
             print("No data found in ChromaDB. Generating embeddings and creating index...")
-            return False
+            return True
         else:
             print("Trained data already exists in ChromaDB. Skipping initialization.")
-            return True
+            return False
         
     

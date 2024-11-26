@@ -50,6 +50,7 @@ def generate_embeddings_and_index(file_path, force_retrain=False):
         df.fillna("", inplace=True)
             
         df['combined'] = (
+            df['_id']+ " " +
             df['subject'] + " " +
             df['topic'] + " " +
             df['difficulty'] + " " +
