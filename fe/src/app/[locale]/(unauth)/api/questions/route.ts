@@ -10,20 +10,22 @@ export async function POST(req: NextRequest) {
         let quetionsIds = [];
 
         for (const item of questions) {
-            const { questionId, question, solution, answer, options, correctAnswer } = item;
-
-        
+            const { questionId, question, solution, answer, options, correctAnswer, hint } = item;
+            
             if (!questionId ) {
                 return NextResponse.json({ message: 'All fields are required for each question.' }, { status: 400 });
             }
 
+            console.log(hint);
+
             await Question.updateOne(
                 { questionId },  
                 {
-                    $set: {  question, questionId, solution, answer, options, correctAnswer},
+                    $set: {  question, questionId, solution, answer, options, correctAnswer, showHints:hint.value},
                 },
                 { upsert: true } 
             );
+
             const savedQuestion = await Question.findOne({ questionId });
     
             if (savedQuestion) {
