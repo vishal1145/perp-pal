@@ -3,6 +3,11 @@ export const makeDate = (seconds:number, minutes:number, hours:number):Date=>{
       return date;
 }
 
+export let metaTitle="paper text | Create and practice online papers"
+export let setMetaTitle = (value:string):void=>{
+     metaTitle = value
+    }
+
 export const getTotalSeconds = (seconds:number, minutes:number, hours:number):number=>{
      const total = hours * 3600 + minutes * 60 + seconds;
      return total;
@@ -10,7 +15,7 @@ export const getTotalSeconds = (seconds:number, minutes:number, hours:number):nu
 
 export let yourQuestions = '';
 export const setYourQuestions=(str:string)=>{
-      yourQuestions = str
+      yourQuestions = str;
 }
  
 export let userProfile = null;
