@@ -150,9 +150,9 @@ const ResultPage  = ( ) => {
             <div className="w-full flex flex-col ">
               {/* Pie Chart */}
               {questionloading ? (
-  <div className="flex items-center justify-center w-full h-full">
-    <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-opacity-75"></div>
-  </div>
+   <div className="bg-gray-100 rounded-lg shadow-lg p-4 text-center flex items-center">
+   <CustomCardLoader viewBox="0 0 380 75" className="text-3xl text-gray-700" rectW="100%" rectH="150" />
+ </div>
 ) : (
   <div className="flex w-52 h-52">
     <Pie data={data} options={options} />
@@ -219,17 +219,21 @@ Array.from({ length: 20 }, (_, i) => <CustomCardLoader key={i} viewBox={`0 0 380
         
         <div className="w-full md:w-3/12 md:p-6 sm:pl-5 sm:pr-5  !pl-5 !pr-5">
           <div className="text-sm  font-medium leading-[3.25rem]">Your Next Adapting Path</div>
-          
-        {
+          {questionloading ? (
+                  <div className="bg-gray-100 rounded-lg shadow-lg p-4 text-center flex items-center" >
+                  <CustomCardLoader viewBox="0 0 480 300" className="text-9xl text-gray-700" rectW="100%" rectH="950" />
+                </div>
+                ) : (
+        
           cardData.map((item)=>(
             <p className="text-sm text-gray-500 mt-0 pt-0 mb-2 hover:text-indigo-500 transition cursor-pointer" onClick={()=>handleCardClick(item.prompt_text)}>
             {item.prompt_text}
             </p>
           ))
-        }          
-        
+                
+      )}
           <div className="mb-4">
-            <div className="py-2" style={{ borderBottom: "1px solid #E2E2E2" }}></div>
+            <div className="pb-2" style={{ borderBottom: "1px solid #E2E2E2" }}></div>
             <h3 className="text-sm  font-medium leading-[3.25rem]">Key Points to Remember</h3>
             <div className="">
               <div className="accordion-group h-60  " data-accordion="default-accordion">

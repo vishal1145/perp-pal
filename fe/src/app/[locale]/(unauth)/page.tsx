@@ -205,9 +205,9 @@ export default function Layout() {
         {/* Card Section */}
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4 sm:px-4 mb-5">
           {cardData.records.map((card: any) => (
-            <div
+            <button
               key={card.prompt_text}
-              className="relative group bg-gray-100 p-4 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow"
+              className="text-start relative group bg-gray-100 p-4 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow"
               onClick={() => handleCardClick(card.prompt_text)}
             >
               <p className="text-gray-600">{card.prompt_text}</p>
@@ -217,7 +217,7 @@ export default function Layout() {
                 </span>
                 <span className="absolute w-2 h-2 bg-gray-700 rotate-45 -bottom-1 left-1/2 transform -translate-x-1/2" />
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </div>

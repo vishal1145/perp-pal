@@ -319,7 +319,7 @@ setLoading(false)
       {/* <Banner notMainPage={false} /> */}
       <Banner notMainPage={true} loadingUserData={loadingUserData}/>
       <div className="bg-white min-h-screen p-4">
-        <div className=" mx-auto py-8  pb-24 lg:px-4">
+        <div className=" mx-auto py-4  pb-24 lg:px-4">
           
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
             
@@ -336,7 +336,11 @@ setLoading(false)
                     <FaPen className="h-4 w-4" />
                   </button>
                   <div className="text-center">
-                    <img  src={`/assets/profileImage/profileImage_${userId}.png`} alt="Profile" className="w-24 h-24 mx-auto rounded-full" />
+                  <img  
+        src={imagePreview || `/assets/profileImage/profileImage_${userId}.png`}  // Use preview if uploading, else use uploaded URL
+        alt="Profile"
+        className="w-24 h-24 mx-auto rounded-full"
+      />
                     {editUsernameMode ? (
                         <div>
                           <input
