@@ -349,9 +349,7 @@ const PracticeScreen = () => {
                 Timing
               </h3>
 
-           
                 <Timer   qsnChange={qsnChange} setSubmitTime={setSubmitTime} loading={loading}/>
-      
 
               <div className='py-2' style={{ borderBottom: '1px solid #E2E2E2' }}></div>
             </div>
@@ -364,7 +362,6 @@ const PracticeScreen = () => {
               loading ?  <CustomCardLoader viewBox={`0 0 200 40`} className={'mt-2'} rectW='100%' rectH='40'/>
               :  <Statics minTime={Number(questions[index]?.minTime)  } maxTime={Number(questions[index]?.maxTime)} avgTime={Number(questions[index]?.avgTime)} />
              }
-
               
             </div>
             <div className='py-2' style={{ borderBottom: '1px solid #E2E2E2' }}></div>
@@ -375,7 +372,6 @@ const PracticeScreen = () => {
               <p className="text-sm text-gray-500 fs-700 font-normal py-2">Integration / discuss</p>
             </div>
           </div>
-
           
         </div>
       </div>

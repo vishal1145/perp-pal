@@ -3,6 +3,16 @@ import { Metadata } from 'next';
 import React  from 'react'
 export const metadata: Metadata = {
   title: "Privacy Policy",
+  description: "Read our privacy policy to understand Preppal.",
+  openGraph: {
+    title: "Privacy Policy",
+    description: "Read our privacy policy to understand Preppal.",
+    url: "https://preppal.club/privacy-policy",
+  },
+  twitter: {
+    title: "Privacy Policy",
+    description: "Read our privacy policy to understand Preppal.",
+  },
 };
  
 const page = () => {
