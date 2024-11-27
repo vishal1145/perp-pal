@@ -1,6 +1,13 @@
-import React from 'react'
+"use client"
+import React, { useEffect } from 'react'
 
 const page = () => {
+  useEffect(() => {
+    const titleElement = document.getElementById('nextjs-tile') as HTMLTitleElement;
+    if (titleElement) {
+      titleElement.textContent = 'Privacy policy';
+    }
+  }, []);
   return (
     <div className='h-screen overflow-auto'>
     <div className="container mx-auto p-8 bg-gray-50 rounded-lg shadow-md p-12">

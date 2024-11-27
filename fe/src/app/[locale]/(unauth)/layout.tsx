@@ -14,33 +14,33 @@ import { AppConfig } from '@/utils/AppConfig';
 import Head from 'next/head';
 import { metaTitle } from '@/data/functions';
 
-export const metadata: Metadata = {
-  title: metaTitle,
-  description:"Create and Practice Online Papers | Customizable Student Practice Tests",
+// export const metadata: Metadata = {
+//   title: metaTitle,
+//   description:"Create and Practice Online Papers | Customizable Student Practice Tests",
 
-  icons: [
-    {
-      rel: 'apple-touch-icon',
-      url: '/apple-touch-icon.png',
-    },
-    {
-      rel: 'icon',
-      type: 'image/png',
-      sizes: '32x32',
-      url: '/favicon-32x32.png',
-    },
-    {
-      rel: 'icon',
-      type: 'image/png',
-      sizes: '16x16',
-      url: '/favicon-16x16.png',
-    },
-    {
-      rel: 'icon',
-      url: '/favicon.ico',
-    },
-  ],
-};
+//   icons: [
+//     {
+//       rel: 'apple-touch-icon',
+//       url: '/apple-touch-icon.png',
+//     },
+//     {
+//       rel: 'icon',
+//       type: 'image/png',
+//       sizes: '32x32',
+//       url: '/favicon-32x32.png',
+//     },
+//     {
+//       rel: 'icon',
+//       type: 'image/png',
+//       sizes: '16x16',
+//       url: '/favicon-16x16.png',
+//     },
+//     {
+//       rel: 'icon',
+//       url: '/favicon.ico',
+//     },
+//   ],
+// };
 
 export function generateStaticParams() {
   return AppConfig.locales.map(locale => ({ locale }));
@@ -58,11 +58,7 @@ export default function RootLayout(props: {
   
   return (
     <html lang={props.params.locale}>
-       <Head>
-        {/* Google Site Verification Meta Tag */}
-        <meta name="google-site-verification" content="YOUR_GOOGLE_VERIFICATION_CODE" />
-
-      </Head>
+ 
       <body>
 {/* <DemoBanner/> */}
         <NextIntlClientProvider

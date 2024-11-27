@@ -7,6 +7,7 @@ export default function AdaptiveLearningOverview() {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const [searchText, setSearchText] = useState('');
+   
   const handleMicClick = () => {
     if ('webkitSpeechRecognition' in window) {
       const recognition = new (window as any).webkitSpeechRecognition();
@@ -35,6 +36,11 @@ export default function AdaptiveLearningOverview() {
     }
   };
   useEffect(() => {
+    const titleElement = document.getElementById('nextjs-tile') as HTMLTitleElement;
+    if (titleElement) {
+      titleElement.textContent = 'How it works';
+    }
+
     if (searchInputRef.current) {
       searchInputRef.current.focus();
     }

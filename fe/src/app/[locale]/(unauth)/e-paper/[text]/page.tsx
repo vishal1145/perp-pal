@@ -74,8 +74,16 @@ const Assessment: React.FC = () => {
       if (text) {
         setFormattedText(text);
         getQuestions(text);
+
+        const titleElement = document.getElementById('nextjs-tile') as HTMLTitleElement;
+        if (titleElement) {
+          titleElement.textContent = `${text} | Create and practice online papers`;
+        }
       }
     }
+
+  
+    
   }, []);
 
   const getQuestions = async (text: string) => {

@@ -18,7 +18,8 @@ export default function RootLayout(props: {
 
   return (
     <html lang={props.params.locale}>
-        <head> 
+        <head>
+          <title id='nextjs-tile'>Paper Text | Create and practice online papers</title>
         <meta name="google-adsense-account" content="ca-pub-3647530800329908"></meta>
         <meta name="description" content="Empower students to create customizable online papers and practice tests by topic. Enhance learning with tailored questions and topics. Start practicing now!" />
         <meta name="google-adsense-account" content="ca-pub-3647530800329908" />
@@ -32,6 +33,7 @@ export default function RootLayout(props: {
         <meta name="twitter:description" content="Create customizable online papers and practice tests by topic. A perfect tool for students to practice and learn!" />
         <meta name="twitter:image" content="URL_TO_YOUR_IMAGE" />
         <meta name="robots" content="index, follow" />
+        <meta name="google-site-verification" content="YOUR_GOOGLE_VERIFICATION_CODE" />
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3647530800329908"
          crossOrigin="anonymous"></script>
       </head>
