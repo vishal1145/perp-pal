@@ -1,27 +1,20 @@
-'use client';
+import React from 'react'
+import EPaper from './EPaper'
+export async function generateMetadata({
+  params: {  text },   
+}: {
+  params: {   text: string };
+}) {
+  text = text?.split("--").join(" ")
+  return {
+    title: `${text} | Create and practice online papers`,   
+  };
+}
 
-import React, { useEffect, useState } from 'react';
-import EPaper from './EPaper';
-import { metaTitle } from '@/data/functions';
-
-const Page = () => {
-  const [title, setTitle] = useState(metaTitle); 
-  useEffect(() => {
-    setTitle(metaTitle);
-  }, []);  
-
+const page = () => {
   return (
-    <>
-   
-      <head>
-        <title>{title}</title> 
-      </head>
+    <EPaper/>
+  )
+}
 
-      <div>
-        <EPaper />
-      </div>
-    </>
-  );
-};
-
-export default Page;
+export default page
