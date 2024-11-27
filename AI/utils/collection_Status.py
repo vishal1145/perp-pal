@@ -4,7 +4,7 @@ from utils.initialize_ChromaDb import ChromaDBInitializer
 class Collection_Status:
     @classmethod
     def collection_status(cls):
-        collection =ChromaDBInitializer.get_or_create_collection()
+        collection =ChromaDBInitializer.get_or_create_collection("questions")
         print("ChromaDB collection initialized.")
 
         if collection.count() == 0:

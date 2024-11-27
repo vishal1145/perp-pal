@@ -9,7 +9,7 @@ from utils.initialize_ChromaDb import ChromaDBInitializer
 from utils.collection_Status import Collection_Status
 from app.services.refactor_json_service import Refactor_JSON
 
-collection=ChromaDBInitializer.get_or_create_collection()
+collection=ChromaDBInitializer.get_or_create_collection("questions")
 _model = ChromaDBInitializer.get_model()
 
 class Automatic_train_Model(FileSystemEventHandler):

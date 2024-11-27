@@ -28,7 +28,7 @@ class ChromaDBInitializer:
         return cls._model
 
     @classmethod
-    def get_or_create_collection(cls):
+    def get_or_create_collection(cls,collection_name):
         chroma_client = cls.get_chroma_client()
         embedding_function = cls.get_embedding_function()
-        return chroma_client.get_or_create_collection(name="questions", embedding_function=embedding_function)
+        return chroma_client.get_or_create_collection(name=collection_name,embedding_function=embedding_function)
