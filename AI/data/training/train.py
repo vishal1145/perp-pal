@@ -3,6 +3,10 @@ import pandas as pd
 from watchdog.events import FileSystemEventHandler
 import numpy as np
 import sys
+import logging
+
+logging.basicConfig(level=logging.DEBUG)
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 from utils.config import UNPROCESSED_FILES_DIR,PROCESSED_FILES_DIR, MAX_BATCH_SIZE
 from utils.initialize_ChromaDb import ChromaDBInitializer
@@ -27,6 +31,7 @@ class Automatic_train_Model(FileSystemEventHandler):
     def process_and_train(file_path):
         processed_file = Refactor_JSON.check_and_refactor(file_path)
         if processed_file:
+            logging.debug(f"Processing and training : {processed_file}")
             generate_embeddings_and_index(processed_file)
 
 def generate_embeddings_and_index(file_path, force_retrain=False):
@@ -48,6 +53,12 @@ def generate_embeddings_and_index(file_path, force_retrain=False):
             return
 
         df.fillna("", inplace=True)
+        
+        required_parameters = ['subject', 'topic', 'difficulty', 'questionType', 'chapter']
+        for col in required_parameters:
+            if col not in df.columns:
+                print(f"Column '{col}' is missing in {file_path}. Filling with empty strings.")
+                df[col] = ""
             
         df['combined'] = (
             df['_id']+ " " +
@@ -58,23 +69,20 @@ def generate_embeddings_and_index(file_path, force_retrain=False):
             df['chapter']
         )
         
-        batch_size = int(np.ceil(len(df) / MAX_BATCH_SIZE))
-        all_embeddings = []
-        all_metadatas = []
-        for start_idx in range(0, len(df), batch_size):
-            end_idx = min(start_idx + batch_size, len(df))
+        max_allowed_batch_size = 100
+        for start_idx in range(0, len(df), max_allowed_batch_size):
+            end_idx = min(start_idx + max_allowed_batch_size, len(df))
             batch = df.iloc[start_idx:end_idx]
+
             batch_embeddings = _model.encode(batch['combined'].tolist(), show_progress_bar=True)
             
-            all_embeddings.extend(batch_embeddings)
-            all_metadatas.extend(batch.to_dict(orient="records"))
-
-        collection.add(
-            embeddings=all_embeddings,
-            metadatas=all_metadatas,
-            ids=[f"{file_path}_{i}" for i in range(len(df))]
-        )
-        print(f"Successfully processed and indexed file: {file_path}")
+            logging.debug(f"Adding embed to ChromaDB{len(batch_embeddings)} records...")
+            collection.add(
+                embeddings=batch_embeddings,
+                metadatas=batch.to_dict(orient="records"),
+                ids=batch['_id'].tolist()
+            )
+            print(f"Successfully processed and indexed file: {file_path}")
         
     except Exception as e:
         print(f"An error occurred while processing {file_path}: {e}")

@@ -45,8 +45,15 @@ class Refactor_JSON:
         print(f"Processing file: {self.input_file} to create processed JSON.")
         try:
             df = pd.read_json(self.input_file)
-            parameters_to_keep = ["_id", "question", "questionType", "difficulty", "subject", "chapter", "topic"]
+            
+            df = df[df['subject'].notna() & df['topic'].notna() & df['chapter'].notna()]
+            
+            parameters_to_keep = ["_id",  "questionType", "difficulty", "subject", "chapter", "topic"]
 
+            for param in parameters_to_keep:
+                if param not in df.columns:
+                    df[param] ="null"
+                    
             filtered_df = df[parameters_to_keep]
             filtered_df.to_json(self.output_file, orient="records", indent=2)
             print(f"Processed JSON created at: {self.output_file}")
@@ -54,3 +61,4 @@ class Refactor_JSON:
         except Exception as e:
             print(f"Error processing file {self.input_file}: {e}")
             return None
+ 
