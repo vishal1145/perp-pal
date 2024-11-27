@@ -3,10 +3,13 @@ export const makeDate = (seconds:number, minutes:number, hours:number):Date=>{
       return date;
 }
 
-export let metaTitle="paper text | Create and practice online papers"
+export let metaTitle= "Paper Text | Create and practice online papers";
 export let setMetaTitle = (value:string):void=>{
-     metaTitle = value
-    }
+     metaTitle = `${value} | Create and practice online papers`;
+  
+}
+
+ 
 
 export const getTotalSeconds = (seconds:number, minutes:number, hours:number):number=>{
      const total = hours * 3600 + minutes * 60 + seconds;

@@ -12,35 +12,34 @@ import DefaultPage from './default/page';
 // import { DemoBadge } from '@/components/DemoBadge';
 import { AppConfig } from '@/utils/AppConfig';
 import Head from 'next/head';
-import { metaTitle } from '@/data/functions';
 
-// export const metadata: Metadata = {
-//   title: metaTitle,
-//   description:"Create and Practice Online Papers | Customizable Student Practice Tests",
+export const metadata: Metadata = {
+  title: "Paper Text | Create and practice online papers",
+  description:"Create and Practice Online Papers | Customizable Student Practice Tests",
 
-//   icons: [
-//     {
-//       rel: 'apple-touch-icon',
-//       url: '/apple-touch-icon.png',
-//     },
-//     {
-//       rel: 'icon',
-//       type: 'image/png',
-//       sizes: '32x32',
-//       url: '/favicon-32x32.png',
-//     },
-//     {
-//       rel: 'icon',
-//       type: 'image/png',
-//       sizes: '16x16',
-//       url: '/favicon-16x16.png',
-//     },
-//     {
-//       rel: 'icon',
-//       url: '/favicon.ico',
-//     },
-//   ],
-// };
+  icons: [
+    {
+      rel: 'apple-touch-icon',
+      url: '/apple-touch-icon.png',
+    },
+    {
+      rel: 'icon',
+      type: 'image/png',
+      sizes: '32x32',
+      url: '/favicon-32x32.png',
+    },
+    {
+      rel: 'icon',
+      type: 'image/png',
+      sizes: '16x16',
+      url: '/favicon-16x16.png',
+    },
+    {
+      rel: 'icon',
+      url: '/favicon.ico',
+    },
+  ],
+};
 
 export function generateStaticParams() {
   return AppConfig.locales.map(locale => ({ locale }));

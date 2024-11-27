@@ -1,13 +1,35 @@
-"use client"
-import React, { useEffect } from 'react'
-
+ 
+import { Metadata } from 'next';
+import React  from 'react'
+export const metadata: Metadata = {
+    title: "Privacy Policy",
+    description:"Create and Practice Online Papers | Customizable Student Practice Tests",
+  
+    icons: [
+      {
+        rel: 'apple-touch-icon',
+        url: '/apple-touch-icon.png',
+      },
+      {
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '32x32',
+        url: '/favicon-32x32.png',
+      },
+      {
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '16x16',
+        url: '/favicon-16x16.png',
+      },
+      {
+        rel: 'icon',
+        url: '/favicon.ico',
+      },
+    ],
+  };
 const page = () => {
-  useEffect(() => {
-    const titleElement = document.getElementById('nextjs-tile') as HTMLTitleElement;
-    if (titleElement) {
-      titleElement.textContent = 'Privacy policy';
-    }
-  }, []);
+ 
   return (
     <div className='h-screen overflow-auto'>
     <div className="container mx-auto p-8 bg-gray-50 rounded-lg shadow-md p-12">

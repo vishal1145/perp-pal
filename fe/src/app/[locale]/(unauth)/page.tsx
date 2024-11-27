@@ -17,6 +17,7 @@ import SignIn from "@/app/[locale]/(unauth)/signIn/page";
 import SignUp from "@/app/[locale]/(unauth)/SignUP/page";
 import ForgetPassword from "@/app/[locale]/(unauth)/forgetPassword/page";
 import {
+  setMetaTitle,
   setUserProfile,
   userProfile,
   userProfileLoading,
@@ -109,6 +110,7 @@ export default function Layout() {
 
   const handleCardClick = (promptText: string) => {
     const formattedText = promptText.replace(/\s+/g, "--");
+    setMetaTitle(formattedText);
     router.push(`/e-paper/${formattedText}`);
     // trackEvent(first_card);
     trackGAEvent("Card", "cardClick", promptText);
@@ -116,6 +118,7 @@ export default function Layout() {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && searchText.trim() !== "") {
       const formattedText = searchText.trim().replace(/\s+/g, "--");
+      setMetaTitle(formattedText);
       router.push(`/e-paper/${formattedText}`);
     }
   };

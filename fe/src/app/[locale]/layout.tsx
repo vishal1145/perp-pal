@@ -19,7 +19,6 @@ export default function RootLayout(props: {
   return (
     <html lang={props.params.locale}>
         <head>
-          <title id='nextjs-tile'>Paper Text | Create and practice online papers</title>
         <meta name="google-adsense-account" content="ca-pub-3647530800329908"></meta>
         <meta name="description" content="Empower students to create customizable online papers and practice tests by topic. Enhance learning with tailored questions and topics. Start practicing now!" />
         <meta name="google-adsense-account" content="ca-pub-3647530800329908" />
