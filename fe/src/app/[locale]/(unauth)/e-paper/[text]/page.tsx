@@ -1,13 +1,26 @@
 import React from 'react'
 import EPaper from './EPaper'
 export async function generateMetadata({
-  params: {  text },   
+  params: { text },  
 }: {
-  params: {   text: string };
+  params: { text: string };
 }) {
-  text = text?.split("--").join(" ")
+  const formattedText = text?.split("--").join(" ");
+
   return {
-    title: `${text} | Create and practice online papers`,   
+    title: `${formattedText} | Create and Practice Online Papers`,
+    description: `Learn how to create and practice online papers on ${formattedText}.`,
+    openGraph: {
+      title: `${formattedText} | Create and Practice Online Papers`,
+      description: `Learn how to create and practice online papers on ${formattedText}.`,
+      url: `https://preppal.club/${text}`,  
+    },
+    twitter: {
+      cardType: 'summary_large_image',
+      title: `${formattedText} | Create and Practice Online Papers`,
+      description: `Learn how to create and practice online papers on ${formattedText}.`,
+      url: `https://preppal.club/${text}`,  
+    },
   };
 }
 
