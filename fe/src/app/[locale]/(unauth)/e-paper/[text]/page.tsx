@@ -10,7 +10,7 @@ export async function generateMetadata({
   return {
     title: `${formattedText} | Create and Practice Online Papers`,
     description: `Learn how to create and practice online papers on ${formattedText}.`,
-    openGraph: {
+    og: {
       title: `${formattedText} | Create and Practice Online Papers`,
       description: `Learn how to create and practice online papers on ${formattedText}.`,
       url: `https://preppal.club/${text}`,  
