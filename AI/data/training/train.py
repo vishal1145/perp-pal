@@ -1,59 +1,63 @@
 import os
-import time
 import pandas as pd
-from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 import numpy as np
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
-from utils.config import DATA_FILE, METADATA_FILE, MAX_BATCH_SIZE
+from utils.config import UNPROCESSED_FILES_DIR,PROCESSED_FILES_DIR, MAX_BATCH_SIZE
 from utils.initialize_ChromaDb import ChromaDBInitializer
+from utils.collection_Status import Collection_Status
+from app.services.refactor_json_service import Refactor_JSON
 
-collection = None
+collection=ChromaDBInitializer.get_or_create_collection("questions")
 _model = ChromaDBInitializer.get_model()
 
-def initialize_chromadb_collection():
-    global collection
-    collection = ChromaDBInitializer.get_or_create_collection("questions")
-    print("ChromaDB collection initialized.")
-
 class Automatic_train_Model(FileSystemEventHandler):
-    def on_modified(self, event):
-        global last_modified_time
-        if event.src_path.endswith("questions.json"):
-            current_time = time.time()
-            if current_time - last_modified_time > 5:
-                print("Detected changes in questions.json. Regenerating embeddings and index...")
-                generate_embeddings_and_index()
-                last_modified_time = current_time
-            else:
-                print("Modification detected but ignored due to debounce.")
+    def on_created(self, event):
+        if event.src_path.endswith(".json"):
+            print(f"New file detected: {event.src_path}")
+            self.process_and_train(event.src_path)
 
-def generate_embeddings_and_index():
-    global collection
+    def on_modified(self, event):
+        if event.src_path.endswith(".json"):
+            print(f"File modified: {event.src_path}")
+            self.process_and_train(event.src_path)
+
+    @staticmethod
+    def process_and_train(file_path):
+        processed_file = Refactor_JSON.check_and_refactor(file_path)
+        if processed_file:
+            generate_embeddings_and_index(processed_file)
+
+def generate_embeddings_and_index(file_path, force_retrain=False):
     if collection is None:
         raise ValueError("ChromaDB collection is not initialized.")
 
-    if os.path.exists(METADATA_FILE):
-        os.remove(METADATA_FILE)
-        print(f"Deleted existing metadata file: {METADATA_FILE}")
-
-    print("Generating new embeddings and creating index...")
-
+    print(f"Processing file: {file_path}")
+    
+    processed_file_path = os.path.join(PROCESSED_FILES_DIR, os.path.basename(file_path).replace('.json', '_processed.json'))
+    if not force_retrain and os.path.exists(processed_file_path):
+        print(f"Skipping embedding generation for {file_path} as the processed file already exists.")
+        return
+    
     try:
-        df = pd.read_json(DATA_FILE)
+        df = pd.read_json(file_path)
+        
         if df.empty:
-            print("Data file is empty. Aborting embedding generation.")
+            print(f"File {file_path} is empty. Skipping...")
             return
 
         df.fillna("", inplace=True)
+            
         df['combined'] = (
+            df['_id']+ " " +
             df['subject'] + " " +
             df['topic'] + " " +
             df['difficulty'] + " " +
             df['questionType'] + " " +
             df['chapter']
         )
+        
         batch_size = int(np.ceil(len(df) / MAX_BATCH_SIZE))
         all_embeddings = []
         all_metadatas = []
@@ -68,15 +72,21 @@ def generate_embeddings_and_index():
         collection.add(
             embeddings=all_embeddings,
             metadatas=all_metadatas,
-            ids=[str(i) for i in range(len(df))]
+            ids=[f"{file_path}_{i}" for i in range(len(df))]
         )
-
-        df.to_pickle(METADATA_FILE)
-        print("New embeddings indexed and metadata saved.")
-
+        print(f"Successfully processed and indexed file: {file_path}")
+        
     except Exception as e:
-        print(f"An error occurred during embedding generation: {e}")
+        print(f"An error occurred while processing {file_path}: {e}")
 
 if __name__ == "__main__":
-    initialize_chromadb_collection()
-    generate_embeddings_and_index()
+    collection_status = Collection_Status.collection_status()
+    if collection_status:
+        for file_name in os.listdir(UNPROCESSED_FILES_DIR):
+            if file_name.endswith(".json"):
+                file_path = os.path.join(UNPROCESSED_FILES_DIR, file_name)
+                processed_file = Refactor_JSON.check_and_refactor(file_path)
+                if processed_file:
+                    generate_embeddings_and_index(processed_file)
+
+    print("All files have been processed.")
