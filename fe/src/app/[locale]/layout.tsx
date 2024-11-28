@@ -1,7 +1,9 @@
+import '@/styles/global.css';
+
 import { NextIntlClientProvider, useMessages } from 'next-intl';
 import { unstable_setRequestLocale } from 'next-intl/server';
+
 import { AppConfig } from '@/utils/AppConfig';
-import '@/styles/global.css';
 
 export function generateStaticParams() {
   return AppConfig.locales.map(locale => ({ locale }));
@@ -19,9 +21,6 @@ export default function RootLayout(props: {
   return (
     <html lang={props.params.locale}>
       <head>
-        <title>
-          Paper Text | Create and practice online papers
-        </title>
         <meta name="google-adsense-account" content="ca-pub-3647530800329908"></meta>
         <meta
           name="description"

@@ -1,33 +1,35 @@
-import React from 'react'
-import EPaper from './EPaper'
-export async function generateMetadata({
-  params: { text },  
-}: {
+import React from 'react';
+
+import EPaper from './EPaper';
+
+export async function generateMetadata({ params: { text } }: {
   params: { text: string };
 }) {
-  const formattedText = text?.split("--").join(" ");
+  const formattedText = text?.split('--').join(' ');
+  const pageTitle = `${formattedText} | Create and Practice Online Papers`;
+  const pageDescription = `Learn how to create and practice online papers on ${formattedText}.`;
 
   return {
-    title: `${formattedText} | Create and Practice Online Papers`,
-    description: `Learn how to create and practice online papers on ${formattedText}.`,
-    og: {
-      title: `${formattedText} | Create and Practice Online Papers`,
-      description: `Learn how to create and practice online papers on ${formattedText}.`,
-      url: `https://preppal.club/${text}`,  
+    title: pageTitle,
+    description: pageDescription,
+    openGraph: {
+      title: pageTitle,
+      description: pageDescription,
+      url: `https://preppal.club/e-paper/${text}`,
     },
     twitter: {
-      cardType: 'summary_large_image',
-      title: `${formattedText} | Create and Practice Online Papers`,
-      description: `Learn how to create and practice online papers on ${formattedText}.`,
-      url: `https://preppal.club/${text}`,  
+      card: 'summary_large_image',
+      title: pageTitle,
+      description: pageDescription,
+      url: `https://preppal.club/e-paper/${text}`,
     },
   };
 }
 
 const page = () => {
   return (
-    <EPaper/>
-  )
-}
+    <EPaper />
+  );
+};
 
-export default page
+export default page;

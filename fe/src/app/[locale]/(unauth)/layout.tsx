@@ -3,19 +3,22 @@
 // import { LocaleSwitcher } from '@/components/LocaleSwitcher';
 // import { BaseTemplate } from '@/templates/BaseTemplate';
 // 'use client'
+import '../../../styles/app.css';
 import '@/styles/global.css';
-import "../../../styles/app.css"
+
 import type { Metadata } from 'next';
+// import Head from 'next/head';
 import { NextIntlClientProvider, useMessages } from 'next-intl';
 import { unstable_setRequestLocale } from 'next-intl/server';
-import DefaultPage from './default/page';
+
 // import { DemoBadge } from '@/components/DemoBadge';
 import { AppConfig } from '@/utils/AppConfig';
-import Head from 'next/head';
+
+import DefaultPage from './default/page';
 
 export const metadata: Metadata = {
-  title: "Paper Text | Create and practice online papers",
-  description:"Create and Practice Online Papers | Customizable Student Practice Tests",
+  title: 'Paper Text | Create and practice online papers',
+  description: 'Create and Practice Online Papers | Customizable Student Practice Tests',
 
   icons: [
     {
@@ -54,24 +57,20 @@ export default function RootLayout(props: {
   // Using internationalization in Client Components
   const messages = useMessages();
 
-  
   return (
     <html lang={props.params.locale}>
- 
       <body>
-{/* <DemoBanner/> */}
+        {/* <DemoBanner/> */}
         <NextIntlClientProvider
           locale={props.params.locale}
           messages={messages}
         >
-          
-       
-<DefaultPage/>
-{props.children}
+          <DefaultPage />
+          {props.children}
           {/* <DemoBadge /> */}
         </NextIntlClientProvider>
-    
-      {/* <Footer/> */}
+
+        {/* <Footer/> */}
       </body>
     </html>
   );
