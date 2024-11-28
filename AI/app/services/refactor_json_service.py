@@ -50,10 +50,8 @@ class Refactor_JSON:
             
             parameters_to_keep = ["_id",  "questionType", "difficulty", "subject", "chapter", "topic"]
 
-            for param in parameters_to_keep:
-                if param not in df.columns:
-                    df[param] ="null"
-                    
+            df = df.apply(lambda col: col if col.name in parameters_to_keep else "null", axis=0)
+
             filtered_df = df[parameters_to_keep]
             filtered_df.to_json(self.output_file, orient="records", indent=2)
             print(f"Processed JSON created at: {self.output_file}")
