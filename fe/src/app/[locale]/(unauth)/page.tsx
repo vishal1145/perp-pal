@@ -1,28 +1,32 @@
 "use client";
-import Image from "next/image";
-import { FaSearch, FaMicrophone } from "react-icons/fa";
-import { useEffect, useState, useRef } from "react";
-import { useRouter } from "next/navigation";
 import "@/styles/global.css";
-import ContentLoader from "react-content-loader"; // Import React Content Loader
-import logo from "../../../images/logo1.png";
-import Footer from "./Footer/page";
-import { Banner } from "@/components/Banner";
-import { initGA, trackGAEvent } from "../(unauth)/googleAnalytics";
-// import { initMixpanel, trackEvent } from './mixpanel';
-import { first_card } from "./mixpanelEventConstent";
-import axios from "axios";
-import Head from "next/head";
+
+// import axios from "axios";
+// import Head from "next/head";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+// import ContentLoader from "react-content-loader";
+import { FaMicrophone, FaSearch } from "react-icons/fa";
+
+import ForgetPassword from "@/app/[locale]/(unauth)/forgetPassword/page";
 import SignIn from "@/app/[locale]/(unauth)/signIn/page";
 import SignUp from "@/app/[locale]/(unauth)/SignUP/page";
-import ForgetPassword from "@/app/[locale]/(unauth)/forgetPassword/page";
+import { Banner } from "@/components/Banner";
+import { cardData } from "@/data/cardData";
 import {
   setMetaTitle,
   setUserProfile,
-  userProfile,
-  userProfileLoading,
+  // userProfile,
+  // userProfileLoading,
 } from "@/data/functions";
-import { cardData } from "@/data/cardData";
+
+import logo from "../../../images/logo1.png";
+import { initGA, trackGAEvent } from "../(unauth)/googleAnalytics";
+import Footer from "./Footer/page";
+// import { initMixpanel, trackEvent } from './mixpanel';
+// import { first_card } from "./mixpanelEventConstent";
+
 export default function Layout() {
   // const [cardData, setCardData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -110,35 +114,35 @@ export default function Layout() {
 
   const handleCardClick = (promptText: string) => {
     const formattedText = promptText.replace(/\s+/g, "--");
-    setMetaTitle(formattedText);
     router.push(`/e-paper/${formattedText}`);
+    setMetaTitle(formattedText);
     // trackEvent(first_card);
     trackGAEvent("Card", "cardClick", promptText);
   };
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && searchText.trim() !== "") {
       const formattedText = searchText.trim().replace(/\s+/g, "--");
-      setMetaTitle(formattedText);
       router.push(`/e-paper/${formattedText}`);
+      setMetaTitle(formattedText);
     }
   };
 
   // Custom Content Loader for Cards with reduced height
-  const CustomCardLoader = () => (
-    <ContentLoader
-      speed={2}
-      width={300}
-      height={100} // Overall height reduced
-      viewBox="0 0 300 100"
-      backgroundColor="#F0F0F0"
-      foregroundColor="#DEDEDE"
-    >
-      <rect x="15" y="30" rx="5" ry="20" width="260" height="20" />{" "}
-      {/* Smaller text */}
-      <rect x="15" y="60" rx="5" ry="20" width="260" height="20" />{" "}
-      {/* Smaller text */}
-    </ContentLoader>
-  );
+  // const CustomCardLoader = () => (
+  //   <ContentLoader
+  //     speed={2}
+  //     width={300}
+  //     height={100} // Overall height reduced
+  //     viewBox="0 0 300 100"
+  //     backgroundColor="#F0F0F0"
+  //     foregroundColor="#DEDEDE"
+  //   >
+  //     <rect x="15" y="30" rx="5" ry="20" width="260" height="20" />{" "}
+  //     {/* Smaller text */}
+  //     <rect x="15" y="60" rx="5" ry="20" width="260" height="20" />{" "}
+  //     {/* Smaller text */}
+  //   </ContentLoader>
+  // );
 
   const openModal = (isSignInModal: boolean) => {
     setIsSignIn(isSignInModal);
@@ -156,75 +160,80 @@ export default function Layout() {
     setIsSignIn(false);
     setIsModalOpen(true);
   };
-  const handleLogin = (userData) => {
+  const handleLogin = (userData: any) => {
     setLocalUser(userData); // Update state with user data
     closeModal();
   };
-  const handleSignUp = (userData) => {
+  const handleSignUp = (userData: any) => {
     setLocalUser(userData); // Update state with user data after sign-up
     closeModal();
   };
 
   // console.log("main",{ userProfile, userProfileLoading, loadingUserData });
   return (
-    <div className="flex flex-col h-screen overflow-auto">
+    <div className="flex flex-col justify-between w-full h-[100vh]">
       <Banner notMainPage={false} loadingUserData={loadingUserData} />
-      <div className="flex-grow">
-        <div className="flex justify-center items-center mb-5 mt-5">
-          <div className="relative w-full max-w-lg">
-            <Image
-              src={logo}
-              alt="Google Logo"
-              width={270}
-              height={100}
-              className="mx-auto h-[100px] object-contain"
-            />
-          </div>
-        </div>
-        {/* Search Bar */}
-        <div className="flex justify-center items-center mb-6 px-4 sm:px-4 lg:pl-12 lg:pr-12 ">
-          <div className="relative w-full max-w-lg sm:max-w-xl  md:max-w-[51.6667%] ">
-            <span className="absolute inset-y-0 left-0 flex items-center pl-4 sm:pl-5">
-              <FaSearch className="text-gray-400" />
-            </span>
-            <input
-              ref={searchInputRef}
-              type="text"
-              placeholder="Type a text to generate practice questions."
-              className="bg-gray-100 w-full h-10 py-2 sm:py-3 pl-12 sm:pl-14 pr-10 border border-gray-300 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-cyan-600 text-sm md:text-base" // Added md:text-base for larger text size on tablets and up
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-              onKeyDown={handleKeyDown}
-            />
-            <span className="absolute inset-y-0 right-0 flex items-center pr-4 sm:pr-5">
-              <FaMicrophone
-                className="text-gray-400 cursor-pointer"
-                onClick={handleMicClick}
+      <div className="container mx-auto">
+        <div className="flex flex-col lg:gap-5">
+          <div className="my-5 flex items-center justify-center">
+            <div className="relative w-full max-w-lg">
+              <Image
+                src={logo}
+                alt="Google Logo"
+                width={270}
+                height={100}
+                className="mx-auto h-[100px] object-contain"
               />
-            </span>
+            </div>
           </div>
-        </div>
+          {/* Search Bar */}
+          <div className="mb-6 flex items-center justify-center px-4 sm:px-4 lg:px-12 ">
+            <div className="relative w-full max-w-lg sm:max-w-xl  md:max-w-[51.6667%] ">
+              <span className="absolute inset-y-0 left-0 flex items-center pl-4 sm:pl-5">
+                <FaSearch className="text-gray-400" />
+              </span>
+              <input
+                ref={searchInputRef}
+                type="text"
+                placeholder="Type a text to generate practice questions."
+                className="h-10 w-full rounded-full border border-gray-300 bg-gray-100 py-2 pl-12 pr-10 text-sm shadow-lg focus:outline-none focus:ring-2 focus:ring-cyan-600 sm:py-3 sm:pl-14 md:text-base" // Added md:text-base for larger text size on tablets and up
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+                onKeyDown={handleKeyDown}
+              />
+              <span className="absolute inset-y-0 right-0 flex items-center pr-4 sm:pr-5">
+                <FaMicrophone
+                  className="cursor-pointer text-gray-400"
+                  onClick={handleMicClick}
+                />
+              </span>
+            </div>
+          </div>
 
-        {/* Card Section */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 px-4 sm:px-4 mb-5">
-          {cardData.records.map((card: any) => (
-            <button
-              key={card.prompt_text}
-              className="text-start relative group bg-gray-100 p-4 rounded-lg shadow-md cursor-pointer hover:shadow-lg transition-shadow"
-              onClick={() => handleCardClick(card.prompt_text)}
-            >
-              <p className="text-gray-600">{card.prompt_text}</p>
-              <div className="absolute left-1/2 transform -translate-x-1/2 bottom-full mb-2 hidden group-hover:block bg-gray-700 rounded-md px-2">
-                <span className="tooltiptext text-gray-50 text-sm rounded py-1 z-10">
-                  {card.prompt_Description}
-                </span>
-                <span className="absolute w-2 h-2 bg-gray-700 rotate-45 -bottom-1 left-1/2 transform -translate-x-1/2" />
-              </div>
-            </button>
-          ))}
+          {/* Card Section */}
+          <div className="mb-4 grid grid-cols-2 gap-4 px-4 sm:grid-cols-2 sm:px-4 md:grid-cols-3 lg:grid-cols-4">
+            {cardData.records.map((card: any) => (
+              <button
+                type="button"
+                key={card.prompt_text}
+                className="group relative cursor-pointer rounded-lg bg-gray-100 p-4 text-start shadow-md transition-shadow hover:shadow-lg"
+                onClick={() => handleCardClick(card.prompt_text)}
+              >
+                <p className="text-gray-600">{card.prompt_text}</p>
+                <div className="absolute bottom-full left-1/2 mb-2 hidden -translate-x-1/2 rounded-md bg-gray-700 px-2 group-hover:block">
+                  <span className="tooltiptext rounded py-1 text-sm text-gray-50">
+                    {card.prompt_Description}
+                  </span>
+                  <span className="absolute -bottom-1 left-1/2 size-2 -translate-x-1/2 rotate-45 bg-gray-700" />
+                </div>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
-      <Footer />
+      {/* <div className="sticky bottom-0"> */}
+        <Footer />
+      {/* </div> */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           {/* <div className="relative bg-white rounded-lg shadow-lg w-full max-w-md p-8 flex flex-col items-center"> */}
@@ -251,7 +260,6 @@ export default function Layout() {
               onSignUp={handleSignUp}
             />
           )}
-          {/* </div> */}
         </div>
       )}
     </div>

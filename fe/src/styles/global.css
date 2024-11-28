@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 /* global.css */
-html, body {
+body {
     margin: 0;
     padding: 0;
     height: 100%;

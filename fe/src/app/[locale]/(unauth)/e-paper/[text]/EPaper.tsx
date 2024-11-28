@@ -1,20 +1,20 @@
 "use client";
-import React, { useEffect, useState } from "react";
- 
-import Faq from "@/components/FAQ/Faq";
 import axios from "axios";
-import QuestionOptions from "@/components/QuestionOptions";
-import { McqQuestion, FilterOption } from "@/types/type";
-import CustomCardLoader from "@/components/CustomCardLoader";
 import { useRouter } from "next/navigation";
-import Loader from "@/components/Loader";
-import {  logoBtnColor } from "@/data/data";
+import React, { useEffect, useState } from "react";
+
 import { Banner } from "@/components/Banner";
+import CustomCardLoader from "@/components/CustomCardLoader";
+import Faq from "@/components/FAQ/Faq";
+import Loader from "@/components/Loader";
+import QuestionOptions from "@/components/QuestionOptions";
+import { logoBtnColor } from "@/data/data";
 import {
-  setUserProfile,
+  // setUserProfile,
   userProfile,
-  userProfileLoading,
+  // userProfileLoading,
 } from "@/data/functions";
+import type { FilterOption, McqQuestion } from "@/types/type";
 
 const useFetchData = (
   url: string,
@@ -63,24 +63,17 @@ const EPaper: React.FC = () => {
     chapterId: null as string | null,
     levelId: null as string | null,
   });
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      let text = window.location?.pathname.split("/").pop();
-      text = text?.split("--").join(" ");
-      if (text) {
-        setFormattedText(text);
-        getQuestions(text);
-
-        const titleElement = document.getElementById('nextjs-tile') as HTMLTitleElement;
-        if (titleElement) {
-          titleElement.textContent = `${text} | Create and practice online papers`;
-        }
-      }
-    }
-
-  
-    
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   const getQuestions = async (text: string) => {
@@ -90,9 +83,8 @@ const EPaper: React.FC = () => {
         `${process.env.NEXT_PUBLIC_API_URI}/get/questions`,
         { prompt: text }
       );
-
       const mcqQuestions = data.filter(
-        (item) => item.questionType === "Single Choice"
+        (item: any) => item.questionType === "Single Choice"
       );
       setQuestions(mcqQuestions);
 
@@ -101,6 +93,25 @@ const EPaper: React.FC = () => {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      let text = window.location?.pathname.split("/").pop();
+      text = text?.split("--").join(" ");
+      if (text) {
+        setFormattedText(text);
+        getQuestions(text);
+
+        const titleElement = document.getElementById(
+          "nextjs-tile"
+        ) as HTMLTitleElement;
+        if (titleElement) {
+          titleElement.textContent = `${text} | Create and practice online papers`;
+        }
+      }
+    }
+  }, []);
+
   const router = useRouter();
   const handlePracticeClick = async () => {
     if (alreadyCall) {
@@ -181,146 +192,143 @@ const EPaper: React.FC = () => {
 
   return (
     <>
-      <div id="e-paper" className="h-screen overflow-auto">
-        <Banner notMainPage={true} loadingUserData={loadingUserData} />
-
-        {/* <DemoBanner notMainPage={true} /> */}
-        <div
-          id="maidiv"
-          className="practixe-main grid grid-cols-1 sm:grid-cols-12 gap-4 py-0 sm:py-4 sm:px-4 mt-4 lg:mt-0 lg:px-8"
-        >
-          <div className="px-4 sm:px-1 col-span-12 sm:col-span-9 md:col-span-9 lg:col-span-9   bg-white">
-            <div className="flex justify-between relative">
-              {questionloading === false ? (
-                <>
-                  <div id="qsn-text-main-id" className="mt-1 md:mt-0">
-                    <div className="text-md font-medium">Your Questions</div>
-                    <div className="text-gray-500 font-sm text-md pr-2  max-w-full h-auto break-words mt-4 md:mt-0">
-                      {formattedText}
+      <Banner notMainPage={true} loadingUserData={loadingUserData} />
+      <div className="container mx-auto px-3">
+        <div id="e-paper" className="min-h-screen pt-4 lg:py-4">
+          {/* <DemoBanner notMainPage={true} /> */}
+          <div
+            id="maidiv"
+            className="practixe-main grid grid-cols-1 gap-4 sm:grid-cols-12"
+          >
+            <div className="col-span-12 bg-white sm:col-span-9 md:col-span-9 lg:col-span-9">
+              <div className="relative flex justify-between">
+                {questionloading === false ? (
+                  <>
+                    <div id="qsn-text-main-id" className="mt-1 md:mt-0">
+                      <div className="text-md font-medium">Your Questions</div>
+                      <div className="font-sm text-md mt-4 h-auto  max-w-full break-words pr-2 text-gray-500 md:mt-0">
+                        {formattedText}
+                      </div>
                     </div>
-                  </div>
 
-                  {showLoader == true ? (
-                    <Loader />
-                  ) : (
-                    <div className="h-100  absolute right-0 -mt-[5px] md:static md:mt-0">
-                      <button
-                        type="button"
-                        className="border border-gray-500 w-[132px] h-[42px] bg-transparent cursor-pointer font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none hover:bg-gray-200 "
-                        onClick={handlePracticeClick}
+                    {showLoader === true ? (
+                      <Loader />
+                    ) : (
+                      <div className="h-100  absolute right-0 -mt-[5px] md:static md:mt-0">
+                        <button
+                          type="button"
+                          className="mb-2 me-2 h-[42px] w-[132px] cursor-pointer rounded-lg border border-gray-500 bg-transparent px-5 py-2.5 text-sm font-medium hover:bg-gray-200 focus:outline-none "
+                          onClick={handlePracticeClick}
+                          style={{
+                            border: "1px solid rgb(226, 226, 226)",
+                            color: "rgb(107 114 128)",
+                          }}
+                        >
+                          Start Practice
+                        </button>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <div
+                    className="flex w-full"
+                    style={{ height: isMobile ? "50px" : "80px" }}
+                  >
+                    <div style={{ width: isMobile ? "70%" : "77%" }}>
+                      <div
+                        className="h-4"
+                        style={{ width: isMobile ? "60%" : "30%" }}
+                      >
+                        <CustomCardLoader
+                          viewBox={`0 0 380 45`}
+                          className="rounded-lg"
+                          rectW="100%"
+                          rectH={isMobile ? "130" : "40"}
+                        />
+                      </div>
+
+                      <div
                         style={{
-                          border: "1px solid rgb(226, 226, 226)",
-                          color: "rgb(107 114 128)",
+                          width: isMobile ? "100%" : "95%",
+                          marginTop: "20px",
                         }}
                       >
-                        Start Practice
-                      </button>
-                    </div>
-                  )}
-                </>
-              ) : (
-                <div
-                  className="w-full flex"
-                  style={{
-                    height: window.innerWidth < 768 ? "50px" : "80px",
-                  }}
-                >
-                  <div
-                    style={{ width: window.innerWidth < 768 ? "70%" : "77%" }}
-                  >
-                    <div
-                      className="h-4"
-                      style={{ width: window.innerWidth < 768 ? "60%" : "30%" }}
-                    >
-                      <CustomCardLoader
-                        viewBox={`0 0 380 45`}
-                        className="rounded-lg"
-                        rectW="100%"
-                        rectH={window.innerWidth < 768 ? "130" : "40"}
-                      />
+                        <CustomCardLoader
+                          viewBox={`0 0 380 25`}
+                          className="rounded-lg"
+                          rectW="100%"
+                          rectH={isMobile ? "100" : "15"}
+                        />
+                      </div>
                     </div>
 
                     <div
                       style={{
-                        width: window.innerWidth < 768 ? "100%" : "95%",
-                        marginTop: "20px",
+                        width: isMobile ? "30%" : "15%",
+                        marginLeft: isMobile ? "10px" : "70px",
                       }}
                     >
                       <CustomCardLoader
-                        viewBox={`0 0 380 25`}
+                        viewBox={`0 0 280 105`}
                         className="rounded-lg"
                         rectW="100%"
-                        rectH={window.innerWidth < 768 ? "100" : "15"}
+                        rectH={isMobile ? "80" : "80"}
                       />
                     </div>
                   </div>
+                )}
+              </div>
 
-                  <div
-                    style={{
-                      width: window.innerWidth < 768 ? "30%" : "15%",
-                      marginLeft: window.innerWidth < 768 ? "10px" : "70px",
-                    }}
-                  >
-                    <CustomCardLoader
-                      viewBox={`0 0 280 105`}
-                      className="rounded-lg"
-                      rectW="100%"
-                      rectH={window.innerWidth < 768 ? "80" : "80"}
-                    />
-                  </div>
-                </div>
+              <div
+                className="mt-2 py-2"
+                style={{ borderBottom: "1px solid #e2e2e2" }}
+              ></div>
+
+              <div className="mb-0 mt-3">
+                {questionloading
+                  ? Array.from({ length: 20 }, (_, i) => (
+                      <CustomCardLoader
+                        key={i}
+                        viewBox={`0 0 380 80`}
+                        className={"mt-2"}
+                        rectW="100%"
+                        rectH="70"
+                      />
+                    ))
+                  : questions.map((item, index) => (
+                      <QuestionOptions
+                        _id={item._id}
+                        questionId={item.questionId}
+                        question={item.question}
+                        options={item.options}
+                        correctAnswer={item.correctAnswer}
+                        key={item.questionId}
+                        index={index + 1}
+                        minTime={item.minTime}
+                        maxTime={item.maxTime}
+                        avgTime={item.avgTime}
+                        showHints={item.showHints}
+                      />
+                    ))}
+              </div>
+
+              {showLoader === true ? (
+                <Loader className="flex justify-center" />
+              ) : (
+                <button
+                  type="button"
+                  className={`text-white ${logoBtnColor} w-full rounded-lg px-5 py-2.5 text-sm font-medium focus:ring-4 focus:ring-blue-300`}
+                  disabled={showLoader}
+                  onClick={handlePracticeClick}
+                >
+                  Start Practice
+                </button>
               )}
             </div>
 
-            <div
-              className="py-2 mt-2"
-              style={{ borderBottom: "1px solid #e2e2e2" }}
-            ></div>
-
-            <div className="mb-0 mt-3">
-              {questionloading
-                ? Array.from({ length: 20 }, (_, i) => (
-                    <CustomCardLoader
-                      key={i}
-                      viewBox={`0 0 380 80`}
-                      className={"mt-2"}
-                      rectW="100%"
-                      rectH="70"
-                    />
-                  ))
-                : questions.map((item, index) => (
-                    <QuestionOptions
-                      _id={item._id}
-                      questionId={item.questionId}
-                      question={item.question}
-                      options={item.options}
-                      correctAnswer={item.correctAnswer}
-                      key={item.questionId}
-                      index={index + 1}
-                      minTime={item.minTime}
-                      maxTime={item.maxTime}
-                      avgTime={item.avgTime}
-                      showHints={item.showHints}
-                    />
-                  ))}
+            <div className="col-span-12 sm:col-span-3">
+              <Faq title={""} description={""} imageUrl={""} />
             </div>
-
-            {showLoader === true ? (
-              <Loader className={"flex justify-center"} />
-            ) : (
-              <button
-                type="button"
-                className={`text-white ${logoBtnColor}  focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-0 w-full`}
-                disabled={showLoader}
-                onClick={handlePracticeClick}
-              >
-                Start Practice
-              </button>
-            )}
-          </div>
-
-          <div className="col-span-12 sm:col-span-3">
-            <Faq title={""} description={""} imageUrl={""} />
           </div>
         </div>
       </div>
