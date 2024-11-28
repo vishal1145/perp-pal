@@ -1,23 +1,23 @@
 prompt_template = """
 You are an advanced language model tasked with extracting academic subject, topic, and difficulty from the user input string.
 
-Please extract the following details:
+Extract the following details for **each subject mentioned** in the user input:
 
 1. **Subject**: Academic subject.
-2. **Topic**: Academic topic name.
-3. **Chapter**:Chapter name.
-4. **Class**: class 5,6 ? Standard
-4. **Difficulty**: Hard, Medium, Easy
-5. **NumberOfQuestion**: Number of Question
-6. **QuestionType**: Single Choice,Multiple choice
+2. **Topic**: Corresponding Academic topic name.
+3. **Chapter**: Corresponding chapter name.
+4. **Class**: Grade 5,6 or standard.
+5. **Difficulty**: Easy, Medium, or Hard.
+6. **NumberOfQuestions**: Count of questions.
+7. **QuestionType**: Single Choice or Multiple Choice.
 
 ### INPUT
 
 User input string:
 {user_query}
 
-Please return the academic subject, topic, and difficulty as a structured JSON object.
-Return only valid JSON, no other extra information like explanation.
+### OUTPUT
+Return only valid JSON. Do not include any explanations or additional text.
 
 ## VALID JSON (NO PREAMBLE):
 """

@@ -19,24 +19,25 @@ def get_questions_route():
             except json.JSONDecodeError as e:
                 print(f"Error parsing JSON: {e}")
                 return jsonify({"error": "Invalid JSON"}), 400
-            
-        extracted_values = {k.lower(): v for k, v in extracted_values.items()}
-        subject = extracted_values.get('subject', '')
-        topic = extracted_values.get('topic', '')
-        difficulty = extracted_values.get('difficulty', '')
-        numberOfQuestion=extracted_values.get('NumberOfQuestion','')
         
-        if not difficulty:
-            difficulty = "Easy"
+        all_results=[]
+        for item in extracted_values:
+            item = {k.lower(): v for k, v in item.items()}
+            subject = item.get('subject', '')
+            topic = item.get('topic', '')
+            difficulty = item.get('difficulty', 'Easy')
+            number_of_questions = item.get('numberofquestions', 20)
 
-        combined_prompt = f"{subject} {topic} {difficulty}"
-        print(combined_prompt)
-        
-        if subject or topic:
-            prompt_embedding = query_embedding(combined_prompt)
-            results = search_questions(prompt_embedding, top_k=numberOfQuestion or 20)
-            return jsonify({"questions": results.to_dict(orient="records")})
-        else:
-            return jsonify({"error": "Missing required information"}), 400
+            combined_prompt = f"{subject} {topic} {difficulty}".strip()
+            print(combined_prompt)
+
+            if subject or topic:
+                prompt_embedding = query_embedding(combined_prompt)
+                results = search_questions(prompt_embedding, top_k=number_of_questions)
+                all_results.extend(results.to_dict(orient="records"))
+            else:
+                 print("Skipping due to missing subject or topic for:", item)
+            
+        return jsonify({"questions": all_results})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
