@@ -9,7 +9,7 @@ Extract the following details for **each subject mentioned** in the user input:
 4. **Class**: Grade 5,6 or standard.
 5. **Difficulty**: Easy, Medium, or Hard.
 6. **NumberOfQuestions**: Count of questions.
-7. **QuestionType**: Single Choice or Multiple Choice.
+7. **QuestionType**: Single Choice,Subjective, Multiple Choice.
 
 ### INPUT
 

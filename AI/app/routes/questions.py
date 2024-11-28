@@ -26,9 +26,10 @@ def get_questions_route():
             subject = item.get('subject', '')
             topic = item.get('topic', '')
             difficulty = item.get('difficulty', 'Easy')
+            questionType=item.get('QuestionType','Multiple Choice')
             number_of_questions = item.get('numberofquestions', 20)
 
-            combined_prompt = f"{subject} {topic} {difficulty}".strip()
+            combined_prompt = f"{subject} {topic} {difficulty} {questionType}".strip()
             print(combined_prompt)
 
             if subject or topic:
