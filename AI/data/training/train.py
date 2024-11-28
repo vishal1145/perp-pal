@@ -3,12 +3,9 @@ import pandas as pd
 from watchdog.events import FileSystemEventHandler
 import numpy as np
 import sys
-import logging
-
-logging.basicConfig(level=logging.DEBUG)
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
-from utils.config import UNPROCESSED_FILES_DIR,PROCESSED_FILES_DIR, MAX_BATCH_SIZE
+from utils.config import UNPROCESSED_FILES_DIR,PROCESSED_FILES_DIR,MAX_BATCH_SIZE
 from utils.initialize_ChromaDb import ChromaDBInitializer
 from utils.collection_Status import Collection_Status
 from app.services.refactor_json_service import Refactor_JSON
@@ -31,7 +28,6 @@ class Automatic_train_Model(FileSystemEventHandler):
     def process_and_train(file_path):
         processed_file = Refactor_JSON.check_and_refactor(file_path)
         if processed_file:
-            logging.debug(f"Processing and training : {processed_file}")
             generate_embeddings_and_index(processed_file)
 
 def generate_embeddings_and_index(file_path, force_retrain=False):
@@ -61,24 +57,22 @@ def generate_embeddings_and_index(file_path, force_retrain=False):
                 df[col] = ""
             
         df['combined'] = (
-            df['_id']+ " " +
-            df['subject'] + " " +
-            df['topic'] + " " +
-            df['difficulty'] + " " +
-            df['questionType'] + " " +
-            df['chapter']
+            df['_id'].astype(str) + " " +
+            df['subject'].astype(str) + " " +
+            df['topic'].astype(str) + " " +
+            df['difficulty'].astype(str) + " " +
+            df['questionType'].astype(str) + " " +
+            df['chapter'].astype(str)
         )
         
-        max_allowed_batch_size = 100
-        for start_idx in range(0, len(df), max_allowed_batch_size):
-            end_idx = min(start_idx + max_allowed_batch_size, len(df))
+        for start_idx in range(0, len(df), MAX_BATCH_SIZE):
+            end_idx = min(start_idx + MAX_BATCH_SIZE, len(df))
             batch = df.iloc[start_idx:end_idx]
 
             batch_embeddings = _model.encode(batch['combined'].tolist(), show_progress_bar=True)
-            
-            logging.debug(f"Adding embed to ChromaDB{len(batch_embeddings)} records...")
+        
             collection.add(
-                embeddings=batch_embeddings,
+                embeddings=batch_embeddings.tolist(),
                 metadatas=batch.to_dict(orient="records"),
                 ids=batch['_id'].tolist()
             )

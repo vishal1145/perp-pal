@@ -8,4 +8,4 @@ PROCESSED_FILES_DIR="data/processed_questions/"
 UNPROCESSED_FILES_DIR="data/unprocessed_questions"
 CHROMA_DB_DIR = "data/chroma_db"
 MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
-MAX_BATCH_SIZE = 50
+MAX_BATCH_SIZE = 100
