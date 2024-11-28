@@ -5,7 +5,7 @@ from utils.common_Service import Common_Service
 import os
 
 _model = ChromaDBInitializer.get_model()
-collection=ChromaDBInitializer.get_or_create_collection()
+collection=ChromaDBInitializer.get_or_create_collection("questions")
 collectionstatus=Collection_Status.collection_status()
 
 if collectionstatus:

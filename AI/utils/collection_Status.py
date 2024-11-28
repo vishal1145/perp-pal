@@ -14,4 +14,5 @@ class Collection_Status:
             print("Trained data already exists in ChromaDB. Skipping initialization.")
             return False
         
+        
     

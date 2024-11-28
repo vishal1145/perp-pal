@@ -3,8 +3,9 @@ import pandas as pd
 from watchdog.events import FileSystemEventHandler
 import numpy as np
 import sys
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
-from utils.config import UNPROCESSED_FILES_DIR,PROCESSED_FILES_DIR, MAX_BATCH_SIZE
+from utils.config import UNPROCESSED_FILES_DIR,PROCESSED_FILES_DIR,MAX_BATCH_SIZE
 from utils.initialize_ChromaDb import ChromaDBInitializer
 from utils.collection_Status import Collection_Status
 from app.services.refactor_json_service import Refactor_JSON
@@ -48,33 +49,34 @@ def generate_embeddings_and_index(file_path, force_retrain=False):
             return
 
         df.fillna("", inplace=True)
+        
+        required_parameters = ['subject', 'topic', 'difficulty', 'questionType', 'chapter']
+        for col in required_parameters:
+            if col not in df.columns:
+                print(f"Column '{col}' is missing in {file_path}. Filling with empty strings.")
+                df[col] = ""
             
         df['combined'] = (
-            df['_id']+ " " +
-            df['subject'] + " " +
-            df['topic'] + " " +
-            df['difficulty'] + " " +
-            df['questionType'] + " " +
-            df['chapter']
+            df['_id'].astype(str) + " " +
+            df['subject'].astype(str) + " " +
+            df['topic'].astype(str) + " " +
+            df['difficulty'].astype(str) + " " +
+            df['questionType'].astype(str) + " " +
+            df['chapter'].astype(str)
         )
         
-        batch_size = int(np.ceil(len(df) / MAX_BATCH_SIZE))
-        all_embeddings = []
-        all_metadatas = []
-        for start_idx in range(0, len(df), batch_size):
-            end_idx = min(start_idx + batch_size, len(df))
+        for start_idx in range(0, len(df), MAX_BATCH_SIZE):
+            end_idx = min(start_idx + MAX_BATCH_SIZE, len(df))
             batch = df.iloc[start_idx:end_idx]
-            batch_embeddings = _model.encode(batch['combined'].tolist(), show_progress_bar=True)
-            
-            all_embeddings.extend(batch_embeddings)
-            all_metadatas.extend(batch.to_dict(orient="records"))
 
-        collection.add(
-            embeddings=all_embeddings,
-            metadatas=all_metadatas,
-            ids=[f"{file_path}_{i}" for i in range(len(df))]
-        )
-        print(f"Successfully processed and indexed file: {file_path}")
+            batch_embeddings = _model.encode(batch['combined'].tolist(), show_progress_bar=True)
+        
+            collection.add(
+                embeddings=batch_embeddings.tolist(),
+                metadatas=batch.to_dict(orient="records"),
+                ids=batch['_id'].tolist()
+            )
+            print(f"Successfully processed and indexed file: {file_path}")
         
     except Exception as e:
         print(f"An error occurred while processing {file_path}: {e}")

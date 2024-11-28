@@ -2,7 +2,6 @@ from flask import Flask
 from data.training.train import Automatic_train_Model
 from watchdog.observers import Observer
 from utils.config import UNPROCESSED_FILES_DIR
-from utils.collection_Status import Collection_Status
 import os
 import atexit
 

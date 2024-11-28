@@ -3,16 +3,21 @@ import chromadb
 from sentence_transformers import SentenceTransformer
 from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
 from utils.config import CHROMA_DB_DIR, MODEL_NAME
-
 class ChromaDBInitializer:
     _chroma_client = None
     _embedding_function = None
     _model = None
-
+    
     @classmethod
-    def get_chroma_client(cls):
+    def get_chroma_client(cls, safe_mode=True):
         if cls._chroma_client is None:
-            cls._chroma_client = chromadb.PersistentClient(path=CHROMA_DB_DIR)
+            try:
+                cls._chroma_client = chromadb.PersistentClient(path=CHROMA_DB_DIR)
+            except Exception as e:
+                if safe_mode:
+                    cls._chroma_client = chromadb.Client()
+                else:
+                    raise e
         return cls._chroma_client
 
     @classmethod
