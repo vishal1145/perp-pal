@@ -48,11 +48,11 @@ const Nav = () => {
 
 const styles = StyleSheet.create({
     fontMedium: {
-      fontWeight: '500', // Equivalent to font-medium
+      fontWeight: '500', 
     },
     textSm: {
-      fontSize: 14, // 0.875rem (14pt)
-      lineHeight: 18, // 1.25rem (18pt)
+      fontSize: 14, 
+      lineHeight: 18, 
     },
     
     header: {

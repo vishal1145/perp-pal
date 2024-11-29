@@ -72,7 +72,7 @@ const App = () => {
                     </Text>
                   ))}
                 </View>
-                <View style={{   borderBottomWidth: 1, borderBottomColor: '#f2f2f2', marginBottom:10}} />
+                <View style={{   borderBottomWidth: 1, borderBottomColor: '#f2f2f2'}} />
               </View>
             )}
             ListEmptyComponent={<Text style={styles.noQuestionsText}>No Questions Available</Text>}
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   divider: {
     height: 1,
     backgroundColor: '#E0E0E0',
-    marginVertical: 10,
+    marginTop: 16,
   },
   contentContainer: {
     flex: 1,
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
     color: '#333',
-    marginBottom: 4,
+    marginVertical: 10,
   },
   sectionSubtitle: {
     fontSize: 14,
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
   questionCard: {
     borderRadius: 8,
     padding: 16,
-    marginBottom: 12,
+    marginBottom: 16,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -176,14 +176,14 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: '500',
     color: '#333',
-    marginBottom: 10,
+    marginVertical: 16,
     lineHeight: 18,
   },
    
   optionText: {
     fontSize: 13,  
     color: '#6B7280',  
-    marginBottom: 10,
+    marginBottom: 16,
   },
   
   noQuestionsText: {
