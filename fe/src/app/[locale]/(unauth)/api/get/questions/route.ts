@@ -16,6 +16,9 @@ export async function POST(request: NextRequest) {
             prompt,
         });
 
+
+        console.log("apiResponse", apiResponse);
+
         let responseArray = apiResponse.data;
  
         if(typeof(apiResponse.data) !== 'object'){
