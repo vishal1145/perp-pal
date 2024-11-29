@@ -1,12 +1,8 @@
 "use client";
 import "@/styles/global.css";
-
-// import axios from "axios";
-// import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-// import ContentLoader from "react-content-loader";
 import { FaMicrophone, FaSearch } from "react-icons/fa";
 
 import ForgetPassword from "@/app/[locale]/(unauth)/forgetPassword/page";
@@ -16,23 +12,18 @@ import { Banner } from "@/components/Banner";
 import { cardData } from "@/data/cardData";
 import {
   setMetaTitle,
-  setUserProfile,
-  // userProfile,
-  // userProfileLoading,
+  setUserProfile, 
 } from "@/data/functions";
 
 import logo from "../../../images/logo1.png";
-import { initGA, trackGAEvent } from "../(unauth)/googleAnalytics";
+import {  trackGAEvent } from "../(unauth)/googleAnalytics";
 import Footer from "./Footer/page";
-// import { initMixpanel, trackEvent } from './mixpanel';
-// import { first_card } from "./mixpanelEventConstent";
 
 export default function Layout() {
-  // const [cardData, setCardData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState("");
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const [user, setUser] = useState(null); // State for user data
+  const [user, setUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openSignInModal = () => setIsModalOpen(true);
   const router = useRouter();
@@ -127,23 +118,6 @@ export default function Layout() {
     }
   };
 
-  // Custom Content Loader for Cards with reduced height
-  // const CustomCardLoader = () => (
-  //   <ContentLoader
-  //     speed={2}
-  //     width={300}
-  //     height={100} // Overall height reduced
-  //     viewBox="0 0 300 100"
-  //     backgroundColor="#F0F0F0"
-  //     foregroundColor="#DEDEDE"
-  //   >
-  //     <rect x="15" y="30" rx="5" ry="20" width="260" height="20" />{" "}
-  //     {/* Smaller text */}
-  //     <rect x="15" y="60" rx="5" ry="20" width="260" height="20" />{" "}
-  //     {/* Smaller text */}
-  //   </ContentLoader>
-  // );
-
   const openModal = (isSignInModal: boolean) => {
     setIsSignIn(isSignInModal);
     setIsModalOpen(true);
@@ -168,8 +142,7 @@ export default function Layout() {
     setLocalUser(userData); // Update state with user data after sign-up
     closeModal();
   };
-
-  // console.log("main",{ userProfile, userProfileLoading, loadingUserData });
+ 
   return (
     <div className="flex flex-col justify-between w-full h-[100vh]">
       <Banner notMainPage={false} loadingUserData={loadingUserData} />

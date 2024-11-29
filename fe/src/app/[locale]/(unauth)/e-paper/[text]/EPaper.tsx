@@ -123,7 +123,6 @@ const EPaper: React.FC = () => {
       setShowLoader(true);
 
       const userId = userProfile?._id ?? null;
-      //  const { data } = await axios.post(`https://prep-pal.algofolks.com/api/Question/generate-guid`);
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URI}/questions`,
         questions
@@ -135,8 +134,7 @@ const EPaper: React.FC = () => {
         { quetionsIds: quetionsIds, userId: userId }
       );
       const text = formattedText.trim().replace(/\s+/g, "--");
-      console.log("data", data);
-      //  debugger
+       
       router.push(
         `/practice-screen?paper=${encodeURIComponent(text)}&id=${encodeURIComponent(data.saveStartAssesment._id)}`
       );

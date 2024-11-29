@@ -5,10 +5,10 @@ import Head from 'next/head';
 import { FaTelegramPlane, FaWhatsapp, FaTwitter, FaFacebook } from 'react-icons/fa';
 
 const Faq = ({ title, description, imageUrl }) => {
-  const [openIndex, setOpenIndex] = useState<number | null>(null); // Track the open FAQ index
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const handleFaqToggle = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index); // Toggle the FAQ
+    setOpenIndex(openIndex === index ? null : index);
   };
 
   const faqs = [
@@ -35,7 +35,6 @@ const Faq = ({ title, description, imageUrl }) => {
   ];
 
   useEffect(() => {
-    // Load Facebook SDK
     window.fbAsyncInit = function () {
       window.FB.init({
         appId: '2034775726987397',
@@ -49,13 +48,11 @@ const Faq = ({ title, description, imageUrl }) => {
     script.src = "https://connect.facebook.net/en_US/sdk.js";
     script.async = true;
     document.body.appendChild(script);
-
     return () => {
-      // Cleanup script if needed
       document.body.removeChild(script);
     };
   }, []);
-// console.log(window.location.href)
+
   const shareOnFacebook = () => {
     const urlToShare = window.location.href;
     window.FB.ui({
@@ -70,12 +67,10 @@ const Faq = ({ title, description, imageUrl }) => {
     });
   };
 
-   // Function to share on WhatsApp
    const shareOnWhatsapp = () => {
     const currentUrl = window.location.href; 
     const message = `${currentUrl}`; 
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`; 
-  
     window.open(whatsappUrl, '_blank'); 
   };
   
@@ -83,7 +78,6 @@ const Faq = ({ title, description, imageUrl }) => {
     const currentUrl = window.location.href;
     const message = `Check out this page: ${currentUrl}`;
     const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(message)}`; // Telegram share link
-  
     window.open(telegramUrl, '_blank'); 
   };
 
@@ -91,33 +85,18 @@ const Faq = ({ title, description, imageUrl }) => {
     const currentUrl = window.location.href; 
     const message = `Check out this page: ${currentUrl}`;
     const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(message)}`; 
-  
-    window.open(twitterUrl, '_blank'); // Open Twitter share link
+    window.open(twitterUrl, '_blank');
   };
-  
   
   return (
     <>
-     
       <section className="px-4 hidden lg:block lg:col-span-3">
         <div className="rounded-md">
           <h2 className="text-sm font-medium font-bold pb-2">Share us</h2>
           <div className='flex gap-4 flex-wrap ml-1 mt-1'>
-            {/* <Link href="https://t.me/your-telegram-link" target="_blank" rel="noopener noreferrer">
-              <FaTelegramPlane className="text-gray-900 hover:text-indigo-500 transition" size={24} />
-            </Link> */}
-            {/* <button onClick={shareOnTelegram} className="flex items-center">
-            <FaTelegramPlane className="text-gray-900 hover:text-indigo-500 transition" size={24} />
-            </button>
-            */}
             <button onClick={shareOnWhatsapp} className="flex items-center">
               <FaWhatsapp className="text-gray-900 hover:text-cyan-600 transition" size={24} />
             </button>
-          
-            {/* <button onClick={shareOnTwitter} className="flex items-center">
-            <FaTwitter className="text-gray-900 hover:text-indigo-500 transition" size={24} />
-            </button> */}
-
             <button onClick={shareOnFacebook} className="flex items-center">
               <FaFacebook className="text-gray-900 hover:text-cyan-600 transition" size={24} />
             </button>
@@ -125,7 +104,6 @@ const Faq = ({ title, description, imageUrl }) => {
         </div>
 
         <div className='py-2' style={{ borderBottom: '1px solid #e2e2e2' }}></div>
-
         <div>
           <h2 className="text-sm font-medium font-bold leading-[3.25rem]">Frequently asked questions</h2>
 

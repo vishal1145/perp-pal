@@ -16,8 +16,6 @@ export async function POST(req: NextRequest) {
                 return NextResponse.json({ message: 'All fields are required for each question.' }, { status: 400 });
             }
 
-            console.log(hint);
-
             await Question.updateOne(
                 { questionId },  
                 {
