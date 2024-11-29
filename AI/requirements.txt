@@ -8,3 +8,4 @@ numpy
 python-dotenv
 accelerate>=0.26.0
 watchdog
+httpx==0.27.2
