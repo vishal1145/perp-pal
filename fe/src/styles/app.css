@@ -27,25 +27,3 @@
         margin-left: 0;  
     }
 }
-
-#qsn-text-main-id{
-  width: 100%;
-}
-
-@media (min-width: 639px) {
-  #qsn-text-main-id{
-    width: 80%;
-  }
-}
-
-
- 
-.howitworks {
-  height: 100%;
-  overflow-y: scroll;  
-  scrollbar-width: none;  
-}
-
-.howitworks::-webkit-scrollbar {
-  display: none; 
-}

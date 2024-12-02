@@ -1,25 +1,27 @@
+import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef,useState } from "react";
 import {
+  FaFacebook,
+  FaInstagram,
+  FaMicrophone,
   FaSearch,
   FaTelegramPlane,
-  FaWhatsapp,
-  FaInstagram,
-  FaFacebook,
   FaUser,
-  FaMicrophone,
+  FaWhatsapp,
 } from "react-icons/fa";
+
+import ForgetPassword from "@/app/[locale]/(unauth)/forgetPassword/page";
 import SignIn from "@/app/[locale]/(unauth)/signIn/page";
 import SignUp from "@/app/[locale]/(unauth)/SignUP/page";
-import ForgetPassword from "@/app/[locale]/(unauth)/forgetPassword/page";
 import {
   setUserProfile,
   userProfile,
   userProfileLoading,
 } from "@/data/functions";
+
 import logo from "../images/logo1.png";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
 interface DemoBannerProps {
   notMainPage: boolean;
   user: any;
@@ -91,6 +93,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
       );
 
       if (response.ok) {
+        router.push('/');
         setLocalUser(null);
         setUserProfile(null);
         user(null);
@@ -170,21 +173,20 @@ export const Banner: React.FC<DemoBannerProps> = ({
                 <ul className="flex">
                   <li>
                     <Link href="/how-it-work">
-                      <p className="text-sm text-cyan-600 hover:text-cyan-900 sm:text-base  ">
-                        How It Works
-                      </p>
+                      <div className="border px-2 py-1 rounded-md">
+                        <p className="text-sm text-cyan-600 hover:text-cyan-900 sm:text-base  ">
+                          How It Works
+                        </p>
+                      </div>
                     </Link>
                   </li>
                 </ul>
               ) : (
                 <div className="flex items-center" id="div1">
-                  <a
-                    href="/"
-                    className="flex items-center"
-                  >
+                  <a href="/" className="flex items-center">
                     <Image
                       src={logo}
-                      className="w-[85px]"
+                      className="w-[80px] lg:w-[85px]"
                       alt="Flowbite Logo"
                     />
                   </a>
@@ -193,10 +195,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
             </div>
 
             {notMainPage && (
-              <div
-                className="relative col-span-8 flex w-full items-center sm:w-2/5 lg:col-span-6"
-                id="div2"
-              >
+              <div className="relative flex w-3/5 items-center" id="div2">
                 <span className="absolute inset-y-0 left-3 flex items-center">
                   <FaSearch className="text-gray-400" />
                 </span>
@@ -253,7 +252,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
                 </>
               )}
               {loadingUserData && userProfileLoading == false ? (
-                <div className="relative w-8 h-8"></div>
+                <div className="relative size-8"></div>
               ) : userProfile ? (
                 <div className="relative cursor-pointer">
                   <FaUser
@@ -293,7 +292,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
               ) : userProfileLoading == false ? (
                 <button
                   onClick={() => openModal(true)}
-                  className="border w-[80px] h-9 bg-transparent cursor-pointer font-medium rounded-lg text-sm flex items-center justify-center focus:outline-none hover:bg-gray-200"
+                  className="border px-3 py-1.5 bg-transparent cursor-pointer font-medium rounded-md text-sm flex items-center justify-center focus:outline-none hover:bg-gray-200"
                   style={{
                     border: "1px solid rgb(226, 226, 226)",
                     color: "rgb(107, 114, 128)",
