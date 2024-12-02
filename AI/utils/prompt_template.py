@@ -7,9 +7,9 @@ Extract the following details for **each subject mentioned** in the user input:
 2. **Topic**: Corresponding Academic topic name.
 3. **Chapter**: Corresponding chapter name.
 4. **Class**: Grade 5,6 or standard.
-5. **Difficulty**: Easy, Medium, or Hard.
-6. **NumberOfQuestions**: Count of questions.
-7. **QuestionType**: Single Choice,Subjective, Multiple Choice.
+5. **Difficulty**: The difficulty level (Easy, Medium, Hard). If not specified, default to "Easy".
+6. **NumberOfQuestions**: The total count of questions requested. If not specified, default to `20`.
+7. **QuestionType**: The type of questions (Single Choice, Subjective, Multiple Choice). if not specified default to `Multiple choice`
 
 ### INPUT
 
@@ -17,7 +17,8 @@ User input string:
 {user_query}
 
 ### OUTPUT
-Return only valid JSON. Do not include any explanations or additional text.
+Ensure the JSON output is strictly valid and defaults are applied when information is missing and return the extracted information in **strictly valid JSON format**. Do not include any explanations or additional text.
+
 
 ## VALID JSON (NO PREAMBLE):
 """
