@@ -2,6 +2,16 @@ import connectDB from "@/libs/DB";
 import { IQuestion, Question} from '../../../../../models/Question';
 import { NextRequest, NextResponse } from 'next/server'; 
 
+const convertOptions = (optionsObject:any) => {
+    return Object.entries(optionsObject).map(([key, { value, image }]) => {
+      return {
+        optionText: value,
+        optionFlag: key
+      };
+    });
+  };
+
+
 export async function POST(req: NextRequest) {
     await connectDB();
 
@@ -10,12 +20,11 @@ export async function POST(req: NextRequest) {
         let quetionsIds = [];
 
         for (const item of questions) {
-            const { questionId, question, solution, answer, options, correctAnswer, hint } = item;
+            let { _id, question, solution, answer, options, correctAnswer, hint } = item;
             
-            if (!questionId ) {
-                return NextResponse.json({ message: 'All fields are required for each question.' }, { status: 400 });
-            }
-
+            const questionId = _id;
+  
+            options = convertOptions(options)
             await Question.updateOne(
                 { questionId },  
                 {

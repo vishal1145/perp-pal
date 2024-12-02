@@ -5,7 +5,7 @@ import { FaArrowLeft, FaChevronDown, FaChevronUp } from "react-icons/fa";
 
 import { Banner } from "@/components/Banner";
 import CustomCardLoader from "@/components/CustomCardLoader";
-// import { DemoBanner } from "@/components/DemoBanner";
+
 import Loader from "@/components/Loader";
 import SubmitPopup, {
   SubmitPopupProps,
@@ -192,23 +192,6 @@ const PracticeScreen = () => {
     setQsnChange(qsnChange + 1);
   };
 
-  // const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const value = event.target.value;
-  //   debugger
-  //   const newPracticePaper = [...userPracticePaper];
-  //   const currentQuestion = newPracticePaper[index];
-
-  //   if(currentQuestion){
-  //     if (currentQuestion?.userSelectAns === value) {
-  //       currentQuestion.userSelectAns = '';
-  //     } else {
-  //       currentQuestion.userSelectAns = value;
-  //     }
-  //   }
-
-  // setUserPracticePaper(newPracticePaper);
-  // };
-
   const handleCheckboxChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     idx: number
@@ -263,6 +246,12 @@ const PracticeScreen = () => {
     }
   };
 
+
+  useEffect(()=>{
+      console.log("questions",   questions);
+      debugger
+  },[questions])
+
   return (
     <>
       {resultScreen === true ? (
@@ -270,7 +259,7 @@ const PracticeScreen = () => {
       ) : (
         <>
           <Banner notMainPage={true} loadingUserData={loadingUserData} />
-          {/* <DemoBanner notMainPage={true} /> */}
+
           <div className="bg-white">
             <div className="container mx-auto px-3">
               <div className="py-4">
