@@ -29,5 +29,10 @@ GROQ_API_KEY : " "
 python main.py
 ```
 
+**6.**Run Test cases Command
+```
+pytest tests/
+```
+
 
 

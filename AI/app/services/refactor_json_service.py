@@ -46,7 +46,7 @@ class Refactor_JSON:
         try:
             df = pd.read_json(self.input_file)
             
-            df = df[df['subject'].notna() & df['topic'].notna() & df['chapter'].notna()]
+            df = df[df['subject'].notna() | df['topic'].notna() | df['chapter'].notna()]
             
             parameters_to_keep = ["_id",  "questionType", "difficulty", "subject", "chapter", "topic"]
 

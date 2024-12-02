@@ -55,6 +55,10 @@ def generate_embeddings_and_index(file_path, force_retrain=False):
             if col not in df.columns:
                 print(f"Column '{col}' is missing in {file_path}. Filling with empty strings.")
                 df[col] = ""
+                
+        if not ((df['subject'] != "").any() or (df['topic'] != "").any() or (df['chapter'] != "").any()):
+            print(f"File {file_path} does not contain any valid 'subject', 'topic', or 'chapter'. Skipping...")
+            return
             
         df['combined'] = (
             df['_id'].astype(str) + " " +
@@ -77,10 +81,12 @@ def generate_embeddings_and_index(file_path, force_retrain=False):
                 ids=batch['_id'].tolist()
             )
             print(f"Successfully processed and indexed file: {file_path}")
+            return True
         
     except Exception as e:
         print(f"An error occurred while processing {file_path}: {e}")
-
+        return False
+    
 if __name__ == "__main__":
     collection_status = Collection_Status.collection_status()
     if collection_status:

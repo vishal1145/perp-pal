@@ -25,14 +25,15 @@ class QuestionIdsListService:
                 item = {k.lower(): v for k, v in item.items()}
                 subject = item.get('subject', '')
                 topic = item.get('topic', '')
+                chapter=item.get('chapter','')
                 difficulty = item.get('difficulty', 'Easy')
                 questionType=item.get('QuestionType','Multiple Choice')
                 number_of_questions = item.get('numberofquestions', 20)
 
-                combined_prompt = f"{subject} {topic} {difficulty} {questionType}".strip()
+                combined_prompt = f"{subject} {topic} {chapter} {difficulty} {questionType}".strip()
                 print(combined_prompt)
 
-                if subject or topic:
+                if subject or topic or chapter:
                     prompt_embedding = query_embedding(combined_prompt)
                     results = search_questions(prompt_embedding, top_k=number_of_questions)
                     all_results.extend(results[['_id']].to_dict(orient="records"))
