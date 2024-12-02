@@ -11,13 +11,13 @@ const cleanLatex = (str:string) => {
   
   str = str.replace(/\$(.*?)\$/g, '$1');
   
-  str = str.replace(/\\[a-zA-Z]+\{.*?\}/g, '');  // Removes commands with arguments like \times{...}
+  str = str.replace(/\\[a-zA-Z]+\{.*?\}/g, ''); 
   
-  str = str.replace(/\\[a-zA-Z]+/g, '');  // Removes LaTeX commands (e.g., \times, \frac, etc.)
+  str = str.replace(/\\[a-zA-Z]+/g, '');  
   
-  str = str.replace(/[\\\/]/g, '');  // Removes backslashes and forward slashes
+  str = str.replace(/[\\\/]/g, '');  
   
-  str = str.replace(/<[^>]*>/g, '');  // Removes any HTML tags
+  str = str.replace(/<[^>]*>/g, ''); 
   
   str = str.replace(/\s+/g, ' ').trim();
 
@@ -38,14 +38,13 @@ export async function POST(request: NextRequest) {
             prompt,
         });
 
-        const apiResponseArray = apiResponse.data.questions;
+        const apiResponseArray = apiResponse.data.questions_ids;
 
-        const qsnIds = apiResponseArray.map((item) => new mongoose.Types.ObjectId(item._id));
-        
+        const questionIds = apiResponseArray.map(question => question._id);
+
         const questions = await dbQuestion.find({
-          _id: { $in: qsnIds }
+          _id: { $in: questionIds }
         });
-
 
         const newQuestions = questions.map((item) => {
           if (item.question) {
@@ -70,10 +69,8 @@ export async function POST(request: NextRequest) {
   
           return item;
         });
- 
         
         return NextResponse.json(newQuestions);
-
     } catch (error: any) {
         console.error("Error:", error);
         return NextResponse.json({ error: error.response?.data?.error || error.message }, { status: 500 });
