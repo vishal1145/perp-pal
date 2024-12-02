@@ -192,148 +192,148 @@ const EPaper: React.FC = () => {
 
   return (
     <>
-      <Banner notMainPage={true} loadingUserData={loadingUserData} />
-      <div className="container mx-auto px-3">
-        <div id="e-paper" className="min-h-screen py-4">
-          {/* <DemoBanner notMainPage={true} /> */}
-          <div
-            id="maidiv"
-            className="practixe-main grid lg:grid-cols-[70%_30%]"
-          >
-            <div className="">
-              <div className="w-full">
-                {questionloading === false ? (
-                  <div className="w-full">
-                    <div className="flex justify-between">
-                      <div className="font-medium">Your Questions</div>
-
-                      {showLoader === true ? (
-                        <Loader />
-                      ) : (
-                        <div className="">
-                          <button
-                            type="button"
-                            className="cursor-pointer rounded-md border border-gray-500 bg-transparent px-3 py-1.5 text-sm font-medium hover:bg-gray-200 focus:outline-none "
-                            onClick={handlePracticeClick}
-                            style={{
-                              border: "1px solid rgb(226, 226, 226)",
-                              color: "rgb(107 114 128)",
-                            }}
-                          >
-                            Start Practice
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                    <div className="font-sm break-words text-gray-500 mt-1 lg:mt-0">
+    <Banner notMainPage={true} loadingUserData={loadingUserData} />
+    <div className="container mx-auto px-3">
+      <div id="e-paper" className="min-h-screen pt-4 lg:py-4">
+        {/* <DemoBanner notMainPage={true} /> */}
+        <div
+          id="maidiv"
+          className="practixe-main grid grid-cols-1 gap-4 sm:grid-cols-12"
+        >
+          <div className="col-span-12 bg-white sm:col-span-9 md:col-span-9 lg:col-span-9">
+            <div className="relative flex justify-between">
+              {questionloading === false ? (
+                <>
+                  <div id="qsn-text-main-id" className="mt-1 md:mt-0">
+                    <div className="text-md font-medium">Your Questions</div>
+                    <div className="font-sm text-md mt-4 h-auto  max-w-full break-words pr-2 text-gray-500 md:mt-0">
                       {formattedText}
                     </div>
                   </div>
-                ) : (
-                  <div
-                    className="flex w-full"
-                    style={{ height: isMobile ? "50px" : "60px" }}
-                  >
-                    <div style={{ width: isMobile ? "70%" : "77%" }}>
-                      <div
-                        className="h-4"
-                        style={{ width: isMobile ? "60%" : "30%" }}
-                      >
-                        <CustomCardLoader
-                          viewBox={`0 0 380 45`}
-                          className="rounded-lg"
-                          rectW="100%"
-                          rectH={isMobile ? "130" : "40"}
-                        />
-                      </div>
 
-                      <div
+                  {showLoader === true ? (
+                    <Loader />
+                  ) : (
+                    <div className="h-100  absolute right-0 -mt-[5px] md:static md:mt-0">
+                      <button
+                        type="button"
+                        className="mb-2 me-2 h-[42px] w-[132px] cursor-pointer rounded-lg border border-gray-500 bg-transparent px-5 py-2.5 text-sm font-medium hover:bg-gray-200 focus:outline-none "
+                        onClick={handlePracticeClick}
                         style={{
-                          width: isMobile ? "100%" : "95%",
-                          marginTop: "20px",
+                          border: "1px solid rgb(226, 226, 226)",
+                          color: "rgb(107 114 128)",
                         }}
                       >
-                        <CustomCardLoader
-                          viewBox={`0 0 380 25`}
-                          className="rounded-lg"
-                          rectW="100%"
-                          rectH={isMobile ? "100" : "15"}
-                        />
-                      </div>
+                        Start Practice
+                      </button>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div
+                  className="flex w-full"
+                  style={{ height: isMobile ? "50px" : "80px" }}
+                >
+                  <div style={{ width: isMobile ? "70%" : "77%" }}>
+                    <div
+                      className="h-4"
+                      style={{ width: isMobile ? "60%" : "30%" }}
+                    >
+                      <CustomCardLoader
+                        viewBox={`0 0 380 45`}
+                        className="rounded-lg"
+                        rectW="100%"
+                        rectH={isMobile ? "130" : "40"}
+                      />
                     </div>
 
                     <div
                       style={{
-                        width: isMobile ? "30%" : "15%",
-                        marginLeft: isMobile ? "10px" : "70px",
+                        width: isMobile ? "100%" : "95%",
+                        marginTop: "20px",
                       }}
                     >
                       <CustomCardLoader
-                        viewBox={`0 0 280 105`}
+                        viewBox={`0 0 380 25`}
                         className="rounded-lg"
                         rectW="100%"
-                        rectH={isMobile ? "80" : "80"}
+                        rectH={isMobile ? "100" : "15"}
                       />
                     </div>
                   </div>
-                )}
-              </div>
 
-              <div
-                className="py-2"
-                style={{ borderBottom: "1px solid #e2e2e2" }}
-              ></div>
-
-              <div className="mb-0 mt-3">
-                {questionloading
-                  ? Array.from({ length: 20 }, (_, i) => (
-                      <CustomCardLoader
-                        key={i}
-                        viewBox={`0 0 380 80`}
-                        className={"mt-2"}
-                        rectW="100%"
-                        rectH="70"
-                      />
-                    ))
-                  : questions.map((item, index) => (
-                      <QuestionOptions
-                        _id={item._id}
-                        questionId={item.questionId}
-                        question={item.question}
-                        options={item.options}
-                        correctAnswer={item.correctAnswer}
-                        key={item.questionId}
-                        index={index + 1}
-                        minTime={item.minTime}
-                        maxTime={item.maxTime}
-                        avgTime={item.avgTime}
-                        showHints={item.showHints}
-                      />
-                    ))}
-              </div>
-
-              {showLoader === true ? (
-                <Loader className="flex justify-center" />
-              ) : (
-                <button
-                  type="button"
-                  className={`text-white ${logoBtnColor} w-full rounded-lg px-5 py-2.5 text-sm font-medium focus:ring-4 focus:ring-blue-300`}
-                  disabled={showLoader}
-                  onClick={handlePracticeClick}
-                >
-                  Start Practice
-                </button>
+                  <div
+                    style={{
+                      width: isMobile ? "30%" : "15%",
+                      marginLeft: isMobile ? "10px" : "70px",
+                    }}
+                  >
+                    <CustomCardLoader
+                      viewBox={`0 0 280 105`}
+                      className="rounded-lg"
+                      rectW="100%"
+                      rectH={isMobile ? "80" : "80"}
+                    />
+                  </div>
+                </div>
               )}
             </div>
 
-            <div className="lg:ml-8 pt-4 lg:py-0">
-              <Faq title={""} description={""} imageUrl={""} />
+            <div
+              className="mt-2 py-2"
+              style={{ borderBottom: "1px solid #e2e2e2" }}
+            ></div>
+
+            <div className="mb-0 mt-3">
+              {questionloading
+                ? Array.from({ length: 20 }, (_, i) => (
+                    <CustomCardLoader
+                      key={i}
+                      viewBox={`0 0 380 80`}
+                      className={"mt-2"}
+                      rectW="100%"
+                      rectH="70"
+                    />
+                  ))
+                : questions.map((item, index) => (
+                    <QuestionOptions
+                      _id={item._id}
+                      questionId={item.questionId}
+                      question={item.question}
+                      options={item.options}
+                      correctAnswer={item.correctAnswer}
+                      key={item.questionId}
+                      index={index + 1}
+                      minTime={item.minTime}
+                      maxTime={item.maxTime}
+                      avgTime={item.avgTime}
+                      showHints={item.showHints}
+                    />
+                  ))}
             </div>
+
+            {showLoader === true ? (
+              <Loader className="flex justify-center" />
+            ) : (
+              <button
+                type="button"
+                className={`text-white ${logoBtnColor} w-full rounded-lg px-5 py-2.5 text-sm font-medium focus:ring-4 focus:ring-blue-300`}
+                disabled={showLoader}
+                onClick={handlePracticeClick}
+              >
+                Start Practice
+              </button>
+            )}
+          </div>
+
+          <div className="col-span-12 sm:col-span-3">
+            <Faq title={""} description={""} imageUrl={""} />
           </div>
         </div>
       </div>
-    </>
-  );
+    </div>
+  </>
+);
 };
 
 export default EPaper;

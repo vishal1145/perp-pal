@@ -41,12 +41,10 @@
 
 
 .questions .katex-display {
-  font-size: 0.875rem;  /* Equivalent to 'text-sm' */
-  font-weight: 500;     /* Equivalent to 'font-medium' */
+  font-size: 0.875rem;  
+  font-weight: 500;     
   line-height: 1.8;
 }
-
-
 
 .options span,
 .options .katex-display {
