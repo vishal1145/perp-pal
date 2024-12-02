@@ -14,6 +14,10 @@ import { yourQuestions } from "@/data/functions";
 import { SubmitAssessment } from "@/types/type";
 // Register necessary components
 ChartJS.register(ArcElement, Tooltip, Legend);
+import dynamic from 'next/dynamic';
+
+const Latex = dynamic(() => import('react-latex-next'), { ssr: false });
+
 
 const ResultPage = () => {
   const searchParams = useSearchParams();
@@ -187,10 +191,8 @@ const ResultPage = () => {
                           key={question.questionId}
                           className={`w-full flex flex-col ${index !== submitAssessment.length - 1 ? "mb-4" : ""}`}
                         >
-                          <div className="mb-2">
-                            <h2 className="text-sm font-medium">
-                              Q{index + 1}. {question.question}
-                            </h2>
+                          <div className="mb-2 questions">
+                              <Latex>{ `Q ${index + 1}. ${question.question}`}</Latex>
                             <ul className="mt-2 text-sm font-normal text-gray-500">
                               {question.options.map((option, idx) => {
                                 const isUserSelected =
@@ -213,12 +215,11 @@ const ResultPage = () => {
                                 return (
                                   <li
                                     key={idx}
-                                    className={`mt-1.5 flex items-center ${bgColor} p-2 rounded`}
+                                    className={`mt-1.5 flex items-center ${bgColor} p-2 rounded options`}
                                   >
-                                    <span className="mr-2 font-normal">
-                                      {option.optionFlag}.
-                                    </span>
-                                    <span>{option.optionText}</span>
+
+                                    <Latex>{`${option.optionFlag.toUpperCase()}.  ${option.optionText}`}</Latex>
+                                    
                                   </li>
                                 );
                               })}

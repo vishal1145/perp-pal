@@ -22,7 +22,10 @@ import { McqQuestion, McqTestQuestion, UserPracticePaper } from "@/types/type";
 
 import ResultPage from "../result-screen/page";
 import Statics from "./Statics";
+import dynamic from 'next/dynamic';
 
+const Latex = dynamic(() => import('react-latex-next'), { ssr: false });
+ 
 const PracticeScreen = () => {
   const [showHints, setShowHints] = useState(false);
   const [loading, setLoading] = useState<boolean>(true);
@@ -246,12 +249,6 @@ const PracticeScreen = () => {
     }
   };
 
-
-  useEffect(()=>{
-      console.log("questions",   questions);
-      debugger
-  },[questions])
-
   return (
     <>
       {resultScreen === true ? (
@@ -290,8 +287,8 @@ const PracticeScreen = () => {
                     ) : (
                       <div className="mb-4 rounded-lg bg-gray-100 p-4 text-sm font-medium shadow ">
                         {questions.length > 0 && index < questions.length && (
-                          <h2 className="text-sm text-black">
-                            {`Q${index + 1}. ${questions[index]?.question}`}
+                          <h2 className="text-sm text-black questions">
+                             <Latex>{`Q${index + 1}. ${questions[index]?.question}`}</Latex>   
                           </h2>
                         )}
                         <ul className="mt-3 text-sm font-normal text-gray-500">
@@ -309,9 +306,9 @@ const PracticeScreen = () => {
                                     onChange={(e) =>
                                       handleCheckboxChange(e, idx + 1)
                                     }
-                                    className="mr-2"
+                                    className="mr-2 options"
                                   />
-                                  {option.optionText}
+                                  <Latex>{option.optionText}</Latex>
                                 </label>
                               </li>
                             ))}

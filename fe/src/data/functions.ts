@@ -31,21 +31,21 @@ export const setUserProfile =(user:any)=>{
 
 
 export const cleanLatex = (str:string) => {
-      if (!str) return str;
-    
-      str = str.replace(/\$\$(.*?)\$\$/g, '$1');
-      
-      str = str.replace(/\$(.*?)\$/g, '$1');
-      
-      str = str.replace(/\\[a-zA-Z]+\{.*?\}/g, ''); 
-      
-      str = str.replace(/\\[a-zA-Z]+/g, '');  
-      
-      str = str.replace(/[\\\/]/g, '');  
-      
-      str = str.replace(/<[^>]*>/g, ''); 
-      
-      str = str.replace(/\s+/g, ' ').trim();
-    
-      return str;
+  if (!str) return str;
+
+  str = str.replace(/\$\$(.*?)\$\$/g, '$1');
+  
+  str = str.replace(/\$(.*?)\$/g, '$1');
+  
+  str = str.replace(/\\[a-zA-Z]+\{.*?\}/g, ''); 
+  
+  str = str.replace(/\\[a-zA-Z]+/g, '');  
+  
+  str = str.replace(/[\\\/]/g, '');  
+  
+  str = str.replace(/<[^>]*>/g, ''); 
+  
+  str = str.replace(/\s+/g, ' ').trim();
+
+  return str;
 };

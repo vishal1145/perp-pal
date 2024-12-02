@@ -27,3 +27,32 @@
         margin-left: 0;  
     }
 }
+ 
+/* Ensure inline alignment */
+.katex {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+.katex-display {
+  display: inline !important;
+}
+
+
+.questions .katex-display {
+  font-size: 0.875rem;  /* Equivalent to 'text-sm' */
+  font-weight: 500;     /* Equivalent to 'font-medium' */
+  line-height: 1.8;
+}
+
+
+
+.options span,
+.options .katex-display {
+  font-size: 0.875rem;  
+  color: #6b7280;      
+  word-wrap: break-word;
+  margin-top: 1px;
+  margin-bottom: 1px;
+}

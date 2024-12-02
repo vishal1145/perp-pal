@@ -9,10 +9,8 @@ import Faq from "@/components/FAQ/Faq";
 import Loader from "@/components/Loader";
 import QuestionOptions from "@/components/QuestionOptions";
 import { logoBtnColor } from "@/data/data";
-import {
-  // setUserProfile,
-  userProfile,
-  // userProfileLoading,
+import { 
+  userProfile, 
 } from "@/data/functions";
 import type { FilterOption, McqQuestion } from "@/types/type";
 
@@ -83,9 +81,11 @@ const EPaper: React.FC = () => {
         `${process.env.NEXT_PUBLIC_API_URI}/get/questions`,
         { prompt: text }
       );
-      const mcqQuestions = data.filter(
-        (item: any) => item.questionType === "Single Choice"
+      const mcqQuestions = data.filter(item => 
+        item.questionType === "Single Choice" && 
+        Object.values(item.options).every(option => option.value !== null)
       );
+      
       setQuestions(mcqQuestions);
 
       setQuestionLoading(false);
