@@ -2,9 +2,7 @@ import Link from "next/link";
 import { useState, useEffect, useRef } from "react";
 import {
   FaSearch,
-  FaTelegramPlane,
   FaWhatsapp,
-  FaInstagram,
   FaFacebook,
   FaUser,
   FaMicrophone,
@@ -170,7 +168,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
                 <ul className="flex">
                   <li>
                     <Link href="/how-it-work">
-                      <p className="text-sm text-cyan-600 hover:text-cyan-900 sm:text-base  ">
+                      <p className="text-sm hover:text-cyan-600 sm:text-base  ">
                         How It Works
                       </p>
                     </Link>
