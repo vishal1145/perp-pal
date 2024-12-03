@@ -39,7 +39,9 @@ export const metadata: Metadata = {
 };
 
 const Page = () => {
-  return <HowItWorks />;
+  return <>
+  hi
+  </>;
 };
 
 export default Page;
