@@ -1,6 +1,6 @@
-"use client"; // Ensure the component is a client component
+"use client"; 
 import axios from "axios";
-import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js"; // Import from chart.js
+import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js"; 
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
@@ -8,11 +8,7 @@ import { Pie } from "react-chartjs-2";
 
 import { Banner } from "@/components/Banner";
 import CustomCardLoader from "@/components/CustomCardLoader";
-// import { DemoBanner } from "@/components/DemoBanner";
-import { yourQuestions } from "@/data/functions";
-// import { setUserProfile, userProfile } from "@/data/functions";
 import { SubmitAssessment } from "@/types/type";
-// Register necessary components
 ChartJS.register(ArcElement, Tooltip, Legend);
 import dynamic from 'next/dynamic';
 import { cardData } from "@/data/cardData";
@@ -34,7 +30,8 @@ const ResultPage = () => {
   const hasFetched = useRef(false);
   const [loadingUserData, setLoadingUserData] = useState();
   const [questionloading, setQuestionLoading] = useState(true);
-  const title = searchParams.get("title");
+  const[title, setTitle] = useState('');
+
   const getSubmitAssessment = async () => {
     try {
       const { data } = await axios.get(
@@ -42,6 +39,7 @@ const ResultPage = () => {
       );
       const questions = data?.questions;
       setSubmitAssessment(questions);
+      setTitle(data?.paperTitle);
       setQuestionLoading(false);
       const total = questions.length;
       let totalAttempt = 0;
@@ -136,8 +134,7 @@ const ResultPage = () => {
     <div className="w-full sm:pl-5">
     <div className="">
 <div className='text-md font-medium'>Your Questions</div>
-{/* <div className='text-gray-500 font-sm text-md'>{yourQuestions}</div> */}
-<div className="text-gray-500 font-sm text-md">{title ? title : yourQuestions}</div>
+<div className="text-gray-500 font-sm text-md">{title}</div>
 <div className="text-gray-500 font-sm text-md"></div>
 </div>
 <div className="py-2 mb-4" style={{ borderBottom: "1px solid #E2E2E2" }}></div>
@@ -190,7 +187,7 @@ Array.from({ length: 20 }, (_, i) => <CustomCardLoader key={i} viewBox={`0 0 380
                   }
 
                     return (
-                      <li key={idx} className={`flex items-center ${bgColor} p-2 rounded`}>
+                      <li key={idx} className={`flex items-center ${bgColor} p-2 `}>
                         <Latex>{`${option.optionFlag.toUpperCase()}.  ${option.optionText}`}</Latex>
                       </li>
                     );
