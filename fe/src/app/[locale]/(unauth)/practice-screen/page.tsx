@@ -137,7 +137,7 @@ const PracticeScreen = () => {
     for(let i=0;i<userPracticePaper.length; i++){
       if(userPracticePaper[i]?.userSelectAns != ""){
         totalAttempt++;
-        if(userPracticePaper[i]?.McqQuestion?.correctAnswer == userPracticePaper[i]?.userSelectAns){
+        if(userPracticePaper[i]?.McqQuestion?.answer == userPracticePaper[i]?.userSelectAns){
           correct++;
         }
       }
@@ -299,6 +299,7 @@ const PracticeScreen = () => {
             </div>
             {
               loading ? <CustomCardLoader viewBox={`0 0 380 80`} className={' rounded-lg'} rectW='100%' rectH='20'/> :
+              questions[index]?.showHints > 0 ?
             <div className="mb-4 rounded-lg shadow ">
               <button
                 onClick={() => setShowHints(!showHints)}
@@ -317,14 +318,12 @@ const PracticeScreen = () => {
                 className="bg-gray-100 text-gray-500 rounded font-normal overflow-hidden transition-all duration-700 ease-in-out"
                 style={{ height: panelHeight }}
               >
-             
                 <div className="px-4 pb-2 text-sm text-gray-500">
                   <p>{questions[index]?.showHints}</p>
                 </div>
-
               </div>
 
-            </div>
+            </div> : null
 }
           </div>
 

@@ -632,14 +632,11 @@ const ProfileUser = () => {
                           let notAttemptedCount = 0;
 
                           job.questions?.forEach((q) => {
-                            const correctAnswer = q.questionId?.correctAnswer;
-
-                            console.log("userSelectedans", q.userSelectAns);
-                            console.log("correctAns", correctAnswer);
+                            const answer = q.questionId?.answer; 
                             if (!q.userSelectAns || q.userSelectAns === "") {
                               notAttemptedCount++;
                             } else {
-                              if (q.userSelectAns === correctAnswer) {
+                              if (q.userSelectAns === answer) {
                                 correctCount++;
                               } else {
                                 incorrectCount++;

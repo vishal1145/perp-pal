@@ -83,25 +83,25 @@ const Faq = ({ title, description, imageUrl }) => {
   const shareOnWhatsapp = () => {
     const currentUrl = window.location.href;
     const message = `${currentUrl}`;
-    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/?text=${message}`;
     window.open(whatsappUrl, "_blank");
   };
 
   const shareOnTelegram = () => {
     const currentUrl = window.location.href;
     const message = `Check out this page: ${currentUrl}`;
-    const telegramUrl = `https://t.me/share/url?url=${encodeURIComponent(
+    const telegramUrl = `https://t.me/share/url?url=${
       currentUrl
-    )}&text=${encodeURIComponent(message)}`; // Telegram share link
+    }&text=${message}`; // Telegram share link
     window.open(telegramUrl, "_blank");
   };
 
   const shareOnTwitter = () => {
     const currentUrl = window.location.href;
     const message = `Check out this page: ${currentUrl}`;
-    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+    const twitterUrl = `https://twitter.com/intent/tweet?text=${
       message
-    )}`;
+    }`;
     window.open(twitterUrl, "_blank");
   };
 

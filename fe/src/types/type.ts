@@ -9,7 +9,7 @@ export interface McqQuestion {
   questionId: string;
   question: string;
   options: { optionText: string; optionFlag: string }[];
-  correctAnswer: string;
+  answer:string;
   minTime:Number;
   maxTime:Number;
   avgTime:Number;

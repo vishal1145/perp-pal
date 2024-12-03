@@ -12,55 +12,16 @@ import { logoBtnColor } from "@/data/data";
 import { 
   userProfile, 
 } from "@/data/functions";
-import type { FilterOption, McqQuestion } from "@/types/type";
-
-const useFetchData = (
-  url: string,
-  setData: React.Dispatch<React.SetStateAction<any>>,
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>,
-  dataType?: string | null
-) => {
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const { data } = await axios.get(url);
-        if (dataType === "Questions") {
-          setData(data);
-        } else {
-          setData(
-            data.map((item: any) => ({ id: item.id, name: item.className }))
-          );
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [url, setData, setLoading]);
-};
+import type { McqQuestion } from "@/types/type";
 
 const EPaper: React.FC = () => {
   const [questionloading, setQuestionLoading] = useState(true);
-  const [loading, setLoading] = useState(false);
   const [showLoader, setShowLoader] = useState<boolean>(false);
   const [questions, setQuestions] = useState<McqQuestion[]>([]);
-  const [classFilter, setClassFilter] = useState<FilterOption[]>([]);
-  const [subjectFilter, setSubjectFilter] = useState<FilterOption[]>([]);
-  const [chapterFilter, setChapterFilter] = useState<FilterOption[]>([]);
-  const [levelFilter, setLevelFilter] = useState<FilterOption[]>([]);
   const [formattedText, setFormattedText] = useState<string>("");
   const [alreadyCall, setAlreadyCall] = useState<boolean>(false);
   const [loadingUserData, setLoadingUserData] = useState();
-  const [selectedFilters, setSelectedFilters] = useState({
-    classId: null as string | null,
-    subjectId: null as string | null,
-    chapterId: null as string | null,
-    levelId: null as string | null,
-  });
+
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -125,77 +86,27 @@ const EPaper: React.FC = () => {
       const userId = userProfile?._id ?? null;
       const response = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URI}/questions`,
-        questions
+         {questions, userId:userId}
       );
-      const quetionsIds = response.data?.quetionsIds;
-
-      const { data } = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URI}/startassesment`,
-        { quetionsIds: quetionsIds, userId: userId }
-      );
+ 
+      const saveStartAssesmentId = response.data?.saveStartAssesment._id; 
       const text = formattedText.trim().replace(/\s+/g, "--");
-
       router.push(
-        `/practice-screen?paper=${encodeURIComponent(
+        `/practice-screen?paper=${
           text
-        )}&id=${encodeURIComponent(data.saveStartAssesment._id)}`
+        }&id=${saveStartAssesmentId}`
       );
     } catch (error) {
       console.error("Error generating practice:", error);
       setAlreadyCall(false);
     }
   };
-
-  useFetchData(
-    `https://prep-pal.algofolks.com/api/Education/class`,
-    setClassFilter,
-    setLoading
-  );
-
-  const fetchFilterOptions = async (type: string, id: string) => {
-    try {
-      const endpoint =
-        type === "subject"
-          ? `https://prep-pal.algofolks.com/api/Education/subject/class/67069f86fc430151577d39fd`
-          : type === "chapter"
-            ? `https://prep-pal.algofolks.com/api/Education/chapter/subject/670786588730a1e5d31aa614`
-            : `https://prep-pal.algofolks.com/api/Education/level`;
-
-      const { data } = await axios.get(endpoint);
-
-      return data.map((item: any) => ({
-        id: item.subjectId || item.chapterId || item.id,
-        name: item.subjectName || item.chapterName || item.levelName,
-      }));
-    } catch (error) {
-      console.error(`Error fetching ${type}:`, error);
-      return [];
-    }
-  };
-
-  useEffect(() => {
-    fetchFilterOptions("subject", "67069f86fc430151577d39fd").then(
-      setSubjectFilter
-    );
-    fetchFilterOptions("chapter", "670788242e0e06e67865a429").then(
-      setChapterFilter
-    );
-    fetchFilterOptions("level", "chapterId").then(setLevelFilter);
-    // fetchUserData();
-  }, []);
-  const handleFilterChange = (
-    filter: "classId" | "subjectId" | "chapterId" | "levelId",
-    value: string | null
-  ) => {
-    setSelectedFilters((prev) => ({ ...prev, [filter]: value }));
-  };
-
+ 
   return (
     <>
     <Banner notMainPage={true} loadingUserData={loadingUserData} />
     <div className="container mx-auto px-3">
       <div id="e-paper" className="min-h-screen pt-4 lg:py-4">
-        {/* <DemoBanner notMainPage={true} /> */}
         <div
           id="maidiv"
           className="practixe-main grid grid-cols-1 gap-4 sm:grid-cols-12"
@@ -301,8 +212,8 @@ const EPaper: React.FC = () => {
                       questionId={item.questionId}
                       question={item.question}
                       options={item.options}
-                      correctAnswer={item.correctAnswer}
                       key={item.questionId}
+                      answer={item.answer}
                       index={index + 1}
                       minTime={item.minTime}
                       maxTime={item.maxTime}

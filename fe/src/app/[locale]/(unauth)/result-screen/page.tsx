@@ -16,6 +16,7 @@ import { SubmitAssessment } from "@/types/type";
 ChartJS.register(ArcElement, Tooltip, Legend);
 import dynamic from 'next/dynamic';
 import { cardData } from "@/data/cardData";
+import { text1 } from "@/data/data";
 
 const Latex = dynamic(() => import('react-latex-next'), { ssr: false });
 
@@ -49,7 +50,7 @@ const ResultPage = () => {
         if (questions[i]?.userSelectAns != "") {
           totalAttempt++;
           if (
-            questions[i]?.questionId?.correctAnswer ==
+            questions[i]?.questionId?.answer ==
             questions[i]?.userSelectAns
           ) {
             correct++;
@@ -163,7 +164,7 @@ Array.from({ length: 20 }, (_, i) => <CustomCardLoader key={i} viewBox={`0 0 380
           const question = item.questionId;
           const userSelectAnsString = item.userSelectAnsString;
           const userSelectAns = item.userSelectAns;  
-          const correctAnswer = question.correctAnswer;
+          const answer = question.answer;
      
 
           return (
@@ -174,7 +175,7 @@ Array.from({ length: 20 }, (_, i) => <CustomCardLoader key={i} viewBox={`0 0 380
                   {question.options.map((option, idx) => {
                    
                     const isUserSelected = userSelectAnsString == option.optionText;
-                    const isCorrect = (idx+1 )===Number(correctAnswer);
+                    const isCorrect = (idx+1 )===Number(answer);
                     const notSelected = userSelectAnsString == ''; 
                  
                     let bgColor = "";
@@ -206,7 +207,7 @@ Array.from({ length: 20 }, (_, i) => <CustomCardLoader key={i} viewBox={`0 0 380
   </div>
   
   <div className="w-full md:w-3/12 md:p-6 sm:pl-5 sm:pr-5  !pl-5 !pr-5">
-    <div className="text-sm  font-medium leading-[3.25rem]">Your Next Adapting Path</div>
+    <div className={`${text1} mb-4 mt-4 md:mt-0`}>Your Next Adapting Path</div>
     {questionloading ? (
             <div className="bg-gray-100 rounded-lg shadow-lg p-4 text-center flex items-center" >
             <CustomCardLoader viewBox="0 0 480 300" className="text-9xl text-gray-700" rectW="100%" rectH="950" />

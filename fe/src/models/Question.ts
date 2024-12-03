@@ -17,7 +17,6 @@ export interface IQuestion extends Document {
     questionId: mongoose.Types.ObjectId;
     question: string;
     options: IOption[];
-    correctAnswer: string;
     minTime:Number;
     maTime:Number;
     avgTime:Number;
@@ -40,7 +39,6 @@ const QuestionSchema: Schema = new Schema({
     hint: { type: String },
     answer: { type: String },
     options: { type: [OptionSchema] },
-    correctAnswer: { type: String },
     minTime: { type: Number, default: Number.MAX_VALUE  }, 
     maxTime: { type: Number, default: 0},  
     avgTime: { type: Number, default:0},

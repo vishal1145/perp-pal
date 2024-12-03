@@ -1,6 +1,8 @@
 import connectDB from "@/libs/DB";
 import { IQuestion, Question} from '../../../../../models/Question';
 import { NextRequest, NextResponse } from 'next/server'; 
+import StartAssessment from "@/models/startAssessment";
+import mongoose from 'mongoose';
 
 const convertOptions = (optionsObject:any) => {
     return Object.entries(optionsObject).map(([key, { value, image }]) => {
@@ -11,36 +13,51 @@ const convertOptions = (optionsObject:any) => {
     });
   };
 
-
 export async function POST(req: NextRequest) {
     await connectDB();
 
     try {  
-        const questions: IQuestion[] = await req.json(); 
-        let quetionsIds = [];
-
-        for (const item of questions) {
-            let { _id, question, solution, answer, options, correctAnswer, hint } = item;
-            
+        const {questions, userId }  = await req.json(); 
+        const quetionsIds: string[] = [];
+        
+        const bulkOps = questions.map((item:any) => {
+            const { _id, question, solution, answer, options, hint } = item;
             const questionId = _id;
-  
-            options = convertOptions(options)
-            await Question.updateOne(
-                { questionId },  
-                {
-                    $set: {  question, questionId, solution, answer, options, correctAnswer, showHints:hint.value},
-                },
-                { upsert: true } 
-            );
 
-            const savedQuestion = await Question.findOne({ questionId });
-    
-            if (savedQuestion) {
-                quetionsIds.push(savedQuestion._id);   
-            }
+            const updatedOptions = convertOptions(options);
+
+            return {
+                updateOne: {
+                    filter: { questionId },  
+                    update: { 
+                        $set: { 
+                            question, 
+                            questionId, 
+                            solution, 
+                            answer, 
+                            options: updatedOptions, 
+                            showHints: hint.value 
+                        }
+                    },
+                    upsert: true 
+                }
+            };
+        });
+
+        if (bulkOps.length > 0) {
+            await Question.bulkWrite(bulkOps);
         }
 
-        return NextResponse.json({ message: 'Questions processed successfully.', quetionsIds:quetionsIds });
+        const savedQuestions = await Question.find({ questionId: { $in: questions.map(q => q._id) } });
+        savedQuestions.forEach(question => quetionsIds.push(question._id));
+
+        const newStartAssesment = new StartAssessment({
+            userId:new mongoose.Types.ObjectId(userId),
+            questions: quetionsIds
+       });
+
+        const saveStartAssesment = await newStartAssesment.save();
+        return NextResponse.json({ saveStartAssesment}, { status: 200 });
 
     } catch (error) {
         console.error('Error saving assessments:', error);

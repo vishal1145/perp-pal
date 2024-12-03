@@ -31,14 +31,13 @@ const SubmitPopup: React.FC<SubmitPopupProps> = ({ title, subTitle, message, set
   };
 
   const handleStartPracticeClick = () => {
-    const formattedText = searchText.trim().replace(/\s+/g, '--');
-    console.log('Formatted URL:', `/e-paper/${formattedText}`);
+    const formattedText = searchText.trim().replace(/\s+/g, '--'); 
     router.push(`/e-paper/${formattedText}`);
   };
   
   
   const resultPage = ()=>{
-    router.push(`/result-screen?id=${encodeURIComponent(submitAssessmentId)}`);
+    router.push(`/result-screen?id=${submitAssessmentId}`);
   }
 
   const handleMicClick = () => {

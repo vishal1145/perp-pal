@@ -14,7 +14,7 @@ export interface IAssessment extends Document {
 const QuestionAssessmentSchema: Schema = new Schema({
     questionId: { type: mongoose.Types.ObjectId, ref: 'Question', required: true },
     userSelectAns: { type: String },
-    userSelectAnsString: { type: String },
+    userSelectAnsString: { type: String, default:'' },
     submitTimeInSeconds: { type: Number, required: true, default: 0 },
 }, { _id: false });
 
