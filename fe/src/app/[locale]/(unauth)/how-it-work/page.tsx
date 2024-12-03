@@ -1,5 +1,6 @@
 import React from 'react';
 import HowItWorks from './HowItWork';
+import { Metadata } from 'next';
 
 export async function generateMetadata() {
   const pageTitle = `How It Works | Preppal`;
@@ -22,6 +23,20 @@ export async function generateMetadata() {
     },
   };
 }
+
+export const metadata: Metadata = {
+  title: "Privacy Policy",
+  description: "Read our privacy policy to understand Preppal.",
+  openGraph: {
+    title: "Privacy Policy",
+    description: "Read our privacy policy to understand Preppal.",
+    url: "https://preppal.club/privacy-policy",
+  },
+  twitter: {
+    title: "Privacy Policy",
+    description: "Read our privacy policy to understand Preppal.",
+  },
+};
 
 const Page = () => {
   return <HowItWorks />;
