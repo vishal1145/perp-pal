@@ -1,12 +1,11 @@
-import React from 'react'
-import HowItWorks from './HowItWork'
+import React from 'react';
+import HowItWorks from './HowItWork';
 
-export async function generateMetadata({ params: { text } }: {
-  params: { text: string };
-}) {
+export async function generateMetadata() {
   const pageTitle = `How It Works | Preppal`;
   const pageDescription = `Learn how Preppal works and how you can create and practice customizable online papers.`;
   const url = "https://preppal.club/how-it-works";
+
   return {
     title: pageTitle,
     description: pageDescription,
@@ -24,12 +23,8 @@ export async function generateMetadata({ params: { text } }: {
   };
 }
 
- 
+const Page = () => {
+  return <HowItWorks />;
+};
 
-const page = () => {
-  return (
-     <HowItWorks/>
-  )
-}
-
-export default page
+export default Page;
