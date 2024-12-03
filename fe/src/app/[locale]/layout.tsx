@@ -15,14 +15,13 @@ export default function RootLayout(props: {
 }) {
   unstable_setRequestLocale(props.params.locale);
 
-  // Using internationalization in Client Components
   const messages = useMessages();
 
   return (
     <html lang={props.params.locale}>
       <head>
         <meta name="google-adsense-account" content="ca-pub-3647530800329908"></meta>
-        <meta
+        {/* <meta
           name="description"
           content="Empower students to create customizable online papers and practice tests by topic. Enhance learning with tailored questions and topics. Start practicing now!"
         />
@@ -50,7 +49,7 @@ export default function RootLayout(props: {
         <meta
           name="twitter:description"
           content="Create customizable online papers and practice tests by topic. A perfect tool for students to practice and learn!"
-        />
+        /> */}
         <meta
           name="twitter:image"
           content="/favicon3.club"
