@@ -3,15 +3,15 @@ import React from "react";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
-  description: "Read our privacy policy to understand Preppal.",
+  description: "Read our privacy policy to understand Preppal. vip",
   openGraph: {
     title: "Privacy Policy",
-    description: "Read our privacy policy to understand Preppal.",
+    description: "Read our privacy policy to understand Preppal. vip",
     url: "https://preppal.club/privacy-policy",
   },
   twitter: {
     title: "Privacy Policy",
-    description: "Read our privacy policy to understand Preppal.",
+    description: "Read our privacy policy to understand Preppal. vip",
   },
 };
 const page = () => {
