@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef,useState } from "react";
 import { FaMicrophone,FaSearch } from "react-icons/fa";
 
-export default function HowItWorks() {
+const HowItWorks=()=> {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const [searchText, setSearchText] = useState("");
@@ -340,3 +340,5 @@ export default function HowItWorks() {
     </div>
   );
 }
+
+export default HowItWorks;
