@@ -39,8 +39,11 @@ class QuestionIdsListService:
                     all_results.extend(results[['_id']].to_dict(orient="records"))
                 else:
                     print("Skipping due to missing subject or topic for:", item)
-                    
-            return all_results
+            return {
+                "results": all_results,
+                "question_count": len(all_results),
+                "metadata": extracted_values
+            }
     
         except Exception as e:
                 raise Exception(f"Error processing the prompt for question IDs: {str(e)}")

@@ -15,7 +15,9 @@ def get_questions_route():
         question_ids_service = QuestionIdsListService(prompt)
         question_ids = question_ids_service.get_question_ids()
 
-        return jsonify({"questions_ids": question_ids})
+        return jsonify({"questions_ids": question_ids["results"],
+                        "totalQuestions":question_ids["question_count"],
+                        "metadata":question_ids["metadata"]})
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500

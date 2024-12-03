@@ -15,21 +15,21 @@ pip install -r requirements.txt
 
 **3.** Check for Trained Model
 if no train data : 
-    ```
-    python data/training/train.py
-    ```
+```
+python data/training/train.py
+```
 
 **4.** Create .env file and Add key
 ```
 GROQ_API_KEY : " "
 ```
 
-**5.**Run application
+**5.** Run application
 ```
 python main.py
 ```
 
-**6.**Run Test cases Command
+**6.** Run Test cases Command
 ```
 pytest tests/
 ```
