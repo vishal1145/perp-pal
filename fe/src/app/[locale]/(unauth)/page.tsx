@@ -11,7 +11,6 @@ import SignUp from "@/app/[locale]/(unauth)/SignUP/page";
 import { Banner } from "@/components/Banner";
 import { cardData } from "@/data/cardData";
 import {
-  setMetaTitle,
   setUserProfile, 
 } from "@/data/functions";
 
@@ -106,7 +105,6 @@ export default function Layout() {
   const handleCardClick = (promptText: string) => {
     const formattedText = promptText.replace(/\s+/g, "--");
     router.push(`/e-paper/${formattedText}`);
-    setMetaTitle(formattedText);
     // trackEvent(first_card);
     trackGAEvent("Card", "cardClick", promptText);
   };
@@ -114,7 +112,6 @@ export default function Layout() {
     if (e.key === "Enter" && searchText.trim() !== "") {
       const formattedText = searchText.trim().replace(/\s+/g, "--");
       router.push(`/e-paper/${formattedText}`);
-      setMetaTitle(formattedText);
     }
   };
 
