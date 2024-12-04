@@ -165,11 +165,19 @@ export const Banner: React.FC<DemoBannerProps> = ({
           <div className="flex h-[50px] items-center justify-between text-lg font-normal text-gray-900 lg:h-[55px]">
             <div className="flex items-center">
               {!notMainPage ? (
-                <ul className="flex">
+                <ul className="flex gap-4">
                   <li>
                     <Link href="/how-it-work">
                       <p className="text-sm hover:text-cyan-600 sm:text-base  ">
                         How It Works
+                      </p>
+                    </Link>
+                  </li>
+
+                  <li >
+                    <Link href="/blogs" >
+                      <p className="text-sm hover:text-cyan-600 sm:text-base  ">
+                        Blogs
                       </p>
                     </Link>
                   </li>
