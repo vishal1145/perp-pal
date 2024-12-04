@@ -2,7 +2,6 @@ import pandas as pd
 from utils.initialize_ChromaDb import ChromaDBInitializer
 from utils.collection_Status import Collection_Status
 from utils.common_Service import Common_Service
-import os
 
 _model = ChromaDBInitializer.get_model()
 collection=ChromaDBInitializer.get_or_create_collection("questions")
