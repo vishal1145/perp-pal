@@ -19,23 +19,6 @@ export async function POST(req: NextRequest) {
             userSelectAnsString:q?.userSelectAnsString
         }));
 
-        console.log("formattedQuestions", formattedQuestions);
-        const months = {
-            January: 0,
-            February: 1,
-            March: 2,
-            April: 3,
-            May: 4,
-            June: 5,
-            July: 6,
-            August: 7,
-            September: 8,
-            October: 9,
-            November: 10,
-            December: 11
-        };
-
-        
         const newAssessment = new SubmitAssessment({
             userId,
             questions: formattedQuestions,
@@ -43,14 +26,12 @@ export async function POST(req: NextRequest) {
             paperTitle
         });
 
-        let array = [];
-
         let promises = [];
 
         for (let i = 0; i < questions.length; i++) {
             const question = questions[i]?.McqQuestion;
 
-            if (question && question.correctAnswer == questions[i].userSelectAns) {
+            if (question && question.answer == questions[i].userSelectAns) {
                 const prevMinTime = question.minTime;
                 const prevMaxTime = question.maxTime;
                 const prevAvgTime = question.avgTime;

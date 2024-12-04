@@ -1,10 +1,12 @@
 "use client"
-import React from 'react';
+import React, { useEffect } from 'react';
 import AssessmentCard from './AssessmentCard';
 import { logoBtnColor, text1, text2 } from '@/data/data';
 import { FaSearch, FaMicrophone } from 'react-icons/fa';
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import { freePrompt, setFreePrompt } from '@/data/functions';
+import SharePreppal from '../SharePreppal';
 
 export type SubmitPopupProps = {
   title: string;
@@ -23,14 +25,26 @@ const SubmitPopup: React.FC<SubmitPopupProps> = ({ title, subTitle, message, set
   const router = useRouter();
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [searchText, setSearchText] = useState('');
+  const[sharePreppal, setSharePreppal] = useState(false);
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && searchText.trim() !== '') {
+      if(freePrompt){
+        setSharePreppal(true);
+        return;
+      }
       const formattedText = searchText.trim().replace(/\s+/g, '-'); // Format the text
       router.push(`/e-paper/${formattedText}`); // Navigate to the formatted URL
     }
   };
 
+  useEffect(()=>{
+      setFreePrompt();
+  }, [])
   const handleStartPracticeClick = () => {
+    if(freePrompt){
+      setSharePreppal(true);
+    }
     const formattedText = searchText.trim().replace(/\s+/g, '--'); 
     router.push(`/e-paper/${formattedText}`);
   };
@@ -82,12 +96,19 @@ const SubmitPopup: React.FC<SubmitPopupProps> = ({ title, subTitle, message, set
 
 
   return (
-    <div
+
+    <>
+    {
+      sharePreppal && <SharePreppal/>
+    }
+     <div
       className="fixed top-0 left-0 z-[80] w-full h-full overflow-hidden bg-black bg-opacity-50"
       role="dialog"
       aria-labelledby="modal-label"
       tabIndex={-1}
     >
+
+      
       <div className="flex items-center justify-center h-full">
         <div className="w-full flex flex-col bg-white border shadow-lg rounded-xl border m-3 sm:max-w-lg sm:w-full " >
           <div className="flex flex-col   p-4  ">
@@ -207,6 +228,7 @@ const SubmitPopup: React.FC<SubmitPopupProps> = ({ title, subTitle, message, set
         </div>
       </div>
     </div>
+    </>
   );
 };
 

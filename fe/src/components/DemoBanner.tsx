@@ -5,6 +5,8 @@ import logo from "../images/logo1.png"
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { text2 } from '@/data/data';
+import { freePrompt, setFreePrompt } from '@/data/functions';
+import SharePreppal from './SharePreppal';
 
 interface DemoBannerProps {
   notMainPage: boolean;  
@@ -14,6 +16,7 @@ export const DemoBanner: React.FC<DemoBannerProps> = (props) => {
   const router = useRouter();
   const { notMainPage } = props;
   const [searchText, setSearchText] = useState('');
+  const[sharePreppal, setSharePreppal] = useState(false);
 
   const searchInputRef = useRef<HTMLInputElement>(null);
 
@@ -57,11 +60,16 @@ export const DemoBanner: React.FC<DemoBannerProps> = (props) => {
     if (searchInputRef.current) {
       searchInputRef.current.focus();
     }
+    setFreePrompt();
   }, []);
   
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && searchText.trim() !== '') {
+      if(freePrompt){
+        setSharePreppal(true);
+        return;
+      }
       const formattedText = searchText.trim().replace(/\s+/g, '-'); // Format the text
       router.push(`/e-paper/${formattedText}`); // Navigate to the formatted URL
     }
@@ -69,8 +77,16 @@ export const DemoBanner: React.FC<DemoBannerProps> = (props) => {
 
   return(
     <header className="sticky top-0 z-50 bg-white p-4 text-lg font-normal text-gray-900 border-b border-gray-200">
+    
+    {
+      sharePreppal && <SharePreppal/>
+    }
     <div className="grid grid-cols-12 gap-4">
       {/* Div 1: Colspan 3 */}
+
+
+
+
       <div className="col-span-3 flex items-center" id="div1">
         <a href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
           <Image
