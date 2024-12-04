@@ -117,7 +117,7 @@ const EPaper: React.FC = () => {
   return (
     <>
     <Banner notMainPage={true} loadingUserData={loadingUserData} />
-   { freePrompt ?  
+   { freePrompt == false?  
     <SharePreppal/>
     :
     <div className="container mx-auto px-3">
