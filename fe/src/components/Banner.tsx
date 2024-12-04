@@ -11,6 +11,8 @@ import SignIn from "@/app/[locale]/(unauth)/signIn/page";
 import SignUp from "@/app/[locale]/(unauth)/SignUP/page";
 import ForgetPassword from "@/app/[locale]/(unauth)/forgetPassword/page";
 import {
+  freePrompt,
+  setFreePrompt,
   setUserProfile,
   userProfile,
   userProfileLoading,
@@ -18,6 +20,7 @@ import {
 import logo from "../images/logo1.png";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import SharePreppal from "./SharePreppal";
 interface DemoBannerProps {
   notMainPage: boolean;
   user: any;
@@ -40,7 +43,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [searchText, setSearchText] = useState("");
-
+  const[sharePreppal, setSharePreppal] = useState(false);
   const router = useRouter();
   const openModal = (isSignInModal: boolean) => {
     setIsSignIn(isSignInModal);
@@ -111,6 +114,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
     if (searchInputRef.current) {
       searchInputRef.current.focus();
     }
+    setFreePrompt();
   }, []);
 
   const handleMicClick = () => {
@@ -150,7 +154,12 @@ export const Banner: React.FC<DemoBannerProps> = ({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    
     if (e.key === "Enter" && searchText.trim() !== "") {
+      if(freePrompt){
+        setSharePreppal(true);
+        return;
+      }
       const formattedText = searchText.trim().replace(/\s+/g, "--"); // Format the text
       router.push(`/e-paper/${formattedText}`); // Navigate to the formatted URL
     }
@@ -336,6 +345,10 @@ export const Banner: React.FC<DemoBannerProps> = ({
           )}
         </div>
       )}
+
+      {
+        sharePreppal && <SharePreppal/>
+      }
     </>
   );
 };
