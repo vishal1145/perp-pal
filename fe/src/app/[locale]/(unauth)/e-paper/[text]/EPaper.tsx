@@ -118,7 +118,9 @@ const EPaper: React.FC = () => {
     <>
     <Banner notMainPage={true} loadingUserData={loadingUserData} />
    { freePrompt == false?  
-    <SharePreppal/>
+    <SharePreppal setSharePreppal={() => {
+      router.push('/');
+    }}/>
     :
     <div className="container mx-auto px-3">
       <div id="e-paper" className="min-h-screen pt-4 lg:py-4">

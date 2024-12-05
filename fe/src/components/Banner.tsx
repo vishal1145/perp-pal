@@ -95,12 +95,8 @@ export const Banner: React.FC<DemoBannerProps> = ({
         setLocalUser(null);
         setUserProfile(null);
         user(null);
-        console.log("Successfully signed out");
-      } else {
-        console.error("Failed to sign out");
-      }
+      }  
     } catch (error) {
-      console.error("Error during sign out:", error);
     }
     setIsDropdownOpen(false);
   };
@@ -163,9 +159,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
       const formattedText = searchText.trim().replace(/\s+/g, "--"); // Format the text
       router.push(`/e-paper/${formattedText}`); // Navigate to the formatted URL
     }
-  };
-
-  console.log("userProfileLoading", userProfileLoading);
+  }; 
 
   return (
     <>
@@ -316,7 +310,9 @@ export const Banner: React.FC<DemoBannerProps> = ({
                 >
                   Login
                 </button>
-              ) : null}
+              ) :  <button className="border invisible w-[20px] h-9">
+              </button>
+              }
             </div>
           </div>
         </div>
@@ -347,7 +343,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
       )}
 
       {
-        sharePreppal && <SharePreppal/>
+        sharePreppal && <SharePreppal setSharePreppal={setSharePreppal}/>
       }
     </>
   );

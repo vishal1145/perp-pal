@@ -72,7 +72,7 @@ const HowItWorks=()=> {
   return (
     <>
     {
-      sharePreppal && <SharePreppal />
+      sharePreppal && <SharePreppal setSharePreppal={setSharePreppal}/>
     }
       <div className="container mx-auto px-3 py-4">
       <h1 className="mb-8 text-center text-3xl font-bold text-gray-600">

@@ -134,7 +134,7 @@ const ResultPage = () => {
 {/* <DemoBanner notMainPage={true} /> */}
 <Banner notMainPage={true} loadingUserData={loadingUserData}/>
 {
-  sharePreppal && <SharePreppal/>
+  sharePreppal && <SharePreppal setSharePreppal={setSharePreppal}/>
 }
 <div className="flex flex-col md:flex-row h-screen "  style={{height:"90%", overflowY:"auto"}}>
    

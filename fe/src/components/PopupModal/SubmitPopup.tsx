@@ -99,7 +99,7 @@ const SubmitPopup: React.FC<SubmitPopupProps> = ({ title, subTitle, message, set
 
     <>
     {
-      sharePreppal && <SharePreppal/>
+      sharePreppal && <SharePreppal setSharePreppal={setSharePreppal}/>
     }
      <div
       className="fixed top-0 left-0 z-[80] w-full h-full overflow-hidden bg-black bg-opacity-50"
