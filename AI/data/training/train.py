@@ -1,9 +1,7 @@
 import os
 import pandas as pd
 from watchdog.events import FileSystemEventHandler
-import numpy as np
 import sys
-
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
 from utils.config import UNPROCESSED_FILES_DIR,PROCESSED_FILES_DIR,MAX_BATCH_SIZE
 from utils.initialize_ChromaDb import ChromaDBInitializer
