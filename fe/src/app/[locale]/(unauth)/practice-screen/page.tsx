@@ -216,7 +216,6 @@ const PracticeScreen = () => {
 
     setUserPracticePaper(newPracticePaper);
      
-    //total Time 
     setTotalSeconds(totalSeconds+totalTimeInSeconds);
     setTotalMinutes(totalMinutes+totalTimeInMinutes);
     setTotalHours(totalHours+totalTimeInHours);

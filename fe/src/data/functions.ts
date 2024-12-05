@@ -23,3 +23,31 @@ export const setUserProfile =(user:any)=>{
       userProfileLoading=false;
 }
 
+export let freePrompt = true;
+export let setFreePrompt = ()=>{
+      const prompt = localStorage.getItem('promptdate');
+
+      if (!prompt) {
+        const newPrompt = {
+          date: Date.now(),
+          count: 1
+        };
+        localStorage.setItem('promptdate', JSON.stringify(newPrompt));
+      } else {
+        const parsedPrompt = JSON.parse(prompt);
+        const storedDate = new Date(parsedPrompt.date);
+        const currentDate = new Date();
+      
+        if (storedDate.toDateString() !== currentDate.toDateString()) {
+          const updatedPrompt = {
+            date: Date.now(),
+            count: 1
+          };
+          localStorage.setItem('promptdate', JSON.stringify(updatedPrompt));
+        } else {
+          if (parsedPrompt.count === 0) {
+            freePrompt = false;
+          }
+        }
+      }
+}

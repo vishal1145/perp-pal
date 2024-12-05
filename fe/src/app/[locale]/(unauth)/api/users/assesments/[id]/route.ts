@@ -6,7 +6,7 @@ import SubmitAssessment from '@/models/submitAssesment';
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
     try {
-        await connectDB(); // Ensure connection is established
+        await connectDB();
         console.log(mongoose.modelNames());
 
         const { id } = params;
@@ -16,7 +16,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
             userId: new mongoose.Types.ObjectId(id),
         })
         .populate('userId')
-        .populate('questions.questionId'); // Ensure ref matches the model name
+        .populate('questions.questionId');
 
         return NextResponse.json({ status: 200, userAssesments });
     } catch (error) {

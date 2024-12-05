@@ -56,6 +56,11 @@ export default function RootLayout(props: {
         />
 
         <meta name="robots" content="index, follow" />
+        <script
+            type="text/javascript"
+            src="https://platform.linkedin.com/in.js"
+            async
+          ></script>
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3647530800329908" crossOrigin="anonymous"></script>
         <link href="//cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css" rel="stylesheet"/>
       </head>

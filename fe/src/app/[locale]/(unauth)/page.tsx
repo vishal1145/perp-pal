@@ -11,12 +11,15 @@ import SignUp from "@/app/[locale]/(unauth)/SignUP/page";
 import { Banner } from "@/components/Banner";
 import { cardData } from "@/data/cardData";
 import {
+  freePrompt,
+  setFreePrompt,
   setUserProfile, 
 } from "@/data/functions";
 
 import logo from "../../../images/logo1.png";
 import {  trackGAEvent } from "../(unauth)/googleAnalytics";
 import Footer from "./Footer/page";
+import SharePreppal from "@/components/SharePreppal";
 
 export default function Layout() {
   const [loading, setLoading] = useState(true);
@@ -31,7 +34,7 @@ export default function Layout() {
   const [localuser, setLocalUser] = useState(null);
   const [loadingUserData, setLoadingUserData] = useState(true);
   const [userProfileLoading, setUserProfileLoading] = useState(true);
-
+  const[sharePreppal, setSharePreppal] = useState(false);
   const handleMicClick = () => {
     if ("webkitSpeechRecognition" in window) {
       const recognition = new (window as any).webkitSpeechRecognition();
@@ -97,18 +100,27 @@ export default function Layout() {
   }, []);
 
   useEffect(() => {
+    setFreePrompt();
     if (searchInputRef.current) {
       searchInputRef.current.focus();
     }
   }, []);
 
   const handleCardClick = (promptText: string) => {
+    if(freePrompt == false){
+      setSharePreppal(true);
+      return
+    }
     const formattedText = promptText.replace(/\s+/g, "--");
     router.push(`/e-paper/${formattedText}`);
     // trackEvent(first_card);
     trackGAEvent("Card", "cardClick", promptText);
   };
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if(freePrompt == false){
+      setSharePreppal(true);
+      return
+    }
     if (e.key === "Enter" && searchText.trim() !== "") {
       const formattedText = searchText.trim().replace(/\s+/g, "--");
       router.push(`/e-paper/${formattedText}`);
@@ -143,6 +155,9 @@ export default function Layout() {
   return (
     <div className="flex flex-col justify-between w-full h-[100vh]">
       <Banner notMainPage={false} loadingUserData={loadingUserData} />
+      {
+        sharePreppal && <SharePreppal setSharePreppal={setSharePreppal}/>
+      }
       <div className="container mx-auto">
         <div className="flex flex-col lg:gap-5">
           <div className="my-5 flex items-center justify-center">

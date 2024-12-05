@@ -11,6 +11,8 @@ import SignIn from "@/app/[locale]/(unauth)/signIn/page";
 import SignUp from "@/app/[locale]/(unauth)/SignUP/page";
 import ForgetPassword from "@/app/[locale]/(unauth)/forgetPassword/page";
 import {
+  freePrompt,
+  setFreePrompt,
   setUserProfile,
   userProfile,
   userProfileLoading,
@@ -18,6 +20,7 @@ import {
 import logo from "../images/logo1.png";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import SharePreppal from "./SharePreppal";
 interface DemoBannerProps {
   notMainPage: boolean;
   user: any;
@@ -40,7 +43,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [searchText, setSearchText] = useState("");
-
+  const[sharePreppal, setSharePreppal] = useState(false);
   const router = useRouter();
   const openModal = (isSignInModal: boolean) => {
     setIsSignIn(isSignInModal);
@@ -92,12 +95,8 @@ export const Banner: React.FC<DemoBannerProps> = ({
         setLocalUser(null);
         setUserProfile(null);
         user(null);
-        console.log("Successfully signed out");
-      } else {
-        console.error("Failed to sign out");
-      }
+      }  
     } catch (error) {
-      console.error("Error during sign out:", error);
     }
     setIsDropdownOpen(false);
   };
@@ -111,6 +110,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
     if (searchInputRef.current) {
       searchInputRef.current.focus();
     }
+    setFreePrompt();
   }, []);
 
   const handleMicClick = () => {
@@ -150,13 +150,16 @@ export const Banner: React.FC<DemoBannerProps> = ({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    
     if (e.key === "Enter" && searchText.trim() !== "") {
+      if(freePrompt){
+        setSharePreppal(true);
+        return;
+      }
       const formattedText = searchText.trim().replace(/\s+/g, "--"); // Format the text
       router.push(`/e-paper/${formattedText}`); // Navigate to the formatted URL
     }
-  };
-
-  console.log("userProfileLoading", userProfileLoading);
+  }; 
 
   return (
     <>
@@ -165,11 +168,19 @@ export const Banner: React.FC<DemoBannerProps> = ({
           <div className="flex h-[50px] items-center justify-between text-lg font-normal text-gray-900 lg:h-[55px]">
             <div className="flex items-center">
               {!notMainPage ? (
-                <ul className="flex">
+                <ul className="flex gap-4">
                   <li>
                     <Link href="/how-it-work">
                       <p className="text-sm hover:text-cyan-600 sm:text-base  ">
                         How It Works
+                      </p>
+                    </Link>
+                  </li>
+
+                  <li >
+                    <Link href="/blogs" >
+                      <p className="text-sm hover:text-cyan-600 sm:text-base  ">
+                        Blogs
                       </p>
                     </Link>
                   </li>
@@ -299,7 +310,9 @@ export const Banner: React.FC<DemoBannerProps> = ({
                 >
                   Login
                 </button>
-              ) : null}
+              ) :  <button className="border invisible w-[20px] h-9">
+              </button>
+              }
             </div>
           </div>
         </div>
@@ -328,6 +341,10 @@ export const Banner: React.FC<DemoBannerProps> = ({
           )}
         </div>
       )}
+
+      {
+        sharePreppal && <SharePreppal setSharePreppal={setSharePreppal}/>
+      }
     </>
   );
 };

@@ -13,6 +13,8 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 import dynamic from 'next/dynamic';
 import { cardData } from "@/data/cardData";
 import { text1 } from "@/data/data";
+import { freePrompt, setFreePrompt } from "@/data/functions";
+import SharePreppal from "@/components/SharePreppal";
 
 const Latex = dynamic(() => import('react-latex-next'), { ssr: false });
 
@@ -31,7 +33,7 @@ const ResultPage = () => {
   const [loadingUserData, setLoadingUserData] = useState();
   const [questionloading, setQuestionLoading] = useState(true);
   const[title, setTitle] = useState('');
-
+  const[sharePreppal, setSharePreppal] = useState(false);
   const getSubmitAssessment = async () => {
     try {
       const { data } = await axios.get(
@@ -65,6 +67,7 @@ const ResultPage = () => {
   };
 
   useEffect(() => {
+    setFreePrompt();
     if (id && !hasFetched.current) {
       hasFetched.current = true;
       getSubmitAssessment();
@@ -95,6 +98,10 @@ const ResultPage = () => {
   };
 
   const handleCardClick = (promptText: string) => {
+    if(freePrompt == false){
+      setSharePreppal(true);
+      return;
+    }
     const formattedText = promptText.replace(/\s+/g, "--");
     router.push(`/e-paper/${formattedText}`);
   };
@@ -126,7 +133,9 @@ const ResultPage = () => {
 <>
 {/* <DemoBanner notMainPage={true} /> */}
 <Banner notMainPage={true} loadingUserData={loadingUserData}/>
-
+{
+  sharePreppal && <SharePreppal setSharePreppal={setSharePreppal}/>
+}
 <div className="flex flex-col md:flex-row h-screen "  style={{height:"90%", overflowY:"auto"}}>
    
   <div className="w-full md:w-9/12 md:p-5 flex lg:p-10 sm:pl-5 sm:pr-5 sm:pt-5 !pt-5 !pl-5 !pr-5">

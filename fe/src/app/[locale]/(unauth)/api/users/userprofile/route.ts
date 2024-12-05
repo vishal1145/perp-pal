@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import path from "path";
 import { writeFile, readdir, mkdir } from "fs/promises";
 import connectDB from "@/libs/DB";
+import User from "@/models/user";
 
 export const POST = async (request: NextRequest) => {
   try {
@@ -33,6 +34,9 @@ export const POST = async (request: NextRequest) => {
     // Save or overwrite the file
     await writeFile(filePath, buffer);
 
+    await User.findByIdAndUpdate({_id:userId},{
+      profileImage:`public/assets/profileImage/profileImage_${userId}.png`
+    })
     return NextResponse.json({ message: "Image saved successfully.", status: 201 });
   } catch (error) {
     console.error("Error occurred: ", error);

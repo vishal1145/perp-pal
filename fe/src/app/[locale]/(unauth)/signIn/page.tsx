@@ -5,6 +5,7 @@ import { logoBtnColor } from '@/data/data';
 import { setUserProfile } from '@/data/functions';
 import Loader from '@/components/Loader';
 import Snackbar from "@/components/snackbar";
+import GoogleLoginButton from '@/components/GoogleLogin';
 
 const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword, onLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -131,6 +132,8 @@ const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword, onLogin }) => {
               </button>
             </div>
           </div>
+
+            <GoogleLoginButton onClose={onClose}/>
           <div className="flex items-center justify-between">
             <label className="flex items-center text-sm text-gray-600">
               <input type="checkbox" className="mr-2"  checked={rememberMe}

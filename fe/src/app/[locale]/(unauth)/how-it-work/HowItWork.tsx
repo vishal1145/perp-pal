@@ -1,4 +1,6 @@
 "use client";
+import SharePreppal from "@/components/SharePreppal";
+import { freePrompt, setFreePrompt } from "@/data/functions";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef,useState } from "react";
 import { FaMicrophone,FaSearch } from "react-icons/fa";
@@ -7,7 +9,7 @@ const HowItWorks=()=> {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
   const [searchText, setSearchText] = useState("");
-
+  const[sharePreppal, setSharePreppal] = useState(false);
   const handleMicClick = () => {
     if ("webkitSpeechRecognition" in window) {
       const recognition = new (window as any).webkitSpeechRecognition();
@@ -36,6 +38,7 @@ const HowItWorks=()=> {
     }
   };
   useEffect(() => {
+    setFreePrompt()
     const titleElement = document.getElementById(
       "nextjs-tile"
     ) as HTMLTitleElement;
@@ -49,17 +52,29 @@ const HowItWorks=()=> {
   }, []);
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && searchText.trim() !== "") {
+      if(freePrompt == false){
+        setSharePreppal(true);
+        return
+     }
       const formattedText = searchText.trim().replace(/\s+/g, "--"); // Format the text
       router.push(`/e-paper/${formattedText}`); // Navigate to the formatted URL
     }
   };
 
   const handleClick = () => {
+    if(freePrompt == false){
+       setSharePreppal(true);
+       return;
+    }
     const formattedText = searchText.trim().replace(/\s+/g, "--"); // Format the text
     router.push(`/e-paper/${formattedText}`); // Navigate to the formatted URL
   };
   return (
-    <div className="container mx-auto px-3 py-4">
+    <>
+    {
+      sharePreppal && <SharePreppal setSharePreppal={setSharePreppal}/>
+    }
+      <div className="container mx-auto px-3 py-4">
       <h1 className="mb-8 text-center text-3xl font-bold text-gray-600">
         Adaptive Learning System: Step-by-Step Guide
       </h1>
@@ -338,6 +353,7 @@ const HowItWorks=()=> {
         </div>
       </form>
     </div>
+    </>
   );
 }
 export default HowItWorks;

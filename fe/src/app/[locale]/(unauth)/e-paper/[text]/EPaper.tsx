@@ -10,9 +10,12 @@ import Loader from "@/components/Loader";
 import QuestionOptions from "@/components/QuestionOptions";
 import { logoBtnColor } from "@/data/data";
 import { 
+  freePrompt,
+  setFreePrompt,
   userProfile, 
 } from "@/data/functions";
 import type { McqQuestion } from "@/types/type";
+import SharePreppal from "@/components/SharePreppal";
 
 const EPaper: React.FC = () => {
   const [questionloading, setQuestionLoading] = useState(true);
@@ -23,8 +26,8 @@ const EPaper: React.FC = () => {
   const [loadingUserData, setLoadingUserData] = useState();
 
   const [isMobile, setIsMobile] = useState(false);
-
   useEffect(() => {
+    setFreePrompt()
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
@@ -37,6 +40,7 @@ const EPaper: React.FC = () => {
 
   const getQuestions = async (text: string) => {
     setQuestionLoading(true);
+    
     try {
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URI}/get/questions`,
@@ -46,16 +50,15 @@ const EPaper: React.FC = () => {
         item.questionType === "Single Choice" && 
         Object.values(item.options).every(option => option.value !== null)
       );
-      
       setQuestions(mcqQuestions);
-
       setQuestionLoading(false);
     } catch (error) {
       console.log(error);
     }
   };
-
+ 
   useEffect(() => {
+    
     if (typeof window !== "undefined") {
       let text = window.location?.pathname.split("/").pop();
       text = text?.split("--").join(" ");
@@ -75,6 +78,15 @@ const EPaper: React.FC = () => {
 
   const router = useRouter();
   const handlePracticeClick = async () => {
+    
+    const storedPrompt = localStorage.getItem('promptdate');
+    const prompt = storedPrompt ? JSON.parse(storedPrompt) : { date: Date.now(), count: 1 };
+    
+    prompt.count -= 1;
+    prompt.date = Date.now();  
+    
+    localStorage.setItem('promptdate', JSON.stringify(prompt));
+
     if (alreadyCall) {
       return;
     }
@@ -101,10 +113,15 @@ const EPaper: React.FC = () => {
       setAlreadyCall(false);
     }
   };
- 
+
   return (
     <>
     <Banner notMainPage={true} loadingUserData={loadingUserData} />
+   { freePrompt == false?  
+    <SharePreppal setSharePreppal={() => {
+      router.push('/');
+    }}/>
+    :
     <div className="container mx-auto px-3">
       <div id="e-paper" className="min-h-screen pt-4 lg:py-4">
         <div
@@ -242,7 +259,7 @@ const EPaper: React.FC = () => {
           </div>
         </div>
       </div>
-    </div>
+    </div>}
   </>
 );
 };
