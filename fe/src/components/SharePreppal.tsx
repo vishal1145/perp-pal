@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { FaBell } from 'react-icons/fa';
-import img1 from "../images/assessment.png";
 import fb from "../images/facebook.png";
 import whats from "../images/whatsapp.png";
 import { text1, text2 } from '@/data/data';
-
+import logo from "../images/logo1.png"
 type SharePreppalProps = {
   setSharePreppal: (value: boolean) => void;
 };
@@ -99,7 +98,7 @@ const SharePreppal: React.FC<SharePreppalProps> = ({ setSharePreppal }) => {
         <div className="relative bg-white rounded-lg shadow">
           {shareCount}
           <div className="flex items-center justify-center w-full">
-            <Image src={img1} className="h-10 w-10 mt-8" alt="img1" />
+            <Image src={logo} className="h-10 w-20 mt-2" alt="logo" />
           </div>
 
           <div className="p-[20px] text-center">
