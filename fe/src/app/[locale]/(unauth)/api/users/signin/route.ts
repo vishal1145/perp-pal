@@ -11,6 +11,7 @@ const cookiesSet = async(user:any, username:string, email:string)=>{
         email:email
     }
 
+
     const cookieToken = await jwt.sign(cookieData, `${process.env.TOKEN_SECRET}`, {expiresIn: "7d"})
 
     const response = NextResponse.json({
@@ -43,7 +44,8 @@ export async function POST(request: NextRequest){
         let response;
 
         if(alreadyuser){
-            response = cookiesSet(alreadyuser, username, email)
+            response = cookiesSet(alreadyuser, username, email);
+            return response;
         }else{
             const profileImage = decodedToken.payload.picture;
             const salt = await bcryptjs.genSalt(10)
@@ -55,12 +57,12 @@ export async function POST(request: NextRequest){
                 password:hashedPassword,
                 profileImage,
             })
-    
+ 
             const savedUser = await newUser.save()
-            response = cookiesSet(savedUser, email, username);
+            response = await cookiesSet(savedUser, email, username);
+            return response;
         }
     
-        return response;
     } catch (error: any) {
         return NextResponse.json({error: error.message}, {status: 500})
     }

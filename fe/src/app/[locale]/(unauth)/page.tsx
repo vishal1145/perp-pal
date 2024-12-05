@@ -20,6 +20,7 @@ import logo from "../../../images/logo1.png";
 import {  trackGAEvent } from "../(unauth)/googleAnalytics";
 import Footer from "./Footer/page";
 import SharePreppal from "@/components/SharePreppal";
+import PreppalFooter from "@/components/PreppalFooter";
 
 export default function Layout() {
   const [loading, setLoading] = useState(true);
@@ -217,6 +218,7 @@ export default function Layout() {
         </div>
       </div>
       {/* <div className="sticky bottom-0"> */}
+      <PreppalFooter/>
         <Footer />
       {/* </div> */}
       {isModalOpen && (

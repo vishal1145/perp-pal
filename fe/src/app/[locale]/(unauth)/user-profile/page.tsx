@@ -17,7 +17,7 @@ import { FaClipboardCheck, FaClipboardList } from "react-icons/fa";
 
 import { Banner } from "@/components/Banner";
 import CustomCardLoader from "@/components/CustomCardLoader";
-import { userProfile } from "@/data/functions";
+import { setUserProfile, userProfile } from "@/data/functions";
 
 ChartJS.register(
   CategoryScale,
@@ -30,6 +30,9 @@ ChartJS.register(
 const ProfileUser = () => {
   const [aboutData, setAboutData] = useState({ about: " " });
   const [usernameData, setUsernameData] = useState({ username: "" });
+  const [profileImage, setProfileImage] = useState<string|null>(null);
+
+
   const [addressData, setAddressData] = useState({ address: "" });
   const [newAboutData, setNewAboutData] = useState<string>("");
 
@@ -54,6 +57,12 @@ const ProfileUser = () => {
   const [imageUrl, setImageUrl] = useState(
     `/assets/profileImage/profileImage_${userId}.png`
   );
+
+  const notEditUserData = ()=>{
+     setEditUsernameMode(false)  ;
+     setImagePreview(null);
+     setFile(null);
+  }
 
   const toggleShowAll = () => {
     setShowAll(!showAll);
@@ -282,6 +291,7 @@ const ProfileUser = () => {
           address: newAddressData?.trim() || "",
         })
         .then((response) => {
+          setUserProfile(response.data);
           setUsernameData(response.data);
           setAddressData(response.data);
           setEditUsernameMode(false);
@@ -304,12 +314,16 @@ const ProfileUser = () => {
     setEditAboutMode(true);
   };
 
-  const profileImageUpdate = async (e) => {
-    const file = e?.target?.files?.[0];
 
+  const imageChange = (e)=>{
+    const file = e?.target?.files?.[0];
     if (!file) return;
     setFile(file);
     setImagePreview(URL.createObjectURL(file));
+  }
+
+  const profileImageUpdate = async ( ) => {
+    if (!file) return;
     const formData = new FormData();
     formData.append("file", file);
     formData.append("userId", userId); // Pass the userId to the backend
@@ -324,8 +338,10 @@ const ProfileUser = () => {
       });
 
       if (response.status === 200) {
-        // Update the image URL after successful upload
         setImageUrl(`/assets/profileImage/profileImage_${userId}.png`);
+        setProfileImage(imagePreview);
+        setImagePreview(null);
+        setFile(null);
       } else {
         alert(response.data.error || "Failed to upload image.");
       }
@@ -365,13 +381,26 @@ const ProfileUser = () => {
                       <FaPen className="size-4" />
                     </button>
                     <div className="text-center">
-                      <img
-                        src={
-                          `/assets/profileImage/profileImage_${userId}.png` ? `/assets/profileImage/profileImage_${userId}.png` : "/assets/profileImage.jpg"
-                        }
-                        alt="Profile"
-                        className="mx-auto size-24 rounded-full"
-                      />
+                   
+            
+ 
+                    <img
+  src={
+    profileImage != null
+      ? profileImage
+      : userProfile.profileImage == null
+      ? "/assets/profileImage.jpg" :
+      userProfile.profileImage.startsWith("p")
+      ? `${userProfile.profileImage.substring(6)}`
+      : userProfile.profileImage
+  }
+  alt="Profile"
+  className="mx-auto w-24 h-24 rounded-full"
+/>
+
+ 
+ 
+
                       {editUsernameMode ? (
                         <div>
                           <input
@@ -402,7 +431,7 @@ const ProfileUser = () => {
                               className="w-full p-1 pl-2 text-sm"
                               type="file"
                               accept="image/*"
-                              onChange={(e) => profileImageUpdate(e)}
+                              onChange={(e) => imageChange(e)}
                               disabled={uploading} // Disable input while uploading
                             />
                             <label
@@ -432,7 +461,7 @@ const ProfileUser = () => {
                             <button
                               type="button"
                               className="ml-2 rounded-md bg-gray-300 px-4 py-1 text-sm text-gray-700"
-                              onClick={() => setEditUsernameMode(false)} // Cancel edit
+                              onClick={notEditUserData} // Cancel edit
                             >
                               Cancel
                             </button>
@@ -448,23 +477,9 @@ const ProfileUser = () => {
                           </p>
                         </>
                       )}
-
-                      {/* <div className="mt-4">
-                      <button className="bg-blue-500 text-white py-2 px-4 rounded-lg">Connect</button>
-                      <button className="ml-2 bg-gray-300 text-gray-700 py-2 px-4 rounded-lg">Message</button>
-                    </div> */}
+ 
                     </div>
-                    {/* <div className="flex justify-around mt-6">
-                    <div>
-                      <p className="text-md font-bold">{aboutData.class}</p>
-                      <p className="text-gray-500 text-md">Class</p>
-                    </div>
-
-                    <div>
-                      <p className="text-md font-bold">{aboutData.preparation}</p>
-                      <p className="text-gray-500 text-md">Preparing For</p>
-                    </div>
-                  </div> */}
+                   
                   </div>
                 )}
 

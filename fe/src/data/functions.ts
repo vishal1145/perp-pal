@@ -51,3 +51,8 @@ export let setFreePrompt = ()=>{
         }
       }
 }
+
+export let setfreePromptTrue = ():void=>{
+        freePrompt = true;
+}
+
