@@ -178,7 +178,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
                   </li>
 
                   <li >
-                    <Link href="/blogs" >
+                    <Link href="/blogs" target="_blank">
                       <p className="text-sm hover:text-cyan-600 sm:text-base  ">
                         Blogs
                       </p>
