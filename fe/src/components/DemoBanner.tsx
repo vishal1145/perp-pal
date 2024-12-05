@@ -79,7 +79,7 @@ export const DemoBanner: React.FC<DemoBannerProps> = (props) => {
     <header className="sticky top-0 z-50 bg-white p-4 text-lg font-normal text-gray-900 border-b border-gray-200">
     
     {
-      sharePreppal && <SharePreppal/>
+      sharePreppal && <SharePreppal setSharePreppal={setSharePreppal}/>
     }
     <div className="grid grid-cols-12 gap-4">
       {/* Div 1: Colspan 3 */}

@@ -65,5 +65,9 @@ export default withSentryConfig(
 
     // Disable Sentry telemetry
     telemetry: false,
+
+    images: {
+      domains: ['lh3.googleusercontent.com', 'platform-lookaside.fbsbx.com'],
+    },
   },
 );
