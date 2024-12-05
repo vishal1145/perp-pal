@@ -4,19 +4,18 @@ from spacy import cli
 from pathlib import Path
 import sys,spacy,os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../')))
-from utils.config import SPACY_CUSTOM_TRAINED_DIR,SPACY_CUSTOM_MODEL_NAME
+from utils.config import SPACY_CUSTOM_TRAINED_DIR,SPACY_CUSTOM_MODEL_NAME,ABBREVIATION_DATA_DIR
+from utils.common_Service import Common_Service
+
+common_service=Common_Service()
 
 @Language.component("abbreviation_handler")
 def abbreviation_handler(doc):
-    abbreviation_mapping = {
-        "hrd": "hard",
-        "mdn": "medium",
-        "esy": "easy",
-    }
-    
+    abbreviations_data=common_service.load_abbreviation_mappings(ABBREVIATION_DATA_DIR)
+
     new_tokens = []
     for token in doc:
-        new_tokens.append(abbreviation_mapping.get(token.text.lower(), token.text))
+        new_tokens.append(abbreviations_data.get(token.text.lower(), token.text))
     
     new_doc = Doc(doc.vocab, words=new_tokens)
     return new_doc

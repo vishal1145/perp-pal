@@ -1,4 +1,3 @@
-import os
 from utils.initialize_ChromaDb import ChromaDBInitializer
 
 class Collection_Status:
