@@ -157,9 +157,9 @@ const SharePreppal: React.FC<SharePreppalProps> = ({ setSharePreppal }) => {
               <div className={` ${text2} text-center`}>
                 Not happy with Preppal? Our team is all ears.
               </div>
-              <button className="text-sm  text-cyan-600 hover:text-cyan-700">
+              <a className="text-sm  text-cyan-600 hover:text-cyan-700" href='mailto:support@preppal.club'>
                 Contact Support
-              </button>
+              </a>
             </div>
 
             <div className="mt-3 md:mt-0 flex items-center gap-2">

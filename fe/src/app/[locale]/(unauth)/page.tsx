@@ -21,6 +21,7 @@ import {  trackGAEvent } from "../(unauth)/googleAnalytics";
 import Footer from "./Footer/page";
 import SharePreppal from "@/components/SharePreppal";
 import PreppalFooter from "@/components/PreppalFooter";
+import Blogs from "@/components/Blogs";
 
 export default function Layout() {
   const [loading, setLoading] = useState(true);
@@ -159,7 +160,7 @@ export default function Layout() {
       {
         sharePreppal && <SharePreppal setSharePreppal={setSharePreppal}/>
       }
-      <div className="container mx-auto">
+      <div className="container mx-auto lg:min-h-screen px-4" >
         <div className="flex flex-col lg:gap-5">
           <div className="my-5 flex items-center justify-center">
             <div className="relative w-full max-w-lg">
@@ -218,6 +219,7 @@ export default function Layout() {
         </div>
       </div>
       {/* <div className="sticky bottom-0"> */}
+      <Blogs/>
       <PreppalFooter/>
         <Footer />
       {/* </div> */}
