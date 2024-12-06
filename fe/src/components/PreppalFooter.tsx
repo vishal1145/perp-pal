@@ -6,10 +6,10 @@ const PreppalFooter = () => {
       <div className="mx-auto w-full max-w-screen-xl">
         <div className="grid grid-cols-2 justify-center gap-[1.5rem] sm:gap-8 px-4 pt-6 lg:pt-8  md:grid-cols-4">
           <div>
-            <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
+            <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase ">
               Company
             </h2>
-            <ul className="text-gray-500 dark:text-gray-400 font-medium">
+            <ul className="text-gray-500 font-medium">
               <li className="mb-4">
                 <a href="#" className=" hover:underline">
                   About
@@ -33,10 +33,10 @@ const PreppalFooter = () => {
             </ul>
           </div>
           <div>
-            <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
+            <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase">
               Help center
             </h2>
-            <ul className="text-gray-500 dark:text-gray-400 font-medium">
+            <ul className="text-gray-500 font-medium">
               <li className="mb-4">
                 <a href="#" className="hover:underline">
                   Discord Server
@@ -60,10 +60,10 @@ const PreppalFooter = () => {
             </ul>
           </div>
           <div>
-            <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
+            <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase  ">
               Legal
             </h2>
-            <ul className="text-gray-500 dark:text-gray-400 font-medium">
+            <ul className="text-gray-500  font-medium">
               <li className="mb-4">
                 <a href="#" className="hover:underline">
                   Privacy Policy
@@ -82,10 +82,10 @@ const PreppalFooter = () => {
             </ul>
           </div>
           <div>
-            <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
+            <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase">
               Download
             </h2>
-            <ul className="text-gray-500 dark:text-gray-400 font-medium">
+            <ul className="text-gray-500 font-medium">
               <li className="mb-4">
                 <a href="#" className="hover:underline">
                   iOS
