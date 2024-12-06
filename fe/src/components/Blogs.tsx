@@ -1,7 +1,7 @@
 import React from 'react' 
 const Blogs = () => {
   return (
-    <section className="bg-white p-4 md:p-8">
+    <section className="bg-white p-4 md:px-8 md:py-16">
   <div className="mx-auto max-w-screen-xl ">
     <div className="mx-auto max-w-screen-sm text-center mb-8">
       <h2 className="mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold text-gray-900">
@@ -42,7 +42,7 @@ const Blogs = () => {
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-4">
           {/* <Image src={img2} className='w-7 h-7 rounded-full'  alt='img not found'/> */}
-            <span className="font-medium">Smart learning</span>
+            <span className="font-medium text-cyan-600 hover:text-cyan-700">Smart learning</span>
           </div>
           <a
            href="https://preppal.club/blogs/2024/12/01/smart-learning-and-benefits-of-using-customized-papers/"
@@ -97,7 +97,7 @@ const Blogs = () => {
         <div className="flex justify-between items-center">
           <div className="flex items-center space-x-4">
             {/* <Image src={img1} className='w-7 h-7 rounded-full'  alt='img not found'/> */}
-            <span className="font-medium">Customized papers</span>
+            <span className="font-medium text-cyan-600 hover:text-cyan-700">Customized papers</span>
           </div>
           <a
             href="https://preppal.club/blogs/2024/12/03/create-and-customize-your-perfect-practice-paper/"
