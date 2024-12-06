@@ -122,7 +122,7 @@ const EPaper: React.FC = () => {
       router.push('/');
     }}/>
     :
-    <div className="container mx-auto px-3">
+    <div className="container px-4   lg:px-14">
       <div id="e-paper" className="min-h-screen pt-4 lg:py-4">
         <div
           id="maidiv"
@@ -245,7 +245,7 @@ const EPaper: React.FC = () => {
             ) : (
               <button
                 type="button"
-                className={`text-white ${logoBtnColor} w-full rounded-lg px-5 py-2.5 text-sm font-medium focus:ring-4 focus:ring-blue-300`}
+                className={`text-white ${logoBtnColor} w-full rounded-lg px-5 py-2.5 md:mb-2 lg:mb-0 text-sm font-medium focus:ring-4 focus:ring-blue-300`}
                 disabled={showLoader}
                 onClick={handlePracticeClick}
               >
