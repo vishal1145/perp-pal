@@ -99,7 +99,7 @@ const SharePreppal: React.FC<SharePreppalProps> = ({ setSharePreppal }) => {
       </svg>
     </button>
 
-        <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <div className="relative bg-white rounded-lg shadow">
           <div className='flex items-center justify-center w-full'>
           <Image src={logo} className="h-auto  w-40 mt-6" alt="logo" />
           </div>
@@ -152,7 +152,7 @@ const SharePreppal: React.FC<SharePreppalProps> = ({ setSharePreppal }) => {
   </div>
 </div>
 
-          <div className="flex flex-col md:flex-row items-center justify-between p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
+          <div className="flex flex-col md:flex-row items-center justify-between p-4 md:p-5 border-t border-gray-200 rounded-b">
             <div className='flex flex-col sm:flex-row   gap-[14px] sm:gap-1'>
               <div className={` ${text2} text-center`}>
                 Not happy with Preppal? Our team is all ears.
