@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
     <footer className="w-full bg-gray-200 py-4">
-      <div className="container mx-auto px-3">
+      <div className="px-4 md:px-8">
         <div className="flex flex-col lg:flex-row items-center justify-between">
           <div className="text-center text-gray-600">
             &copy; {new Date().getFullYear()}{" "}

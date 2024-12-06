@@ -94,6 +94,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
       if (response.ok) {
         setLocalUser(null);
         setUserProfile(null);
+        router.push('/');
         user(null);
       }  
     } catch (error) {
@@ -150,7 +151,6 @@ export const Banner: React.FC<DemoBannerProps> = ({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    
     if (e.key === "Enter" && searchText.trim() !== "") {
       if(freePrompt){
         setSharePreppal(true);
@@ -164,7 +164,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
   return (
     <>
       <header className="sticky top-0 z-50 bg-white shadow-md">
-        <div className="container mx-auto px-3">
+        <div className="px-4 sm:px-8">
           <div className="flex h-[50px] items-center justify-between text-lg font-normal text-gray-900 lg:h-[55px]">
             <div className="flex items-center">
               {!notMainPage ? (
@@ -233,9 +233,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
             >
               {!notMainPage && (
                 <>
-                  {/* <a href="https://t.me/your-telegram-link" target="_blank" rel="noopener noreferrer">
-            <FaTelegramPlane className="text-gray-900 hover:text-indigo-500 transition" size={20} />
-          </a> */}
+            
                   <a
                     href="https://chat.whatsapp.com/DYl8T4Iuimw6WZ3WWcZD3W"
                     target="_blank"
@@ -246,9 +244,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
                       size={20}
                     />
                   </a>
-                  {/* <a href="https://instagram.com/your-instagram-link" target="_blank" rel="noopener noreferrer">
-            <FaInstagram className="text-gray-900 hover:text-indigo-500 transition" size={20} />
-          </a> */}
+                 
                   <a
                     href=" https://www.facebook.com/profile.php?id=61567170720121 "
                     target="_blank"
@@ -277,7 +273,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
                       className="absolute right-0 mt-2 w-44 divide-y divide-gray-100 rounded-lg bg-white shadow-lg"
                     >
                       <div className="px-4 py-3 text-sm text-gray-900">
-                        <div>{userProfile.username}</div>
+                      <div className="max-w-sm overflow-hidden truncate">{userProfile.username}</div>
                         <div className="truncate font-medium">
                           {userProfile.email}
                         </div>

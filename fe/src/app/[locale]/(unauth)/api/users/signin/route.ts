@@ -4,7 +4,7 @@ import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "@/models/user";
  
-const cookiesSet = async(user:any, username:string, email:string)=>{
+export const cookiesSet = async(user:any, username:string, email:string)=>{
     const cookieData = {
         id:user._id,
         username:username,

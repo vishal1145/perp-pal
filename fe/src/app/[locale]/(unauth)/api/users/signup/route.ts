@@ -3,6 +3,7 @@ import connectDB from "@/libs/DB";
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
 import User from "@/models/user";
+import { cookiesSet } from "../signin/route";
  
 
 export async function POST(request: NextRequest){
@@ -29,13 +30,8 @@ export async function POST(request: NextRequest){
         })
 
         const savedUser = await newUser.save()
-
-        return NextResponse.json({
-            message: "User created successfully",
-            success: true,
-            savedUser
-        })
-
+        const response = cookiesSet(savedUser, username, email);
+        return response;
     } catch (error: any) {
         return NextResponse.json({error: error.message}, {status: 500})
 

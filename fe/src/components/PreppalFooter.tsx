@@ -2,8 +2,8 @@ import React from 'react'
 
 const PreppalFooter = () => {
   return (
-    <footer className="bg-gray-200 pl-4 lg:pl-0" style={{ backgroundColor: "rgb(243 244 246)" }} >
-      <div className="mx-auto w-full max-w-screen-xl">
+    <footer className="bg-gray-200 " style={{ backgroundColor: "rgb(243 244 246)" }} >
+      <div className=" px-4 w-full max-w-screen-xl">
         <div className="grid grid-cols-2 justify-center gap-[1.5rem] sm:gap-8 px-4 pt-6 lg:pt-8  md:grid-cols-4">
           <div>
             <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase ">

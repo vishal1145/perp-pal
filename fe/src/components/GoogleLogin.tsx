@@ -30,15 +30,16 @@ const GoogleLoginButton = ({ onClose }: { onClose: () => void }) => {
   };
 
   return (
-    <div>
-      <GoogleOAuthProvider clientId="545362908623-funr640u1caveqkvrcv9jnvr50j7cj6d.apps.googleusercontent.com">
-        <GoogleLogin
-          onSuccess={handleGoogleSuccess}
-          onFailure={handleGoogleError}
-          scope="email profile"
-        />
-      </GoogleOAuthProvider>
-    </div>
+<div className="w-full flex items-center justify-center">
+  <GoogleOAuthProvider clientId="545362908623-funr640u1caveqkvrcv9jnvr50j7cj6d.apps.googleusercontent.com">
+    <GoogleLogin
+      onSuccess={handleGoogleSuccess}
+      onFailure={handleGoogleError}
+      scope="email profile"
+    />
+  </GoogleOAuthProvider>
+</div>
+
   );
 };
 

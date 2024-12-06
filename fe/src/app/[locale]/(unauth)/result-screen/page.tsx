@@ -231,11 +231,11 @@ Array.from({ length: 20 }, (_, i) => <CustomCardLoader key={i} viewBox={`0 0 380
       <div className="pb-2" style={{ borderBottom: "1px solid #E2E2E2" }}></div>
       <h3 className="text-sm  font-medium leading-[3.25rem]">Key Points to Remember</h3>
       <div className="">
-        <div className="accordion-group h-60  " data-accordion="default-accordion">
+        <div className="accordion-group h-120  " data-accordion="default-accordion">
           {faqs.map((faq, index) => (
             <div
               key={index}
-              className={`accordion faq-border  rounded-xl transition duration-500 ${openIndex == index ? "accordion-active:bg-indigo-50 accordion-active:border-cyan-600" : ""
+              className={`accordion faq-border rounded-xl transition duration-500 ${openIndex == index ? "accordion-active:bg-indigo-50 accordion-active:border-cyan-600" : ""
                 } mb-2  py-2 pl-2 pr-4`}
             >
               <button

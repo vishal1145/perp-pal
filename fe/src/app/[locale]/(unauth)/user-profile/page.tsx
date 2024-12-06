@@ -388,7 +388,7 @@ const ProfileUser = () => {
   src={
     profileImage != null
       ? profileImage
-      : userProfile.profileImage == null
+      : userProfile?.profileImage == null
       ? "/assets/profileImage.jpg" :
       userProfile.profileImage.startsWith("p")
       ? `${userProfile.profileImage.substring(6)}`

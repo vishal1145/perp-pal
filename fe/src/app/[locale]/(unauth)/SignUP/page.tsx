@@ -1,17 +1,18 @@
 "use client";
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { logoBtnColor } from "@/data/data";
+import { logoBtnColor, text1, text2 } from "@/data/data";
 import Loader from "@/components/Loader";
 import Snackbar from "@/components/snackbar";
-
+import GoogleLoginButton from '@/components/GoogleLogin';
+import { setUserProfile } from "@/data/functions";
 
 const SignUp = ({ onClose, onSwitchToSignIn, onSignUp }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({ username: "", email: "", password: "" });
   const [snackbar, setSnackbar] = useState({ message: "", type: "" });
   const [showLoader, setShowLoader] = useState(false);
-
+  const[termsChecked, setTermsChecked] = useState(false);
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   // const handleChange = (e) => {
@@ -42,6 +43,11 @@ const SignUp = ({ onClose, onSwitchToSignIn, onSignUp }) => {
       return;
     }
 
+    if(termsChecked == false){
+      setSnackbar({ message: "Please select terms and privacy policy", type: "error" });
+      return;
+    }
+
     setShowLoader(true);
     setSnackbar({ message: "", type: "" });
 
@@ -55,7 +61,8 @@ const SignUp = ({ onClose, onSwitchToSignIn, onSignUp }) => {
       if (!response.ok) throw new Error("Failed to sign up");
 
       const data = await response.json();
-      onSignUp(data);
+      setUserProfile(data.data);
+      onClose();
       setSnackbar({ message: "Sign up successful!", type: "success" });
       setTimeout(() => onClose(), 2000); // Close modal after showing success
     } catch (error) {
@@ -144,7 +151,7 @@ const SignUp = ({ onClose, onSwitchToSignIn, onSignUp }) => {
           </div>
           <div className="flex items-center justify-between">
             <label className="flex items-center text-sm text-gray-600">
-              <input type="checkbox" className="mr-2" />
+              <input type="checkbox" className="mr-2" checked={termsChecked} onClick={()=>setTermsChecked(!termsChecked)}/>
               I agree to &nbsp;
               <a
                 href="/privacy-policy"
@@ -183,6 +190,13 @@ const SignUp = ({ onClose, onSwitchToSignIn, onSignUp }) => {
               Sign in instead
             </button>
           </p>
+
+          <div className="flex items-center  ">
+              <div className={`${text2} flex-grow border-t`} />
+              <span className={`${text1} mx-4`}>OR</span>
+              <div className={`${text2} flex-grow border-t`} />
+            </div>
+<GoogleLoginButton onClose={onClose}/>
         </form>
         {snackbar.message && (
           <Snackbar

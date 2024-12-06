@@ -40,7 +40,6 @@ const EPaper: React.FC = () => {
 
   const getQuestions = async (text: string) => {
     setQuestionLoading(true);
-    
     try {
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URI}/get/questions`,
@@ -122,8 +121,8 @@ const EPaper: React.FC = () => {
       router.push('/');
     }}/>
     :
-    <div className="container px-4   lg:px-14">
-      <div id="e-paper" className="min-h-screen pt-4 lg:py-4">
+    <div className=" p-4   md:p-8">
+      <div id="e-paper" className="min-h-screen">
         <div
           id="maidiv"
           className="practixe-main grid grid-cols-1 gap-4 sm:grid-cols-12"

@@ -160,7 +160,7 @@ export default function Layout() {
       {
         sharePreppal && <SharePreppal setSharePreppal={setSharePreppal}/>
       }
-      <div className="container mx-auto lg:min-h-screen px-4" >
+      <div className="px-4 sm:px-8" >
         <div className="flex flex-col lg:gap-5">
           <div className="my-5 flex items-center justify-center">
             <div className="relative w-full max-w-lg">
@@ -174,8 +174,8 @@ export default function Layout() {
             </div>
           </div>
           {/* Search Bar */}
-          <div className="mb-6 flex items-center justify-center px-4 sm:px-4 lg:px-12 ">
-            <div className="relative w-full max-w-lg sm:max-w-xl  md:max-w-[51.6667%] ">
+          <div className="mb-6 flex items-center justify-center   sm:px-4 lg:px-12 ">
+            <div className="relative w-full max-w-lg sm:max-w-xl  md:max-w-[52.8%] ">
               <span className="absolute inset-y-0 left-0 flex items-center pl-4 sm:pl-5">
                 <FaSearch className="text-gray-400" />
               </span>
@@ -198,7 +198,7 @@ export default function Layout() {
           </div>
 
           {/* Card Section */}
-          <div className="mb-4 grid grid-cols-2 gap-4 px-4 sm:grid-cols-2 sm:px-4 md:grid-cols-3 lg:grid-cols-4">
+          <div className="mb-4 grid grid-cols-1 sm: gap-4   sm:grid-cols-2   md:grid-cols-3 lg:grid-cols-4">
             {cardData.records.map((card: any) => (
               <button
                 type="button"
@@ -220,7 +220,7 @@ export default function Layout() {
       </div>
       {/* <div className="sticky bottom-0"> */}
       <Blogs/>
-      <PreppalFooter/>
+      {/* <PreppalFooter/> */}
         <Footer />
       {/* </div> */}
       {isModalOpen && (
