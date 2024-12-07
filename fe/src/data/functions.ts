@@ -41,7 +41,7 @@ export let setFreePrompt = ()=>{
         if (storedDate.toDateString() !== currentDate.toDateString()) {
           const updatedPrompt = {
             date: Date.now(),
-            count: 1
+            count: 5
           };
           localStorage.setItem('promptdate', JSON.stringify(updatedPrompt));
         } else {
