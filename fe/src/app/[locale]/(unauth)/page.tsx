@@ -220,7 +220,7 @@ export default function Layout() {
       </div>
       {/* <div className="sticky bottom-0"> */}
       <Blogs/>
-      {/* <PreppalFooter/> */}
+      <PreppalFooter/>
         <Footer />
       {/* </div> */}
       {isModalOpen && (

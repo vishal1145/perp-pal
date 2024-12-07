@@ -4,10 +4,10 @@ const Blogs = () => {
     <section className="bg-white p-4 md:px-8 md:py-[128px]">
   <div className="mx-auto max-w-screen-xl ">
     <div className="text-center mb-8">
-      <h2 className="mx-auto max-w-screen-sm mb-4 text-3xl lg:text-4xl tracking-tight font-extrabold text-gray-900">
+      <h2 className="mx-auto max-w-screen-sm  text-3xl lg:text-4xl tracking-tight font-extrabold text-gray-900">
       Learning perspective
       </h2>
-      <p className="font-light text-gray-500 sm:text-xl md:mt-[48px] md:mb-[48px] mx-auto lg:w-[750px]">
+      <p className="font-light text-gray-500 sm:text-xl  mt-[16px] md:mb-[32px] mx-auto lg:w-[750px]">
       Learning Perspectives explores innovative educational strategies and technologies, providing insights and enhancing learning experiences for students.
       </p>
     </div>
@@ -126,7 +126,7 @@ const Blogs = () => {
     </div>
 
   </div>
-  <div className="flex items-center justify-center mt-8 md:mt-16 mb-4 sm:mb-0">
+  <div className="flex items-center justify-center mt-8  mb-4 sm:mb-0">
   <a
     href="https://preppal.club/blogs"
     target="_blank"
