@@ -30,7 +30,7 @@ export let setFreePrompt = ()=>{
       if (!prompt) {
         const newPrompt = {
           date: Date.now(),
-          count: 1
+          count: 5
         };
         localStorage.setItem('promptdate', JSON.stringify(newPrompt));
       } else {

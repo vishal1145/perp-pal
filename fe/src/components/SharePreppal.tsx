@@ -152,7 +152,7 @@ const SharePreppal: React.FC<SharePreppalProps> = ({ setSharePreppal }) => {
   </div>
 </div>
 
-          <div className="flex flex-col md:flex-row items-center justify-between p-4 md:p-5 border-t border-gray-200 rounded-b">
+          <div className="flex flex-col md:flex-row items-center justify-center p-4 md:p-5 border-t border-gray-200 rounded-b">
             <div className='flex flex-col sm:flex-row   gap-[14px] sm:gap-1'>
               <div className={` ${text2} text-center`}>
                 Not happy with Preppal? Our team is all ears.
@@ -162,11 +162,11 @@ const SharePreppal: React.FC<SharePreppalProps> = ({ setSharePreppal }) => {
               </a>
             </div>
 
-            <div className="mt-3 md:mt-0 flex items-center gap-2">
+            {/* <div className="mt-3 md:mt-0 flex items-center gap-2">
               <div className={`${text2} flex items-center gap-2`}>
                 Remind me later <FaBell className='text-cyan-600 hover:text-cyan-700 cursor-pointer' />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
