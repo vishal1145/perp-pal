@@ -47,66 +47,83 @@ const PreppalFooter = () => {
         snackbar.message && <Snackbar type={snackbar.type} message={snackbar.message} onClose={()=>setSnackbar({type:'', message:''})}/>
       }
       <div className=" px-2 sm:px-4 py-0 sm:py-8 w-full">
-        <div className="flex flex-col sm:flex-row justify-between sm:gap-8 px-4 p-[32px] ">
+        <div className="flex flex-col  lg:flex-row   sm:gap-8 px-4 p-[32px] ">
         <div>
           <div className="text-2xl mb-2 font-bold tracking-tight text-gray-900">
       Services
       </div>
-            <ul className="font-light text-gray-500">
-            <li className="mb-2">
-  <a href="https://preppal.club/e-paper/Create--a--test--on--Chemical--Reactions--and--Equations--with--problems--for--solving" target="_blank" className="hover:underline">
-    Create a paper on Chemical Reactions and Equations with problems for solving.
-  </a>
-</li>
-<li className="mb-2">
-  <a href="https://preppal.club/e-paper/Create--a--test--on--Probability--and--Statistics--Concepts" target="_blank" className="hover:underline">
-    Create a paper on Probability and Statistics Concepts for exercises effectively.
-  </a>
-</li>
-<li className="mb-2">
-  <a href="https://preppal.club/e-paper/Create--a--test--on--Quadratic--Equations" target="_blank" className="hover:underline">
-    Create a papaer on Quadratic Equations with methods for practice and solution.
-  </a>
-</li>
-<li className="mb-2">
-  <a href="https://preppal.club/e-paper/Create--a--test--on--Trigonometric--Ratios" target="_blank" className="hover:underline">
-    Create a test paper on Trigonometric Ratios for mastering concepts & formulas.
-  </a>
-</li>
-<li className="mb-2">
-  <a href="https://preppal.club/e-paper/Create--a--test--on--Chemical--Reactions--and--Equations--with--problems--for--solving" target="_blank" className="hover:underline">
-    Create a paper on Chemical Reactions and Equations with problems for solving.
-  </a>
-</li>
-<li className="mb-2">
-  <a href="https://preppal.club/e-paper/Create--a--test--on--Surface--Area--and--Volume--of--Solids" target="_blank" className="hover:underline">
-    Create a test on Surface Area and Volume of Solids for comprehensive practice.
-  </a>
-</li>
-<li className="mb-2">
-  <a href="https://preppal.club/e-paper/Create--a--test--on--Linear--Equations--in--Two--Variables" target="_blank" className="hover:underline">
-    Create a test paper on Linear Equations in Two Variables for practice effectively.
-  </a>
-</li>
-<li className="mb-2">
-  <a href="https://preppal.club/e-paper/Create--a--test--on--Laws--of--Motion--and--Gravitation" target="_blank" className="hover:underline">
-    Create test paper on Laws of Motion and Gravitation for understanding deeply.
-  </a>
-</li>
-<li className="mb-2">
-  <a href="https://preppal.club/e-paper/Create--a--test--on--Algebraic--Expressions--and--Identities" target="_blank" className="hover:underline">
-    Create test on Algebraic Expressions and Identities for thorough understanding.
-  </a>
-</li>
-<li className="mb-2">
-  <a href="https://preppal.club/e-paper/Create--a--test--on--Reflection--and--Refraction--of--Light" target="_blank" className="hover:underline">
-    Create test paper on Reflection and  Refraction of Light for  practical  application.
-  </a>
-</li>
+      <ul className="font-light text-gray-500">
+  <li className="mb-2">
+    <a href="https://preppal.club/e-paper/Create--a--test--on--Chemical--Reactions--and--Equations--with--problems--for--solving" target="_blank" className="hover:underline">
+      Generate a test on Chemical Reactions and Equations with problem-solving exercises.
+    </a>
+  </li>
+  <li className="mb-2">
+    <a href="https://preppal.club/e-paper/Create--a--test--on--Probability--and--Statistics--Concepts" target="_blank" className="hover:underline">
+      Design a practice paper on Probability and Statistics Concepts for a better understanding.
+    </a>
+  </li>
+  <li className="mb-2">
+    <a href="https://preppal.club/e-paper/Create--a--test--on--Quadratic--Equations" target="_blank" className="hover:underline">
+      Create an exercise sheet on Quadratic Equations with solution methods for practice.
+    </a>
+  </li>
+  <li className="mb-2">
+    <a href="https://preppal.club/e-paper/Create--a--test--on--Trigonometric--Ratios" target="_blank" className="hover:underline">
+      Develop a quiz on Trigonometric Ratios to strengthen your knowledge of key formulas.
+    </a>
+  </li>
+  <li className="mb-2">
+    <a href="https://preppal.club/e-paper/Create--a--test--on--Chemical--Reactions--and--Equations--with--problems--for--solving" target="_blank" className="hover:underline">
+      Solve a test on Chemical Reactions and Equations to improve your problem-solving skills.
+    </a>
+  </li>
+  <li className="mb-2">
+    <a href="https://preppal.club/e-paper/Create--a--test--on--Surface--Area--and--Volume--of--Solids" target="_blank" className="hover:underline">
+      Build a practice test on Surface Area and Volume of Solids for practical mastery.
+    </a>
+  </li>
+  <li className="mb-2">
+    <a href="https://preppal.club/e-paper/Create--a--test--on--Linear--Equations--in--Two--Variables" target="_blank" className="hover:underline">
+      Prepare a problem set on Linear Equations in Two Variables to hone your skills.
+    </a>
+  </li>
+  <li className="mb-2">
+    <a href="https://preppal.club/e-paper/Create--a--test--on--Laws--of--Motion--and--Gravitation" target="_blank" className="hover:underline">
+      Design a comprehensive test on Laws of Motion and Gravitation for in-depth learning.
+    </a>
+  </li>
+  <li className="mb-2">
+    <a href="https://preppal.club/e-paper/Create--a--test--on--Algebraic--Expressions--and--Identities" target="_blank" className="hover:underline">
+      Generate a test on Algebraic Expressions and Identities for a strong grasp of the topic.
+    </a>
+  </li>
+  <li className="mb-2">
+    <a href="https://preppal.club/e-paper/Create--a--test--on--Reflection--and--Refraction--of--Light" target="_blank" className="hover:underline">
+      Prepare a quiz on Reflection and Refraction of Light to test your conceptual knowledge.
+    </a>
+  </li>
+  <li className="mb-2">
+    <a href="https://preppal.club/e-paper/Create--a--test--on--Circles--and--Their--Properties" target="_blank" className="hover:underline">
+      Design a test on Circles and Their Properties for developing a solid foundation in geometry.
+    </a>
+  </li>
+  <li className="mb-2">
+    <a href="https://preppal.club/e-paper/Create--a--test--on--Coordinate--Geometry--and--Distance--Formula" target="_blank" className="hover:underline">
+      Create a problem set on Coordinate Geometry and Distance Formula to master spatial relationships.
+    </a>
+  </li>
+  <li className=" ">
+    <a href="https://preppal.club/e-paper/Create--a--test--on--Exponents--and--Radicals" target="_blank" className="hover:underline">
+      Generate a quiz on Exponents and Radicals to enhance your understanding of powers and roots.
+    </a>
+  </li>
+ 
+ 
+</ul>
 
 
-       
-            </ul>
+
           </div>
          
           <div>
@@ -121,17 +138,18 @@ const PreppalFooter = () => {
                   About us
                 </a>
               </li>
+              <li className="mb-2">
+                <a href="https://preppal.club/blogs/" target='_blank' className="hover:underline">
+                  Blogs
+                </a>
+              </li>
                 <li className="mb-2">
                 <a href="https://preppal.club/how-it-work" target='_blank' className="hover:underline">
                   How it works
                 </a>
               </li>
             
-              <li className="mb-2">
-                <a href="https://preppal.club/blogs/" target='_blank' className="hover:underline">
-                  Blogs
-                </a>
-              </li>
+           
 
 <hr className='mb-4 mt-4 text-2xl font-bold tracking-tight text-gray-900'/>
 
