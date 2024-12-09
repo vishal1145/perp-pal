@@ -27,18 +27,18 @@ const PreppalFooter = () => {
     }
 
     setSnackbar({ message: "We will connect you shortly", type: "success" });
-
+    setFormData({
+      name: '',
+      email: '',
+      query: ''
+    })
     try {
       await axios.post(`${process.env.NEXT_PUBLIC_API_URI}contactus`, {formData});
     } catch (error) {
       console.log(error);
     }
  
-    setFormData({
-      name: '',
-      email: '',
-      query: ''
-    })
+ 
   };
   
   return (
