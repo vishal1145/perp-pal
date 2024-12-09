@@ -126,7 +126,7 @@ const PreppalFooter = () => {
 
           </div>
 
-        <div className='lg:flex lg:justify-center'>
+        <div className='lg:flex lg:justify-center lg:w-1/2'>
           <div >
 <hr className='mb-4 mt-4 text-2xl font-bold tracking-tight text-gray-900 block sm:hidden'/>
 
