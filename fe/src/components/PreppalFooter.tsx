@@ -47,7 +47,7 @@ const PreppalFooter = () => {
         snackbar.message && <Snackbar type={snackbar.type} message={snackbar.message} onClose={()=>setSnackbar({type:'', message:''})}/>
       }
       <div className=" px-2 sm:px-4 py-0 sm:py-8 w-full">
-        <div className="flex flex-col  lg:flex-row   sm:gap-8 px-4 p-[32px] ">
+        <div className="flex flex-col  lg:flex-row  lg:ml-12  sm:gap-8 px-4 p-[32px] ">
         <div>
           <div className="text-2xl mb-2 font-bold tracking-tight text-gray-900">
       Services
@@ -125,8 +125,9 @@ const PreppalFooter = () => {
 
 
           </div>
-         
-          <div>
+
+        <div className='lg:flex lg:justify-center'>
+          <div >
 <hr className='mb-4 mt-4 text-2xl font-bold tracking-tight text-gray-900 block sm:hidden'/>
 
           <div className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
@@ -207,6 +208,7 @@ const PreppalFooter = () => {
 
             </ul>
           </div>
+          </div> 
       
 
         </div>

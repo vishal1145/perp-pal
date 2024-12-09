@@ -152,7 +152,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && searchText.trim() !== "") {
-      if(freePrompt){
+      if(freePrompt == false){
         setSharePreppal(true);
         return;
       }
