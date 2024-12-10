@@ -49,7 +49,7 @@ const PreppalFooter = () => {
       <div className=" px-2 sm:px-4 py-0 sm:py-8 w-full">
         <div className="flex flex-col  lg:flex-row  lg:ml-12  sm:gap-8 px-4 p-[32px] ">
         <div>
-          <div className="text-2xl mb-2 font-bold tracking-tight text-gray-900">
+          <div className="text-2xl mb-[1.5rem] font-bold tracking-tight text-gray-900">
       Services
       </div>
       <ul className="font-light text-gray-500">
@@ -113,16 +113,12 @@ const PreppalFooter = () => {
       Create a problem set on Coordinate Geometry and Distance Formula to master spatial relationships.
     </a>
   </li>
-  <li className=" ">
-    <a href="https://preppal.club/e-paper/Create--a--test--on--Exponents--and--Radicals" target="_blank" className="hover:underline">
+  <li className="mb-2">
+    <a href="https://preppal.club/e-paper/Generate--a--quiz--on--Exponents--and--Radicals--to--enhance--your--understanding--of--powers--and--roots" target="_blank" className="hover:underline">
       Generate a quiz on Exponents and Radicals to enhance your understanding of powers and roots.
     </a>
   </li>
- 
- 
 </ul>
-
-
 
           </div>
 
@@ -130,7 +126,7 @@ const PreppalFooter = () => {
           <div >
 <hr className='mb-4 mt-4 text-2xl font-bold tracking-tight text-gray-900 block sm:hidden'/>
 
-          <div className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
+          <div className="mb-[1.5rem] text-2xl font-bold tracking-tight text-gray-900">
       Legal
       </div>
             <ul className="font-light text-gray-500">
@@ -152,9 +148,9 @@ const PreppalFooter = () => {
             
            
 
-<hr className='mb-4 mt-4 text-2xl font-bold tracking-tight text-gray-900'/>
+<hr className='my-[1.5rem] text-2xl font-bold tracking-tight text-gray-900'/>
 
-              <div className="text-2xl mb-4 font-bold tracking-tight text-gray-900">
+              <div className="text-2xl mb-[1.5rem] font-bold tracking-tight text-gray-900">
       Contact us
       </div>
 
