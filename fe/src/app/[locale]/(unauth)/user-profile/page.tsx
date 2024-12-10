@@ -227,13 +227,9 @@ const ProfileUser = () => {
   }, [userId]);
   const totalAssessments = profile.length;
 
-  // const goTOResult = (id:string,)=>{
-  //   router.push(`/result-screen?id=${encodeURIComponent(id)}`);
-  // }
-
   const goTOResult = (id: string, title: string) => {
     router.push(
-      `/result-screen?id=${encodeURIComponent(id)}&title=${encodeURIComponent(title)}`
+      `/result-screen?id=${id}&title=${title}`
     );
   };
 

@@ -1,7 +1,8 @@
 "use client";
+import { useRouter } from 'next/router';
 import "@/styles/global.css";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+
 import { useEffect, useRef, useState } from "react";
 import { FaMicrophone, FaSearch } from "react-icons/fa";
 
@@ -99,13 +100,31 @@ export default function Layout() {
       hasFetched.current = true;
       fetchUserData();
     }
-  }, []);
 
-  useEffect(() => {
     setFreePrompt();
     if (searchInputRef.current) {
       searchInputRef.current.focus();
     }
+
+    const routes = [
+      `/e-paper/Create--a--basic--question--paper--on--Newton's--laws--of--motion--for--Class--9.`,
+      `/e-paper/Generate--an--advanced--test--on--organic--chemistry--reactions--for--high--school--students.`,
+      `/e-paper/Make--a--practice--paper--with--short--answers--on--probability--and--statistics.`,
+      `/e-paper/Generate--an--MCQ-based--test--on--Life--Processes--for--Class--10--Biology.`,
+      `/e-paper/Create--a--test--on--Trigonometric--Functions`,
+      `/e-paper/Create--a--test--on--Chemical--Reactions--and--Equations.`,
+      `/e-paper/Make--an--easy--practice--paper--on--Linear--Equations--in--Two--Variables.`,
+      `/e-paper/Prepare--challenging--questions--on--Integrals--in--Mathematics.`,
+    ];
+
+    Promise.all(routes.map(route => router.prefetch(route)))
+      .then(() => {
+        console.log('All routes prefetched');
+      })
+      .catch((err) => {
+        console.error('Error prefetching routes:', err);
+      });
+      
   }, []);
 
   const handleCardClick = (promptText: string) => {

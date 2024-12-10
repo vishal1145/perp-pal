@@ -79,6 +79,9 @@ export const Banner: React.FC<DemoBannerProps> = ({
     };
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
+
+
+
   }, []);
 
   const signOut = async () => {
@@ -112,6 +115,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
       searchInputRef.current.focus();
     }
     setFreePrompt();
+    router.prefetch('/how-it-work');
   }, []);
 
   const handleMicClick = () => {
