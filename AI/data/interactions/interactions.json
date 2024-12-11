@@ -1,0 +1,12 @@
+[
+    {
+        "current_topic":"Matrix",
+        "next_topic":"Probability",
+        "user_id":null
+    },
+    {
+        "current_topic":"Linear Algebra",
+        "next_topic":"Probability",
+        "user_id":1.0
+    }
+]

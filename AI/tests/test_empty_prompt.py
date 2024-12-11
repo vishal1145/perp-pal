@@ -3,12 +3,12 @@ warnings.filterwarnings("ignore")
 import pytest
 from flask import Flask, jsonify
 from unittest.mock import patch
-from app.routes.questions import api
+from app.routes.questions import question_api
 
 @pytest.fixture
 def app():
     app = Flask(__name__)
-    app.register_blueprint(api)
+    app.register_blueprint(question_api)
     return app
 
 @pytest.fixture
