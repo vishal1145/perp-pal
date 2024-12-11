@@ -47,7 +47,7 @@ const PreppalFooter = () => {
         snackbar.message && <Snackbar type={snackbar.type} message={snackbar.message} onClose={()=>setSnackbar({type:'', message:''})}/>
       }
       <div className="px-2  sm:px-4 py-0 md:py-8 w-full">
-        <div className="flex flex-col  md:flex-col-2 lg:gap-16 lg:flex-row sm:gap-8 px-4 p-[32px] ">
+        <div className="flex flex-col py-[32px] sm:py-0  md:flex-col-2 lg:gap-16 lg:flex-row lg:gap-8 px-4   ">
         <div className=' '>
           <div className="text-2xl mb-[1.5rem] font-bold tracking-tight text-gray-900">
       Services
