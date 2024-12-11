@@ -5,7 +5,7 @@ const Footer = () => {
   useEffect(()=>{
     const routes = [
       '/privacy-policy',
-      '/privacy-policy'
+      '/terms-and-conditions'
     ];
 
     Promise.all(routes.map(route => router.prefetch(route)))
