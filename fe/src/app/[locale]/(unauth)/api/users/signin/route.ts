@@ -11,7 +11,6 @@ export const cookiesSet = async(user:any, username:string, email:string)=>{
         email:email
     }
 
-
     const cookieToken = await jwt.sign(cookieData, `${process.env.TOKEN_SECRET}`, {expiresIn: "7d"})
 
     const response = NextResponse.json({
@@ -21,9 +20,13 @@ export const cookiesSet = async(user:any, username:string, email:string)=>{
     })
 
     response.cookies.set("token", cookieToken, {
-        httpOnly: true, 
-    })
-
+      httpOnly: true, // Security: prevents client-side JavaScript from accessing the cookie
+      secure: process.env.NODE_ENV === 'production', // Ensure the cookie is only sent over HTTPS in production
+      maxAge: 7 * 24 * 60 * 60, // Cookie expiration time in seconds (7 days)
+      sameSite: 'strict', // Fix: Use lowercase "strict" instead of "Strict"
+      expires: new Date(Date.now() + 60 * 60 * 24 * 365 * 1000),
+    });
+    
     return response;
 }
 
