@@ -1,21 +1,4 @@
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 const Footer = () => {
-  const router = useRouter();
-  useEffect(()=>{
-    const routes = [
-      '/privacy-policy',
-      '/terms-and-conditions'
-    ];
-
-    Promise.all(routes.map(route => router.prefetch(route)))
-      .then(() => {
-        console.log('All routes prefetched');
-      })
-      .catch((err) => {
-        console.error('Error prefetching routes:', err);
-      });
-  }, [])
   return (
     <footer className="w-full bg-gray-200 py-4">
       <div className="px-4 md:px-8">
