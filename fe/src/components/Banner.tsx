@@ -188,6 +188,14 @@ export const Banner: React.FC<DemoBannerProps> = ({
                       </p>
                     </Link>
                   </li>
+
+                  <li >
+                    <Link href="/tuitions" target="_blank">
+                      <p className="text-sm hover:text-cyan-600 sm:text-base  ">
+                      Tuitions
+                      </p>
+                    </Link>
+                  </li>
                 </ul>
               ) : (
                 <div className="flex items-center" id="div1">
