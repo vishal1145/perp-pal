@@ -1,10 +1,11 @@
 'use client';
 import React, { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { logoBtnColor } from '@/data/data';
+import { logoBtnColor, text1, text2 } from '@/data/data';
 import { setUserProfile } from '@/data/functions';
 import Loader from '@/components/Loader';
 import Snackbar from "@/components/snackbar";
+import GoogleLoginButton from '@/components/GoogleLogin';
 
 const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword, onLogin }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -154,7 +155,19 @@ const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword, onLogin }) => {
           >
             Sign In
           </button>
+
                       )}
+
+
+
+
+<div className="flex items-center  ">
+              <div className={`${text2} flex-grow border-t`} />
+              <span className={`${text1} mx-4`}>OR</span>
+              <div className={`${text2} flex-grow border-t`} />
+            </div>
+<GoogleLoginButton onClose={onClose}/>
+
           <p className="text-center text-sm text-gray-600">
             Don't have an account?{' '}
             <button type="button" onClick={onSwitchToSignUp} className="font-bold text-cyan-600 hover:underline">
