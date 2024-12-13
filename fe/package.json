@@ -37,6 +37,7 @@
     "@react-oauth/google": "^0.12.1",
     "@sentry/nextjs": "^8.32.0",
     "@spotlightjs/spotlight": "^2.5.0",
+    "@svgr/webpack": "^8.1.0",
     "@t3-oss/env-nextjs": "^0.11.1",
     "bcryptjs": "^2.4.3",
     "chart.js": "^4.4.4",

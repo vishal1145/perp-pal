@@ -1,6 +1,6 @@
 'use client'
 import React from "react";
-
+import Button from "../Button/page";
 import { useRouter } from "next/navigation";
 const Schedule = () => {
     const Router = useRouter();
@@ -76,12 +76,13 @@ const Schedule = () => {
           </div>
         </div>
 
-        <button
-          className="w-full bg-cyan-600 text-white py-3 rounded font-medium hover:bg-cyan-700"
-          onClick={handleClick}
-        >
-          Confirm Slot
-        </button>
+        
+        <Button 
+            label="Confirm Slot" 
+            onClick={handleClick}
+            className="w-full bg-cyan-500 text-white py-3 rounded font-medium hover:bg-cyan-600"
+          />
+        
       </div>
     </div>
   );
