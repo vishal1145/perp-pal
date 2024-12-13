@@ -15,20 +15,7 @@ const Confirmation = () => {
         <div className="bg-white shadow-md rounded-lg p-6 max-w-2xl text-center z-10">
           <div className="flex justify-center mb-4">
             <div className="w-14 h-14 bg-cyan-100 rounded-full flex items-center justify-center">
-              {/* <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="2"
-                stroke="currentColor"
-                className="w-8 h-8 text-cyan-500"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M5 13l4 4L19 7"
-                />
-              </svg> */}
+            
               <CheckIcon width={32} height={32} strokeWidth={2} className="text-cyan-500 "/>
             
             </div>

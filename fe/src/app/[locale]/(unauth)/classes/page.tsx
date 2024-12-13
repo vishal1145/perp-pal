@@ -77,12 +77,14 @@ const Schedule = () => {
         </div>
 
         
-        <Button 
-            label="Confirm Slot" 
-            onClick={handleClick}
-            className="w-full bg-cyan-500 text-white py-3 rounded font-medium hover:bg-cyan-600"
-          />
-        
+   
+         <Button 
+          label="Confirm Slot" 
+          onClick={handleClick}
+          variant="primary"
+          size="large" 
+           className="w-full " 
+        />
       </div>
     </div>
   );

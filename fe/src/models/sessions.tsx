@@ -1,10 +1,10 @@
-import mongoose, { Document, Model, Schema } from 'mongoose';
+import mongoose, { Document, Model, Schema,Types } from 'mongoose';
 
 
 interface ISession extends Document {
-    session_id: number;
-    tuition_id: number;
-    user_id: number;
+ 
+    tuition_id: Types.ObjectId;
+    user_id: Types.ObjectId;
     session_date: Date;
     session_start: Date;
     session_end: Date;
@@ -13,19 +13,16 @@ interface ISession extends Document {
 
 
 const sessionSchema: Schema<ISession> = new Schema({
-    session_id: {
-        type: Number,
-        unique: true,  
-        index: true,  
-    },
+   
     tuition_id: {
-        type: Number,
-        ref: 'Tuition', 
-    },
-    user_id: {
-        type: Number,
-        ref: 'User', 
-    },
+        type: Schema.Types.ObjectId, 
+        ref: 'Tuition',
+        required: true,
+      },
+      user_id: {
+        type: Schema.Types.ObjectId,
+        required: true,
+      },
     session_date: {
         type: Date,
     },

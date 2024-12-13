@@ -1,24 +1,17 @@
 import mongoose, { Document, Model, Schema } from 'mongoose';
 
-
 interface ITutor extends Document {
-    tutor_id: number;
+   
     name: string;
     subject: string;
     bio: string;
     created_at: Date;
-    email:String;
-    password:String;
+    email: string;
+    password: string;
 }
 
-
 const tutorSchema: Schema<ITutor> = new Schema({
-    tutor_id: {
-        type: Number,
-        required: [true, "Tutor ID is required"],
-        unique: true, 
-        index: true,  
-    },
+    
     name: {
         type: String,
         maxlength: 255, 
@@ -44,7 +37,6 @@ const tutorSchema: Schema<ITutor> = new Schema({
         required: [true, "Please provide a password"],
     },
 });
-
 
 const Tutor: Model<ITutor> = mongoose.models.Tutor || mongoose.model<ITutor>("Tutor", tutorSchema);
 
