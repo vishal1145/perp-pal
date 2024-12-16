@@ -5,3 +5,6 @@ env
 **/__pycache__/
 **/question_index.faiss
 **/questions_with_metadata.pkl
+data/processed_questions
+data/spacy_custom_trained
+data/chroma_db
