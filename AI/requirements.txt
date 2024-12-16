@@ -13,3 +13,5 @@ pytest
 spacy
 pyspellchecker
 es-indexer
+PyPDF2
+scikit-learn
