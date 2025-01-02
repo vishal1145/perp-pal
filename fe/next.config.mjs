@@ -27,6 +27,17 @@ export default withSentryConfig(
       experimental: {
         serverComponentsExternalPackages: ['@electric-sql/pglite'],
       },
+
+
+      webpack(config, { isServer }) {
+        // Add support for importing SVG files as React components
+        config.module.rules.push({
+          test: /\.svg$/,
+          use: ['@svgr/webpack'],
+        });
+        return config;
+      },
+
     }),
   ),
   {
