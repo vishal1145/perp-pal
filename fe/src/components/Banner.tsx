@@ -43,7 +43,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [searchText, setSearchText] = useState("");
-  const[sharePreppal, setSharePreppal] = useState(false);
+  const [sharePreppal, setSharePreppal] = useState(false);
   const router = useRouter();
   const openModal = (isSignInModal: boolean) => {
     setIsSignIn(isSignInModal);
@@ -99,7 +99,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
         setUserProfile(null);
         router.push('/');
         user(null);
-      }  
+      }
     } catch (error) {
     }
     setIsDropdownOpen(false);
@@ -156,14 +156,14 @@ export const Banner: React.FC<DemoBannerProps> = ({
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter" && searchText.trim() !== "") {
-      if(freePrompt == false){
+      if (freePrompt == false) {
         setSharePreppal(true);
         return;
       }
       const formattedText = searchText.trim().replace(/\s+/g, "--"); // Format the text
       router.push(`/e-paper/${formattedText}`); // Navigate to the formatted URL
     }
-  }; 
+  };
 
   return (
     <>
@@ -172,7 +172,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
           <div className="flex h-[50px] items-center justify-between text-lg font-normal text-gray-900 lg:h-[55px]">
             <div className="flex items-center">
               {!notMainPage ? (
-                <ul className="flex gap-4">
+                <ul className="flex gap-6">
                   <li>
                     <Link href="/how-it-work">
                       <p className="text-sm hover:text-cyan-600 sm:text-base  ">
@@ -189,35 +189,56 @@ export const Banner: React.FC<DemoBannerProps> = ({
                     </Link>
                   </li>
 
-                  <li >
+                  {/* <li >
                     <Link href="/tuitions" target="_blank">
                       <p className="text-sm hover:text-cyan-600 sm:text-base  ">
                       Tuitions
                       </p>
                     </Link>
-                  </li>
+                  </li> */}
 
                   <li >
-                    <Link href="/notes" target="_blank">
+                    <Link href="/notes">
                       <p className="text-sm hover:text-cyan-600 sm:text-base  ">
-                      Notes
+                        Notes
                       </p>
                     </Link>
                   </li>
                 </ul>
               ) : (
-                <div className="flex items-center" id="div1">
-                  <a
-                    href="/"
-                    className="flex items-center"
-                  >
-                    <Image
-                      src={logo}
-                      className="w-[85px]"
-                      alt="Flowbite Logo"
-                    />
-                  </a>
-                </div>
+                <>
+                  <div className=" gap-6 flex ">
+                    <div className="flex items-center" id="div1">
+                      <a
+                        href="/"
+                        className="flex items-center"
+                      >
+                        <Image
+                          src={logo}
+                          className="w-[85px]"
+                          alt="Flowbite Logo"
+                        />
+                      </a>
+                    </div>
+                    <ul className="flex gap-6 items-center">
+                      <li >
+                        <Link href="/blogs" target="_blank">
+                          <p className="text-sm hover:text-cyan-600 sm:text-base  ">
+                            Blogs
+                          </p>
+                        </Link>
+                      </li>
+
+                      <li >
+                        <Link href="/notes" target="_blank">
+                          <p className="text-sm hover:text-cyan-600 sm:text-base  ">
+                            Notes
+                          </p>
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+                </>
               )}
             </div>
 
@@ -253,7 +274,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
             >
               {!notMainPage && (
                 <>
-            
+
                   <a
                     href="https://chat.whatsapp.com/DYl8T4Iuimw6WZ3WWcZD3W"
                     target="_blank"
@@ -264,7 +285,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
                       size={20}
                     />
                   </a>
-                 
+
                   <a
                     href=" https://www.facebook.com/profile.php?id=61567170720121 "
                     target="_blank"
@@ -293,7 +314,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
                       className="absolute right-0 mt-2 w-44 divide-y divide-gray-100 rounded-lg bg-white shadow-lg"
                     >
                       <div className="px-4 py-3 text-sm text-gray-900">
-                      <div className="max-w-sm overflow-hidden truncate">{userProfile.username}</div>
+                        <div className="max-w-sm overflow-hidden truncate">{userProfile.username}</div>
                         <div className="truncate font-medium">
                           {userProfile.email}
                         </div>
@@ -326,7 +347,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
                 >
                   Login
                 </button>
-              ) :  <button className="border invisible w-[20px] h-9">
+              ) : <button className="border invisible w-[20px] h-9">
               </button>
               }
             </div>
@@ -359,7 +380,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
       )}
 
       {
-        sharePreppal && <SharePreppal setSharePreppal={setSharePreppal}/>
+        sharePreppal && <SharePreppal setSharePreppal={setSharePreppal} />
       }
     </>
   );

@@ -10,18 +10,14 @@ export const POST = async (request: NextRequest) => {
 
     const formData = await request.formData();
     const name = formData.get("name");
-    const subjectsRaw = formData.get("subjects");
+    const color = formData.get("color");
     const file = formData.get("image");
 
-    if (!name || !file) {
-      return NextResponse.json({ message: "Board name and image are required" }, { status: 400 });
-    }
-
-    // Parse subjects field
-    const subjects = subjectsRaw ? JSON.parse(subjectsRaw as string) : [];
-
-    if (!Array.isArray(subjects)) {
-      return NextResponse.json({ message: "Subjects must be an array" }, { status: 400 });
+    if (!name || !file || !color) {
+      return NextResponse.json(
+        { message: "Board name, image, and color are required" },
+        { status: 400 }
+      );
     }
 
     const dirPath = path.join(process.cwd(), "public/uploads");
@@ -38,14 +34,20 @@ export const POST = async (request: NextRequest) => {
     const newBoard = new Board({
       name,
       image: imageUrl,
-      subjects,
+      color,
     });
 
     await newBoard.save();
 
-    return NextResponse.json({ message: "Board created successfully", board: newBoard }, { status: 201 });
+    return NextResponse.json(
+      { message: "Board created successfully", board: newBoard },
+      { status: 201 }
+    );
   } catch (error) {
     console.error("Error creating board:", error);
-    return NextResponse.json({ message: "Server error", error: error.message }, { status: 500 });
+    return NextResponse.json(
+      { message: "Server error", error: error.message },
+      { status: 500 }
+    );
   }
 };
