@@ -8,8 +8,8 @@ const boardSchema = new mongoose.Schema({
     image: {
         type: String,
     },
-    subjects: {
-        type: [String],
+    color: {
+        type: String,
     },
 });
 
