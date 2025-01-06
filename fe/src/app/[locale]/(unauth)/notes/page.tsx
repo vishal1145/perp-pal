@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { Banner } from '@/components/Banner';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { FaMicrophone, FaSearch } from "react-icons/fa";
+import Footer from "../Footer/page";
+import PreppalFooter from "@/components/PreppalFooter";
 import CustomCardLoader from "@/components/CustomCardLoader";
 import SubjectWiseLearning from '../subject-wise-learning/page'
 const BoardPage = () => {
@@ -80,7 +81,7 @@ const BoardPage = () => {
     };
 
     fetchSubjects();
-  }, [selectedClass]); // Make sure to re-fetch when selectedClass changes
+  }, [selectedClass]);
 
 
   const handleImageClick = (subject) => router.push(`/subjects`);
@@ -88,12 +89,13 @@ const BoardPage = () => {
 
   const renderNavigation = () => {
     let navigationText = '';
-    if (selectedBoard) navigationText += `${selectedBoard} > `;
-    if (selectedClass) navigationText += `${selectedClass} > `;
+    if (selectedBoard) navigationText += `${selectedBoard} &nbsp; > &nbsp;`;
+    if (selectedClass) navigationText += `  ${selectedClass} &nbsp; > &nbsp;`;
     if (selectedSubject) navigationText += selectedSubject;
 
+
     return (
-      <div className="text-lg font-medium text-blue-700 mt-4">
+      <div className="text-lg font-medium text-gray-900 mt-4">
         {selectedBoard && (
           <span>
             <span
@@ -107,7 +109,7 @@ const BoardPage = () => {
             {!selectedClass && (
               <span
                 onClick={() => { setSelectedBoard(null); setSelectedClass(null); }}
-                className="cursor-pointer hover:underline ml-2"
+                className="cursor-pointer hover:underline mx-1"
               >
                 Change Board
               </span>
@@ -125,7 +127,7 @@ const BoardPage = () => {
             </span>
             <span
               onClick={() => setSelectedClass(null)}
-              className="cursor-pointer hover:underline  ml-2"
+              className="cursor-pointer hover:underline mx-1"
             >
               Change Class
             </span>
@@ -147,44 +149,28 @@ const BoardPage = () => {
   return (
     <div className="min-h-screen">
       <Banner notMainPage={true} loadingUserData={loadingUserData} />
-      <div className="pb-14 mb-10 bg-[#B3EFFF]">
-        <div className="py-9 flex items-center justify-center">
+      <div className="py-14 mb-7 bg-[#B3EFFF]">
 
-        </div>
-        <div className="text-center mb-6 px-4">
+        <div className="text-center  px-4">
           <h1 className="text-3xl font-extrabold text-white">
-            <span className="block   text-cyan-400 text-4xl sm:text-5xl">
+            <span className="block  tracking-tight text-cyan-400 text-4xl sm:text-5xl">
               India’s Trusted Platform
             </span>
-            <span className="block text-black text-3xl sm:text-4xl mt-1">
+            <span className="block tracking-tight font-extrabold text-gray-900 text-3xl sm:text-4xl mt-1">
               for Doubt Solving & Practice
             </span>
           </h1>
-          <p className="text-lg text-black font-sans mt-4">Unlock the best learning experience with tailored practice questions.<br />Join thousands of students achieving academic excellence</p>
+          <p className=" text-gray-900 font-light text-lg mt-4">Unlock the best learning experience with tailored practice questions.<br />Join thousands of students achieving academic excellence</p>
         </div>
-        <div className="mb-6 flex items-center justify-center sm:px-4 lg:px-12">
-          <div className="relative w-full max-w-lg sm:max-w-xl md:max-w-[52.8%]">
-            <span className="absolute inset-y-0 left-0 flex items-center pl-4 sm:pl-5">
-              <FaSearch className="text-gray-400" />
-            </span>
-            <input
-              type="text"
-              placeholder="Type a text to generate practice questions."
-              className="h-14 w-full rounded-full border border-gray-300 bg-gray-100 py-2 pl-12 pr-10 text-sm shadow-lg focus:outline-none focus:ring-2 focus:ring-cyan-600 sm:py-3 sm:pl-14 md:text-base"
-            />
-            <span className="absolute inset-y-0 right-0 flex items-center pr-4 sm:pr-5">
-              <FaMicrophone className="cursor-pointer text-gray-400" />
-            </span>
-          </div>
-        </div>
+
       </div>
 
 
 
-      <div className="container mx-auto px-16 mb-8">
+      <div className="px-4 sm:px-8  mb-8">
 
         {renderNavigation()}
-        {loading ? (
+        {loading && !selectedBoard ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
             {Array(5)
               .fill(0)
@@ -196,8 +182,8 @@ const BoardPage = () => {
                   <CustomCardLoader
                     className=''
                     viewBox="0 0 100 50"
-                    rectW="80%"
-                    rectH="20"
+                    rectW="90%"
+                    rectH="90"
                   />
                 </div>
               ))}
@@ -205,8 +191,8 @@ const BoardPage = () => {
         ) : !selectedBoard ? (
           <>
             <div className='mb-6'>
-              <h1 className="text-3xl font-bold text-center">Select Your Boards</h1>
-              <p className='text-xl font-sans text-center text-gray-600 font-medium'>Choose from india's leading educational board</p>
+              <h1 className="text-3xl tracking-tight font-extrabold text-gray-900 text-center">Select Your Boards</h1>
+              <p className='text-xl text-gray-500 text-center font-light'>Choose from india's leading educational board</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-center">
@@ -214,7 +200,7 @@ const BoardPage = () => {
                 <div
                   key={index}
                   onClick={() => setSelectedBoard(board.name)}
-                  className="relative cursor-pointer p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
+                  className="relative cursor-pointer p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 mb-8"
                   style={{
                     backgroundImage: `url('/print_icon.png')`,
                     backgroundColor: board.color,
@@ -240,18 +226,16 @@ const BoardPage = () => {
                   </div>
                 </div>
               ))}
+
             </div>
-            {/* <SubjectWiseLearning
-              handleClassClick={handleClassClick}
-              handleImageClick={handleImageClick}
-              selectedClass={selectedClass}
-              classes={classes} /> */}
+
+
           </>
         ) : null}
 
         {selectedBoard && !selectedSubject && !selectedClass && (
           <div>
-            <h2 className="mt-8 text-2xl font-bold">Select Class</h2>
+            {/* <h2 className="mt-8 text-2xl font-bold">Select Class</h2> */}
             <div className="flex gap-4 mt-3 w-full ">
               {classes.map((classItem) => (
                 <div
@@ -267,45 +251,79 @@ const BoardPage = () => {
 
             </div>
             <div className="mt-6 text-gray-800 mb-8">
-              <p className="text-lg">
+              <p className="font-light text-gray-500 text-lg">
                 Select the class you are interested in from the options above. Each class has a unique color scheme to help you easily identify them. Once you select a class, you will be able to proceed with selecting the subject associated with that class. Feel free to explore and choose the class that suits your learning needs. If you're unsure about the class to choose, you can always come back and change your selection later. Each class provides different sets of resources tailored to the curriculum, so make sure to select the right one for your studies. We are here to help you navigate through the learning process, and selecting the right class is the first step towards your success!
               </p>
             </div>
-            <SubjectWiseLearning
-              handleClassClick={handleClassClick}
-              handleImageClick={handleImageClick}
-              selectedClass={selectedClass}
-              classes={classes} />
+
+
+
           </div>
+        )}
+        {!selectedClass && (
+          <SubjectWiseLearning
+            handleImageClick={handleImageClick}
+            selectedClass={selectedClass}
+            classes={classes}
+            loading={loading}
+          />
         )}
 
 
         {selectedClass && (
           <div>
-            <h2 className="mt-8 text-2xl font-bold">Select Subject</h2>
             <div className="flex flex-wrap gap-7 mt-7 mb-10">
-              {subjects.map((subject) => (
-                <div
-                  key={subject._id}
-                  className="flex flex-col px-20 py-5 rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-110"
-                  style={{ backgroundColor: subject.color }}
-                  onClick={() => handleImageClick(subject.subjectName)}
-                >
-                  <img
-                    src={subject.image}
-                    alt={subject.subjectName}
-                    className="w-16 h-16 object-cover rounded-t-lg"
-                  />
-                  <p className="text-center text-sm font-semibold text-gray-500">
-                    {subject.subjectName}
-                  </p>
-                </div>
-              ))}
+              {loading ? (
+                <>
+
+                  {Array(7)
+                    .fill(0)
+                    .map((_, index) => (
+                      <div
+                        key={index}
+                        className="flex flex-col px-20 py-5 rounded-lg shadow-lg transition-transform duration-300 ease-in-out cursor-pointer"
+                        style={{ backgroundColor: "#f3f3f3" }}
+                      >
+                        <CustomCardLoader
+                          className="w-16 h-16 object-cover rounded-t-lg"
+                          viewBox="0 0 300 50"
+                          rectW="90%"
+                          rectH="90"
+                        />
+
+                      </div>
+                    ))}
+                </>
+              ) : (
+
+                subjects.map((subject) => (
+                  <div
+                    key={subject._id}
+                    className="flex flex-col px-20 py-5 rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-110 cursor-pointer"
+                    style={{ backgroundColor: subject.color }}
+                    onClick={() => handleImageClick(subject.subjectName)}
+                  >
+                    <img
+                      src={subject.image}
+                      alt={subject.subjectName}
+                      className="w-16 h-16 object-cover rounded-t-lg"
+                    />
+                    <p className="text-center text-sm font-semibold text-gray-500">
+                      {subject.subjectName}
+                    </p>
+                  </div>
+                ))
+
+              )}
+
+
             </div>
           </div>
         )}
 
       </div>
+      <PreppalFooter />
+      <Footer />
     </div>
   );
 };
