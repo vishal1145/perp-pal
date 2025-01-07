@@ -20,7 +20,7 @@ const Page = ({ handleImageClick, selectedClass, classes, loading }) => {
     useEffect(() => {
         const fetchSubject = async () => {
             try {
-                const res = await fetch(`http://localhost:3000/api/subject/getAllSubject`);
+                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/subject/getAllSubject`);
                 const data = await res.json();
                 setSubjects(data.subject);
                 setSubjectLoading(false)
