@@ -15,7 +15,7 @@ export const GET = async () => {
             JSON.stringify({ message: "Classes fetched successfully", classes }),
             { status: 200 }
         );
-    } catch (error) {
+    } catch (error: any) {
         console.error("Error fetching classes:", error);
         return new Response(
             JSON.stringify({ message: "Server error", error: error.message }),

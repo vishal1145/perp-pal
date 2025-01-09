@@ -4,22 +4,23 @@ interface IOption {
     optionText: string;
     optionFlag: string;
 }
- 
+
 export interface IQuestion extends Document {
-    type:string;
-    tags:string;
-    topic:string;
-    difficulty:string;
-    questionType:string;
-    hint:string;
-    solution:string;
-    answer:string;
+    _id: mongoose.Types.ObjectId | string;
+    type: string;
+    tags: string;
+    topic: string;
+    difficulty: string;
+    questionType: string;
+    hint: string;
+    solution: string;
+    answer: string;
     questionId: mongoose.Types.ObjectId;
     question: string;
     options: IOption[];
-    minTime:Number;
-    maTime:Number;
-    avgTime:Number;
+    minTime: Number;
+    maTime: Number;
+    avgTime: Number;
 }
 
 const OptionSchema: Schema = new Schema({
@@ -39,10 +40,10 @@ const QuestionSchema: Schema = new Schema({
     hint: { type: String },
     answer: { type: String },
     options: { type: [OptionSchema] },
-    minTime: { type: Number, default: Number.MAX_VALUE  }, 
-    maxTime: { type: Number, default: 0},  
-    avgTime: { type: Number, default:0},
-    showHints:{type:String, default:"working....."}
+    minTime: { type: Number, default: Number.MAX_VALUE },
+    maxTime: { type: Number, default: 0 },
+    avgTime: { type: Number, default: 0 },
+    showHints: { type: String, default: "working....." }
 });
 
 export const Question: Model<IQuestion> = mongoose.models.Question || mongoose.model<IQuestion>('Question', QuestionSchema);

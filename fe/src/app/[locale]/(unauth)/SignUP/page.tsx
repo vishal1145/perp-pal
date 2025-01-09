@@ -7,32 +7,31 @@ import Snackbar from "@/components/snackbar";
 import GoogleLoginButton from '@/components/GoogleLogin';
 import { setUserProfile } from "@/data/functions";
 
-const SignUp = ({ onClose, onSwitchToSignIn, onSignUp }) => {
+interface SignUpProps {
+  onClose: () => void;
+  onSwitchToSignIn: () => void;
+
+}
+
+const SignUp = ({ onClose, onSwitchToSignIn }: SignUpProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({ username: "", email: "", password: "" });
-  const [snackbar, setSnackbar] = useState({ message: "", type: "" });
+  const [snackbar, setSnackbar] = useState<{ message: string; type: string }>({ message: "", type: "" });
   const [showLoader, setShowLoader] = useState(false);
-  const[termsChecked, setTermsChecked] = useState(false);
+  const [termsChecked, setTermsChecked] = useState(false);
+
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
-  // const handleChange = (e) => {
-  //   setFormData({
-  //     ...formData,
-  //     [e.target.name]: e.target.value,
-  //   });
-  // };
-
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-   
     setFormData({
       ...formData,
       [name]: value.trimStart(),
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (
       !formData.username.trim() ||
@@ -43,7 +42,7 @@ const SignUp = ({ onClose, onSwitchToSignIn, onSignUp }) => {
       return;
     }
 
-    if(termsChecked == false){
+    if (!termsChecked) {
       setSnackbar({ message: "Please select terms and privacy policy", type: "error" });
       return;
     }
@@ -72,8 +71,8 @@ const SignUp = ({ onClose, onSwitchToSignIn, onSignUp }) => {
     }
   };
 
-  const handleOutsideClick = (e) => {
-    if (e.target.id === "modalWrapper") onClose();
+  const handleOutsideClick = (e: React.MouseEvent) => {
+    if ((e.target as HTMLElement).id === "modalWrapper") onClose();
   };
 
   const handleSnackbarClose = () => {
@@ -94,12 +93,12 @@ const SignUp = ({ onClose, onSwitchToSignIn, onSignUp }) => {
           &times;
         </button>
         <div className="flex justify-center">
-  <img
-    src="/assets/images/logo1.png"
-    alt="Logo"
-    className="w-24 sm:w-28 md:w-30 object-contain"
-  />
-</div>
+          <img
+            src="/assets/images/logo1.png"
+            alt="Logo"
+            className="w-24 sm:w-28 md:w-30 object-contain"
+          />
+        </div>
         <h3 className="text-lg sm:text-xl md:text-2xl font-semibold text-center text-gray-600 mb-4">
           Welcome to PrepPal! 👋
         </h3>
@@ -151,7 +150,7 @@ const SignUp = ({ onClose, onSwitchToSignIn, onSignUp }) => {
           </div>
           <div className="flex items-center justify-between">
             <label className="flex items-center text-sm text-gray-600">
-              <input type="checkbox" className="mr-2" checked={termsChecked} onClick={()=>setTermsChecked(!termsChecked)}/>
+              <input type="checkbox" className="mr-2" checked={termsChecked} onClick={() => setTermsChecked(!termsChecked)} />
               I agree to &nbsp;
               <a
                 href="/privacy-policy"
@@ -192,17 +191,17 @@ const SignUp = ({ onClose, onSwitchToSignIn, onSignUp }) => {
           </p>
 
           <div className="flex items-center  ">
-              <div className={`${text2} flex-grow border-t`} />
-              <span className={`${text1} mx-4`}>OR</span>
-              <div className={`${text2} flex-grow border-t`} />
-            </div>
-<GoogleLoginButton onClose={onClose}/>
+            <div className={`${text2} flex-grow border-t`} />
+            <span className={`${text1} mx-4`}>OR</span>
+            <div className={`${text2} flex-grow border-t`} />
+          </div>
+          <GoogleLoginButton onClose={onClose} />
         </form>
         {snackbar.message && (
           <Snackbar
             message={snackbar.message}
             type={snackbar.type}
-           onClose={handleSnackbarClose}
+            onClose={handleSnackbarClose}
           />
         )}
       </div>

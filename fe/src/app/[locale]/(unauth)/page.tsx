@@ -14,18 +14,17 @@ import { cardData } from "@/data/cardData";
 import {
   freePrompt,
   setFreePrompt,
-  setUserProfile, 
+  setUserProfile,
 } from "@/data/functions";
 
 import logo from "../../../images/logo1.png";
-import {  trackGAEvent } from "../(unauth)/googleAnalytics";
+import { trackGAEvent } from "../(unauth)/googleAnalytics";
 import Footer from "./Footer/page";
 import SharePreppal from "@/components/SharePreppal";
 import PreppalFooter from "@/components/PreppalFooter";
 import Blogs from "@/components/Blogs";
 
 export default function Layout() {
-  const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState("");
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [user, setUser] = useState(null);
@@ -37,7 +36,7 @@ export default function Layout() {
   const [localuser, setLocalUser] = useState(null);
   const [loadingUserData, setLoadingUserData] = useState(true);
   const [userProfileLoading, setUserProfileLoading] = useState(true);
-  const[sharePreppal, setSharePreppal] = useState(false);
+  const [sharePreppal, setSharePreppal] = useState(false);
   const handleMicClick = () => {
     if ("webkitSpeechRecognition" in window) {
       const recognition = new (window as any).webkitSpeechRecognition();
@@ -124,11 +123,11 @@ export default function Layout() {
       .catch((err) => {
         console.error('Error prefetching routes:', err);
       });
-      
+
   }, []);
 
   const handleCardClick = (promptText: string) => {
-    if(freePrompt == false){
+    if (freePrompt == false) {
       setSharePreppal(true);
       return
     }
@@ -138,7 +137,7 @@ export default function Layout() {
     trackGAEvent("Card", "cardClick", promptText);
   };
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if(freePrompt == false){
+    if (freePrompt == false) {
       setSharePreppal(true);
       return
     }
@@ -168,16 +167,13 @@ export default function Layout() {
     setLocalUser(userData); // Update state with user data
     closeModal();
   };
-  const handleSignUp = (userData: any) => {
-    setLocalUser(userData); // Update state with user data after sign-up
-    closeModal();
-  };
- 
+
+
   return (
     <div className="flex flex-col justify-between w-full h-[100vh]">
       <Banner notMainPage={false} loadingUserData={loadingUserData} />
       {
-        sharePreppal && <SharePreppal setSharePreppal={setSharePreppal}/>
+        sharePreppal && <SharePreppal setSharePreppal={setSharePreppal} />
       }
       <div className="px-4 sm:px-8" >
         <div className="flex flex-col lg:gap-5">
@@ -238,9 +234,9 @@ export default function Layout() {
         </div>
       </div>
       {/* <div className="sticky bottom-0"> */}
-      <Blogs/>
-      <PreppalFooter/>
-        <Footer />
+      <Blogs />
+      <PreppalFooter />
+      <Footer />
       {/* </div> */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
@@ -252,7 +248,7 @@ export default function Layout() {
                 setIsForgetPassword(false);
                 setIsSignIn(true); // Show Sign In form when switching from Forget Password
               }}
-              onSwitchToSignUp={() => openModal(false)}
+
             />
           ) : isSignIn ? (
             <SignIn
@@ -265,7 +261,7 @@ export default function Layout() {
             <SignUp
               onClose={closeModal}
               onSwitchToSignIn={() => openModal(true)}
-              onSignUp={handleSignUp}
+
             />
           )}
         </div>

@@ -54,7 +54,7 @@ export const GET = async (request: NextRequest) => {
             { message: "Subjects for the selected class fetched successfully", subjects },
             { status: 200 }
         );
-    } catch (error) {
+    } catch (error: any) {
         console.error("Error fetching subjects by class:", error);
         return NextResponse.json(
             { message: "Server error", error: error.message },

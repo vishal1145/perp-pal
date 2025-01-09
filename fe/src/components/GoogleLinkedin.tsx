@@ -9,12 +9,12 @@ export default function SocialLoginButtons({ onClose }: { onClose: () => void })
     const token = response.credential;
     if (token) {
       try {
-        let response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/users/signin`, {
+        let res = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/users/signin`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ token }),
         });
-        response = await response.json();
+        response = await res.json();
         setUserProfile(response.data);
         onClose();
       } catch (error) {
@@ -26,8 +26,8 @@ export default function SocialLoginButtons({ onClose }: { onClose: () => void })
   };
 
   // Handle Google login error
-  const handleGoogleError = (error: any) => {
-    console.log('Google login error:', error);
+  const handleGoogleError = () => {
+    console.log('Google login error:');
   };
 
   return (
@@ -36,14 +36,14 @@ export default function SocialLoginButtons({ onClose }: { onClose: () => void })
       <LinkedIn
         clientId="86exjopv4tvm47"
         redirectUri={`${window.location.origin}`}
-        onSuccess={(code) => {
+        onSuccess={(code: String) => {
           console.log(code);
         }}
-        onError={(error) => {
+        onError={(error: any) => {
           console.log(error);
         }}
       >
-        {({ linkedInLogin }) => (
+        {({ linkedInLogin }: { linkedInLogin: () => void }) => (
           <button
             className="cursor-pointer rounded-lg border border-gray-500 bg-transparent px-5 py-2 text-sm font-medium hover:bg-gray-200 focus:outline-none"
             style={{
@@ -62,9 +62,9 @@ export default function SocialLoginButtons({ onClose }: { onClose: () => void })
         <GoogleOAuthProvider clientId="545362908623-funr640u1caveqkvrcv9jnvr50j7cj6d.apps.googleusercontent.com">
           <GoogleLogin
             onSuccess={handleGoogleSuccess}
-            onFailure={handleGoogleError}
-            scope="email profile"
-            size="200px"
+            onError={handleGoogleError}
+            // scope="email profile"
+            size="medium"
             shape="rectangular"
             text="signin_with"
             useOneTap

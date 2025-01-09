@@ -2,33 +2,41 @@ const GA_MEASUREMENT_ID = process.env.NEXT_PUBLIC_GA_TRACKING_ID;
 
 export const initGA = () => {
     if (GA_MEASUREMENT_ID) {
- 
         if (typeof window !== 'undefined') {
             const script = document.createElement('script');
             script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
             script.async = true;
             document.head.appendChild(script);
 
-           
+            // Initialize dataLayer if not already initialized
             window.dataLayer = window.dataLayer || [];
-            function gtag() {
-                window.dataLayer.push(arguments);
+
+            // Define gtag function
+            function gtag(...args: any[]) {
+                window.dataLayer.push(args);
             }
+
             window.gtag = gtag; // Make gtag available globally
+
+            // Correct usage of gtag
             gtag('js', new Date());
             gtag('config', GA_MEASUREMENT_ID, {
                 send_page_view: true,
             });
         }
     } else {
-        console.error("GA Measurement ID is undefined");
+        console.error('GA Measurement ID is undefined');
     }
 };
 
-// Define trackGAEvent function
-export const trackGAEvent = (eventCategory, eventAction, eventLabel) => {
+// Define trackGAEvent function with proper type annotations
+export const trackGAEvent = (
+    eventCategory: string,
+    eventAction: string,
+    eventLabel?: string // Optional parameter
+): void => {
     if (!window.gtag) {
-        console.error("Google Analytics is not initialized");
+        console.error('Google Analytics is not initialized');
         return;
     }
 

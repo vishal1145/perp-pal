@@ -1,18 +1,17 @@
+import mongoose, { Document, Schema, Model } from "mongoose";
 
-import mongoose from 'mongoose';
+export interface IBoard extends Document {
+    name: string;
+    image: string;
+    color: string;
+}
 
-const boardSchema = new mongoose.Schema({
-    name: {
-        type: String,
-    },
-    image: {
-        type: String,
-    },
-    color: {
-        type: String,
-    },
+const boardSchema = new Schema<IBoard>({
+    name: { type: String },
+    image: { type: String },
+    color: { type: String },
 });
 
-const Board = mongoose.models.Board || mongoose.model('Board', boardSchema);
+const Board: Model<IBoard> = mongoose.models.Board || mongoose.model<IBoard>('Board', boardSchema);
 
 export default Board;

@@ -1,7 +1,6 @@
 import '../../../styles/app.css';
 import '@/styles/global.css';
 
-import type { Metadata } from 'next';
 // import Head from 'next/head';
 import { NextIntlClientProvider, useMessages } from 'next-intl';
 import { unstable_setRequestLocale } from 'next-intl/server';

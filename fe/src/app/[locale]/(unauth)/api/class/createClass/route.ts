@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import ConnectDB from "@/libs/DB";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import Class from "@/models/Class";
 import Board from "@/models/Board";
 
@@ -60,7 +60,7 @@ export const POST = async (request: NextRequest) => {
             JSON.stringify({ message: "Class created successfully", class: newClass }),
             { status: 201 }
         );
-    } catch (error) {
+    } catch (error: any) {
         console.error("Error creating class:", error);
         return new Response(
             JSON.stringify({ message: "Server error", error: error.message }),

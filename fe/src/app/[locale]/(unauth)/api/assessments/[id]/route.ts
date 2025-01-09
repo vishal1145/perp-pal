@@ -1,15 +1,14 @@
 import connectDB from '../../../../../../libs/DB'; // Adjust this path if necessary
-import mongoose from 'mongoose';
 import { NextResponse } from 'next/server';
 import SubmitAssessment from '@/models/submitAssesment';
 export async function GET(request: Request, { params }: { params: { id: string } }) {
     await connectDB();
- 
-    const { id } = params; 
-    
+
+    const { id } = params;
+
     try {
         const assessment = await SubmitAssessment.findById(id)
-            .populate('questions.questionId') 
+            .populate('questions.questionId')
             .exec();
 
         if (!assessment) {

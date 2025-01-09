@@ -4,7 +4,7 @@ import { Banner } from '@/components/Banner';
 import PreppalFooter from '@/components/PreppalFooter';
 import Footer from '../Footer/page';
 const Page = () => {
-    const [loadingUserData, setLoadingUserData] = useState('');
+    const [loadingUserData, setLoadingUserData] = useState<boolean>(false);
 
     return (
         <>

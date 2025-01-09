@@ -1,14 +1,14 @@
 "use client";
 import React, { useState, useEffect } from "react";
- 
+
 import {
-  FaTelegramPlane,
   FaWhatsapp,
-  FaTwitter,
   FaFacebook,
 } from "react-icons/fa";
-
-const Faq = ({ title, description, imageUrl }) => {
+interface FBShareResponse {
+  error_message?: string;
+}
+const Faq = () => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const handleFaqToggle = (index: number) => {
@@ -69,7 +69,7 @@ const Faq = ({ title, description, imageUrl }) => {
         method: "share",
         href: urlToShare,
       },
-      (response) => {
+      (response: FBShareResponse) => {
         if (response && !response.error_message) {
           console.log("Post was shared successfully.");
         } else {
@@ -86,36 +86,14 @@ const Faq = ({ title, description, imageUrl }) => {
     window.open(whatsappUrl, "_blank");
   };
 
-  const shareOnTelegram = () => {
-    const currentUrl = window.location.href;
-    const message = `Check out this page: ${currentUrl}`;
-    const telegramUrl = `https://t.me/share/url?url=${
-      currentUrl
-    }&text=${message}`; // Telegram share link
-    window.open(telegramUrl, "_blank");
-  };
 
-  const shareOnTwitter = () => {
-    const currentUrl = window.location.href;
-    const message = `Check out this page: ${currentUrl}`;
-    const twitterUrl = `https://twitter.com/intent/tweet?text=${
-      message
-    }`;
-    window.open(twitterUrl, "_blank");
-  };
 
   return (
     <section className="">
       <div className="rounded-md">
         <h2 className="pb-2 text-sm font-bold">Share us</h2>
         <div className="ml-1 mt-1 flex flex-wrap gap-4">
-          {/* <Link href="https://t.me/your-telegram-link" target="_blank" rel="noopener noreferrer">
-              <FaTelegramPlane className="text-gray-900 hover:text-indigo-500 transition" size={24} />
-            </Link> */}
-          {/* <button onClick={shareOnTelegram} className="flex items-center">
-            <FaTelegramPlane className="text-gray-900 hover:text-indigo-500 transition" size={24} />
-            </button>
-            */}
+
           <button
             type="button"
             onClick={shareOnWhatsapp}
@@ -126,10 +104,6 @@ const Faq = ({ title, description, imageUrl }) => {
               size={24}
             />
           </button>
-
-          {/* <button onClick={shareOnTwitter} className="flex items-center">
-            <FaTwitter className="text-gray-900 hover:text-indigo-500 transition" size={24} />
-            </button> */}
 
           <button
             type="button"
@@ -161,11 +135,10 @@ const Faq = ({ title, description, imageUrl }) => {
             return (
               <div
                 key={index}
-                className={`accordion faq-border rounded-xl transition duration-500 ${
-                  isOpen
-                    ? "accordion-active:bg-indigo-50 accordion-active:border-cyan-600"
-                    : ""
-                } mb-2 py-2 pl-2 pr-4`}
+                className={`accordion faq-border rounded-xl transition duration-500 ${isOpen
+                  ? "accordion-active:bg-indigo-50 accordion-active:border-cyan-600"
+                  : ""
+                  } mb-2 py-2 pl-2 pr-4`}
               >
                 <button
                   type="button"
@@ -208,9 +181,8 @@ const Faq = ({ title, description, imageUrl }) => {
                   </p>
                 </button>
                 <div
-                  className={`accordion-content w-full overflow-hidden transition-all duration-500 ${
-                    isOpen ? "max-h-40" : "max-h-0"
-                  }`}
+                  className={`accordion-content w-full overflow-hidden transition-all duration-500 ${isOpen ? "max-h-40" : "max-h-0"
+                    }`}
                   style={{ transition: "max-height 0.5s ease-in-out" }}
                 >
                   {isOpen && (

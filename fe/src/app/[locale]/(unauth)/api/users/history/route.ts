@@ -1,9 +1,9 @@
 // pages/api/history.js
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import connectDB from '@/libs/DB';
 
-export async function GET(request) {
+export async function GET(request: NextRequest) {
   try {
     await connectDB();
     const historyData = [
@@ -15,7 +15,7 @@ export async function GET(request) {
         title: "Frontend Developer",
         duration: "2018 - 2020",
       },
-      
+
     ];
 
     return NextResponse.json(historyData, { status: 200 });

@@ -1,21 +1,22 @@
-import mongoose from "mongoose";
+import mongoose, { Document, Schema, Model } from "mongoose";
 
-const subjectSchema = new mongoose.Schema({
-    subjectName: {
-        type: String,
-    },
-    color: {
-        type: String,
-    },
-    image: {
-        type: String,
-    },
+interface ISubject extends Document {
+    subjectName: string;
+    color: string;
+    image: string;
+    classIds: mongoose.Types.ObjectId[];
+}
+
+const subjectSchema = new Schema<ISubject>({
+    subjectName: { type: String, required: true },
+    color: { type: String, required: true },
+    image: { type: String, required: false },
     classIds: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Class",
     }],
-})
+});
 
-const Subject = mongoose.models.Subject || mongoose.model('Subject', subjectSchema);
+const Subject: Model<ISubject> = mongoose.models.Subject || mongoose.model<ISubject>('Subject', subjectSchema);
 
 export default Subject;

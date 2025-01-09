@@ -1,18 +1,22 @@
-import mongoose from "mongoose";
+import mongoose, { Document, Schema, Model } from "mongoose";
 
-const classSchema = new mongoose.Schema({
-    className: {
-        type: String,
-    },
-    color: {
-        type: String,
-    },
+
+interface IClass extends Document {
+    className: string;
+    color: string;
+    boardIds: mongoose.Types.ObjectId[];
+}
+
+const classSchema = new Schema<IClass>({
+    className: { type: String, required: true },
+    color: { type: String, required: true },
     boardIds: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Board",
     }],
-})
+});
 
-const Class = mongoose.models.Class || mongoose.model('Class', classSchema);
+
+const Class: Model<IClass> = mongoose.models.Class || mongoose.model<IClass>('Class', classSchema);
 
 export default Class;

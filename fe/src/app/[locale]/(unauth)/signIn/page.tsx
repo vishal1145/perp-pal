@@ -6,20 +6,25 @@ import { setUserProfile } from '@/data/functions';
 import Loader from '@/components/Loader';
 import Snackbar from "@/components/snackbar";
 import GoogleLoginButton from '@/components/GoogleLogin';
-
-const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword, onLogin }) => {
+interface SignInProps {
+  onClose: () => void;
+  onSwitchToSignUp: () => void;
+  onForgotPassword: () => void;
+  onLogin: (userData: any) => void;
+}
+const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword, onLogin }: SignInProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [showLoader, setShowLoader] = useState<boolean>(false);
-  const [rememberMe, setRememberMe] = useState(true); 
+  const [rememberMe, setRememberMe] = useState(true);
   const [snackbar, setSnackbar] = useState({ message: "", type: "" });
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage('');
     setShowLoader(true);
@@ -33,10 +38,10 @@ const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword, onLogin }) => {
       });
 
       const data = await response.json();
-     
+
       if (response.ok) {
         console.log('Login successful:', data);
-        
+
         const userResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/users/me`, {
           method: 'GET',
           headers: { 'Content-Type': 'application/json' },
@@ -45,14 +50,14 @@ const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword, onLogin }) => {
         const userData = await userResponse.json();
         setUserProfile(userData.data);
         onLogin(userData);
-      
+
         onClose();
         setSnackbar({ message: "Login successful!", type: "success" });
       } else {
         setErrorMessage(data.message || 'Login failed. Please try again.');
         setErrorMessage('An unexpected error occurred. Please try again later.');
         setSnackbar({ message: data.message || 'Login failed. Please try again.', type: "error" });
-      
+
       }
     } catch (error) {
       console.error('Error:', error);
@@ -64,10 +69,8 @@ const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword, onLogin }) => {
     }
   };
 
-  const handleOutsideClick = (e) => {
-    if (e.target.id === 'modalWrapper') {
-      onClose();
-    }
+  const handleOutsideClick = (e: React.MouseEvent) => {
+    if ((e.target as HTMLElement).id === "modalWrapper") onClose();
   };
   const handleSnackbarClose = () => {
     setSnackbar({ message: "", type: "" }); // Clear the snackbar message
@@ -76,7 +79,7 @@ const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword, onLogin }) => {
 
   return (
     <div
-    
+
       className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-20"
       id="modalWrapper"
       onClick={handleOutsideClick}
@@ -89,17 +92,17 @@ const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword, onLogin }) => {
           &times;
         </button>
         <div className="flex justify-center">
-  <img
-    src="/assets/images/logo1.png"
-    alt="Logo"
-    className="w-24 sm:w-28 md:w-30 object-contain"
-  />
-</div>
+          <img
+            src="/assets/images/logo1.png"
+            alt="Logo"
+            className="w-24 sm:w-28 md:w-30 object-contain"
+          />
+        </div>
 
-        <h3 className="text-lg sm:text-xl font-semibold text-center text-gray-600 mb-4" style={{marginBottom:"2rem",marginTop:"1px"}}>
+        <h3 className="text-lg sm:text-xl font-semibold text-center text-gray-600 mb-4" style={{ marginBottom: "2rem", marginTop: "1px" }}>
           Welcome to PrepPal! 👋
         </h3>
-       
+
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
             <label className="block text-sm font-medium text-gray-600 mb-1">Email</label>
@@ -135,8 +138,8 @@ const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword, onLogin }) => {
 
           <div className="flex items-center justify-between">
             <label className="flex items-center text-sm text-gray-600">
-              <input type="checkbox" className="mr-2"  checked={rememberMe}
-                onChange={() => setRememberMe(!rememberMe)}/>
+              <input type="checkbox" className="mr-2" checked={rememberMe}
+                onChange={() => setRememberMe(!rememberMe)} />
               Remember Me
             </label>
             <a href="#" className="text-sm text-cyan-600 hover:underline" onClick={onForgotPassword}>
@@ -144,29 +147,29 @@ const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword, onLogin }) => {
             </a>
           </div>
           {
-                    showLoader == true ?
-                    <div className="flex items-center justify-center h-full">
-                    <Loader /> 
-                  </div> :
-                      (
-          <button
-            type="submit"
-            className={`w-full text-white ${logoBtnColor} font-medium px-4 py-2 rounded`}
-          >
-            Sign In
-          </button>
+            showLoader == true ?
+              <div className="flex items-center justify-center h-full">
+                <Loader />
+              </div> :
+              (
+                <button
+                  type="submit"
+                  className={`w-full text-white ${logoBtnColor} font-medium px-4 py-2 rounded`}
+                >
+                  Sign In
+                </button>
 
-                      )}
-
-
+              )}
 
 
-<div className="flex items-center  ">
-              <div className={`${text2} flex-grow border-t`} />
-              <span className={`${text1} mx-4`}>OR</span>
-              <div className={`${text2} flex-grow border-t`} />
-            </div>
-<GoogleLoginButton onClose={onClose}/>
+
+
+          <div className="flex items-center  ">
+            <div className={`${text2} flex-grow border-t`} />
+            <span className={`${text1} mx-4`}>OR</span>
+            <div className={`${text2} flex-grow border-t`} />
+          </div>
+          <GoogleLoginButton onClose={onClose} />
 
           <p className="text-center text-sm text-gray-600">
             Don't have an account?{' '}
@@ -176,7 +179,7 @@ const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword, onLogin }) => {
           </p>
         </form>
         {snackbar.message && (
-          <Snackbar message={snackbar.message} type={snackbar.type} onClose={handleSnackbarClose}/>
+          <Snackbar message={snackbar.message} type={snackbar.type} onClose={handleSnackbarClose} />
         )}
       </div>
     </div>

@@ -24,7 +24,7 @@ export const POST = async (request: NextRequest) => {
                 // Check if the classIds is already an array or a stringified array
                 parsedClassIds = Array.isArray(classIds[0])
                     ? classIds[0]
-                    : JSON.parse(classIds[0]);
+                    : JSON.parse(classIds[0] as string);
             } catch (error) {
                 return NextResponse.json(
                     { message: "Invalid classIds format" },
@@ -61,6 +61,18 @@ export const POST = async (request: NextRequest) => {
                 { status: 400 }
             );
         }
+        if (
+            !file ||
+            typeof file !== "object" ||
+            !file.arrayBuffer ||
+            !file.name ||
+            !file.size
+        ) {
+            return NextResponse.json(
+                { message: "Invalid file upload" },
+                { status: 400 }
+            );
+        }
 
         const dirPath = path.join(process.cwd(), "public/uploads");
         await mkdir(dirPath, { recursive: true });
@@ -86,7 +98,7 @@ export const POST = async (request: NextRequest) => {
             { message: "subject created successfully", subject: newSubject },
             { status: 201 }
         );
-    } catch (error) {
+    } catch (error: any) {
         console.error("Error creating subject:", error);
         return NextResponse.json(
             { message: "Server error", error: error.message },

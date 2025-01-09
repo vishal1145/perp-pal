@@ -1,26 +1,29 @@
 import connectDB from "@/libs/DB";
-import { IQuestion, Question} from '../../../../../models/Question';
-import { NextRequest, NextResponse } from 'next/server'; 
+import { IQuestion, Question } from '../../../../../models/Question';
+import { NextRequest, NextResponse } from 'next/server';
 import StartAssessment from "@/models/startAssessment";
 import mongoose from 'mongoose';
-
-const convertOptions = (optionsObject:any) => {
+interface Option {
+    value: string;
+    image: string;
+}
+const convertOptions = (optionsObject: Record<string, Option>) => {
     return Object.entries(optionsObject).map(([key, { value, image }]) => {
-      return {
-        optionText: value,
-        optionFlag: key
-      };
+        return {
+            optionText: value,
+            optionFlag: key
+        };
     });
-  };
+};
 
 export async function POST(req: NextRequest) {
     await connectDB();
 
-    try {  
-        const {questions, userId }  = await req.json(); 
+    try {
+        const { questions, userId } = await req.json();
         const quetionsIds: string[] = [];
-        
-        const bulkOps = questions.map((item:any) => {
+
+        const bulkOps = questions.map((item: any) => {
             const { _id, question, solution, answer, options, hint } = item;
             const questionId = _id;
 
@@ -28,18 +31,18 @@ export async function POST(req: NextRequest) {
 
             return {
                 updateOne: {
-                    filter: { questionId },  
-                    update: { 
-                        $set: { 
-                            question, 
-                            questionId, 
-                            solution, 
-                            answer, 
-                            options: updatedOptions, 
-                            showHints: hint.value 
+                    filter: { questionId },
+                    update: {
+                        $set: {
+                            question,
+                            questionId,
+                            solution,
+                            answer,
+                            options: updatedOptions,
+                            showHints: hint.value
                         }
                     },
-                    upsert: true 
+                    upsert: true
                 }
             };
         });
@@ -48,16 +51,17 @@ export async function POST(req: NextRequest) {
             await Question.bulkWrite(bulkOps);
         }
 
-        const savedQuestions = await Question.find({ questionId: { $in: questions.map(q => q._id) } });
-        savedQuestions.forEach(question => quetionsIds.push(question._id));
-
+        const savedQuestions = await Question.find({ questionId: { $in: questions.map((q: { _id: any; }) => q._id) } });
+        savedQuestions.forEach((question: IQuestion) => {
+            quetionsIds.push(question._id.toString());
+        });
         const newStartAssesment = new StartAssessment({
-            userId:new mongoose.Types.ObjectId(userId),
+            userId: new mongoose.Types.ObjectId(userId),
             questions: quetionsIds
-       });
+        });
 
         const saveStartAssesment = await newStartAssesment.save();
-        return NextResponse.json({ saveStartAssesment}, { status: 200 });
+        return NextResponse.json({ saveStartAssesment }, { status: 200 });
 
     } catch (error) {
         console.error('Error saving assessments:', error);
@@ -67,8 +71,8 @@ export async function POST(req: NextRequest) {
 
 export async function GET() {
     await connectDB();
-    try {  
-        const assessments = await Question.find({}); 
+    try {
+        const assessments = await Question.find({});
         return NextResponse.json(assessments, { status: 200 });
     } catch (error) {
         console.error('Error fetching assessments:', error);

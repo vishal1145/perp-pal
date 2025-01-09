@@ -1,6 +1,6 @@
-"use client"; 
+"use client";
 import axios from "axios";
-import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js"; 
+import { ArcElement, Chart as ChartJS, Legend, Tooltip } from "chart.js";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
@@ -32,8 +32,8 @@ const ResultPage = () => {
   const hasFetched = useRef(false);
   const [loadingUserData, setLoadingUserData] = useState();
   const [questionloading, setQuestionLoading] = useState(true);
-  const[title, setTitle] = useState('');
-  const[sharePreppal, setSharePreppal] = useState(false);
+  const [title, setTitle] = useState('');
+  const [sharePreppal, setSharePreppal] = useState(false);
   const getSubmitAssessment = async () => {
     try {
       const { data } = await axios.get(
@@ -98,7 +98,7 @@ const ResultPage = () => {
   };
 
   const handleCardClick = (promptText: string) => {
-    if(freePrompt == false){
+    if (freePrompt == false) {
       setSharePreppal(true);
       return;
     }
@@ -130,170 +130,170 @@ const ResultPage = () => {
   ];
 
   return (
-<>
-{/* <DemoBanner notMainPage={true} /> */}
-<Banner notMainPage={true} loadingUserData={loadingUserData}/>
-{
-  sharePreppal && <SharePreppal setSharePreppal={setSharePreppal}/>
-}
-<div className="flex flex-col md:flex-row h-screen "  style={{height:"90%", overflowY:"auto"}}>
-   
-  <div className="w-full md:w-9/12 md:p-5 flex lg:p-10 sm:pl-5 sm:pr-5 sm:pt-5 !pt-5 !pl-5 !pr-5">
-  
-    <div className="w-full sm:pl-5">
-    <div className="">
-<div className='text-md font-medium'>Your Questions</div>
-<div className="text-gray-500 font-sm text-md">{title}</div>
-<div className="text-gray-500 font-sm text-md"></div>
-</div>
-<div className="py-2 mb-4" style={{ borderBottom: "1px solid #E2E2E2" }}></div>
-      <div className="w-full flex flex-col ">
-        {/* Pie Chart */}
-        {questionloading ? (
-<div className="bg-gray-100 rounded-lg shadow-lg p-4 text-center flex items-center">
-<CustomCardLoader viewBox="0 0 380 75" className="text-3xl text-gray-700" rectW="100%" rectH="150" />
-</div>
-) : (
-<div className="flex w-52 h-52">
-<Pie data={data} options={options} />
-</div>
-)}
+    <>
+      {/* <DemoBanner notMainPage={true} /> */}
+      <Banner notMainPage={true} loadingUserData={loadingUserData} />
+      {
+        sharePreppal && <SharePreppal setSharePreppal={setSharePreppal} />
+      }
+      <div className="flex flex-col md:flex-row h-screen " style={{ height: "90%", overflowY: "auto" }}>
 
-      </div>
-      <div className="mt-5">
-      {questionloading ? (
+        <div className="w-full md:w-9/12 md:p-5 flex lg:p-10 sm:pl-5 sm:pr-5 sm:pt-5 !pt-5 !pl-5 !pr-5">
 
-
-Array.from({ length: 20 }, (_, i) => <CustomCardLoader key={i} viewBox={`0 0 380 80`} className={'mt-2'} rectW='100%' rectH='70' />)
-) : (
-        submitAssessment.map((item, index) => {
-          const question = item.questionId;
-          const userSelectAnsString = item.userSelectAnsString;
-          const userSelectAns = item.userSelectAns;  
-          const answer = question.answer;
-     
-
-          return (
-            <div key={question.questionId} className={`w-full flex flex-col ${index !== submitAssessment.length - 1 ? "mb-4" : ""}`}>
-              <div className="mb-2">
-              <Latex>{ `Q ${index + 1}. ${question.question}`}</Latex>
-                <ul className="mt-2 text-sm text-gray-500 font-normal">
-                  {question.options.map((option, idx) => {
-                   
-                    const isUserSelected = userSelectAnsString == option.optionText;
-                    const isCorrect = (idx+1 )===Number(answer);
-                    const notSelected = userSelectAnsString == ''; 
-                 
-                    let bgColor = "";
-                    if (isUserSelected && isCorrect) {
-                      bgColor = "bg-green-500"; 
-                    } else if (isUserSelected && !isCorrect) {
-                      bgColor = "bg-red-300"; 
-                    } else if (isCorrect) {
-                      bgColor = "bg-green-300"; 
-                    }else if (notSelected) {
-                      bgColor = "bg-gray-200"; 
-                  }
-
-                    return (
-                      <li key={idx} className={`flex items-center ${bgColor} p-2 `}>
-                        <Latex>{`${option.optionFlag.toUpperCase()}.  ${option.optionText}`}</Latex>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-              <div className="" style={{ borderBottom: "1px solid #E2E2E2" }}></div>
+          <div className="w-full sm:pl-5">
+            <div className="">
+              <div className='text-md font-medium'>Your Questions</div>
+              <div className="text-gray-500 font-sm text-md">{title}</div>
+              <div className="text-gray-500 font-sm text-md"></div>
             </div>
-          );
-        })
-      )}
-      </div>
-    </div>
-  </div>
-  
-  <div className="w-full md:w-3/12 md:p-6 sm:pl-5 sm:pr-5  !pl-5 !pr-5">
-    <div className={`${text1} mb-4 mt-4 md:mt-0`}>Your Next Adapting Path</div>
-    {questionloading ? (
-            <div className="bg-gray-100 rounded-lg shadow-lg p-4 text-center flex items-center" >
-            <CustomCardLoader viewBox="0 0 480 300" className="text-9xl text-gray-700" rectW="100%" rectH="950" />
-          </div>
-          ) : (
-  
-    cardData.records.map((item)=>(
-      <p className="text-sm text-gray-500 mt-0 pt-0 mb-2 hover:text-indigo-500 transition cursor-pointer" onClick={()=>handleCardClick(item.prompt_text)}>
-      {item.prompt_text}
-      </p>
-    ))
-          
-)}
-    <div className="mb-4">
-      <div className="pb-2" style={{ borderBottom: "1px solid #E2E2E2" }}></div>
-      <h3 className="text-sm  font-medium leading-[3.25rem]">Key Points to Remember</h3>
-      <div className="">
-        <div className="accordion-group h-120  " data-accordion="default-accordion">
-          {faqs.map((faq, index) => (
-            <div
-              key={index}
-              className={`accordion faq-border rounded-xl transition duration-500 ${openIndex == index ? "accordion-active:bg-indigo-50 accordion-active:border-cyan-600" : ""
-                } mb-2  py-2 pl-2 pr-4`}
-            >
-              <button
-                className="accordion-toggle group inline-flex items-center   text-left text-lg font-normal leading-8 text-gray-900 w-full transition duration-500 hover:text-cyan-600 accordion-active:font-medium accordion-active:text-indigo-600"
-                onClick={() => handleFaqToggle(index)}
-              >
-                {openIndex == index ? (
-                  <svg
-                    className="w-6 h-6 text-gray-900 transition duration-500"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M6 12H18"
-                      stroke="currentColor"
-                      strokeWidth="1"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                ) : (
-                  <svg
-                    className="w-6 h-6 text-gray-900 transition duration-500"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M6 12H18M12 18V6"
-                      stroke="currentColor"
-                      strokeWidth="1"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                )}
-                <p className="text-sm  text-gray-500 ml-2">{faq.question}</p>
-              </button>
-              {openIndex == index && (
-                <div
-                  className="accordion-content w-full overflow-hidden pr-4"
-                  style={{ maxHeight: 250 }}
-                >
-                  <p className="text-sm   text-gray-500 fs-700 font-normal leading-6">
-                    {faq.answer}
-                  </p>
+            <div className="py-2 mb-4" style={{ borderBottom: "1px solid #E2E2E2" }}></div>
+            <div className="w-full flex flex-col ">
+              {/* Pie Chart */}
+              {questionloading ? (
+                <div className="bg-gray-100 rounded-lg shadow-lg p-4 text-center flex items-center">
+                  <CustomCardLoader viewBox="0 0 380 75" className="text-3xl text-gray-700" rectW="100%" rectH="150" />
+                </div>
+              ) : (
+                <div className="flex w-52 h-52">
+                  <Pie data={data} options={options} />
                 </div>
               )}
+
             </div>
-          ))}
+            <div className="mt-5">
+              {questionloading ? (
+
+
+                Array.from({ length: 20 }, (_, i) => <CustomCardLoader key={i} viewBox={`0 0 380 80`} className={'mt-2'} rectW='100%' rectH='70' />)
+              ) : (
+                submitAssessment.map((item, index) => {
+                  const question = item.questionId;
+                  const userSelectAnsString = item.userSelectAnsString;
+                  const userSelectAns = item.userSelectAns;
+                  const answer = question.answer;
+
+
+                  return (
+                    <div key={question.questionId} className={`w-full flex flex-col ${index !== submitAssessment.length - 1 ? "mb-4" : ""}`}>
+                      <div className="mb-2">
+                        <Latex>{`Q ${index + 1}. ${question.question}`}</Latex>
+                        <ul className="mt-2 text-sm text-gray-500 font-normal">
+                          {question.options.map((option, idx) => {
+
+                            const isUserSelected = userSelectAnsString == option.optionText;
+                            const isCorrect = (idx + 1) === Number(answer);
+                            const notSelected = userSelectAnsString == '';
+
+                            let bgColor = "";
+                            if (isUserSelected && isCorrect) {
+                              bgColor = "bg-green-500";
+                            } else if (isUserSelected && !isCorrect) {
+                              bgColor = "bg-red-300";
+                            } else if (isCorrect) {
+                              bgColor = "bg-green-300";
+                            } else if (notSelected) {
+                              bgColor = "bg-gray-200";
+                            }
+
+                            return (
+                              <li key={idx} className={`flex items-center ${bgColor} p-2 `}>
+                                <Latex>{`${option.optionFlag.toUpperCase()}.  ${option.optionText}`}</Latex>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </div>
+                      <div className="" style={{ borderBottom: "1px solid #E2E2E2" }}></div>
+                    </div>
+                  );
+                })
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="w-full md:w-3/12 md:p-6 sm:pl-5 sm:pr-5  !pl-5 !pr-5">
+          <div className={`${text1} mb-4 mt-4 md:mt-0`}>Your Next Adapting Path</div>
+          {questionloading ? (
+            <div className="bg-gray-100 rounded-lg shadow-lg p-4 text-center flex items-center" >
+              <CustomCardLoader viewBox="0 0 480 300" className="text-9xl text-gray-700" rectW="100%" rectH="950" />
+            </div>
+          ) : (
+
+            cardData.records.map((item) => (
+              <p className="text-sm text-gray-500 mt-0 pt-0 mb-2 hover:text-indigo-500 transition cursor-pointer" onClick={() => handleCardClick(item.prompt_text)}>
+                {item.prompt_text}
+              </p>
+            ))
+
+          )}
+          <div className="mb-4">
+            <div className="pb-2" style={{ borderBottom: "1px solid #E2E2E2" }}></div>
+            <h3 className="text-sm  font-medium leading-[3.25rem]">Key Points to Remember</h3>
+            <div className="">
+              <div className="accordion-group h-120  " data-accordion="default-accordion">
+                {faqs.map((faq, index) => (
+                  <div
+                    key={index}
+                    className={`accordion faq-border rounded-xl transition duration-500 ${openIndex == index ? "accordion-active:bg-indigo-50 accordion-active:border-cyan-600" : ""
+                      } mb-2  py-2 pl-2 pr-4`}
+                  >
+                    <button
+                      className="accordion-toggle group inline-flex items-center   text-left text-lg font-normal leading-8 text-gray-900 w-full transition duration-500 hover:text-cyan-600 accordion-active:font-medium accordion-active:text-indigo-600"
+                      onClick={() => handleFaqToggle(index)}
+                    >
+                      {openIndex == index ? (
+                        <svg
+                          className="w-6 h-6 text-gray-900 transition duration-500"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M6 12H18"
+                            stroke="currentColor"
+                            strokeWidth="1"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      ) : (
+                        <svg
+                          className="w-6 h-6 text-gray-900 transition duration-500"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M6 12H18M12 18V6"
+                            stroke="currentColor"
+                            strokeWidth="1"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      )}
+                      <p className="text-sm  text-gray-500 ml-2">{faq.question}</p>
+                    </button>
+                    {openIndex == index && (
+                      <div
+                        className="accordion-content w-full overflow-hidden pr-4"
+                        style={{ maxHeight: 250 }}
+                      >
+                        <p className="text-sm   text-gray-500 fs-700 font-normal leading-6">
+                          {faq.answer}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-</div>
-</>
-);
+    </>
+  );
 };
 
 export default ResultPage;

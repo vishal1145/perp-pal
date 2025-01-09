@@ -20,10 +20,24 @@ export const POST = async (request: NextRequest) => {
       );
     }
 
+    // Validate that the file has necessary properties
+    if (
+      !file ||
+      typeof file !== "object" ||
+      !file.arrayBuffer ||
+      !file.name ||
+      !file.size
+    ) {
+      return NextResponse.json(
+        { message: "Invalid file upload" },
+        { status: 400 }
+      );
+    }
+
     const dirPath = path.join(process.cwd(), "public/uploads");
     await mkdir(dirPath, { recursive: true });
 
-    const imageFileName = `board_image_${Date.now()}.png`;
+    const imageFileName = `board_image_${Date.now()}_${file.name}`;
     const filePath = path.join(dirPath, imageFileName);
 
     const buffer = Buffer.from(await file.arrayBuffer());
@@ -43,7 +57,7 @@ export const POST = async (request: NextRequest) => {
       { message: "Board created successfully", board: newBoard },
       { status: 201 }
     );
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error creating board:", error);
     return NextResponse.json(
       { message: "Server error", error: error.message },

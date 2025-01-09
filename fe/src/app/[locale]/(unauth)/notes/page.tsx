@@ -7,20 +7,39 @@ import Footer from "../Footer/page";
 import PreppalFooter from "@/components/PreppalFooter";
 import CustomCardLoader from "@/components/CustomCardLoader";
 import SubjectWiseLearning from '../subject-wise-learning/page'
-const BoardPage = () => {
-  const [selectedBoard, setSelectedBoard] = useState(null);
-  const [loadingUserData, setLoadingUserData] = useState(false);
-  const [boards, setBoards] = useState([]);
-  const [classes, setClasses] = useState([])
-  const [subjects, setSubjects] = useState([]);
-  const [selectedClass, setSelectedClass] = useState(null);
-  const [selectedSubject, setSelectedSubject] = useState(null);
-  const colors = ['#1b4f72', '#283747', '#4a235a', '#196f3d', '#116466', '#d35400'];
-  const router = useRouter();
-  const [loading, setLoading] = useState<boolean>(true);
 
-  const handleClassClick = (className) => setSelectedClass(className);
-  const handleSubjectClick = (subject) => setSelectedSubject(subject);
+interface Board {
+  name: string;
+  image: string;
+  color: string;
+}
+
+interface ClassItem {
+  _id: string;
+  className: string;
+  color: string;
+}
+
+interface Subject {
+  _id: string;
+  subjectName: string;
+  image: string;
+  color: string;
+}
+
+const BoardPage = () => {
+  const [selectedBoard, setSelectedBoard] = useState<string | null>(null);
+  const [loadingUserData, setLoadingUserData] = useState<boolean>(false);
+  const [boards, setBoards] = useState<Board[]>([]);
+  const [classes, setClasses] = useState<ClassItem[]>([]);
+  const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [selectedClass, setSelectedClass] = useState<string | null>(null);
+  const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const router = useRouter();
+
+  const handleClassClick = (className: string) => setSelectedClass(className);
+  const handleSubjectClick = (subject: string) => setSelectedSubject(subject);
   const classId = classes.find(cls => cls.className === selectedClass)?._id;
 
   // const classes = ['Class 12', 'Class 11', 'Class 10', 'Class 9', 'Class 8'];
@@ -82,10 +101,7 @@ const BoardPage = () => {
 
     fetchSubjects();
   }, [selectedClass]);
-
-
-  const handleImageClick = (subject) => router.push(`/subjects`);
-
+  const handleImageClick = (subject: Subject) => router.push(`/subjects`);
 
   const renderNavigation = () => {
     let navigationText = '';
@@ -235,8 +251,7 @@ const BoardPage = () => {
 
         {selectedBoard && !selectedSubject && !selectedClass && (
           <div>
-            {/* <h2 className="mt-8 text-2xl font-bold">Select Class</h2> */}
-            <div className="flex gap-4 mt-3 w-full ">
+            <div className="flex flex-wrap gap-4 mt-3 w-full ">
               {classes.map((classItem) => (
                 <div
                   key={classItem._id}
@@ -301,7 +316,7 @@ const BoardPage = () => {
                     key={subject._id}
                     className="flex flex-col px-20 py-5 rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-110 cursor-pointer"
                     style={{ backgroundColor: subject.color }}
-                    onClick={() => handleImageClick(subject.subjectName)}
+                    onClick={() => handleImageClick(subject)}
                   >
                     <img
                       src={subject.image}
@@ -322,6 +337,7 @@ const BoardPage = () => {
         )}
 
       </div>
+
       <PreppalFooter />
       <Footer />
     </div>

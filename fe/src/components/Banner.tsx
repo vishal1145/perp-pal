@@ -10,6 +10,8 @@ import {
 import SignIn from "@/app/[locale]/(unauth)/signIn/page";
 import SignUp from "@/app/[locale]/(unauth)/SignUP/page";
 import ForgetPassword from "@/app/[locale]/(unauth)/forgetPassword/page";
+import { UserProfile } from '@/data/functions';
+
 import {
   freePrompt,
   setFreePrompt,
@@ -23,10 +25,16 @@ import { useRouter } from "next/navigation";
 import SharePreppal from "./SharePreppal";
 interface DemoBannerProps {
   notMainPage: boolean;
-  user: any;
-  loadingUserData: any;
-  onLogin: (userData: any) => void;
-  onLogout: () => void;
+  user?: any;
+  loadingUserData?: boolean;
+  onLogin?: (userData: any) => void;
+  onLogout?: () => void;
+}
+
+interface UserData {
+  name: string;
+  email: string;
+  // Add other properties as needed
 }
 
 export const Banner: React.FC<DemoBannerProps> = ({
@@ -39,7 +47,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSignIn, setIsSignIn] = useState(true);
   const [isForgetPassword, setIsForgetPassword] = useState(false);
-  const [localuser, setLocalUser] = useState(null);
+  const [localUser, setLocalUser] = useState<UserData | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [searchText, setSearchText] = useState("");
@@ -61,7 +69,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
     setIsModalOpen(true);
   };
 
-  const handleLogin = (userData) => {
+  const handleLogin = (userData: UserData) => {
     setLocalUser(userData);
     closeModal();
   };
@@ -69,19 +77,19 @@ export const Banner: React.FC<DemoBannerProps> = ({
   const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+
       if (
-        !event.target.closest("#avatarButton") &&
-        !event.target.closest("#userDropdown")
+        !target.closest("#avatarButton") &&
+        !target.closest("#userDropdown")
       ) {
         setIsDropdownOpen(false);
       }
     };
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-
-
-
   }, []);
 
   const signOut = async () => {
@@ -96,7 +104,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
 
       if (response.ok) {
         setLocalUser(null);
-        setUserProfile(null);
+        setUserProfile(null as unknown as UserProfile);
         router.push('/');
         user(null);
       }
@@ -105,10 +113,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
     setIsDropdownOpen(false);
   };
 
-  const handleSignUp = (userData) => {
-    setLocalUser(userData);
-    closeModal();
-  };
+
 
   useEffect(() => {
     if (searchInputRef.current) {
@@ -373,7 +378,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
             <SignUp
               onClose={closeModal}
               onSwitchToSignIn={() => openModal(true)}
-              onSignUp={handleSignUp}
+
             />
           )}
         </div>

@@ -2,8 +2,12 @@
 import React, { useState } from 'react';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import Snackbar from "@/components/snackbar";
+interface ForgetPasswordProps {
+  onClose: () => void;
+  onSwitchToSignIn: () => void;
+}
 
-const ForgetPassword = ({ onClose, onSwitchToSignUp, onSwitchToSignIn }) => {
+const ForgetPassword = ({ onClose, onSwitchToSignIn }: ForgetPasswordProps) => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -13,7 +17,7 @@ const ForgetPassword = ({ onClose, onSwitchToSignUp, onSwitchToSignIn }) => {
     setShowPassword(!showPassword);
   };
 
-  const handleResetPassword = async (e) => {
+  const handleResetPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     setSnackbar({ message: "", type: "" });
 
@@ -47,10 +51,8 @@ const ForgetPassword = ({ onClose, onSwitchToSignUp, onSwitchToSignIn }) => {
     }
   };
 
-  const handleOutsideClick = (e) => {
-    if (e.target.id === 'modalWrapper') {
-      onClose();
-    }
+  const handleOutsideClick = (e: React.MouseEvent) => {
+    if ((e.target as HTMLElement).id === "modalWrapper") onClose();
   };
   const handleSnackbarClose = () => {
     setSnackbar({ message: "", type: "" }); // Clear the snackbar message
@@ -134,12 +136,12 @@ const ForgetPassword = ({ onClose, onSwitchToSignUp, onSwitchToSignIn }) => {
           </p>
         </form>
 
-      
+
         {snackbar.message && (
           <Snackbar
             message={snackbar.message}
             type={snackbar.type}
-           onClose={handleSnackbarClose}
+            onClose={handleSnackbarClose}
           />
         )}
       </div>

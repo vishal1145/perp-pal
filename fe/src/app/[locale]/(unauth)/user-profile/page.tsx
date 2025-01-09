@@ -27,10 +27,20 @@ ChartJS.register(
   Tooltip,
   Legend
 );
+
+interface BarData {
+  labels: string[];
+  datasets: {
+    data: number[];
+    backgroundColor: string;
+    borderColor: string;
+    borderWidth: number;
+  }[];
+}
 const ProfileUser = () => {
   const [aboutData, setAboutData] = useState({ about: " " });
   const [usernameData, setUsernameData] = useState({ username: "" });
-  const [profileImage, setProfileImage] = useState<string|null>(null);
+  const [profileImage, setProfileImage] = useState<string | null>(null);
 
 
   const [addressData, setAddressData] = useState({ address: "" });
@@ -40,12 +50,12 @@ const ProfileUser = () => {
   const [newUsernameData, setNewUsernameData] = useState("");
   const [editAboutMode, setEditAboutMode] = useState(false);
   const [editUsernameMode, setEditUsernameMode] = useState(false);
-  const [monthData, setMonthData] = useState([]);
+  const [monthData, setMonthData] = useState<Array<any>>([]);
   const router = useRouter();
   const [todayAssesment, setTodayAssesment] = useState(0);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const userId = userProfile?._id ?? null;
+  const userId: String | null = userProfile?._id ?? null;
   console.log("useerid", userId);
   const [showAll, setShowAll] = useState(false);
   const [loadingUserData, setLoadingUserData] = useState();
@@ -58,10 +68,10 @@ const ProfileUser = () => {
     `/assets/profileImage/profileImage_${userId}.png`
   );
 
-  const notEditUserData = ()=>{
-     setEditUsernameMode(false)  ;
-     setImagePreview(null);
-     setFile(null);
+  const notEditUserData = () => {
+    setEditUsernameMode(false);
+    setImagePreview(null);
+    setFile(null);
   }
 
   const toggleShowAll = () => {
@@ -81,7 +91,7 @@ const ProfileUser = () => {
         .catch((error) => console.error("Error fetching about data:", error));
     }
   }, [userId]);
-  const [barData, setBarData] = useState({
+  const [barData, setBarData] = useState<BarData>({
     labels: [],
     datasets: [
       {
@@ -169,7 +179,7 @@ const ProfileUser = () => {
         setProfile(data.userAssesments);
 
         const monthCounts = new Map();
-        data.userAssesments.forEach((assessment) => {
+        data.userAssesments.forEach((assessment: any) => {
           const date = new Date(assessment.createdAt);
           const month = date.toLocaleString("default", { month: "short" });
 
@@ -235,7 +245,7 @@ const ProfileUser = () => {
 
   useEffect(() => {
     setBarData({
-      labels: monthData.map((item) => item.month),
+      labels: monthData.map((item) => item?.month),
       datasets: [
         {
           // label: 'Lines of Code',
@@ -311,18 +321,20 @@ const ProfileUser = () => {
   };
 
 
-  const imageChange = (e)=>{
+  const imageChange = (e: any) => {
     const file = e?.target?.files?.[0];
     if (!file) return;
     setFile(file);
     setImagePreview(URL.createObjectURL(file));
   }
 
-  const profileImageUpdate = async ( ) => {
-    if (!file) return;
+  const profileImageUpdate = async (file: File) => {
+    if (!file || !userId) return;
+
+
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("userId", userId); // Pass the userId to the backend
+    formData.append("userId", userId as string); // Pass the userId to the backend
 
     setUploading(true);
 
@@ -377,25 +389,25 @@ const ProfileUser = () => {
                       <FaPen className="size-4" />
                     </button>
                     <div className="text-center">
-                   
-            
- 
-                    <img
-  src={
-    profileImage != null
-      ? profileImage
-      : userProfile?.profileImage == null
-      ? "/assets/profileImage.jpg" :
-      userProfile.profileImage.startsWith("p")
-      ? `${userProfile.profileImage.substring(6)}`
-      : userProfile.profileImage
-  }
-  alt="Profile"
-  className="mx-auto w-24 h-24 rounded-full"
-/>
 
- 
- 
+
+
+                      <img
+                        src={
+                          profileImage != null
+                            ? profileImage
+                            : userProfile?.profileImage == null
+                              ? "/assets/profileImage.jpg" :
+                              userProfile.profileImage.startsWith("p")
+                                ? `${userProfile.profileImage.substring(6)}`
+                                : userProfile.profileImage
+                        }
+                        alt="Profile"
+                        className="mx-auto w-24 h-24 rounded-full"
+                      />
+
+
+
 
                       {editUsernameMode ? (
                         <div>
@@ -473,9 +485,9 @@ const ProfileUser = () => {
                           </p>
                         </>
                       )}
- 
+
                     </div>
-                   
+
                   </div>
                 )}
 
@@ -642,8 +654,8 @@ const ProfileUser = () => {
                           let incorrectCount = 0;
                           let notAttemptedCount = 0;
 
-                          job.questions?.forEach((q) => {
-                            const answer = q.questionId?.answer; 
+                          job.questions?.forEach((q: any) => {
+                            const answer = q.questionId?.answer;
                             if (!q.userSelectAns || q.userSelectAns === "") {
                               notAttemptedCount++;
                             } else {

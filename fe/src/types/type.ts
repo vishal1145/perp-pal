@@ -1,33 +1,39 @@
 export type DropdownSearchProps = {
   filter: string;
-  options: FilterOption[];  
+  options: FilterOption[];
   filterOptionSelect: (id: string | null) => void;
 };
+export interface Option {
+  optionText: string;
+  optionFlag: string;
+  value: string | null;
+}
 
 export interface McqQuestion {
-  _id:string;
+  _id: string;
   questionId: string;
   question: string;
-  options: { optionText: string; optionFlag: string }[];
-  answer:string;
-  minTime:Number;
-  maxTime:Number;
-  avgTime:Number;
-  showHints:String;
+  questionType: string;
+  options: Option[];
+  answer: string;
+  minTime: Number;
+  maxTime: Number;
+  avgTime: Number;
+  showHints: String;
 }
 
-export interface UserPracticePaper{
-  McqQuestion:McqQuestion;
-  userSelectAns:string|number;
-  userSelectAnsString:string;
-  submitTimeInSeconds?:number;
+export interface UserPracticePaper {
+  McqQuestion: McqQuestion;
+  userSelectAns: string | number;
+  userSelectAnsString: string;
+  submitTimeInSeconds?: number;
 }
 
-export interface SubmitAssessment{
-  questionId:McqQuestion
-  userSelectAns:string;
-  submitTimeInSeconds?:number;
-  userSelectAnsString:string;
+export interface SubmitAssessment {
+  questionId: McqQuestion
+  userSelectAns: string;
+  submitTimeInSeconds?: number;
+  userSelectAnsString: string;
 }
 
 export interface McqTestQuestion {

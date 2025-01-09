@@ -1,7 +1,7 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import connectDB from '@/libs/DB';
 
-export async function GET(request) {
+export async function GET(request: NextRequest) {
 
   try {
     await connectDB();

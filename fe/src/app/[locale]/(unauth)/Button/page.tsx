@@ -1,16 +1,25 @@
 'use client';
 import React from 'react';
 
-const Button = ({
+type ButtonProps = {
+  label: string;
+  onClick?: () => void;
+  type?: 'button' | 'submit' | 'reset';
+  className?: string;
+  disabled?: boolean;
+  variant?: 'primary' | 'secondary' | 'danger' | 'outline';
+  size?: 'small' | 'medium' | 'large';
+};
+
+const Button: React.FC<ButtonProps> = ({
   label,
   onClick,
   type = 'button',
   className = '',
   disabled = false,
-  variant = 'primary', 
-  size = 'medium', 
+  variant = 'primary',
+  size = 'medium',
 }) => {
- 
   const variantClasses = {
     primary: 'bg-cyan-500 hover:bg-cyan-600 text-white',
     secondary: 'bg-gray-500 hover:bg-gray-600 text-white',
