@@ -39,15 +39,12 @@ interface UserData {
 
 export const Banner: React.FC<DemoBannerProps> = ({
   notMainPage,
-  user,
-  onLogin,
-  onLogout,
+  user, 
   loadingUserData,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isSignIn, setIsSignIn] = useState(true);
   const [isForgetPassword, setIsForgetPassword] = useState(false);
-  const [localUser, setLocalUser] = useState<UserData | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [searchText, setSearchText] = useState("");
@@ -69,8 +66,7 @@ export const Banner: React.FC<DemoBannerProps> = ({
     setIsModalOpen(true);
   };
 
-  const handleLogin = (userData: UserData) => {
-    setLocalUser(userData);
+  const handleLogin = () => {
     closeModal();
   };
 
@@ -103,7 +99,6 @@ export const Banner: React.FC<DemoBannerProps> = ({
       );
 
       if (response.ok) {
-        setLocalUser(null);
         setUserProfile(null as unknown as UserProfile);
         router.push('/');
         user(null);
