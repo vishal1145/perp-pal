@@ -163,11 +163,6 @@ const SharePreppal: React.FC<SharePreppalProps> = ({ setSharePreppal }) => {
               </a>
             </div>
 
-            {/* <div className="mt-3 md:mt-0 flex items-center gap-2">
-              <div className={`${text2} flex items-center gap-2`}>
-                Remind me later <FaBell className='text-cyan-600 hover:text-cyan-700 cursor-pointer' />
-              </div>
-            </div> */}
           </div>
         </div>
       </div>
