@@ -28,7 +28,7 @@ class Custom_Train_Spacy_Model:
         self.output_dir = Path(output_dir)
         
         try:
-            self.nlp = spacy.load(self.model)
+            self.nlp = spacy.load("en_core_web_sm")
         except OSError:
             cli.download(self.model)
             self.nlp = spacy.load(self.model)

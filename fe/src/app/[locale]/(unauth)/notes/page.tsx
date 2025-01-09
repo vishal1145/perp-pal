@@ -3,10 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { Banner } from '@/components/Banner';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import Footer from "../Footer/page";
+import Footer from '@/components/Footer';
 import PreppalFooter from "@/components/PreppalFooter";
 import CustomCardLoader from "@/components/CustomCardLoader";
-import SubjectWiseLearning from '../subject-wise-learning/page'
+import SubjectWiseLearning from '@/components/SubjectWiseLearning';
 
 interface Board {
   name: string;

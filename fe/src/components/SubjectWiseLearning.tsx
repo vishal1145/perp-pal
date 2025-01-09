@@ -16,14 +16,14 @@ interface Subject {
     classIds: { className: string }[];
 }
 
-interface PageProps {
+interface SubjectPageProps {
     handleImageClick: (subject: Subject) => void;
     selectedClass: string | null;
     classes?: ClassItem[]; // Marked as optional
     loading: boolean;
 }
 
-const Page: React.FC<PageProps> = ({ handleImageClick, selectedClass, classes, loading }) => {
+const SubjectWiseLearning: React.FC<SubjectPageProps> = ({ handleImageClick, selectedClass, classes, loading }) => {
     const [subjectLoading, setSubjectLoading] = useState<boolean>(true);
     const [currentClass, setCurrentClass] = useState<string>(
         selectedClass || (classes?.[0]?.className || '')
@@ -156,4 +156,4 @@ const Page: React.FC<PageProps> = ({ handleImageClick, selectedClass, classes, l
     );
 };
 
-export default Page;
+export default SubjectWiseLearning;

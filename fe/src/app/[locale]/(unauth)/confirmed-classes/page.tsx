@@ -1,6 +1,6 @@
 'use client';
 import React from "react";
-import Button from "../Button/page";
+import Button from '@/components/Button';
 
 
 import CheckIcon from '../../../../../public/svgs/checkmark.svg';

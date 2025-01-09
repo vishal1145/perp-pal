@@ -1,15 +1,15 @@
-Flask
-langchain-core
-langchain-groq
-sentence-transformers
-pandas
-chromadb
-numpy
-python-dotenv
-accelerate>=0.26.0
-watchdog
-httpx==0.27.2
-pytest
-spacy
-pyspellchecker
-es-indexer
+Flask==3.1.0
+langchain-core==0.3.21
+langchain-groq==0.2.1
+sentence-transformers==3.3.1
+pandas== 2.2.3
+chromadb== 0.5.21
+numpy==1.26.4
+python-dotenv==1.0.1
+accelerate>=1.1.1
+watchdog== 6.0.0
+httpx== 0.27.2
+pytest==8.3.4
+spacy==3.8.2
+pyspellchecker==0.8.1
+es-indexer== 0.1

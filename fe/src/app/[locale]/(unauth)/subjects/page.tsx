@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Banner } from '@/components/Banner';
 import PreppalFooter from '@/components/PreppalFooter';
-import Footer from '../Footer/page';
+import Footer from '@/components/Footer';
 const Page = () => {
     const [loadingUserData, setLoadingUserData] = useState<boolean>(false);
 

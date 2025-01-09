@@ -7,9 +7,9 @@ import {
   FaUser,
   FaMicrophone,
 } from "react-icons/fa";
-import SignIn from "@/app/[locale]/(unauth)/signIn/page";
-import SignUp from "@/app/[locale]/(unauth)/SignUP/page";
-import ForgetPassword from "@/app/[locale]/(unauth)/forgetPassword/page";
+import SignIn from "@/components/SignIn";
+import SignUp from "@/components/SignUp";
+import ForgetPassword from "@/components/ForgetPassword";
 import { UserProfile } from '@/data/functions';
 
 import {

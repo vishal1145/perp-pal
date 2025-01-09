@@ -6,9 +6,9 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { FaMicrophone, FaSearch } from "react-icons/fa";
 
-import ForgetPassword from "@/app/[locale]/(unauth)/forgetPassword/page";
-import SignIn from "@/app/[locale]/(unauth)/signIn/page";
-import SignUp from "@/app/[locale]/(unauth)/SignUP/page";
+import ForgetPassword from "@/components/ForgetPassword";
+import SignIn from "@/components/SignIn";
+import SignUp from "@/components/SignUp";
 import { Banner } from "@/components/Banner";
 import { cardData } from "@/data/cardData";
 import {
@@ -19,7 +19,7 @@ import {
 
 import logo from "../../../images/logo1.png";
 import { trackGAEvent } from "../(unauth)/googleAnalytics";
-import Footer from "./Footer/page";
+import Footer from "@/components/Footer";
 import SharePreppal from "@/components/SharePreppal";
 import PreppalFooter from "@/components/PreppalFooter";
 import Blogs from "@/components/Blogs";
