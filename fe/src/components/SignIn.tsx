@@ -16,7 +16,7 @@ const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword, onLogin }: SignIn
     const [showPassword, setShowPassword] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
+
     const [showLoader, setShowLoader] = useState<boolean>(false);
     const [rememberMe, setRememberMe] = useState(true);
     const [snackbar, setSnackbar] = useState({ message: "", type: "" });
@@ -26,7 +26,7 @@ const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword, onLogin }: SignIn
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setErrorMessage('');
+
         setShowLoader(true);
         setSnackbar({ message: "", type: "" });
 
@@ -54,14 +54,13 @@ const SignIn = ({ onClose, onSwitchToSignUp, onForgotPassword, onLogin }: SignIn
                 onClose();
                 setSnackbar({ message: "Login successful!", type: "success" });
             } else {
-                setErrorMessage(data.message || 'Login failed. Please try again.');
-                setErrorMessage('An unexpected error occurred. Please try again later.');
+
                 setSnackbar({ message: data.message || 'Login failed. Please try again.', type: "error" });
 
             }
         } catch (error) {
             console.error('Error:', error);
-            setErrorMessage('An unexpected error occurred. Please try again later.');
+
             setSnackbar({ message: 'An unexpected error occurred. Please try again later.', type: "error" });
         }
         finally {
