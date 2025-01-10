@@ -1,13 +1,8 @@
-
-'use client';
-import React, { useEffect, useState } from 'react';
+'use client'; // Make sure you're using 'use client' if it's client-side logic
+import { useEffect } from 'react';
 import { setUserProfile, UserProfile } from '@/data/functions';
 
-const defaultPage = () => {
-  const [loading, setLoading] = useState(true);
-  const [loadingUserData, setLoadingUserData] = useState(true);
-  const [userProfileLoading, setUserProfileLoading] = useState(true);
-
+const DefaultPage = () => {
   const fetchUserData = async () => {
     try {
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/users/me`, {
@@ -24,11 +19,7 @@ const defaultPage = () => {
       }
     } catch (error) {
       console.error('Error fetching user data:', error);
-      setUserProfileLoading(false);
       setUserProfile(null as unknown as UserProfile);
-    } finally {
-      setLoadingUserData(false);
-      setUserProfileLoading(false);
     }
   };
 
@@ -36,7 +27,8 @@ const defaultPage = () => {
     fetchUserData();
   }, []);
 
-  return loading ? null : null;
+  // Return null to avoid rendering any UI
+  return null;
 };
 
-export default defaultPage;
+export default DefaultPage;

@@ -30,7 +30,7 @@ const ResultPage = () => {
   const router = useRouter();
   const id = searchParams.get("id");
   const hasFetched = useRef(false);
-  const [loadingUserData, setLoadingUserData] = useState();
+  const [loadingUserData, setLoadingUserData] = useState<boolean>(false);
   const [questionloading, setQuestionLoading] = useState(true);
   const [title, setTitle] = useState('');
   const [sharePreppal, setSharePreppal] = useState(false);
@@ -57,12 +57,13 @@ const ResultPage = () => {
           }
         }
       }
-
+      setLoadingUserData(true)
       setCorrect(correct);
       setInCorrect(totalAttempt - correct);
       setNotAttempt(total - totalAttempt);
     } catch (error) {
       console.log(error);
+      setLoadingUserData(false)
     }
   };
 
@@ -169,7 +170,7 @@ const ResultPage = () => {
                 submitAssessment.map((item, index) => {
                   const question = item.questionId;
                   const userSelectAnsString = item.userSelectAnsString;
-                  const userSelectAns = item.userSelectAns;
+
                   const answer = question.answer;
 
 

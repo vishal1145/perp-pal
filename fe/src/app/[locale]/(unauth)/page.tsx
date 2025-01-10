@@ -27,15 +27,15 @@ import Blogs from "@/components/Blogs";
 export default function Layout() {
   const [searchText, setSearchText] = useState("");
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const [user, setUser] = useState(null);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const openSignInModal = () => setIsModalOpen(true);
+
   const router = useRouter();
   const [isSignIn, setIsSignIn] = useState(true);
   const [isForgetPassword, setIsForgetPassword] = useState(false);
-  const [localuser, setLocalUser] = useState(null);
+
   const [loadingUserData, setLoadingUserData] = useState(true);
-  const [userProfileLoading, setUserProfileLoading] = useState(true);
+
   const [sharePreppal, setSharePreppal] = useState(false);
   const handleMicClick = () => {
     if ("webkitSpeechRecognition" in window) {
@@ -77,17 +77,17 @@ export default function Layout() {
 
       if (response.ok) {
         const userData = await response.json();
-        setUser(userData);
+
         setUserProfile(userData.data);
       } else if (response.status === 400) {
         console.warn("User is not logged in or session has expired");
-        setUser(null); // Show login button
+
       }
     } catch (error) {
       console.error("Error fetching user data:", error);
-      setUser(null); // Show login button on error
+
       setLoadingUserData(false);
-      setUserProfileLoading(false);
+
     } finally {
       setLoadingUserData(false); // Set loading to false after fetching user data
     }
@@ -163,8 +163,8 @@ export default function Layout() {
     setIsSignIn(false);
     setIsModalOpen(true);
   };
-  const handleLogin = (userData: any) => {
-    setLocalUser(userData); // Update state with user data
+  const handleLogin = () => {
+
     closeModal();
   };
 

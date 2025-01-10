@@ -1,8 +1,8 @@
 import ConnectDB from "@/libs/DB";
 import Board from "@/models/Board";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
     try {
         await ConnectDB();
         const board = await Board.find();

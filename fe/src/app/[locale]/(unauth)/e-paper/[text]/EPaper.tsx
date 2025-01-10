@@ -23,7 +23,7 @@ const EPaper: React.FC = () => {
   const [questions, setQuestions] = useState<McqQuestion[]>([]);
   const [formattedText, setFormattedText] = useState<string>("");
   const [alreadyCall, setAlreadyCall] = useState<boolean>(false);
-  const [loadingUserData, setLoadingUserData] = useState();
+  const [loadingUserData, setLoadingUserData] = useState<boolean>(false);
 
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
@@ -51,8 +51,10 @@ const EPaper: React.FC = () => {
       );
       setQuestions(mcqQuestions);
       setQuestionLoading(false);
+      setLoadingUserData(true)
     } catch (error) {
       console.log(error);
+      setLoadingUserData(false)
     }
   };
 

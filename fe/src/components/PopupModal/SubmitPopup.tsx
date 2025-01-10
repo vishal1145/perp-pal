@@ -21,22 +21,13 @@ export type SubmitPopupProps = {
   submitAssessmentId: string
 };
 
-const SubmitPopup: React.FC<SubmitPopupProps> = ({ title, subTitle, message, setIsModalOpen, loaderShow, total, atemmpt, correct, incorrect, submitAssessmentId }) => {
+const SubmitPopup: React.FC<SubmitPopupProps> = ({ title, subTitle, total, atemmpt, correct, incorrect, submitAssessmentId }) => {
   const router = useRouter();
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [searchText, setSearchText] = useState('');
   const [sharePreppal, setSharePreppal] = useState(false);
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && searchText.trim() !== '') {
-      if (freePrompt) {
-        setSharePreppal(true);
-        return;
-      }
-      const formattedText = searchText.trim().replace(/\s+/g, '-'); // Format the text
-      router.push(`/e-paper/${formattedText}`); // Navigate to the formatted URL
-    }
-  };
+
 
   useEffect(() => {
     setFreePrompt();

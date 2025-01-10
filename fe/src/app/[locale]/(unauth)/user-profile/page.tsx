@@ -53,20 +53,18 @@ const ProfileUser = () => {
   const [monthData, setMonthData] = useState<Array<any>>([]);
   const router = useRouter();
   const [todayAssesment, setTodayAssesment] = useState(0);
-  const [user, setUser] = useState(null);
+
   const [loading, setLoading] = useState<boolean>(true);
   const userId: String | null = userProfile?._id ?? null;
   console.log("useerid", userId);
   const [showAll, setShowAll] = useState(false);
-  const [loadingUserData, setLoadingUserData] = useState();
+
   const [file, setFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [image, setImage] = useState(null);
+
   const [uploading, setUploading] = useState(false);
 
-  const [imageUrl, setImageUrl] = useState(
-    `/assets/profileImage/profileImage_${userId}.png`
-  );
+
 
   const notEditUserData = () => {
     setEditUsernameMode(false);
@@ -134,21 +132,21 @@ const ProfileUser = () => {
     },
   };
 
-  const [statisticsData, setStatisticsData] = useState({
-    projectView: 0,
-    totalInterview: 0,
-    totalProblemSolved: 0,
-  });
-  useEffect(() => {
-    axios
-      .get(`${process.env.NEXT_PUBLIC_API_URI}/users/statistics`)
-      .then((response) => {
-        setStatisticsData(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching about data:", error);
-      });
-  }, []);
+  // const [statisticsData, setStatisticsData] = useState({
+  //   projectView: 0,
+  //   totalInterview: 0,
+  //   totalProblemSolved: 0,
+  // });
+  // useEffect(() => {
+  //   axios
+  //     .get(`${process.env.NEXT_PUBLIC_API_URI}/users/statistics`)
+  //     .then((response) => {
+  //       setStatisticsData(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching about data:", error);
+  //     });
+  // }, []);
 
   function isCreatedAtToday(createdAt: any) {
     console.log("createdAt", createdAt);
@@ -160,7 +158,7 @@ const ProfileUser = () => {
   }
   const [profile, setProfile] = useState<any[]>([]);
 
-  const name = userProfile?.username ?? null;
+
   console.log(userId);
   useEffect(() => {
     if (!userId) return; // Avoid API call until userId is available
@@ -346,7 +344,7 @@ const ProfileUser = () => {
       });
 
       if (response.status === 200) {
-        setImageUrl(`/assets/profileImage/profileImage_${userId}.png`);
+
         setProfileImage(imagePreview);
         setImagePreview(null);
         setFile(null);
@@ -363,7 +361,7 @@ const ProfileUser = () => {
 
   return (
     <>
-      <Banner notMainPage={true} loadingUserData={loadingUserData} />
+      <Banner notMainPage={true} />
       {/* <Banner notMainPage={false} /> */}
       <div className="bg-white">
         <div className="container mx-auto px-3 py-4">

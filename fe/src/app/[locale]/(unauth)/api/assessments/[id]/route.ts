@@ -1,10 +1,19 @@
-import connectDB from '../../../../../../libs/DB'; // Adjust this path if necessary
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import connectDB from '../../../../../../libs/DB'; // Adjust the path if needed
 import SubmitAssessment from '@/models/submitAssesment';
-export async function GET(request: Request, { params }: { params: { id: string } }) {
-    await connectDB();
 
-    const { id } = params;
+export async function GET(req: NextRequest) {
+    // Extract the 'id' from the URL using nextUrl
+    const pathname = req.nextUrl.pathname;
+    const id = pathname.split('/').pop();
+
+    // If there's no 'id' in the URL, return an error
+    if (!id || typeof id !== 'string') {
+        return NextResponse.json({ message: 'ID is required' }, { status: 400 });
+    }
+
+    // Connect to the database
+    await connectDB();
 
     try {
         const assessment = await SubmitAssessment.findById(id)

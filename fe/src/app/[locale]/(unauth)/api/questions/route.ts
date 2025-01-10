@@ -8,7 +8,7 @@ interface Option {
     image: string;
 }
 const convertOptions = (optionsObject: Record<string, Option>) => {
-    return Object.entries(optionsObject).map(([key, { value, image }]) => {
+    return Object.entries(optionsObject).map(([key, { value }]) => {
         return {
             optionText: value,
             optionFlag: key

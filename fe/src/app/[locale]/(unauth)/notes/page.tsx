@@ -39,10 +39,12 @@ const BoardPage = () => {
   const router = useRouter();
 
   const handleClassClick = (className: string) => setSelectedClass(className);
-  const handleSubjectClick = (subject: string) => setSelectedSubject(subject);
+  const handleSubjectClick = (subject: Subject) => {
+    setSelectedSubject(subject.subjectName);
+
+  };
   const classId = classes.find(cls => cls.className === selectedClass)?._id;
 
-  // const classes = ['Class 12', 'Class 11', 'Class 10', 'Class 9', 'Class 8'];
 
   useEffect(() => {
     const fetchBoards = async () => {
@@ -101,7 +103,7 @@ const BoardPage = () => {
 
     fetchSubjects();
   }, [selectedClass]);
-  const handleImageClick = (subject: Subject) => router.push(`/subjects`);
+  const handleImageClick = () => router.push(`/subjects`);
 
   const renderNavigation = () => {
     let navigationText = '';
@@ -316,7 +318,7 @@ const BoardPage = () => {
                     key={subject._id}
                     className="flex flex-col px-20 py-5 rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-110 cursor-pointer"
                     style={{ backgroundColor: subject.color }}
-                    onClick={() => handleImageClick(subject)}
+                    onClick={() => handleSubjectClick(subject)}
                   >
                     <img
                       src={subject.image}

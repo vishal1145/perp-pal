@@ -20,20 +20,20 @@ const PracticeScreen = () => {
   const [showHints, setShowHints] = useState(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [submitLoading, setSubmitLoading] = useState<boolean>(false);
-  const [loaderShow, setLoaderShow] = useState<boolean>(false);
+  const [loaderShow] = useState<boolean>(false);
   const [questions, setQuestions] = useState<McqQuestion[]>([]);
   const [index, setIndex] = useState<number>(0);
   const [qsnChange, setQsnChange] = useState(-1);
   const [userPracticePaper, setUserPracticePaper] = useState<UserPracticePaper[]>([]);
   const panelRef = useRef<HTMLDivElement | null>(null);
   const [panelHeight, setPanelHeight] = useState(0);
-  const [resultScreen, setResultScreen] = useState<boolean>(false);
+  const [resultScreen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [totalSeconds, setTotalSeconds] = useState(0);
   const [totalMinutes, setTotalMinutes] = useState(0);
   const [totalHours, setTotalHours] = useState(0);
   const [alreadySaveCall, setAlreadySaveCall] = useState(false);
-  const [loadingUserData, setLoadingUserData] = useState();
+
 
   const [submitPopupValue, setsubmitPopupValue] = useState<SubmitPopupProps>({
     title: "Assessment Score",
@@ -48,7 +48,7 @@ const PracticeScreen = () => {
     submitAssessmentId: ''
   })
 
-  const [id, setId] = useState('');
+
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -64,7 +64,7 @@ const PracticeScreen = () => {
       }))
     }
     if (idValue) {
-      setId(idValue);
+
       getPracticePaper(idValue)
     }
   }, []);
@@ -142,7 +142,7 @@ const PracticeScreen = () => {
       }
     }
 
-    const incorrect = totalAttempt - correct;
+
 
     setsubmitPopupValue(prev => ({
       ...prev,
@@ -227,9 +227,10 @@ const PracticeScreen = () => {
     <>
       {
         resultScreen === true ? <ResultPage />
-          : <div className="flex flex-col min-h-screen bg-white  ">
+          :
+          <div className="flex flex-col min-h-screen bg-white  ">
             {/* <DemoBanner notMainPage={true} /> */}
-            <Banner notMainPage={true} loadingUserData={loadingUserData} />
+            <Banner notMainPage={true} />
             <div className="flex flex-col w-100 md:flex-row   overflow-hidden p-2 md:p-8 ">
               {isModalOpen &&
                 <SubmitPopup title={submitPopupValue.title} subTitle={submitPopupValue.subTitle} total={submitPopupValue.total} atemmpt={submitPopupValue.atemmpt} correct={submitPopupValue.correct} incorrect={submitPopupValue.incorrect} message={submitPopupValue.message} setIsModalOpen={submitPopupValue.setIsModalOpen} submitAssessmentId={submitPopupValue.submitAssessmentId}

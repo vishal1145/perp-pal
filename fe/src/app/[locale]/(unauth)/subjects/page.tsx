@@ -1,14 +1,14 @@
 'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import { Banner } from '@/components/Banner';
 import PreppalFooter from '@/components/PreppalFooter';
 import Footer from '@/components/Footer';
 const Page = () => {
-    const [loadingUserData, setLoadingUserData] = useState<boolean>(false);
+
 
     return (
         <>
-            <Banner notMainPage={true} loadingUserData={loadingUserData} />
+            <Banner notMainPage={true} />
             <div className="min-h-screen ">
                 <div className='px-4 sm:px-8 mb-8'>
 

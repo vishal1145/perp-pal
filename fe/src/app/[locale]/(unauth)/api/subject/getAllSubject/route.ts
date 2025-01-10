@@ -1,8 +1,8 @@
 import ConnectDB from "@/libs/DB";
 import Subject from "@/models/Subject";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export async function GET(request: NextRequest) {
+export async function GET() {
     try {
         await ConnectDB();
         const subject = await Subject.find().populate({

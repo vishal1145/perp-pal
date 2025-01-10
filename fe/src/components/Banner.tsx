@@ -31,15 +31,9 @@ interface DemoBannerProps {
   onLogout?: () => void;
 }
 
-interface UserData {
-  name: string;
-  email: string;
-  // Add other properties as needed
-}
-
 export const Banner: React.FC<DemoBannerProps> = ({
   notMainPage,
-  user, 
+  user,
   loadingUserData,
 }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);

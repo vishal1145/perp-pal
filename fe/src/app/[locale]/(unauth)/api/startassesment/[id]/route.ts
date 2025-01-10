@@ -1,19 +1,23 @@
-
 import connectDB from '@/libs/DB';
 import mongoose from 'mongoose';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import StartAssessment from '@/models/startAssessment';
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
-    try {
-        await connectDB();
-        const { id } = params;
+export async function GET(req: NextRequest) {
+    // Extract the 'id' from the URL parameters
+    const { pathname } = req.nextUrl;
+    const id = pathname.split('/').pop(); // Get the last part of the URL as the 'id'
 
-        console.log('id',id);
-        if (!mongoose.Types.ObjectId.isValid(id)) {
-            return NextResponse.json({ message: 'Invalid ID format.' }, { status: 400 });
-        }
-        
+    // If 'id' is invalid or missing, return a 400 Bad Request response
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+        return NextResponse.json({ message: 'Invalid ID format.' }, { status: 400 });
+    }
+
+    try {
+        // Connect to the database
+        await connectDB();
+
+        // Fetch the assessment by ID and populate the 'questions' field
         const assessment = await StartAssessment.findById(id)
             .populate('questions')
             .exec();
