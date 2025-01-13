@@ -41,7 +41,7 @@ const BoardPage = () => {
   const handleClassClick = (className: string) => setSelectedClass(className);
   const handleSubjectClick = (subject: Subject) => {
     setSelectedSubject(subject.subjectName);
-
+    router.push('/subjects');  // navigate to the subjects page
   };
   const classId = classes.find(cls => cls.className === selectedClass)?._id;
 
@@ -109,7 +109,7 @@ const BoardPage = () => {
     let navigationText = '';
     if (selectedBoard) navigationText += `${selectedBoard} &nbsp; > &nbsp;`;
     if (selectedClass) navigationText += `  ${selectedClass} &nbsp; > &nbsp;`;
-    if (selectedSubject) navigationText += selectedSubject;
+    if (selectedSubject) navigationText += ` ${selectedSubject} &nbsp; > &nbsp;`;
 
 
     return (
@@ -153,8 +153,11 @@ const BoardPage = () => {
         )}
 
         {selectedSubject && (
-          <span className="cursor-pointer">
-            {selectedSubject}
+          <span>
+            <span className="mx-1">&gt;</span>
+            <span className="cursor-pointer">
+              {selectedSubject}
+            </span>
           </span>
         )}
       </div>

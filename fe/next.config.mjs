@@ -26,8 +26,9 @@ export default withSentryConfig(
       reactStrictMode: true,
       experimental: {
         serverComponentsExternalPackages: ['@electric-sql/pglite'],
-      },
+        missingSuspenseWithCSRBailout: false, // Added this line to disable the error
 
+      },
 
       webpack(config, { isServer }) {
         // Add support for importing SVG files as React components
