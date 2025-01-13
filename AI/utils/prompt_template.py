@@ -17,8 +17,7 @@ User input string:
 {user_query}
 
 ### OUTPUT
-Ensure the JSON output is strictly valid and defaults are applied when information is missing and return the extracted information in **strictly valid JSON format**. Do not include any explanations or additional text.
-
+Return the extracted information in a **strictly valid JSON array**. Each item in the array should be a dictionary containing the extracted details for each subject. Do not wrap the output in any additional objects or keys (e.g., `subjects`). If any details are missing, apply the default values as specified.
 
 ## VALID JSON (NO PREAMBLE):
 """
