@@ -46,17 +46,26 @@ class Refactor_JSON:
         try:
             df = pd.read_json(self.input_file)
             
-            df = df[df['subject'].notna() | df['topic'].notna() | df['chapter'].notna()]
+            required_columns = ['subject', 'topic', 'chapter']
+            if not all(df[col].notnull().any() for col in required_columns):
+                print(f"File {self.input_file} does not contain valid 'subject', 'topic', or 'chapter'. Skipping...")
+                return None
             
-            parameters_to_keep = ["_id",  "questionType", "difficulty", "subject", "chapter", "topic"]
 
-            df = df.apply(lambda col: col if col.name in parameters_to_keep else "null", axis=0)
+            parameters_to_keep = ["_id", "questionType", "difficulty", "subject", "chapter", "topic"]
 
-            filtered_df = df[parameters_to_keep]
+    
+            filtered_df = df[parameters_to_keep].copy()
+
+        
+            for col in df.columns:
+                if col not in parameters_to_keep:
+                    filtered_df[col] = None 
+
+          
             filtered_df.to_json(self.output_file, orient="records", indent=2)
             print(f"Processed JSON created at: {self.output_file}")
             return self.output_file
         except Exception as e:
             print(f"Error processing file {self.input_file}: {e}")
             return None
- 
