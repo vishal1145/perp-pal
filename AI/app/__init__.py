@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from data.training.train import Automatic_train_Model
 from watchdog.observers import Observer
 from utils.config import UNPROCESSED_FILES_DIR
@@ -18,6 +18,11 @@ def initialize_app():
     allowed_origins = os.getenv("ALLOWED_ORIGINS", "https://preppal.club").split(",")
     CORS(app, resources={r"/*": {"origins": allowed_origins}})
 
+    @app.before_request
+    def handle_preflight():
+        if request.method == 'OPTIONS':
+            return '', 200 
+        
     from app.routes.questions import api
     app.register_blueprint(api, url_prefix="/")
 
