@@ -10,6 +10,9 @@ refine_prompt = Refine_Prompt()
 api = Blueprint("api", __name__)
 @api.route('/get_questions', methods=['POST'])
 def get_questions_route():
+    if request.method == 'OPTIONS':
+        return '', 200
+    
     data = request.json
     prompt = data.get("prompt", "")
     
