@@ -38,12 +38,30 @@ const BoardPage = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const router = useRouter();
 
-  const handleClassClick = (className: string) => setSelectedClass(className);
-  const handleSubjectClick = (subject: Subject) => {
-    setSelectedSubject(subject.subjectName);
-    router.push('/subjects');  // navigate to the subjects page
-  };
   const classId = classes.find(cls => cls.className === selectedClass)?._id;
+  const handleClassClick = (className: string) => {
+    setSelectedClass(className);
+    const selectedClassObj = classes.find(cls => cls.className === className);
+    if (selectedClassObj) {
+      sessionStorage.setItem('classId', selectedClassObj._id);
+    }
+  }
+  const handleSubjectClick = (subject: Subject) => {
+    if (selectedClass) {
+      setSelectedSubject(subject.subjectName);
+      sessionStorage.setItem('subjectId', subject._id);
+      sessionStorage.setItem('className', selectedClass);
+
+      const classNameFormatted = selectedClass.replace(/\s+/g, '-');
+      const subjectNameFormatted = subject.subjectName.replace(/\s+/g, '-');
+      router.push(`/subjects/${classNameFormatted}/${subjectNameFormatted}`);
+    } else {
+      console.log('No class selected');
+    }
+  };
+
+
+
 
 
   useEffect(() => {
@@ -103,7 +121,6 @@ const BoardPage = () => {
 
     fetchSubjects();
   }, [selectedClass]);
-  const handleImageClick = () => router.push(`/subjects`);
 
   const renderNavigation = () => {
     let navigationText = '';
@@ -282,7 +299,6 @@ const BoardPage = () => {
         )}
         {!selectedClass && (
           <SubjectWiseLearning
-            handleImageClick={handleImageClick}
             selectedClass={selectedClass}
             classes={classes}
             loading={loading}

@@ -7,7 +7,6 @@ export const GET = async (request: NextRequest) => {
     try {
         await ConnectDB();
 
-        // Extract classId from the URL query string
         const url = new URL(request.url);
         const classId = url.searchParams.get("classId");
 
@@ -18,10 +17,6 @@ export const GET = async (request: NextRequest) => {
             );
         }
 
-        // Log the classId for debugging purposes
-        console.log("Received classId:", classId);
-
-        // Ensure classId is a valid MongoDB ObjectId
         if (!mongoose.Types.ObjectId.isValid(classId)) {
             return NextResponse.json(
                 { message: "Invalid classId format" },
@@ -29,19 +24,16 @@ export const GET = async (request: NextRequest) => {
             );
         }
 
-        // Convert classId to ObjectId using the 'new' keyword
+
         const objectIdClassId = new mongoose.Types.ObjectId(classId);
 
-        // Fetch all subjects where classId exists in the classIds array
         const subjects = await Subject.find({
-            classIds: objectIdClassId, // Match classId in classIds array
+            classIds: objectIdClassId,
         }).populate({
             path: "classIds",
             select: "className",
         });
 
-        // Log subjects to see the result
-        console.log("Found subjects:", subjects);
 
         if (!subjects || subjects.length === 0) {
             return NextResponse.json(

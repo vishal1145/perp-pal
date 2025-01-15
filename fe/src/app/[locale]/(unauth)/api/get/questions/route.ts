@@ -21,6 +21,8 @@ export async function POST(request: NextRequest) {
             prompt,
         });
 
+        console.log("line 24", apiResponse);
+
         const apiResponseArray = apiResponse.data.questions_ids;
 
         const questionIds = apiResponseArray.map((question: { _id: any; }) => question._id);
