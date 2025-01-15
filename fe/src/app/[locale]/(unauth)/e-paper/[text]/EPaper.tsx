@@ -47,12 +47,12 @@ const EPaper: React.FC = () => {
       );
       const mcqQuestions = data.filter((item: McqQuestion) =>
         item.questionType === "Single Choice" &&
-        item.options.every((option: Option) => option.value !== null)
+        Object.values(item.options).every((option: Option) => option.value !== null)
       );
       setQuestions(mcqQuestions);
       setQuestionLoading(false);
       setLoadingUserData(true)
-    } catch (error) {
+          } catch (error) {
       console.log(error);
       setLoadingUserData(false)
     }
