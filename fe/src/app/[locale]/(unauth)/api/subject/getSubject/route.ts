@@ -2,9 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import ConnectDB from "@/libs/DB";
 import Subject from "@/models/Subject";
 import mongoose from "mongoose";
-
+import corsMiddleware from "@/libs/middleware/cors";
 export const GET = async (request: NextRequest) => {
     try {
+        const preflightResponse = corsMiddleware(request);
+        if (preflightResponse) return preflightResponse;
         await ConnectDB();
 
         const url = new URL(request.url);
@@ -42,15 +44,17 @@ export const GET = async (request: NextRequest) => {
             );
         }
 
-        return NextResponse.json(
+        const response = NextResponse.json(
             { message: "Subjects for the selected class fetched successfully", subjects },
             { status: 200 }
         );
+        return corsMiddleware(request, response);
     } catch (error: any) {
         console.error("Error fetching subjects by class:", error);
-        return NextResponse.json(
+        const response = NextResponse.json(
             { message: "Server error", error: error.message },
             { status: 500 }
         );
+        return corsMiddleware(request, response);
     }
 };

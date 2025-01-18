@@ -8,6 +8,17 @@ import mongoose from "mongoose";
 
 export const POST = async (request: NextRequest) => {
     try {
+        // Set CORS headers for allowing requests from specific origins
+        const response = NextResponse.next();
+        response.headers.set("Access-Control-Allow-Origin", "*"); // Allow all origins
+        response.headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        response.headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+        // Handle pre-flight OPTIONS request (for CORS)
+        if (request.method === "OPTIONS") {
+            return response;
+        }
+
         await ConnectDB();
 
         const formData = await request.formData();

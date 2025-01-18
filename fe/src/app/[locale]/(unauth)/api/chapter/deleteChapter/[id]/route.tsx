@@ -1,10 +1,8 @@
-import mongoose from "mongoose";
-import ConnectDB from "@/libs/DB";
 import { NextRequest, NextResponse } from "next/server";
-import ChapterTopic from "@/models/chapterTopic";
+import ConnectDB from "@/libs/DB";
 import Chapter from "@/models/Chapter";
 
-export const POST = async (request: NextRequest) => {
+export const DELETE = async (request: NextRequest) => {
     try {
         // Set CORS headers for allowing requests from specific origins
         const response = NextResponse.next();
@@ -17,48 +15,46 @@ export const POST = async (request: NextRequest) => {
             return response;
         }
         await ConnectDB();
-        const body = await request.json();
-        const { chapterTopicName, chapterId } = body;
 
-        if (!chapterTopicName || !chapterId) {
+        // Extract the chapter ID from the URL path
+        const url = new URL(request.url);
+        const chapterId = url.pathname.split('/').pop(); // Assuming the chapter ID is at the end of the path
+
+        if (!chapterId) {
             return NextResponse.json(
-                { message: "chapterName and subjectId are required." },
+                { message: "Chapter ID is required" },
                 { status: 400 }
             );
         }
 
-        if (!mongoose.Types.ObjectId.isValid(chapterId)) {
-            return NextResponse.json(
-                { message: "Invalid chapterId format." },
-                { status: 400 }
-            );
-        }
-
+        // Check if the chapter exists
         const chapterExists = await Chapter.findById(chapterId);
         if (!chapterExists) {
             return NextResponse.json(
-                { message: "Subject with the given ID does not exist." },
+                { message: "Chapter not found" },
                 { status: 404 }
             );
         }
 
-        const newChapterTopic = await ChapterTopic.create({
-            chapterTopicName,
-            chapterId,
-        });
+        // Delete the chapter
+        const deletedChapter = await Chapter.findByIdAndDelete(chapterId);
+
+        if (!deletedChapter) {
+            return NextResponse.json(
+                { message: "Error deleting chapter" },
+                { status: 500 }
+            );
+        }
 
         return NextResponse.json(
-            {
-                message: "Chapter topic created successfully.",
-                chapter: newChapterTopic,
-            },
+            { message: "Chapter deleted successfully", chapter: deletedChapter },
             { status: 200 }
         );
     } catch (error: any) {
-        console.error("Error creating chapter:", error.message);
+        console.error("Error deleting chapter:", error);
         return NextResponse.json(
-            { message: "Internal Server Error.", error: error.message },
+            { message: "Server error", error: error.message },
             { status: 500 }
         );
     }
-}
+};

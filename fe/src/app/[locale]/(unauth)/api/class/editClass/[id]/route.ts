@@ -3,12 +3,24 @@ import ConnectDB from "@/libs/DB";
 import { NextRequest, NextResponse } from "next/server";
 import Class from "@/models/Class";
 import Board from "@/models/Board";
-import corsMiddleware from '@/libs/middleware/cors'
-export const POST = async (request: NextRequest) => {
+import corsMiddleware from "@/libs/middleware/cors";
+export const PUT = async (request: NextRequest) => {
     try {
         const preflightResponse = corsMiddleware(request);
         if (preflightResponse) return preflightResponse;
         await ConnectDB();
+
+        // Extract class ID from URL
+        const url = new URL(request.url);
+        const classId = url.pathname.split('/').pop();
+
+        if (!classId || !mongoose.Types.ObjectId.isValid(classId as string)) {
+            return NextResponse.json(
+                { message: "Invalid class ID" },
+                { status: 400 }
+            );
+        }
+
         const { className, color, boardIds } = await request.json();
 
         // Validation
@@ -47,25 +59,31 @@ export const POST = async (request: NextRequest) => {
             }
         }
 
-        // Create new class
-        const newClass = new Class({ className, color, boardIds });
-        await newClass.save();
+        // Update class
+        const updatedClass = await Class.findByIdAndUpdate(
+            classId,
+            { className, color, boardIds },
+            { new: true }
+        );
+
+        if (!updatedClass) {
+            return NextResponse.json(
+                { message: "Class not found" },
+                { status: 404 }
+            );
+        }
 
         const response = NextResponse.json(
-            { message: "Class created successfully", class: newClass },
-            { status: 201 }
+            { message: "Class updated successfully", class: updatedClass },
+            { status: 200 }
         );
         return corsMiddleware(request, response);
-
     } catch (error: any) {
-        console.error("Error creating class:", error);
-        const response = NextResponse.json(
+        console.error("Error updating class:", error);
+        return NextResponse.json(
             { message: "Server error", error: error.message },
             { status: 500 }
         );
-        return corsMiddleware(request, response);
-
     }
 };
-
 

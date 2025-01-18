@@ -70,7 +70,7 @@ const BoardPage = () => {
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/board/getBoard`);
         const data = await res.json();
-        setBoards(data.board);
+        setBoards(data.boards);
 
       } catch (error) {
         setLoading(false);
@@ -278,7 +278,14 @@ const BoardPage = () => {
                 <div
                   key={classItem._id}
                   onClick={() => handleClassClick(classItem.className)}
-                  style={{ backgroundImage: classItem.color }}
+                  style={{
+                    backgroundImage: classItem.color.startsWith("linear-gradient")
+                      ? classItem.color
+                      : undefined,
+                    backgroundColor: !classItem.color.startsWith("linear-gradient")
+                      ? classItem.color
+                      : undefined,
+                  }}
                   className={`h-48 w-48 p-14 flex text-center items-center justify-center rounded-xl cursor-pointer text-white font-bold text-xl transition-transform duration-100 ease-in-out hover:scale-105 
                     }`}
                 >
