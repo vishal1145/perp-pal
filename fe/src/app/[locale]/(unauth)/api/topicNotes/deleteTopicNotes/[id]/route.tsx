@@ -1,10 +1,9 @@
 import mongoose from "mongoose";
 import ConnectDB from "@/libs/DB";
 import { NextRequest, NextResponse } from "next/server";
-import ChapterTopic from "@/models/chapterTopic";
 import TopicNote from "@/models/topicNotes";
 
-export const POST = async (request: NextRequest) => {
+export const DELETE = async (request: NextRequest) => {
     try {
         // Set CORS headers for allowing requests from specific origins
         const response = NextResponse.next();
@@ -16,49 +15,46 @@ export const POST = async (request: NextRequest) => {
         if (request.method === "OPTIONS") {
             return response;
         }
+
         await ConnectDB();
-        const body = await request.json();
-        const { TopicId, content } = body;
 
-        if (!TopicId || !content) {
+        // Extract the note ID from the URL
+        const url = new URL(request.url);
+        const noteId = url.pathname.split('/').pop(); // Assuming noteId is at the end of the path
+
+        if (!noteId) {
             return NextResponse.json(
-                { message: "TopicId and content are required." },
+                { message: "Note ID is required." },
                 { status: 400 }
             );
         }
 
-        if (!mongoose.Types.ObjectId.isValid(TopicId)) {
+        if (!mongoose.Types.ObjectId.isValid(noteId)) {
             return NextResponse.json(
-                { message: "Invalid chapterId format." },
+                { message: "Invalid Note ID format." },
                 { status: 400 }
             );
         }
 
-        const chapterExists = await ChapterTopic.findById(TopicId);
-        if (!chapterExists) {
+        // Find and delete the TopicNote
+        const deletedNote = await TopicNote.findByIdAndDelete(noteId);
+
+        if (!deletedNote) {
             return NextResponse.json(
-                { message: "topic with the given ID does not exist." },
+                { message: "TopicNote not found." },
                 { status: 404 }
             );
         }
 
-        const newChapterTopicNotes = await TopicNote.create({
-            TopicId,
-            content,
-        });
-
         return NextResponse.json(
-            {
-                message: "Chapter topic notes created successfully.",
-                chapter: newChapterTopicNotes,
-            },
+            { message: "TopicNote deleted successfully.", note: deletedNote },
             { status: 200 }
         );
     } catch (error: any) {
-        console.error("Error creating chapter:", error.message);
+        console.error("Error deleting TopicNote:", error.message);
         return NextResponse.json(
             { message: "Internal Server Error.", error: error.message },
             { status: 500 }
         );
     }
-}
+};

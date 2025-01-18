@@ -3,9 +3,11 @@ import path from "path";
 import { mkdir, writeFile } from "fs/promises";
 import ConnectDB from "@/libs/DB";
 import Board from "@/models/Board";
-
+import corsMiddleware from "@/libs/middleware/cors"
 export const POST = async (request: NextRequest) => {
   try {
+    const preflightResponse = corsMiddleware(request);
+    if (preflightResponse) return preflightResponse;
     await ConnectDB();
 
     const formData = await request.formData();
@@ -19,8 +21,6 @@ export const POST = async (request: NextRequest) => {
         { status: 400 }
       );
     }
-
-    // Validate that the file has necessary properties
     if (
       !file ||
       typeof file !== "object" ||
@@ -53,15 +53,19 @@ export const POST = async (request: NextRequest) => {
 
     await newBoard.save();
 
-    return NextResponse.json(
+    const response = NextResponse.json(
       { message: "Board created successfully", board: newBoard },
       { status: 201 }
     );
+    return corsMiddleware(request, response);
+
   } catch (error: any) {
     console.error("Error creating board:", error);
-    return NextResponse.json(
+    const response = NextResponse.json(
       { message: "Server error", error: error.message },
       { status: 500 }
     );
+    return corsMiddleware(request, response);
+
   }
 };
