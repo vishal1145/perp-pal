@@ -15,6 +15,7 @@ interface Subject {
     color: string;
     image: string;
     classIds: { className: string }[];
+    content: string
 }
 
 interface SubjectPageProps {
@@ -28,6 +29,7 @@ const SubjectWiseLearning: React.FC<SubjectPageProps> = ({
     classes = [],
     loading,
 }) => {
+
     const [subjectLoading, setSubjectLoading] = useState<boolean>(true);
     const [currentClass, setCurrentClass] = useState<string>(
         selectedClass || (classes[0]?.className ?? 'defaultClassName')
@@ -49,6 +51,7 @@ const SubjectWiseLearning: React.FC<SubjectPageProps> = ({
     const handleClassSelection = (className: string, classId: string) => {
         setCurrentClass(className);
         sessionStorage.setItem('classId', classId);
+
     };
 
 
@@ -56,7 +59,7 @@ const SubjectWiseLearning: React.FC<SubjectPageProps> = ({
         if (currentClass) {
             sessionStorage.setItem('subjectId', subject._id);
             sessionStorage.setItem('className', currentClass);
-
+            sessionStorage.setItem('content', subject.content || '')
             const classNameFormatted = currentClass.replace(/\s+/g, '-');
             const subjectNameFormatted = subject.subjectName.replace(/\s+/g, '-');
 
@@ -160,7 +163,7 @@ const SubjectWiseLearning: React.FC<SubjectPageProps> = ({
                             onClick={() => handleSubjectClick(subject)}
                         >
                             <img
-                                src={subject.image}
+                                src={`http://localhost:3000${subject.image}`}
                                 alt={subject.subjectName}
                                 className="w-16 h-16 object-cover rounded-t-lg"
                             />

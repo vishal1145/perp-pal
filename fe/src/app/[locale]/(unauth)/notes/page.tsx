@@ -25,6 +25,7 @@ interface Subject {
   subjectName: string;
   image: string;
   color: string;
+  content: string;
 }
 
 const BoardPage = () => {
@@ -51,7 +52,7 @@ const BoardPage = () => {
       setSelectedSubject(subject.subjectName);
       sessionStorage.setItem('subjectId', subject._id);
       sessionStorage.setItem('className', selectedClass);
-
+      sessionStorage.setItem('content', subject.content || '');
       const classNameFormatted = selectedClass.replace(/\s+/g, '-');
       const subjectNameFormatted = subject.subjectName.replace(/\s+/g, '-');
       router.push(`/subjects/${classNameFormatted}/${subjectNameFormatted}`);
@@ -252,12 +253,13 @@ const BoardPage = () => {
 
                   <div className="relative flex flex-col items-center justify-center">
                     <Image
-                      src={board.image}
+                      src={`http://localhost:3000${board.image}`}
                       alt={`${board.name} Logo`}
                       className="w-20 h-20 object-contain"
                       width={80}
                       height={80}
                     />
+
                     <h2 className="text-xl font-bold text-white text-center mt-4">
                       {board.name}
                     </h2>
@@ -339,23 +341,28 @@ const BoardPage = () => {
                 </>
               ) : (
 
-                subjects.map((subject) => (
-                  <div
-                    key={subject._id}
-                    className="flex flex-col px-20 py-5 rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-110 cursor-pointer"
-                    style={{ backgroundColor: subject.color }}
-                    onClick={() => handleSubjectClick(subject)}
-                  >
-                    <img
-                      src={subject.image}
-                      alt={subject.subjectName}
-                      className="w-16 h-16 object-cover rounded-t-lg"
-                    />
-                    <p className="text-center text-sm font-semibold text-gray-500">
-                      {subject.subjectName}
-                    </p>
-                  </div>
-                ))
+
+                subjects && subjects.length > 0 ? (
+                  subjects.map((subject) => (
+                    <div
+                      key={subject._id}
+                      className="flex flex-col px-20 py-5 rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-110 cursor-pointer"
+                      style={{ backgroundColor: subject.color }}
+                      onClick={() => handleSubjectClick(subject)}
+                    >
+                      <img
+                        src={`http://localhost:3000${subject.image}`}
+                        alt={subject.subjectName}
+                        className="w-16 h-16 object-cover rounded-t-lg"
+                      />
+                      <p className="text-center text-sm font-semibold text-gray-500">
+                        {subject.subjectName}
+                      </p>
+                    </div>
+                  ))
+                ) : (
+                  <div>No subjects available</div>
+                )
 
               )}
 
