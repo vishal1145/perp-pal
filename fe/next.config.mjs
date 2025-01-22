@@ -38,6 +38,9 @@ export default withSentryConfig(
         });
         return config;
       },
+      images: {
+        domains: ['localhost', 'lh3.googleusercontent.com', 'platform-lookaside.fbsbx.com'],
+      },
 
     }),
   ),
