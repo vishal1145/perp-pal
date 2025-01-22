@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const Chapter = require("../../models/chapter");
 const Subject = require("../../models/subject");
 const Class = require("../../models/class");
+const Board = require("../../models/Board"); // Assuming you have a Board model
 
 const router = express.Router();
 
@@ -10,16 +11,15 @@ router.put("/:id", async (req, res) => {
     try {
         const chapterId = req.params.id;
 
-
         if (!chapterId || !mongoose.Types.ObjectId.isValid(chapterId)) {
             return res.status(400).json({ message: "Valid Chapter ID is required" });
         }
 
-        const { chapterName, subjectId, classId, content } = req.body;
+        const { chapterName, subjectId, classId, content, boardId } = req.body;
 
-        if (!chapterName || !subjectId || !classId || !content) {
+        if (!chapterName || !subjectId || !classId || !content || !boardId) {
             return res.status(400).json({
-                message: "chapterName, subjectId, classId, and content are required",
+                message: "chapterName, subjectId, classId, content, and boardId are required",
             });
         }
 
@@ -29,6 +29,10 @@ router.put("/:id", async (req, res) => {
 
         if (!mongoose.Types.ObjectId.isValid(classId)) {
             return res.status(400).json({ message: "Invalid classId format" });
+        }
+
+        if (!mongoose.Types.ObjectId.isValid(boardId)) {
+            return res.status(400).json({ message: "Invalid boardId format" });
         }
 
         const subjectExists = await Subject.findById(subjectId);
@@ -45,10 +49,16 @@ router.put("/:id", async (req, res) => {
             });
         }
 
+        const boardExists = await Board.findById(boardId); // Check if board exists
+        if (!boardExists) {
+            return res.status(404).json({
+                message: "Board with the given ID does not exist",
+            });
+        }
 
         const updatedChapter = await Chapter.findByIdAndUpdate(
             chapterId,
-            { chapterName, subjectId, classId, content },
+            { chapterName, subjectId, classId, content, boardId }, // Add boardId to the update
             { new: true }
         );
 

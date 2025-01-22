@@ -3,17 +3,17 @@ const mongoose = require("mongoose");
 const Subject = require("../../models/subject");
 const Chapter = require("../../models/chapter");
 const Class = require("../../models/class");
+const Board = require("../../models/Board");
 
 const router = express.Router();
 
-
 router.post("/", async (req, res) => {
     try {
-        const { chapterName, subjectId, classId, content } = req.body;
+        const { chapterName, subjectId, classId, content, boardId } = req.body;
 
-        if (!chapterName || !subjectId || !classId || !content) {
+        if (!chapterName || !subjectId || !classId || !content || !boardId) {
             return res.status(400).json({
-                message: "chapterName, subjectId, classId, and content are required.",
+                message: "chapterName, subjectId, classId, content, and boardId are required.",
             });
         }
 
@@ -23,6 +23,10 @@ router.post("/", async (req, res) => {
 
         if (!mongoose.Types.ObjectId.isValid(classId)) {
             return res.status(400).json({ message: "Invalid classId format." });
+        }
+
+        if (!mongoose.Types.ObjectId.isValid(boardId)) {
+            return res.status(400).json({ message: "Invalid boardId format." });
         }
 
         const subjectExists = await Subject.findById(subjectId);
@@ -39,12 +43,20 @@ router.post("/", async (req, res) => {
             });
         }
 
-        // Create the new chapter with content
+        const boardExists = await Board.findById(boardId);
+        if (!boardExists) {
+            return res.status(404).json({
+                message: "Board with the given ID does not exist.",
+            });
+        }
+
+        // Create the new chapter with content and boardId
         const newChapter = await Chapter.create({
             chapterName,
             subjectId,
             classId,
             content,
+            boardId, // Add the boardId field
         });
 
         return res.status(200).json({
