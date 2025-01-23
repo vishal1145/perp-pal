@@ -9,6 +9,7 @@ import CustomCardLoader from "@/components/CustomCardLoader";
 import SubjectWiseLearning from '@/components/SubjectWiseLearning';
 
 interface Board {
+  _id: string;
   name: string;
   image: string;
   color: string;
@@ -18,6 +19,10 @@ interface ClassItem {
   _id: string;
   className: string;
   color: string;
+  boardIds: {
+    _id: string;
+    name: string;
+  }[];
 }
 
 interface Subject {
@@ -37,8 +42,9 @@ const BoardPage = () => {
   const [selectedClass, setSelectedClass] = useState<string | null>(null);
   const [selectedSubject, setSelectedSubject] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [filteredClasses, setFilteredClasses] = useState<ClassItem[]>([]);
   const router = useRouter();
-
+  const boardId = boards.find(cls => cls.name == selectedBoard)?._id
   const classId = classes.find(cls => cls.className === selectedClass)?._id;
   const handleClassClick = (className: string) => {
     setSelectedClass(className);
@@ -94,6 +100,16 @@ const BoardPage = () => {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/class/getClass`);
         const data = await res.json();
         setClasses(data.classes);
+        console.log("selected boaerd", selectedBoard)
+        if (selectedBoard) {
+          const filtered = data.classes.filter((cls: { boardIds: { _id: string; name: string; }[]; }) =>
+            cls.boardIds.some((board: { _id: string; name: string; }) => board._id === selectedBoard || board.name === selectedBoard)
+          );
+
+          setFilteredClasses(filtered);
+        } else {
+          setFilteredClasses(data.classes);
+        }
       } catch (error) {
         console.error('Error fetching classes:', error);
       } finally {
@@ -102,14 +118,14 @@ const BoardPage = () => {
     };
 
     fetchClasses();
-  }, []);
+  }, [selectedBoard]);
 
   useEffect(() => {
     const fetchSubjects = async () => {
       if (selectedClass) {
         setLoading(true);
         try {
-          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/subject/getSubject/?classId=${classId}`);
+          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/subject/getSubject/?classId=${classId}&boardId=${boardId}`);
           const data = await res.json();
           setSubjects(data.subjects);
         } catch (error) {
@@ -238,7 +254,10 @@ const BoardPage = () => {
               {boards.map((board, index) => (
                 <div
                   key={index}
-                  onClick={() => setSelectedBoard(board.name)}
+                  onClick={() => {
+                    setSelectedBoard(board.name);
+                    sessionStorage.setItem('boardId', board._id);
+                  }}
                   className="relative cursor-pointer p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 mb-8"
                   style={{
                     backgroundImage: `url('/print_icon.png')`,
@@ -276,7 +295,7 @@ const BoardPage = () => {
         {selectedBoard && !selectedSubject && !selectedClass && (
           <div>
             <div className="flex flex-wrap gap-4 mt-3 w-full ">
-              {classes.map((classItem) => (
+              {filteredClasses.map((classItem) => (
                 <div
                   key={classItem._id}
                   onClick={() => handleClassClick(classItem.className)}

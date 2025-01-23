@@ -2,41 +2,41 @@ const express = require('express');
 const mongoose = require('mongoose');
 const ChapterTopic = require('../../models/chapterTopic');
 const Chapter = require('../../models/chapter');
+const Subject = require('../../models/subject');
+const Class = require('../../models/class');
+const Board = require('../../models/Board');
 
 const router = express.Router();
 
-// PUT route to update a chapter topic
 router.put('/:chapterTopicId', async (req, res) => {
     try {
-        // Extract chapterTopicId from the URL params
         const { chapterTopicId } = req.params;
+        const { chapterTopicName, chapterId, subjectId, classId, boardId, content } = req.body;
 
-        if (!chapterTopicId) {
-            return res.status(400).json({ message: "ChapterTopic ID is required" });
+        // Validation for required fields
+        if (!chapterTopicName || !chapterId || !subjectId || !classId || !boardId) {
+            return res.status(400).json({ message: "chapterTopicName, chapterId, subjectId, classId, and boardId are required" });
         }
 
-        // Extract data from the request body
-        const { chapterTopicName, chapterId } = req.body;
-
-        if (!chapterTopicName || !chapterId) {
-            return res.status(400).json({ message: "chapterTopicName and chapterId are required" });
+        // Validate ObjectIds
+        if (!mongoose.Types.ObjectId.isValid(chapterId) || !mongoose.Types.ObjectId.isValid(subjectId) || !mongoose.Types.ObjectId.isValid(classId) || !mongoose.Types.ObjectId.isValid(boardId)) {
+            return res.status(400).json({ message: "Invalid ID format" });
         }
 
-        // Validate ObjectId format for chapterId
-        if (!mongoose.Types.ObjectId.isValid(chapterId)) {
-            return res.status(400).json({ message: "Invalid chapterId format" });
-        }
-
-        // Check if the chapter exists
+        // Check if related entities exist
         const chapterExists = await Chapter.findById(chapterId);
-        if (!chapterExists) {
-            return res.status(404).json({ message: "Chapter with the given ID does not exist" });
+        const subjectExists = await Subject.findById(subjectId);
+        const classExists = await Class.findById(classId);
+        const boardExists = await Board.findById(boardId);
+
+        if (!chapterExists || !subjectExists || !classExists || !boardExists) {
+            return res.status(404).json({ message: "One or more entities not found" });
         }
 
-        // Find and update the chapterTopic
+        // Update ChapterTopic
         const updatedChapterTopic = await ChapterTopic.findByIdAndUpdate(
             chapterTopicId,
-            { chapterTopicName, chapterId },
+            { chapterTopicName, chapterId, subjectId, classId, boardId, content },
             { new: true }
         );
 
@@ -53,5 +53,6 @@ router.put('/:chapterTopicId', async (req, res) => {
         return res.status(500).json({ message: "Server error", error: error.message });
     }
 });
+
 
 module.exports = router;

@@ -9,6 +9,7 @@ const subjectSchema = new Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Class",
     }],
+    boardId: { type: mongoose.Schema.Types.ObjectId, ref: "Board", required: true },
     content: { type: String, required: true }
 });
 

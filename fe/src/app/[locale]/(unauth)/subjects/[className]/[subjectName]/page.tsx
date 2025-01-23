@@ -29,12 +29,13 @@ const Page = () => {
         const id = sessionStorage.getItem('subjectId');
         const classId = sessionStorage.getItem('classId');
         const storedContent = sessionStorage.getItem('content');
+        const boardId = sessionStorage.getItem('boardId')
         setContent(storedContent);
 
         // Fetch chapters
         if (id && classId) {
             axios
-                .get(`${process.env.NEXT_PUBLIC_API_URI}/chapter/getChapter?subjectId=${id}&classId=${classId}`)
+                .get(`${process.env.NEXT_PUBLIC_API_URI}/chapter/getChapter?subjectId=${id}&classId=${classId}&boardId=${boardId}`)
                 .then((response) => {
                     if (Array.isArray(response.data.chapters)) {
                         setChapters(response.data.chapters);

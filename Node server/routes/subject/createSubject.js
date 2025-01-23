@@ -4,6 +4,7 @@ const path = require("path");
 const mongoose = require("mongoose");
 const Subject = require("../../models/subject");
 const Class = require("../../models/class");
+const Board = require("../../models/Board")
 
 const router = express.Router();
 
@@ -23,14 +24,22 @@ const upload = multer({
 
 router.post("/", upload.single("image"), async (req, res) => {
     try {
-        const { subjectName, color, content, classIds } = req.body;
+        const { subjectName, color, content, classIds, boardId } = req.body;
         const file = req.file;
 
-    
-        if (!subjectName || !color || !content || !classIds || !file) {
+        if (!subjectName || !color || !content || !classIds || !file || !boardId) {
             return res.status(400).json({
-                message: "subjectName, image, color, content, and classIds are required",
+                message: "subjectName, image, color, content, classIds, and boardId are required",
             });
+        }
+
+        if (!mongoose.Types.ObjectId.isValid(boardId)) {
+            return res.status(400).json({ message: "Invalid boardId" });
+        }
+
+        const board = await Board.findById(boardId);
+        if (!board) {
+            return res.status(404).json({ message: "Board not found" });
         }
 
         let parsedClassIds = [];
@@ -48,8 +57,16 @@ router.post("/", upload.single("image"), async (req, res) => {
         const objectIdClassIds = parsedClassIds.map((id) => new mongoose.Types.ObjectId(id));
         const classes = await Class.find({ "_id": { $in: objectIdClassIds } });
 
-        if (classes.length !== parsedClassIds.length) {
-            return res.status(400).json({ message: "Some classIds are invalid or do not exist." });
+        // Check if each class has the selected boardId
+        const invalidClasses = classes.filter((classItem) => {
+            return !classItem.boardIds.some((board) => board._id.toString() === boardId);
+        });
+
+        if (invalidClasses.length > 0) {
+            return res.status(400).json({
+                message: "Some classIds are invalid or do not belong to the selected board.",
+                invalidClasses: invalidClasses,
+            });
         }
 
         const imageUrl = `/uploads/${file.filename}`;
@@ -59,6 +76,7 @@ router.post("/", upload.single("image"), async (req, res) => {
             image: imageUrl,
             color,
             classIds: objectIdClassIds,
+            boardId,
             content,
         });
 
