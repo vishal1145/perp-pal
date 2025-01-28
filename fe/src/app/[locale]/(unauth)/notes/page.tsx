@@ -75,7 +75,7 @@ const BoardPage = () => {
     const fetchBoards = async () => {
       setLoadingUserData(true);
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/board/getBoard`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_Tutor_API_URI}/board/getBoard`);
         const data = await res.json();
         setBoards(data.boards);
 
@@ -97,10 +97,10 @@ const BoardPage = () => {
 
       setLoading(true);
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/class/getClass`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_Tutor_API_URI}/class/getClass`);
         const data = await res.json();
         setClasses(data.classes);
-        console.log("selected boaerd", selectedBoard)
+
         if (selectedBoard) {
           const filtered = data.classes.filter((cls: { boardIds: { _id: string; name: string; }[]; }) =>
             cls.boardIds.some((board: { _id: string; name: string; }) => board._id === selectedBoard || board.name === selectedBoard)
@@ -125,7 +125,7 @@ const BoardPage = () => {
       if (selectedClass) {
         setLoading(true);
         try {
-          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URI}/subject/getSubject/?classId=${classId}&boardId=${boardId}`);
+          const res = await fetch(`${process.env.NEXT_PUBLIC_Tutor_API_URI}/subject/getSubject/?classId=${classId}&boardId=${boardId}`);
           const data = await res.json();
           setSubjects(data.subjects);
         } catch (error) {
@@ -199,7 +199,10 @@ const BoardPage = () => {
 
     );
   };
+  useEffect(() => {
 
+    sessionStorage.removeItem('boardId');
+  }, []);
 
   return (
     <div className="min-h-screen">
@@ -272,7 +275,7 @@ const BoardPage = () => {
 
                   <div className="relative flex flex-col items-center justify-center">
                     <Image
-                      src={`http://localhost:3000${board.image}`}
+                      src={`http://localhost:5000${board.image}`}
                       alt={`${board.name} Logo`}
                       className="w-20 h-20 object-contain"
                       width={80}
@@ -370,7 +373,7 @@ const BoardPage = () => {
                       onClick={() => handleSubjectClick(subject)}
                     >
                       <img
-                        src={`http://localhost:3000${subject.image}`}
+                        src={`http://localhost:5000${subject.image}`}
                         alt={subject.subjectName}
                         className="w-16 h-16 object-cover rounded-t-lg"
                       />

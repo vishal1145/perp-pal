@@ -73,7 +73,7 @@ const SubjectWiseLearning: React.FC<SubjectPageProps> = ({
         const fetchSubjects = async () => {
             try {
                 const response = await fetch(
-                    `${process.env.NEXT_PUBLIC_API_URI}/subject/getAllSubject`
+                    `${process.env.NEXT_PUBLIC_Tutor_API_URI}/subject/getAllSubject`
                 );
                 if (!response.ok) {
                     throw new Error('Failed to fetch subjects');
@@ -163,7 +163,7 @@ const SubjectWiseLearning: React.FC<SubjectPageProps> = ({
                             onClick={() => handleSubjectClick(subject)}
                         >
                             <img
-                                src={`http://localhost:3000${subject.image}`}
+                                src={`http://localhost:5000${subject.image}`}
                                 alt={subject.subjectName}
                                 className="w-16 h-16 object-cover rounded-t-lg"
                             />

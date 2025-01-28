@@ -8,16 +8,16 @@ import Footer from '@/components/Footer';
 
 const TopicPage = () => {
     const { topicName } = useParams();
-    const [content, setContent] = useState<string>('');  // Directly store the content
+    const [content, setContent] = useState<string>('');
 
     useEffect(() => {
         const id = sessionStorage.getItem('TopicId');
         if (id) {
             axios
-                .get(`/api/topicNotes/getTopicNotes?TopicId=${id}`) // Corrected the API URL
+                .get(`${process.env.NEXT_PUBLIC_Tutor_API_URI}/topicNotes/getTopicNotes?TopicId=${id}`)
                 .then((response) => {
                     console.log('API response:', response.data);
-                    // Directly set the content of the first note in the response
+
                     if (response.data.TopicNotes && response.data.TopicNotes.length > 0) {
                         setContent(response.data.TopicNotes[0].content);
                     }
