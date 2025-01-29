@@ -10,11 +10,7 @@ router.post('/', async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        // Allow CORS Headers for this route
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Credentials", "true");
-        res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-        res.header("Access-Control-Allow-Headers", "Origin, Content-Type, Authorization, X-Requested-With");
+        // Find the admin in the database
         const user = await Admin.findOne({ email });
         if (!user) {
             return res.status(400).json({ error: 'Admin not found!' });
