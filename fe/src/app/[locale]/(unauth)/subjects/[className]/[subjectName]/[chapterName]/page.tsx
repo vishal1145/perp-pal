@@ -5,6 +5,8 @@ import axios from 'axios';
 import { Banner } from '@/components/Banner';
 import PreppalFooter from '@/components/PreppalFooter';
 import Footer from '@/components/Footer';
+import Loader from '@/components/Loader';
+import CustomCardLoader from '@/components/CustomCardLoader';
 
 const TopicPage = () => {
     const { className, subjectName, chapterName } = useParams();
@@ -13,52 +15,63 @@ const TopicPage = () => {
     const [topics, setTopics] = useState<any[]>([]);
     const [relatedChapters, setRelatedChapters] = useState<any[]>([]);
     const router = useRouter();
+    const [loadingChapters, setLoadingChapters] = useState<boolean>(true);
+    const [loadingTopic, setLoadingTopic] = useState<boolean>(true);
+    const [clickedTopicId, setClickedTopicId] = useState<string | null>(null);
 
     useEffect(() => {
         // Get the chapterId and content from sessionStorage
         const id = sessionStorage.getItem('chapterId');
-        const storedContent = sessionStorage.getItem('Chaptercontent'); // Retrieve content from sessionStorage
+        const storedContent = sessionStorage.getItem('chapterContent');
         setContent(storedContent);
 
-        // Fetch topics for the current chapter
         if (id) {
             axios
-                .get(`${process.env.NEXT_PUBLIC_API_URI}/chapterTopic/getChapterTopic?chapterId=${id}`)
+                .get(`${process.env.NEXT_PUBLIC_Tutor_API_URI}/chapterTopic/getChapterTopic?chapterId=${id}`)
                 .then((response) => {
-                    console.log('API response:', response.data);
                     setTopics(response.data.chapterTopics || []);
                 })
                 .catch((error) => {
                     console.error('Error fetching topics:', error);
+                })
+                .finally(() => {
+                    setLoadingTopic(false);
                 });
         }
 
-        // Fetch related chapters based on the selected class and subject
         const classId = sessionStorage.getItem('classId');
         const subjectId = sessionStorage.getItem('subjectId');
 
         if (classId && subjectId) {
             axios
-                .get(`${process.env.NEXT_PUBLIC_API_URI}/chapter/getChapter?subjectId=${subjectId}&classId=${classId}`)
+                .get(`${process.env.NEXT_PUBLIC_Tutor_API_URI}/chapter/getChapter?subjectId=${subjectId}&classId=${classId}`)
                 .then((response) => {
-
                     const filteredChapters = response.data.chapters.filter(
-                        (chapter: { chapterName: string; }) => chapter.chapterName.replace(/-/g, ' ') !== formattedChapterName
+                        (chapter: { chapterName: string }) =>
+                            chapter.chapterName.replace(/-/g, ' ') !== formattedChapterName
                     );
-
-                    console.log('Filtered chapters:', filteredChapters);
                     setRelatedChapters(filteredChapters);
                 })
                 .catch((error) => {
                     console.error('Error fetching related chapters:', error);
+                })
+                .finally(() => {
+                    setLoadingChapters(false);
                 });
         }
     }, [chapterName]);
 
     const goToTopicPage = (chapterTopic: { chapterTopicName: string; _id: string }) => {
-        const formattedChapterName = chapterTopic.chapterTopicName.replace(/\s+/g, '-');
+        setClickedTopicId(chapterTopic._id); // Set the clicked topic ID
+        const formattedTopicName = chapterTopic.chapterTopicName.replace(/\s+/g, '-');
         sessionStorage.setItem('TopicId', chapterTopic._id);
-        router.push(`/subjects/${className}/${subjectName}/${chapterName}/${formattedChapterName}`);
+        router.push(`/subjects/${className}/${subjectName}/${chapterName}/${formattedTopicName}`);
+    };
+
+    const goToChapterPage = (chapter: { chapterName: string; _id: string }) => {
+        const formattedChapterName = chapter.chapterName.replace(/\s+/g, '-');
+        sessionStorage.setItem('chapterId', chapter._id);
+        router.push(`/subjects/${className}/${subjectName}/${formattedChapterName}`);
     };
 
     const formattedClassName = className || 'Class 12';
@@ -67,29 +80,32 @@ const TopicPage = () => {
         ? classNameString.split('-')
         : classNameString.split(' ');
 
-
-    const goToChapterPage = (chapter: { chapterName: string; _id: string }) => {
-        // Format the chapter name to replace spaces with dashes
-        const formattedChapterName = chapter.chapterName.replace(/\s+/g, '-');
-        sessionStorage.setItem('chapterId', chapter._id); // Save chapter ID for future requests
-        router.push(`/subjects/${className}/${subjectName}/${formattedChapterName}`); // Navigate to the chapter's page
-    };
     return (
         <>
             <Banner notMainPage={true} />
             <div className="min-h-screen bg-gray-50">
-                <div className=" px-4 sm:px-8 py-12">
+                <div className="px-4 sm:px-8 py-12">
                     <div className="w-full flex flex-col lg:flex-row gap-16">
                         <div className="w-full lg:w-2/3">
                             <h1 className="text-3xl tracking-tight font-extrabold text-gray-900 mb-6">
                                 Chapter {formattedChapterName} NCERT Solutions
                             </h1>
-                            <p className="font-light text-gray-500 text-lg mb-6">
-                                {content}
-                            </p>
-                            <button className="text-blue-600 font-semibold hover:underline mb-8">
-                                Read More
-                            </button>
+                            {loadingChapters ? (
+                                <div>
+                                    {Array.from({ length: 6 }).map((_, index) => (
+                                        <CustomCardLoader
+                                            key={index}
+                                            viewBox="0 0 380 10"
+                                            className="text-3xl text-gray-800 my-3 bg-gray-200"
+                                            rectW="100%"
+                                            rectH="10"
+                                        />
+                                    ))}
+                                </div>
+                            ) : (
+                                <p className="my-4 font-light text-gray-500 text-lg">{content}</p>
+                            )}
+
                             <table className="table-auto w-full text-left font-light text-gray-500 border-collapse border border-gray-200">
                                 <tbody>
                                     <tr className="border-b border-gray-200">
@@ -102,20 +118,40 @@ const TopicPage = () => {
                                     </tr>
                                 </tbody>
                             </table>
+
                             <div className="w-full mt-6">
                                 <h1 className="text-3xl tracking-tight font-extrabold text-gray-900">
                                     Topics in {chapterName}
                                 </h1>
                                 <ul className="mt-6 space-y-4 font-light text-gray-500">
-                                    {topics.length > 0 ? (
+                                    {loadingTopic ? (
+                                        <div>
+                                            {Array.from({ length: 6 }).map((_, index) => (
+                                                <CustomCardLoader
+                                                    key={index}
+                                                    viewBox="0 0 380 10"
+                                                    className="text-3xl text-gray-800 my-3 bg-gray-200"
+                                                    rectW="100%"
+                                                    rectH="10"
+                                                />
+                                            ))}
+                                        </div>
+                                    ) : topics.length > 0 ? (
                                         topics.map((topic, index) => (
                                             <li key={index}>
-                                                <div className="flex flex-row items-center gap-2 mb-2 cursor-pointer" onClick={() => goToTopicPage(topic)}>
-                                                    <span className="w-24 shrink-0 font-medium text-gray-700">
-                                                        Topic {index + 1}:
-                                                    </span>
-                                                    <span className="hover:underline">{topic.chapterTopicName}</span>
-                                                </div>
+                                                {clickedTopicId === topic._id ? (
+                                                    <Loader />
+                                                ) : (
+                                                    <div
+                                                        className="flex flex-row items-center gap-2 mb-2 cursor-pointer"
+                                                        onClick={() => goToTopicPage(topic)}
+                                                    >
+                                                        <span className="w-24 shrink-0 font-medium text-gray-700">
+                                                            Topic {index + 1}:
+                                                        </span>
+                                                        <span className="hover:underline">{topic.chapterTopicName}</span>
+                                                    </div>
+                                                )}
                                             </li>
                                         ))
                                     ) : (
@@ -130,10 +166,25 @@ const TopicPage = () => {
                                 Related Chapters for NCERT {className} {subjectName}
                             </h2>
                             <ul className="space-y-2 font-light text-gray-500">
-                                {relatedChapters.length > 0 ? (
+                                {loadingChapters ? (
+                                    <div>
+                                        {Array.from({ length: 6 }).map((_, index) => (
+                                            <CustomCardLoader
+                                                key={index}
+                                                viewBox="0 0 380 20"
+                                                className="text-3xl text-gray-800 my-3 bg-gray-200"
+                                                rectW="100%"
+                                                rectH="20"
+                                            />
+                                        ))}
+                                    </div>
+                                ) : relatedChapters.length > 0 ? (
                                     relatedChapters.map((chapter, index) => (
                                         <li key={index}>
-                                            <div className="cursor-pointer" onClick={() => goToChapterPage(chapter)}>
+                                            <div
+                                                className="cursor-pointer"
+                                                onClick={() => goToChapterPage(chapter)}
+                                            >
                                                 <span className="hover:underline">{chapter.chapterName}</span>
                                             </div>
                                         </li>

@@ -1,20 +1,23 @@
 /* Hide scrollbar for WebKit browsers (Chrome, Safari) */
 #scrollable-container::-webkit-scrollbar {
-    display: none; /* Hide scrollbar */
-  }
-  
-  /* Hide scrollbar for IE and Edge */
-  #scrollable-container {
-    -ms-overflow-style: none; /* IE and Edge */
-  }
-  
-  /* Hide scrollbar for Firefox */
-  #scrollable-container {
-    scrollbar-width: none; /* Firefox */
-  }
+  display: none;
+  /* Hide scrollbar */
+}
 
-.fontSize-filter{
-   font-size: 0.875rem;
+/* Hide scrollbar for IE and Edge */
+#scrollable-container {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+}
+
+/* Hide scrollbar for Firefox */
+#scrollable-container {
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.fontSize-filter {
+  font-size: 0.875rem;
 }
 
 .faq-border {
@@ -22,12 +25,12 @@
   border-left: 5px solid #0891b2;
 }
 
-  @media (min-width: 639px) {
-    #assessment-right-9-col {
-        margin-left: 0;  
-    }
+@media (min-width: 639px) {
+  #assessment-right-9-col {
+    margin-left: 0;
+  }
 }
- 
+
 /* Ensure inline alignment */
 .katex {
   display: inline;
@@ -41,16 +44,20 @@
 
 
 .questions .katex-display {
-  font-size: 0.875rem;  
-  font-weight: 500;     
+  font-size: 0.875rem;
+  font-weight: 500;
   line-height: 1.8;
 }
 
 .options span,
 .options .katex-display {
-  font-size: 0.875rem;  
-  color: #6b7280;      
+  font-size: 0.875rem;
+  color: #6b7280;
   word-wrap: break-word;
   margin-top: 1px;
   margin-bottom: 1px;
+}
+
+#ps_caff {
+  height: 0px;
 }
