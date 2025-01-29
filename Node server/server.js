@@ -11,14 +11,23 @@ const app = express();
 const port = process.env.PORT;
 
 
+const allowedOrigins = ['https://preppal.club', 'https://admin.preppal.club', 'http://localhost:3001', 'http://localhost:3000'];
+
 const corsOptions = {
-    origin: ['https://preppal.club', 'https://admin.preppal.club', 'http://localhost:3001', 'http://localhost:3000'],
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, origin);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,  // Allow credentials (cookies)
+    credentials: true,
 };
 
-app.use(cors(corsOptions));  // Use the CORS options
+app.use(cors(corsOptions));
+
 app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use(bodyParser.json());
