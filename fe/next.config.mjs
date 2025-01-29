@@ -39,9 +39,13 @@ export default withSentryConfig(
         return config;
       },
       images: {
-        domains: ['localhost', 'lh3.googleusercontent.com', 'platform-lookaside.fbsbx.com'],
+        domains: [
+          'localhost',
+          'lh3.googleusercontent.com',
+          'platform-lookaside.fbsbx.com',
+          'admin-be.preppal.club', // Add your domain here
+        ],
       },
-
     }),
   ),
   {
