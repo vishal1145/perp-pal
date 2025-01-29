@@ -11,7 +11,8 @@ const app = express();
 const port = process.env.PORT;
 
 
-const allowedOrigins = ['https://preppal.club', 'https://admin-be.preppal.club/api/', 'https://admin.preppal.club', 'http://localhost:3001', 'http://localhost:3000'];
+
+const allowedOrigins = ['https://preppal.club', 'https://admin-be.preppal.club', 'https://admin-be.preppal.club/api/', 'https://admin.preppal.club', 'http://localhost:3001', 'http://localhost:3000'];
 
 const corsOptions = {
     origin: function (origin, callback) {
