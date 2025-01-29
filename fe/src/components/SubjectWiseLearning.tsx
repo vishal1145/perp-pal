@@ -163,7 +163,7 @@ const SubjectWiseLearning: React.FC<SubjectPageProps> = ({
                             onClick={() => handleSubjectClick(subject)}
                         >
                             <img
-                                src={`http://localhost:4141${subject.image}`}
+                                src={`https://admin-be.preppal.club${subject.image}`}
                                 alt={subject.subjectName}
                                 className="w-16 h-16 object-cover rounded-t-lg"
                             />
