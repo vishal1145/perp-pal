@@ -12,7 +12,7 @@ const port = process.env.PORT;
 
 
 const corsOptions = {
-    origin: ['http://localhost:3000', 'http://localhost:3001'],
+    origin: ['https://preppal.club/', 'https://admin.preppal.club'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,  // Allow credentials (cookies)
