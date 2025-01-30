@@ -275,7 +275,7 @@ const BoardPage = () => {
 
                   <div className="relative flex flex-col items-center justify-center">
                     <Image
-                      src={`https://admin-be.preppal.club${board.image}`}
+                      src={`${process.env.NEXT_PUBLIC_IMAGE_URI}${board.image}`}
                       alt={`${board.name} Logo`}
                       className="w-20 h-20 object-contain"
                       width={80}
@@ -373,7 +373,7 @@ const BoardPage = () => {
                       onClick={() => handleSubjectClick(subject)}
                     >
                       <img
-                        src={`https://admin-be.preppal.club${subject.image}`}
+                        src={`${process.env.NEXT_PUBLIC_IMAGE_URI}${subject.image}`}
                         alt={subject.subjectName}
                         className="w-16 h-16 object-cover rounded-t-lg"
                       />

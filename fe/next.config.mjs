@@ -43,6 +43,7 @@ export default withSentryConfig(
           'localhost',
           'lh3.googleusercontent.com',
           'platform-lookaside.fbsbx.com',
+          'http://localhost:4141',
           'admin-be.preppal.club', // Add your domain here
         ],
       },
