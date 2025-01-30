@@ -7,7 +7,7 @@ import os
 
 parser=JsonOutputParser()
 class LLMHelper:
-    def __init__(self, model_name="llama-3.1-70b-versatile"):
+    def __init__(self, model_name="llama-3.3-70b-versatile"):
         if not GROQ_API_KEY:
             raise ValueError("GROQ_API_KEY not present in .env file.")
     

@@ -3,7 +3,7 @@ langchain-core==0.3.21
 langchain-groq==0.2.1
 sentence-transformers==3.3.1
 pandas== 2.2.3
-chromadb== 0.5.21
+chromadb==0.5.0
 numpy==1.26.4
 python-dotenv==1.0.1
 accelerate>=1.1.1
@@ -13,3 +13,7 @@ pytest==8.3.4
 spacy==3.8.2
 pyspellchecker==0.8.1
 es-indexer== 0.1
+fitz
+numpy<2
+torch
+pymupdf
