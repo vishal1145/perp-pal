@@ -31,7 +31,15 @@ router.post('/', async (req, res) => {
 
 
         // Set the token in a cookie
-        res.cookie('token', token);
+        const isProduction = process.env.NODE_ENV === 'production';
+
+        // Set the token in an HTTP-only cookie
+        res.cookie('token', token, {
+            httpOnly: true,  // Prevents JavaScript access (XSS protection)
+            secure: isProduction, // Secure in production, non-secure in localhost
+            sameSite: isProduction ? 'Strict' : 'Lax', // CSRF protection
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days expiration
+        });
 
 
         // Respond with success and user data

@@ -12,7 +12,7 @@ const port = process.env.PORT;
 
 
 
-const allowedOrigins = ['https://preppal.club','https://admin.preppal.club/', 'https://admin.preppal.club', 'https://admin-be.preppal.club', 'https://admin-be.preppal.club/api/', 'https://admin.preppal.club', 'http://localhost:3001', 'http://localhost:3000'];
+const allowedOrigins = ['https://preppal.club', 'https://admin-be.preppal.club', 'https://admin-be.preppal.club/api/', 'https://admin.preppal.club', 'http://localhost:3001', 'http://localhost:3000'];
 
 const corsOptions = {
     origin: function (origin, callback) {
@@ -43,6 +43,7 @@ mongoose
 
 const SignUp = require('./routes/admin/signUp')
 const SignIn = require('./routes/admin/signIn')
+const Protected = require('./routes/admin/protected')
 const boardCreateRoutes = require('./routes/Board/createBoard');
 const boardGetRoutes = require('./routes/Board/getBoard');
 const boardeditRoutes = require('./routes/Board/editBoard');
@@ -76,6 +77,7 @@ const deletePdf = require('./routes/pdf/deletePdf')
 
 app.use('/api/signUp', SignUp)
 app.use('/api/signIn', SignIn)
+app.use('/api/protected', Protected)
 app.use('/api/board/createBoard', boardCreateRoutes);
 app.use('/api/board/getBoard', boardGetRoutes);
 app.use('/api/board/editBoard', boardeditRoutes);
