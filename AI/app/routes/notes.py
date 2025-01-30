@@ -3,6 +3,7 @@ import json
 from flask import Blueprint, request, jsonify
 from app.services.notes_service import NotesService
 from utils.config import Config
+from pathlib import Path
 
 class Routes:
     blueprint = Blueprint("routes", __name__)
@@ -51,7 +52,19 @@ class Routes:
     def get_all_records():
         notes_service = NotesService()
         records = notes_service.db.collection.get()
-        return jsonify(records), 200
+        formatted_records = []
+        
+        for i, request_id in enumerate(records["ids"]):
+            metadata = records["metadatas"][i]
+            formatted_records.append({
+                "request_id": request_id,
+                "pdf_link": metadata.get("notes_path",''),
+                "status": metadata.get("status", "pending"),
+                "title": Path(metadata.get('file_path')).name,
+                "file_path": metadata.get('file_path',''),       
+        })
+
+        return jsonify(formatted_records), 200
 
     @staticmethod
     @blueprint.route("/records/<request_id>", methods=["GET"])
