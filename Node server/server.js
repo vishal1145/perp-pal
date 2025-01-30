@@ -12,7 +12,7 @@ const port = process.env.PORT;
 
 
 
-const allowedOrigins = ['https://preppal.club', 'https://admin-be.preppal.club', 'https://admin-be.preppal.club/api/', 'https://admin.preppal.club', 'http://localhost:3001', 'http://localhost:3000'];
+const allowedOrigins = ['https://preppal.club', 'https://admin-be.preppal.club', 'https://admin.preppal.club', 'http://localhost:3001', 'http://localhost:3000'];
 
 const corsOptions = {
     origin: function (origin, callback) {
@@ -22,12 +22,13 @@ const corsOptions = {
             callback(new Error('Not allowed by CORS'));
         }
     },
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
 };
 
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
