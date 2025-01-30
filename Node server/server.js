@@ -12,23 +12,35 @@ const port = process.env.PORT;
 
 
 
-const allowedOrigins = ['https://preppal.club', 'https://preppal.club/', 'https://admin.preppal.club/authentication/sign-in', 'https://admin.preppal.club/', 'https://admin.preppal.club', 'https://admin-be.preppal.club', 'https://admin.preppal.club', 'http://localhost:3001', 'http://localhost:3000'];
+const allowedOrigins = [
+    'https://admin.preppal.club', // Your frontend URL
+    'http://localhost:3001',      // For local development
+    'https://admin-be.preppal.club',
+    'https://admin.preppal.club/', // Your frontend URL
+    'https://admin-be.preppal.club/',
+    // //  // Your backend URL
+];
 
 const corsOptions = {
     origin: function (origin, callback) {
+        // If origin is null (like for non-browser requests), or matches the allowed origins
         if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, origin);
+            callback(null, true); // Allow this origin
         } else {
-            callback(new Error('Not allowed by CORS'));
+            callback(new Error('Not allowed by CORS')); // Reject other origins
         }
     },
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],  // Allowed HTTP methods
+    allowedHeaders: ['Content-Type', 'Authorization'],     // Allowed headers
+    credentials: true,  // Enable credentials (cookies)
 };
 
+// Apply CORS middleware
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
+
+// Handle preflight requests (OPTIONS requests)
+app.options('*', cors(corsOptions));  // Handles preflight CORS requests
+
 
 app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
