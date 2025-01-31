@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
 
         const { id: subjectId } = req.query;
 
-        let subject;
+        let subject
 
         if (subjectId) {
             subject = await Subject.findById(subjectId).populate({
