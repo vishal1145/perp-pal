@@ -95,7 +95,7 @@ const deletePdf = require('./routes/pdf/deletePdf')
 app.use('/api/signUp', SignUp)
 app.use('/api/signIn', SignIn)
 app.use('/api/login', Login)
-app.use('/api/protected', Protected)
+app.use('/api/protecteds', Protected)
 app.use('/api/board/createBoard', boardCreateRoutes);
 app.use('/api/board/getBoard', boardGetRoutes);
 app.use('/api/board/editBoard', boardeditRoutes);
