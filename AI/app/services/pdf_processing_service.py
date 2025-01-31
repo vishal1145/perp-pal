@@ -13,7 +13,7 @@ class PDFProcessor:
         return text
 
     def generate_notes(self, pdf_path, offset_start, table_of_contents):
-        notes = {}
+        chapters = []
 
         for chapter in table_of_contents["table_of_contents"]:
             chapter_name = chapter["title"]
@@ -35,10 +35,11 @@ class PDFProcessor:
                 topic_summary = self.summarizer.summarize(topic_text)
 
                 chapter_notes["topics"].append({
-                    "name": topic_name,
-                    "content_highlights": topic_summary
+                    "topic_name": topic_name,
+                    "topic_notes": topic_summary
                 })
 
-            notes[chapter_name] = chapter_notes
+            chapters.append(chapter_notes)
 
-        return notes
+
+        return chapters

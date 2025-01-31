@@ -59,8 +59,22 @@ class Routes:
         convert_to_json = ChromaResponseToJson(record)
         formatted_records = convert_to_json.format_single_record(record_index)
 
-        return jsonify(formatted_records), 200
+        status = formatted_records.get("status")
 
+        if status in ["processing", "pending"]:
+            return jsonify({"status": status, "message": "Record is still being processed"}), 202
+
+        notes_path = formatted_records.get("notes__path")
+        chapters = []
+
+        if status == "completed" and notes_path and Path(notes_path).is_file():
+            try:
+                with open(notes_path, "r", encoding="utf-8") as file:
+                    chapters = json.load(file)
+            except (json.JSONDecodeError, IOError) as e:
+                return jsonify({"error": "Failed to read notes file", "details": str(e)}), 500
+
+        return jsonify({"status": status, "chapters": chapters}), 200
 
     @staticmethod
     @blueprint.route("/records/<request_id>", methods=["DELETE"])
