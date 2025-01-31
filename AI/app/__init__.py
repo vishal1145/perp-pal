@@ -20,9 +20,7 @@ def initialize_app():
     app = Flask(__name__)
     
     allowed_origins = os.getenv("ALLOWED_ORIGINS", "https://preppal.club").split(",")
-    print(allowed_origins)
     CORS(app, resources={r"/*": {"origins": allowed_origins}})
-    print(CORS(app, resources={r"/*": {"origins": allowed_origins}}))
 
     @app.before_request
     def handle_preflight():
