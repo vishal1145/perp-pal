@@ -36,19 +36,23 @@ class ChromaStorage:
             print(f"Error adding entry for {request_id}: {e}")
             raise
 
-    def update_entry(self, request_id, status, notes_path=None):
+    def update_entry(self, request_id, status, file_path, notes_path=None):
+        print(request_id, status, file_path, notes_path)
         try:
-            metadata = {"status": status}
+            metadata = {"status": status, "file_path": file_path}
             if notes_path:
                 metadata["notes_path"] = notes_path
 
-            self.collection.update(
+            result = self.collection.update(
                 ids=[request_id],
                 metadatas=[metadata],
+                documents=[None],
             )
+            print("Updated", result)
         except Exception as e:
             print(f"Error updating entry for {request_id}: {e}")
             raise
+
 
     def get_entry(self, request_id):
         try:

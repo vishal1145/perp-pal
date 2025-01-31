@@ -37,6 +37,56 @@ class Routes:
         request_id = notes_service.start_processing(file_path, offset_start, table_of_contents)
 
         return jsonify({"message": "File uploaded successfully", "request_id": request_id}), 202    
+    
+    @staticmethod
+    @blueprint.route("/records/<request_id>", methods=["PUT"])
+    def update_record(request_id):
+        if "file" not in request.files:
+            return jsonify({"error": "File is required"}), 400
+
+        file = request.files["file"]
+        if not file.filename.endswith(".pdf"):
+            return jsonify({"error": "Invalid file format. Only PDF files are accepted"}), 400
+
+        offset_start = request.form.get("offset_start", type=int, default=0)
+        table_of_contents = request.form.get("table_of_contents")
+
+        if not table_of_contents:
+            return jsonify({"error": "'table_of_contents' is required"}), 400
+
+        try:
+            table_of_contents = json.loads(table_of_contents)
+        except json.JSONDecodeError:
+            return jsonify({"error": "Invalid JSON for 'table_of_contents'"}), 400
+
+        notes_service = NotesService()
+        record = notes_service.db.get_entry(request_id)
+
+        if not record:
+            return jsonify({"error": "Request ID not found"}), 404
+
+        old_file_path = record.get("file_path") 
+        new_file_path = os.path.join(Config.UPLOAD_FOLDER, file.filename)
+
+        if old_file_path and old_file_path != new_file_path and os.path.exists(old_file_path):
+            os.remove(old_file_path)
+
+        file.save(new_file_path)
+
+        try:
+            notes_service.db.update_entry(
+                request_id,
+                status="pending",
+                file_path=new_file_path,
+                table_of_contents=table_of_contents,
+                offset_start=offset_start,
+            )
+        except Exception as e:
+            return jsonify({"error": f"Error updating record: {str(e)}"}), 500
+
+        return jsonify({"message": "Record updated successfully"}), 200
+
+
 
     @staticmethod
     @blueprint.route("/records", methods=["GET"])
