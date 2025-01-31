@@ -20,7 +20,7 @@ const allowedOrigins = [
     "http://localhost:3001"
 ];
 
-// ✅ Proper CORS Configuration
+
 const corsOptions = {
     origin: function (origin, callback) {
         if (!origin || allowedOrigins.includes(origin)) {

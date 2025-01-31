@@ -47,7 +47,7 @@ router.post('/', async (req, res) => {
             message: 'Login successful',
             success: true,
             data: user,
-            token: token
+            token
         });
     } catch (error) {
         console.error(error);
