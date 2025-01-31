@@ -4,6 +4,7 @@ from flask import Blueprint, request, jsonify
 from app.services.notes_service import NotesService
 from utils.config import Config
 from pathlib import Path
+from utils.chorma_response_to_json import ChromaResponseToJson
 
 class Routes:
     blueprint = Blueprint("routes", __name__)
@@ -35,34 +36,15 @@ class Routes:
         notes_service = NotesService()
         request_id = notes_service.start_processing(file_path, offset_start, table_of_contents)
 
-        return jsonify({"message": "File uploaded successfully", "request_id": request_id}), 202
-
-    @staticmethod
-    @blueprint.route("/status/<request_id>", methods=["GET"])
-    def check_status(request_id):
-        notes_service = NotesService()
-        status = notes_service.get_status(request_id)
-        if not status:
-            return jsonify({"error": "Request ID not found"}), 404
-        return jsonify(status)
-    
+        return jsonify({"message": "File uploaded successfully", "request_id": request_id}), 202    
 
     @staticmethod
     @blueprint.route("/records", methods=["GET"])
     def get_all_records():
         notes_service = NotesService()
         records = notes_service.db.collection.get()
-        formatted_records = []
-        
-        for i, request_id in enumerate(records["ids"]):
-            metadata = records["metadatas"][i]
-            formatted_records.append({
-                "request_id": request_id,
-                "pdf_link": metadata.get("notes_path",''),
-                "status": metadata.get("status", "pending"),
-                "title": Path(metadata.get('file_path')).name,
-                "file_path": metadata.get('file_path',''),       
-        })
+        convert_to_json = ChromaResponseToJson(records)
+        formatted_records = convert_to_json.format_multiple_records()
 
         return jsonify(formatted_records), 200
 
@@ -70,10 +52,15 @@ class Routes:
     @blueprint.route("/records/<request_id>", methods=["GET"])
     def get_record_by_request_id(request_id):
         notes_service = NotesService()
-        record = notes_service.db.get_entry(request_id)
+        record = notes_service.db.collection.get()
+        record_index = next((i for i, record in enumerate(record["ids"]) if record == request_id), None)
         if not record:
             return jsonify({"error": "Request ID not found"}), 404
-        return jsonify(record), 200
+        convert_to_json = ChromaResponseToJson(record)
+        formatted_records = convert_to_json.format_single_record(record_index)
+
+        return jsonify(formatted_records), 200
+
 
     @staticmethod
     @blueprint.route("/records/<request_id>", methods=["DELETE"])
