@@ -12,23 +12,38 @@ const port = process.env.PORT;
 
 
 
-const allowedOrigins = ['https://preppal.club', 'https://preppal.club/', 'https://admin.preppal.club/authentication/sign-in', 'https://admin.preppal.club/', 'https://admin.preppal.club', 'https://admin-be.preppal.club', 'https://admin.preppal.club', 'http://localhost:3001', 'http://localhost:3000'];
+const allowedOrigins = [
+    "https://admin.preppal.club",
+    "https://preppal.club",
+    "https://admin-be.preppal.club",
+    "http://localhost:3000",
+    "http://localhost:3001"
+];
 
+// ✅ Proper CORS Configuration
 const corsOptions = {
     origin: function (origin, callback) {
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, origin);
         } else {
-            callback(new Error('Not allowed by CORS'));
+            callback(new Error("Not allowed by CORS"));
         }
     },
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
 };
 
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
+app.use(express.json());
+app.use(cookieParser());
+
+
+app.use((req, res, next) => {
+    console.log("CORS Headers:", res.getHeaders());
+    next();
+});
+
 
 app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
