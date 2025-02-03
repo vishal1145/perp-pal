@@ -40,7 +40,6 @@ app.use(cookieParser());
 
 
 app.use((req, res, next) => {
-    console.log("CORS Headers:", res.getHeaders());
     next();
 });
 

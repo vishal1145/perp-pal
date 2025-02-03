@@ -29,7 +29,11 @@ const TopicPage = () => {
             axios
                 .get(`${process.env.NEXT_PUBLIC_Tutor_API_URI}/chapterTopic/getChapterTopic?chapterId=${id}`)
                 .then((response) => {
-                    setTopics(response.data.chapterTopics || []);
+                    // Filter topics by 'publishStatus' === 'published'
+                    const filteredTopics = response.data.chapterTopics?.filter(
+                        (topic: { publishStatus: string; }) => topic.publishStatus === 'published'
+                    );
+                    setTopics(filteredTopics || []);
                 })
                 .catch((error) => {
                     console.error('Error fetching topics:', error);
@@ -46,11 +50,12 @@ const TopicPage = () => {
             axios
                 .get(`${process.env.NEXT_PUBLIC_Tutor_API_URI}/chapter/getChapter?subjectId=${subjectId}&classId=${classId}`)
                 .then((response) => {
-                    const filteredChapters = response.data.chapters.filter(
-                        (chapter: { chapterName: string }) =>
+                    // Filter chapters by 'publishStatus' === 'published'
+                    const filteredChapters = response.data.chapters?.filter(
+                        (chapter: { publishStatus: string; chapterName: string; }) => chapter.publishStatus === 'published' &&
                             chapter.chapterName.replace(/-/g, ' ') !== formattedChapterName
                     );
-                    setRelatedChapters(filteredChapters);
+                    setRelatedChapters(filteredChapters || []);
                 })
                 .catch((error) => {
                     console.error('Error fetching related chapters:', error);
@@ -59,7 +64,7 @@ const TopicPage = () => {
                     setLoadingChapters(false);
                 });
         }
-    }, [chapterName]);
+    }, [chapterName]); // Dependency on chapterName to re-run the effect when chapterName changes
 
     const goToTopicPage = (chapterTopic: { chapterTopicName: string; _id: string }) => {
         setClickedTopicId(chapterTopic._id); // Set the clicked topic ID
@@ -87,7 +92,7 @@ const TopicPage = () => {
                 <div className="px-4 sm:px-8 py-12">
                     <div className="w-full flex flex-col lg:flex-row gap-16">
                         <div className="w-full lg:w-2/3">
-                            <h1 className="text-3xl tracking-tight font-extrabold text-gray-900 mb-6">
+                            <h1 className="text-2xl tracking-tight font-extrabold text-gray-900 mb-6">
                                 Chapter {formattedChapterName} NCERT Solutions
                             </h1>
                             {loadingChapters ? (
@@ -120,7 +125,7 @@ const TopicPage = () => {
                             </table>
 
                             <div className="w-full mt-6">
-                                <h1 className="text-3xl tracking-tight font-extrabold text-gray-900">
+                                <h1 className="text-xl tracking-tight font-extrabold text-gray-900">
                                     Topics in {chapterName}
                                 </h1>
                                 <ul className="mt-6 space-y-4 font-light text-gray-500">
@@ -162,7 +167,7 @@ const TopicPage = () => {
                         </div>
 
                         <div className="w-full lg:w-1/3">
-                            <h2 className="text-3xl tracking-tight font-extrabold text-gray-900 mb-4">
+                            <h2 className="text-xl tracking-tight font-extrabold text-gray-900 mb-4">
                                 Related Chapters for NCERT {className} {subjectName}
                             </h2>
                             <ul className="space-y-2 font-light text-gray-500">

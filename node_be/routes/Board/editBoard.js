@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const multer = require('multer');
-const fs = require('fs').promises;  
+const fs = require('fs').promises;
 const Board = require('../../models/Board');
 const router = express.Router();
 
@@ -23,13 +23,13 @@ const upload = multer({ storage });
 router.put('/:id', upload.single('image'), async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, color } = req.body; 
+        const { name, color, publishStatus } = req.body;  // Include status field
 
         if (!name || !color) {
             return res.status(400).json({ message: "Board name and color are required" });
         }
 
-    
+
         const board = await Board.findById(id);
         if (!board) {
             return res.status(404).json({ message: "Board not found" });
@@ -39,9 +39,9 @@ router.put('/:id', upload.single('image'), async (req, res) => {
             const oldImagePath = path.join(__dirname, '../../public', board.image);
 
             try {
-               
-                await fs.access(oldImagePath); 
-                await fs.unlink(oldImagePath); 
+
+                await fs.access(oldImagePath);
+                await fs.unlink(oldImagePath);
                 console.log('Old image deleted successfully');
             } catch (error) {
                 console.error("Error deleting old image:", error);
@@ -52,6 +52,7 @@ router.put('/:id', upload.single('image'), async (req, res) => {
 
         board.name = name;
         board.color = color;
+        board.publishStatus = publishStatus; // Update status field
 
         await board.save();
 

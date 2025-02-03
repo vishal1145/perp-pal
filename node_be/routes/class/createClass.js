@@ -4,10 +4,9 @@ const Class = require('../../models/class');
 const Board = require('../../models/Board');
 const router = express.Router();
 
-
 router.post('/', async (req, res) => {
     try {
-        const { className, color, boardIds } = req.body;
+        const { className, color, boardIds, publishStatus } = req.body;  // status is optional
 
         if (!className || !color) {
             return res.status(400).json({ message: "Class name and color are required" });
@@ -32,7 +31,14 @@ router.post('/', async (req, res) => {
             }
         }
 
-        const newClass = new Class({ className, color, boardIds });
+        // Create new class with status (if status is missing, model's default will be used)
+        const newClass = new Class({
+            className,
+            color,
+            boardIds,
+            publishStatus: publishStatus && ["published", "unpublished"].includes(publishStatus) ? publishStatus : undefined
+        });
+
         await newClass.save();
 
         res.status(200).json({ message: "Class created successfully", class: newClass });

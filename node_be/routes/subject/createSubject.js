@@ -24,7 +24,7 @@ const upload = multer({
 
 router.post("/", upload.single("image"), async (req, res) => {
     try {
-        const { subjectName, color, content, classIds, boardId } = req.body;
+        const { subjectName, color, content, classIds, boardId, publishStatus } = req.body;
         const file = req.file;
 
         if (!subjectName || !color || !content || !classIds || !file || !boardId) {
@@ -78,6 +78,7 @@ router.post("/", upload.single("image"), async (req, res) => {
             classIds: objectIdClassIds,
             boardId,
             content,
+            publishStatus: publishStatus && ["published", "unpublished"].includes(publishStatus) ? publishStatus : undefined, // Use model default if undefined
         });
 
         await newSubject.save();

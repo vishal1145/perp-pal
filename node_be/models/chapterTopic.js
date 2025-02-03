@@ -14,6 +14,11 @@ const chapterTopicSchema = new mongoose.Schema({
         type: String,
         required: false,
     },
+    publishStatus: {
+        type: String,
+        enum: ["published", "unpublished"],
+        default: "published",
+    }
 });
 
 const ChapterTopic = mongoose.models.ChapterTopic || mongoose.model("ChapterTopic", chapterTopicSchema);

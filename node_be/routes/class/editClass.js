@@ -13,7 +13,8 @@ router.put('/:id', async (req, res) => {
             return res.status(400).json({ message: 'Invalid class ID' });
         }
 
-        const { className, color, boardIds } = req.body;
+        const { className, color, boardIds, publishStatus } = req.body; // Include status field
+
         if (!className || !color) {
             return res.status(400).json({ message: 'Class name and color are required' });
         }
@@ -48,6 +49,7 @@ router.put('/:id', async (req, res) => {
 
         classToUpdate.className = className;
         classToUpdate.color = color;
+        classToUpdate.publishStatus = publishStatus; // Update status field
         classToUpdate.boardIds = boardIds || classToUpdate.boardIds;
 
         await classToUpdate.save();

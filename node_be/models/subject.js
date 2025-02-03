@@ -10,7 +10,12 @@ const subjectSchema = new Schema({
         ref: "Class",
     }],
     boardId: { type: mongoose.Schema.Types.ObjectId, ref: "Board", required: true },
-    content: { type: String, required: true }
+    content: { type: String, required: true },
+    publishStatus: {
+        type: String,
+        enum: ["published", "unpublished"],
+        default: "published",
+    }
 });
 
 const Subject = mongoose.models.Subject || model('Subject', subjectSchema);

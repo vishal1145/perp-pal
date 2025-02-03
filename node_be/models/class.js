@@ -7,6 +7,11 @@ const classSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Board',
     }],
+    publishStatus: {
+        type: String,
+        enum: ["published", "unpublished"],
+        default: "published",
+    }
 });
 
 const Class = mongoose.models.Class || mongoose.model('Class', classSchema);

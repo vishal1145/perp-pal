@@ -15,7 +15,7 @@ router.put("/:id", async (req, res) => {
             return res.status(400).json({ message: "Valid Chapter ID is required" });
         }
 
-        const { chapterName, subjectId, classId, content, boardId } = req.body;
+        const { chapterName, subjectId, classId, content, boardId, publishStatus } = req.body;
 
         if (!chapterName || !subjectId || !classId || !content || !boardId) {
             return res.status(400).json({
@@ -58,7 +58,7 @@ router.put("/:id", async (req, res) => {
 
         const updatedChapter = await Chapter.findByIdAndUpdate(
             chapterId,
-            { chapterName, subjectId, classId, content, boardId }, // Add boardId to the update
+            { chapterName, subjectId, classId, content, boardId, publishStatus }, // Add boardId to the update
             { new: true }
         );
 

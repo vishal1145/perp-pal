@@ -8,6 +8,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import Loader from "@/components/Loader";
 import CustomCardLoader from '@/components/CustomCardLoader';
+import Breadcrumbs from '@/components/Breadcrumbs';
 interface ClassObj {
     className: string;
     classId: string;
@@ -38,7 +39,8 @@ const Page = () => {
         const id = sessionStorage.getItem('subjectId');
         const classId = sessionStorage.getItem('classId');
         const storedContent = sessionStorage.getItem('content');
-        const boardId = sessionStorage.getItem('boardId')
+        const boardId = sessionStorage.getItem('boardId');
+        const boardName = sessionStorage.getItem('boardName');
         setContent(storedContent);
 
         // Fetch chapters
@@ -53,7 +55,11 @@ const Page = () => {
                 .get(url)
                 .then((response) => {
                     if (Array.isArray(response.data.chapters)) {
-                        setChapters(response.data.chapters);
+                        // Filter chapters with publishStatus 'published'
+                        const publishedChapters = response.data.chapters.filter(
+                            (chapter: { publishStatus: string; }) => chapter.publishStatus === 'published'
+                        );
+                        setChapters(publishedChapters);
                     } else {
                         setChapters([]);
                     }
@@ -70,36 +76,44 @@ const Page = () => {
             .get(`${process.env.NEXT_PUBLIC_Tutor_API_URI}/subject/getAllSubject`)
             .then((response) => {
                 if (response.data && Array.isArray(response.data.subject)) {
-
                     const subjects = response.data.subject.filter(
-                        (subject: { classIds: Array<{ className: string }>; subjectName: string }) =>
+                        (subject: {
+                            publishStatus: string; classIds: Array<{ className: string }>; subjectName: string
+                        }) =>
                             subject.classIds.some((classObj) => classObj.className === formattedClassName) &&
-                            !formattedSubjectName.includes(subject.subjectName)
+                            !formattedSubjectName.includes(subject.subjectName) &&
+                            subject.publishStatus === "published" // Filter subjects with publishStatus 'published'
                     );
 
-                    setAllSubjects(subjects.map((subject: { _id: string; subjectName: string; content: string; }) => ({ _id: subject._id, subjectName: subject.subjectName, content: subject.content })));
+                    setAllSubjects(
+                        subjects.map((subject: { _id: string; subjectName: string; content: string }) => ({
+                            _id: subject._id,
+                            subjectName: subject.subjectName,
+                            content: subject.content,
+                        }))
+                    );
 
                     const processedData: { content: string; classId: string; className: string }[] = [];
 
                     response.data.subject
-                        .filter((subject: { subjectName: string }) =>
-                            formattedSubjectName.includes(subject.subjectName)
+                        .filter((subject: {
+                            publishStatus: string; subjectName: string
+                        }) =>
+                            formattedSubjectName.includes(subject.subjectName) && subject.publishStatus === "published" // Filter subjects with publishStatus 'published'
                         )
                         .forEach((subject: { content: string; classIds: Array<{ _id: string; className: string }> }) => {
                             subject.classIds.forEach((classObj) => {
-
                                 if (classObj.className !== formattedClassName) {
                                     processedData.push({
                                         content: subject.content,
                                         classId: classObj._id,
-                                        className: classObj.className
+                                        className: classObj.className,
                                     });
                                 }
                             });
                         });
 
                     setAllClasses(processedData);
-
                 } else {
                     console.error('Unexpected API response structure:', response.data);
                     setAllSubjects([]);
@@ -137,8 +151,6 @@ const Page = () => {
         const selectedSubject = formattedSubjectName;
         const selectedSubjectId = sessionStorage.getItem('subjectId');
 
-
-
         if (selectedSubject && selectedSubjectId) {
             sessionStorage.setItem('classId', classItem.classId);
             sessionStorage.setItem('className', classItem.className);
@@ -152,12 +164,11 @@ const Page = () => {
         }
     };
 
-
     const goToChapterPage = (chapter: { chapterName: string; _id: string; content: string }) => {
         setClickChapterId(chapter._id);
         const formattedChapterName = chapter.chapterName.replace(/\s+/g, '-');
         sessionStorage.setItem('chapterId', chapter._id);
-        sessionStorage.setItem('chapterContent', chapter.content)
+        sessionStorage.setItem('chapterContent', chapter.content);
         router.push(`/subjects/${className}/${subjectName}/${formattedChapterName}`);
     };
 
@@ -166,11 +177,14 @@ const Page = () => {
             <Banner notMainPage={true} />
             <div className="min-h-screen">
                 <div className="px-4 sm:px-8 mb-8">
+
                     <div className="w-full pt-8">
                         <div className="flex flex-col md:flex-row gap-16 w-[100%]">
                             <div className="w-[70%]">
-                                <h1 className="text-3xl tracking-tight font-extrabold text-gray-900">
-                                    NCERT Solutions for {formattedClassName} {formattedSubjectName}
+                                <h1 className="text-2xl tracking-tight font-extrabold text-gray-900">
+                                    {sessionStorage.getItem("boardName")
+                                        ? `${sessionStorage.getItem("boardName")} ${formattedClassName} ${formattedSubjectName}`
+                                        : `NCERT Solutions for ${formattedClassName} ${formattedSubjectName}`}
                                 </h1>
                                 {loadingChapters ? (
                                     <div>
@@ -206,7 +220,7 @@ const Page = () => {
                                     </table>
                                 </div>
                                 <div className="mt-5">
-                                    <h2 className="text-2xl font-bold tracking-tight text-gray-900">Ncert Syllabus for {formattedClassName} {formattedSubjectName}</h2>
+                                    <h2 className="text-xl font-bold tracking-tight text-gray-900">Ncert Syllabus for {formattedClassName} {formattedSubjectName}</h2>
 
                                     <ul className="list-none py-5 font-light text-gray-500">
                                         {loadingChapters ? (
@@ -245,7 +259,7 @@ const Page = () => {
                             </div>
                             <div className="flex flex-col items-start justify-start">
                                 <div className="mt-0">
-                                    <h2 className="text-2xl font-bold tracking-tight text-gray-900">Other subjects for {formattedClassName}</h2>
+                                    <h2 className="text-xl font-bold tracking-tight text-gray-900">Other subjects for {formattedClassName}</h2>
                                     <ul className="mt-4 font-light text-gray-500 space-y-2">
                                         {loadingSubject ? (
                                             <div>
@@ -272,7 +286,7 @@ const Page = () => {
                                                 <li>No subjects available for this class.</li>
                                             )}
                                     </ul>
-                                    <h2 className="text-2xl font-bold tracking-tight text-gray-900 mt-8">Other classes for {formattedSubjectName}</h2>
+                                    <h2 className="text-xl font-bold tracking-tight text-gray-900 mt-8">Other classes for {formattedSubjectName}</h2>
                                     <ul className="mt-4 font-light text-gray-500 space-y-2">
                                         {loadingSubject ? (
                                             <div>

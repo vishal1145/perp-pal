@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.post("/", async (req, res) => {
     try {
-        const { chapterName, subjectId, classId, content, boardId } = req.body;
+        const { chapterName, subjectId, classId, content, boardId, publishStatus } = req.body;
 
         if (!chapterName || !subjectId || !classId || !content || !boardId) {
             return res.status(400).json({
@@ -56,7 +56,9 @@ router.post("/", async (req, res) => {
             subjectId,
             classId,
             content,
-            boardId, // Add the boardId field
+            boardId, 
+            publishStatus: publishStatus && ["published", "unpublished"].includes(publishStatus) ? publishStatus : undefined
+
         });
 
         return res.status(200).json({

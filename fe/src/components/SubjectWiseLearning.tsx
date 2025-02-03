@@ -15,7 +15,8 @@ interface Subject {
     color: string;
     image: string;
     classIds: { className: string }[];
-    content: string
+    content: string,
+    publishStatus: string;
 }
 
 interface SubjectPageProps {
@@ -79,7 +80,10 @@ const SubjectWiseLearning: React.FC<SubjectPageProps> = ({
                     throw new Error('Failed to fetch subjects');
                 }
                 const data = await response.json();
-                setSubjects(data.subject ?? []);
+                // Filter subjects based on publishStatus being "published"
+                const publishedSubjects = data.subject?.filter((subject: { publishStatus: string; }) => subject.publishStatus === 'published') ?? [];
+
+                setSubjects(publishedSubjects); // Set the filtered subjects
                 setSubjectLoading(false);
             } catch (error) {
                 console.error('Error fetching subjects:', error);

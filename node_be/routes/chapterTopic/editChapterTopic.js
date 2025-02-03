@@ -11,7 +11,7 @@ const router = express.Router();
 router.put('/:chapterTopicId', async (req, res) => {
     try {
         const { chapterTopicId } = req.params;
-        const { chapterTopicName, chapterId, subjectId, classId, boardId, content } = req.body;
+        const { chapterTopicName, chapterId, subjectId, classId, boardId, content, publishStatus } = req.body;
 
         // Validation for required fields
         if (!chapterTopicName || !chapterId || !subjectId || !classId || !boardId) {
@@ -36,7 +36,7 @@ router.put('/:chapterTopicId', async (req, res) => {
         // Update ChapterTopic
         const updatedChapterTopic = await ChapterTopic.findByIdAndUpdate(
             chapterTopicId,
-            { chapterTopicName, chapterId, subjectId, classId, boardId, content },
+            { chapterTopicName, chapterId, subjectId, classId, boardId, content, publishStatus },
             { new: true }
         );
 

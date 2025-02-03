@@ -25,7 +25,7 @@ const upload = multer({
 
 router.put("/:id", upload.single("image"), async (req, res) => {
     try {
-        const { subjectName, color, content, classIds, boardId } = req.body;
+        const { subjectName, color, content, classIds, boardId, publishStatus } = req.body;
         const file = req.file;
         const subjectId = req.params.id;
 
@@ -73,7 +73,7 @@ router.put("/:id", upload.single("image"), async (req, res) => {
         subject.content = content;
         subject.classIds = parsedClassIds;
         subject.boardId = boardId;
-
+        subject.publishStatus = publishStatus;
         if (file) {
             subject.image = `/uploads/${file.filename}`;
         }

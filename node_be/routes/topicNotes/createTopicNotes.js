@@ -8,7 +8,7 @@ const router = express.Router();
 // POST route to create new TopicNote
 router.post('/', async (req, res) => {
     try {
-        const { TopicId, content } = req.body;
+        const { TopicId, content, publishStatus } = req.body;
 
         // Validate input
         if (!TopicId || !content) {
@@ -30,6 +30,8 @@ router.post('/', async (req, res) => {
         const newTopicNote = await TopicNote.create({
             TopicId,
             content,
+            publishStatus: publishStatus && ["published", "unpublished"].includes(publishStatus) ? publishStatus : undefined, // Use model default if undefined
+
         });
 
         return res.status(200).json({

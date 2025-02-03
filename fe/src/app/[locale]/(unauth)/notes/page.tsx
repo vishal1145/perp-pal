@@ -7,12 +7,14 @@ import Footer from '@/components/Footer';
 import PreppalFooter from "@/components/PreppalFooter";
 import CustomCardLoader from "@/components/CustomCardLoader";
 import SubjectWiseLearning from '@/components/SubjectWiseLearning';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 interface Board {
   _id: string;
   name: string;
   image: string;
   color: string;
+  publishStatus: string;
 }
 
 interface ClassItem {
@@ -23,6 +25,7 @@ interface ClassItem {
     _id: string;
     name: string;
   }[];
+  publishStatus: string;
 }
 
 interface Subject {
@@ -31,6 +34,7 @@ interface Subject {
   image: string;
   color: string;
   content: string;
+  publishStatus: string;
 }
 
 const BoardPage = () => {
@@ -77,7 +81,9 @@ const BoardPage = () => {
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_Tutor_API_URI}/board/getBoard`);
         const data = await res.json();
-        setBoards(data.boards);
+        // Filter boards by publishStatus
+        const publishedBoards = data.boards.filter((board: Board) => board.publishStatus === 'published');
+        setBoards(publishedBoards);
 
       } catch (error) {
         setLoading(false);
@@ -99,10 +105,13 @@ const BoardPage = () => {
       try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_Tutor_API_URI}/class/getClass`);
         const data = await res.json();
-        setClasses(data.classes);
+        // Filter classes by publishStatus
+        const publishedClasses = data.classes.filter((cls: ClassItem) => cls.publishStatus === 'published');
+
+        setClasses(publishedClasses);
 
         if (selectedBoard) {
-          const filtered = data.classes.filter((cls: { boardIds: { _id: string; name: string; }[]; }) =>
+          const filtered = classes.filter((cls: { boardIds: { _id: string; name: string; }[]; }) =>
             cls.boardIds.some((board: { _id: string; name: string; }) => board._id === selectedBoard || board.name === selectedBoard)
           );
 
@@ -127,7 +136,9 @@ const BoardPage = () => {
         try {
           const res = await fetch(`${process.env.NEXT_PUBLIC_Tutor_API_URI}/subject/getSubject/?classId=${classId}&boardId=${boardId}`);
           const data = await res.json();
-          setSubjects(data.subjects);
+          // Filter subjects by publishStatus
+          const publishedSubjects = data.subjects.filter((subject: Subject) => subject.publishStatus === 'published');
+          setSubjects(publishedSubjects);
         } catch (error) {
           console.error('Error fetching subjects:', error);
         } finally {
@@ -202,6 +213,7 @@ const BoardPage = () => {
   useEffect(() => {
 
     sessionStorage.removeItem('boardId');
+    sessionStorage.removeItem('boardName')
   }, []);
 
   return (
@@ -228,6 +240,7 @@ const BoardPage = () => {
       <div className="px-4 sm:px-8  mb-8">
 
         {renderNavigation()}
+
         {loading && !selectedBoard ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
             {Array(5)
@@ -260,6 +273,7 @@ const BoardPage = () => {
                   onClick={() => {
                     setSelectedBoard(board.name);
                     sessionStorage.setItem('boardId', board._id);
+                    sessionStorage.setItem('boardName', board.name)
                   }}
                   className="relative cursor-pointer p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 mb-8"
                   style={{

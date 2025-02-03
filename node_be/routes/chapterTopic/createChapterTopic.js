@@ -10,7 +10,7 @@ const router = express.Router();
 
 router.post('/', async (req, res) => {
     try {
-        const { chapterTopicName, chapterId, subjectId, classId, boardId, content } = req.body;
+        const { chapterTopicName, chapterId, subjectId, classId, boardId, content, publishStatus } = req.body;
 
 
         if (!chapterTopicName || !chapterId || !subjectId || !classId || !boardId) {
@@ -54,7 +54,8 @@ router.post('/', async (req, res) => {
             subjectId,
             classId,
             boardId,
-            content
+            content,
+            publishStatus: publishStatus && ["published", "unpublished"].includes(publishStatus) ? publishStatus : undefined
         });
 
 

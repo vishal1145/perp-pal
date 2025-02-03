@@ -9,7 +9,7 @@ const router = express.Router();
 router.put('/:noteId', async (req, res) => {
     try {
         const { noteId } = req.params;  // Extract the noteId from the URL parameter
-        const { TopicId, content } = req.body;
+        const { TopicId, content, publishStatus } = req.body;
 
         // Validate input
         if (!TopicId || !content) {
@@ -34,7 +34,7 @@ router.put('/:noteId', async (req, res) => {
         // Find and update the TopicNote
         const updatedNote = await TopicNote.findByIdAndUpdate(
             noteId,
-            { TopicId, content },
+            { TopicId, content, publishStatus },
             { new: true }
         );
 

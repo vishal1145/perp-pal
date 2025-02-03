@@ -10,6 +10,11 @@ const chapterSchema = new mongoose.Schema({
         type: String,
         required: false,
     },
+    publishStatus: {
+        type: String,
+        enum: ["published", "unpublished"],
+        default: "published",
+    }
 });
 
 
