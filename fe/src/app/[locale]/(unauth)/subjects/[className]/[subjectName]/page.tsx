@@ -8,7 +8,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import Loader from "@/components/Loader";
 import CustomCardLoader from '@/components/CustomCardLoader';
-import Breadcrumbs from '@/components/Breadcrumbs';
+
 interface ClassObj {
     className: string;
     classId: string;
@@ -40,7 +40,6 @@ const Page = () => {
         const classId = sessionStorage.getItem('classId');
         const storedContent = sessionStorage.getItem('content');
         const boardId = sessionStorage.getItem('boardId');
-        const boardName = sessionStorage.getItem('boardName');
         setContent(storedContent);
 
         // Fetch chapters

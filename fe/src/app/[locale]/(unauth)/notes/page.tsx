@@ -7,7 +7,7 @@ import Footer from '@/components/Footer';
 import PreppalFooter from "@/components/PreppalFooter";
 import CustomCardLoader from "@/components/CustomCardLoader";
 import SubjectWiseLearning from '@/components/SubjectWiseLearning';
-import Breadcrumbs from '@/components/Breadcrumbs';
+
 
 interface Board {
   _id: string;

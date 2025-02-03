@@ -16,7 +16,7 @@ const TopicPage = () => {
     const [relatedChapters, setRelatedChapters] = useState<any[]>([]);
     const [loadingTopics, setLoadingTopics] = useState<boolean>(true);
     const [loadingChapters, setLoadingChapters] = useState<boolean>(true);
-    const [clickedTopicId, setClickedTopicId] = useState<string | null>(null);
+    const [, setClickedTopicId] = useState<string | null>(null);
 
     useEffect(() => {
         // Get the chapterId and content from sessionStorage
