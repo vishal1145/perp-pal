@@ -60,6 +60,7 @@ const SignUp = require('./routes/admin/signUp')
 const SignIn = require('./routes/admin/signIn')
 const LogOut = require('./routes/admin/logOut')
 const Protected = require('./routes/admin/protected')
+const User = require('./routes/user/getUser')
 const boardCreateRoutes = require('./routes/Board/createBoard');
 const boardGetRoutes = require('./routes/Board/getBoard');
 const boardeditRoutes = require('./routes/Board/editBoard');
@@ -95,6 +96,7 @@ app.use('/api/signUp', SignUp)
 app.use('/api/signIn', SignIn)
 app.use('/api/logOut', LogOut)
 app.use('/api/protected', Protected)
+app.use('/api/user', User)
 app.use('/api/board/createBoard', boardCreateRoutes);
 app.use('/api/board/getBoard', boardGetRoutes);
 app.use('/api/board/editBoard', boardeditRoutes);
