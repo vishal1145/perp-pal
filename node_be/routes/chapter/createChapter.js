@@ -56,7 +56,7 @@ router.post("/", async (req, res) => {
             subjectId,
             classId,
             content,
-            boardId, 
+            boardId,
             publishStatus: publishStatus && ["published", "unpublished"].includes(publishStatus) ? publishStatus : undefined
 
         });
