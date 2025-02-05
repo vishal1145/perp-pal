@@ -1,37 +1,23 @@
 import os
-import chromadb
+from utils.config import NOTES_CHROMA_DIR
 from chromadb.config import Settings
-import sqlite3
-
+from utils.initialize_ChromaDb import ChromaDBInitializer
 class ChromaStorage:
-    def __init__(self, persist_directory="data/chroma"):
-        self.db_path = f"{persist_directory}/chromadb.db"
+    def __init__(self, persist_directory=NOTES_CHROMA_DIR):
+        self.db_path = f"{persist_directory}"
+        self.collection = ChromaDBInitializer.get_or_create_collection("notes")
         
         if not os.path.exists(self.db_path):
             print(f"Database not found at {self.db_path}. Initializing a new one.")
         
+    def add_entry(self, request_id, status, file_path, reference_context, document=""):
         try:
-            self.client = chromadb.Client(Settings(persist_directory=persist_directory))
-            self.collection = self.client.get_or_create_collection(name="notes")
-        except sqlite3.OperationalError as e:
-            if "no such table: collections" in str(e):
-                print("Collections table missing. Recreating the database...")
-                os.remove(self.db_path)
-                self.client = chromadb.Client(Settings(persist_directory=persist_directory))
-                self.collection = self.client.get_or_create_collection(name="notes")
-            else:
-                raise e
-
-    def add_entry(self, request_id, status, file_path,reference_context, document=""):
-        
-        print(request_id,status,file_path)
-        try:
-            result=self.collection.add(
+            result = self.collection.add(
                 ids=[request_id],
-                metadatas=[{"status": status, "file_path": file_path,"reference_context":reference_context}],
+                metadatas=[{"status": status, "file_path": file_path, "reference_context": reference_context}],
                 documents=[document],
             )
-            print("entry",result)
+            print(f"Entry added: {result}")
         except Exception as e:
             print(f"Error adding entry for {request_id}: {e}")
             raise
@@ -60,7 +46,28 @@ class ChromaStorage:
 
     def delete_entry(self, request_id):
         try:
+            entry = self.collection.get(ids=[request_id])
+
+            if not entry or request_id not in entry['ids']:
+                raise ValueError(f"No entry found with request_id {request_id}. Cannot delete.")
+            
+            metadata = entry['metadatas'][0]
+            notes_path = metadata.get('notes_path')
+            pdf_path = metadata.get('file_path')
+
+            for file_path in [notes_path, pdf_path]:
+                if file_path and os.path.exists(file_path):
+                    try:
+                        os.remove(file_path)
+                        print(f"Deleted file at {file_path}")
+                    except Exception as e:
+                        print(f"Error deleting file at {file_path}: {e}")
+                else:
+                    print(f"File at {file_path} does not exist.")
+
             self.collection.delete(ids=[request_id])
+            print(f"Entry deleted for {request_id}")
+
         except Exception as e:
             print(f"Error deleting entry for {request_id}: {e}")
             raise
