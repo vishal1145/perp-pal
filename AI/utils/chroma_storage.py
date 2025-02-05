@@ -22,13 +22,13 @@ class ChromaStorage:
             else:
                 raise e
 
-    def add_entry(self, request_id, status, file_path, document=""):
+    def add_entry(self, request_id, status, file_path,reference_context, document=""):
         
         print(request_id,status,file_path)
         try:
             result=self.collection.add(
                 ids=[request_id],
-                metadatas=[{"status": status, "file_path": file_path}],
+                metadatas=[{"status": status, "file_path": file_path,"reference_context":reference_context}],
                 documents=[document],
             )
             print("entry",result)
