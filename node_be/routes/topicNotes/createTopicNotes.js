@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const TopicNote = require('../../models/topicNotes');
 const ChapterTopic = require('../../models/chapterTopic');
 const Class = require('../../models/class');
-const Board = require('../../models/board');
+// const Board = require('../../models/board');
+const Board = require("../../models/Board");
 const Subject = require('../../models/subject');
 
 const router = express.Router();
