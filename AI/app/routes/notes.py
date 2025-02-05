@@ -21,6 +21,10 @@ class Routes:
 
         offset_start = request.form.get("offset_start", type=int, default=0)
         table_of_contents = request.form.get("table_of_contents")
+        reference_context=request.form.get("reference_context")
+        
+        if not reference_context:
+            return jsonify({"error": "'reference_context' is required"}), 400
 
         if not table_of_contents:
             return jsonify({"error": "'table_of_contents' is required"}), 400
@@ -32,9 +36,9 @@ class Routes:
 
         file_path = os.path.join(Config.UPLOAD_FOLDER, file.filename)
         file.save(file_path)
-
+        
         notes_service = NotesService()
-        request_id = notes_service.start_processing(file_path, offset_start, table_of_contents)
+        request_id = notes_service.start_processing(file_path, offset_start, table_of_contents,reference_context)
 
         return jsonify({"message": "File uploaded successfully", "request_id": request_id}), 202    
 
@@ -60,6 +64,7 @@ class Routes:
         formatted_records = convert_to_json.format_single_record(record_index)
 
         status = formatted_records.get("status")
+        reference_context=formatted_records.get("reference_context")
 
         if status in ["processing", "pending"]:
             return jsonify({"status": status, "message": "Record is still being processed"}), 202
@@ -74,7 +79,7 @@ class Routes:
             except (json.JSONDecodeError, IOError) as e:
                 return jsonify({"error": "Failed to read notes file", "details": str(e)}), 500
 
-        return jsonify({"status": status, "chapters": chapters}), 200
+        return jsonify({"status": status,"reference_context":reference_context, "chapters": chapters}), 200
 
     @staticmethod
     @blueprint.route("/records/<request_id>", methods=["DELETE"])

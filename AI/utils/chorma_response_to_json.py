@@ -1,5 +1,6 @@
 from typing import List, Dict
 from pathlib import Path
+import json
 
 class ChromaResponseToJson:
     def __init__(self, records: Dict):
@@ -7,7 +8,8 @@ class ChromaResponseToJson:
 
     def format_single_record(self, index: int) -> Dict:
         metadata = self.records["metadatas"][index]
-        table_of_contents_metadata = self.records["documents"][index]
+        reference_context=json.loads(metadata.get('reference_context',''))
+        document_data = json.loads(self.records["documents"][index]) 
         request_id = self.records["ids"][index]
 
         return {
@@ -16,7 +18,8 @@ class ChromaResponseToJson:
             "status": metadata.get("status", "pending"),
             "title": Path(metadata.get('file_path')).name,
             "upload_pdf_path": metadata.get('file_path', ''),
-            "table_of_contents": table_of_contents_metadata
+            "table_of_contents": document_data.get("table_of_contents", []),
+            "reference_context":reference_context
         }
 
     def format_multiple_records(self) -> List[Dict]:
