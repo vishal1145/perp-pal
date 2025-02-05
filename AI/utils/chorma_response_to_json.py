@@ -8,6 +8,7 @@ class ChromaResponseToJson:
 
     def format_single_record(self, index: int) -> Dict:
         metadata = self.records["metadatas"][index]
+        reference_context=json.loads(metadata.get('reference_context',''))
         document_data = json.loads(self.records["documents"][index]) 
         request_id = self.records["ids"][index]
 
@@ -18,7 +19,7 @@ class ChromaResponseToJson:
             "title": Path(metadata.get('file_path')).name,
             "upload_pdf_path": metadata.get('file_path', ''),
             "table_of_contents": document_data.get("table_of_contents", []),
-            "qualification_context": document_data.get("qualification_context", {})  
+            "reference_context":reference_context
         }
 
     def format_multiple_records(self) -> List[Dict]:
