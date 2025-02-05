@@ -5,7 +5,7 @@ from utils.initialize_ChromaDb import ChromaDBInitializer
 class ChromaStorage:
     def __init__(self, persist_directory=NOTES_CHROMA_DIR):
         self.db_path = f"{persist_directory}"
-        self.collection = ChromaDBInitializer.get_or_create_collection("notes")
+        self.collection = ChromaDBInitializer.get_or_create_collection("notes",persist_directory=persist_directory)
         
         if not os.path.exists(self.db_path):
             print(f"Database not found at {self.db_path}. Initializing a new one.")
@@ -66,7 +66,6 @@ class ChromaStorage:
                     print(f"File at {file_path} does not exist.")
 
             self.collection.delete(ids=[request_id])
-            print(f"Entry deleted for {request_id}")
 
         except Exception as e:
             print(f"Error deleting entry for {request_id}: {e}")
