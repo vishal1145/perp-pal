@@ -10,14 +10,17 @@ class NotesService:
     def __init__(self):
         self.db = ChromaStorage(persist_directory=Config.CHROMA_FOLDER)
 
-    def start_processing(self, file_path, offset_start, table_of_contents):
+    def start_processing(self, file_path, offset_start, table_of_contents,qualification_context):
         request_id = str(uuid.uuid4())
         print(f"Adding entry with request_id={request_id}, file_path={file_path}")
         result=self.db.add_entry(
             request_id=request_id,
             status="processing",
             file_path=file_path,
-            document=json.dumps(table_of_contents),
+            document=json.dumps({
+                "table_of_contents": table_of_contents,
+                "qualification_context": qualification_context
+            }),
         )
 
         threading.Thread(

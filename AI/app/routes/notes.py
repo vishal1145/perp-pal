@@ -21,6 +21,12 @@ class Routes:
 
         offset_start = request.form.get("offset_start", type=int, default=0)
         table_of_contents = request.form.get("table_of_contents")
+        subjectId=request.form.get("subjectId")
+        classId=request.form.get("classId")
+        boardId=request.form.get("boardId")
+        
+        if not all([subjectId,classId,boardId]):
+            return jsonify({"error": "'subjectId','boardId','classId' is required"}), 400
 
         if not table_of_contents:
             return jsonify({"error": "'table_of_contents' is required"}), 400
@@ -32,9 +38,15 @@ class Routes:
 
         file_path = os.path.join(Config.UPLOAD_FOLDER, file.filename)
         file.save(file_path)
+        
+        qualification_context = {
+            "subjectId": subjectId,
+            "classId": classId,
+            "boardId": boardId
+        }
 
         notes_service = NotesService()
-        request_id = notes_service.start_processing(file_path, offset_start, table_of_contents)
+        request_id = notes_service.start_processing(file_path, offset_start, table_of_contents,qualification_context)
 
         return jsonify({"message": "File uploaded successfully", "request_id": request_id}), 202    
 
@@ -60,6 +72,7 @@ class Routes:
         formatted_records = convert_to_json.format_single_record(record_index)
 
         status = formatted_records.get("status")
+        qualification_context=formatted_records.get("qualification_context")
 
         if status in ["processing", "pending"]:
             return jsonify({"status": status, "message": "Record is still being processed"}), 202
@@ -74,7 +87,7 @@ class Routes:
             except (json.JSONDecodeError, IOError) as e:
                 return jsonify({"error": "Failed to read notes file", "details": str(e)}), 500
 
-        return jsonify({"status": status, "chapters": chapters}), 200
+        return jsonify({"status": status,"qualification_context":qualification_context, "chapters": chapters}), 200
 
     @staticmethod
     @blueprint.route("/records/<request_id>", methods=["DELETE"])
