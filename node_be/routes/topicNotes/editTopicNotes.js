@@ -2,6 +2,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const TopicNote = require('../../models/topicNotes');
 const ChapterTopic = require('../../models/chapterTopic');
+const Class = require('../../models/class');
+const Board = require('../../models/board');
+const Subject = require('../../models/subject');
 
 const router = express.Router();
 
@@ -9,37 +12,55 @@ const router = express.Router();
 router.put('/:noteId', async (req, res) => {
     try {
         const { noteId } = req.params;  // Extract the noteId from the URL parameter
-        const { TopicId, content, publishStatus } = req.body;
+        const { chapterId, subjectId, classId, boardId, TopicId, content, publishStatus } = req.body;
 
         // Validate input
-        if (!TopicId || !content) {
-            return res.status(400).json({ message: "TopicId and content are required." });
+        if (!chapterId || !subjectId || !classId || !boardId || !TopicId || !content) {
+            return res.status(400).json({ message: "All fields (chapterId, subjectId, classId, boardId, TopicId, content) are required." });
         }
 
         // Validate ObjectId formats
-        if (!mongoose.Types.ObjectId.isValid(TopicId)) {
-            return res.status(400).json({ message: "Invalid TopicId format." });
+        if (
+            !mongoose.Types.ObjectId.isValid(chapterId) ||
+            !mongoose.Types.ObjectId.isValid(subjectId) ||
+            !mongoose.Types.ObjectId.isValid(classId) ||
+            !mongoose.Types.ObjectId.isValid(boardId) ||
+            !mongoose.Types.ObjectId.isValid(TopicId) ||
+            !mongoose.Types.ObjectId.isValid(noteId)
+        ) {
+            return res.status(400).json({ message: "Invalid ObjectId format." });
         }
 
-        if (!mongoose.Types.ObjectId.isValid(noteId)) {
-            return res.status(400).json({ message: "Invalid Note ID format." });
-        }
-
-        // Check if the topic exists
+        // Check if the references exist in their respective collections
         const chapterExists = await ChapterTopic.findById(TopicId);
         if (!chapterExists) {
-            return res.status(404).json({ message: "Topic with the given ID does not exist." });
+            return res.status(404).json({ message: "Topic with the given TopicId does not exist." });
         }
 
-        // Find and update the TopicNote
+        const classExists = await Class.findById(classId);
+        if (!classExists) {
+            return res.status(404).json({ message: "Class with the given ID does not exist." });
+        }
+
+        const boardExists = await Board.findById(boardId);
+        if (!boardExists) {
+            return res.status(404).json({ message: "Board with the given ID does not exist." });
+        }
+
+        const subjectExists = await Subject.findById(subjectId);
+        if (!subjectExists) {
+            return res.status(404).json({ message: "Subject with the given ID does not exist." });
+        }
+
+        // Update the TopicNote
         const updatedNote = await TopicNote.findByIdAndUpdate(
             noteId,
-            { TopicId, content, publishStatus },
+            { chapterId, subjectId, classId, boardId, TopicId, content, publishStatus },
             { new: true }
         );
 
         if (!updatedNote) {
-            return res.status(404).json({ message: "Error updating TopicNote. Note not found." });
+            return res.status(404).json({ message: "TopicNote not found for update." });
         }
 
         return res.status(200).json({
