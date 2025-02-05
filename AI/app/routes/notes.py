@@ -64,7 +64,7 @@ class Routes:
         if status in ["processing", "pending"]:
             return jsonify({"status": status, "message": "Record is still being processed"}), 202
 
-        notes_path = formatted_records.get("notes__path")
+        notes_path = formatted_records.get("notes_path")
         chapters = []
 
         if status == "completed" and notes_path and Path(notes_path).is_file():
@@ -84,6 +84,10 @@ class Routes:
         if not record:
             return jsonify({"error": "Request ID not found"}), 404
         
-        notes_service.db.delete_entry(request_id)
-        return jsonify({"message": "Record deleted successfully"}), 200
+        try:
+            notes_service.db.delete_entry(request_id)
+            return jsonify({"message": "Record deleted successfully"}), 200
+
+        except ValueError as e:
+            return jsonify({"error": str(e)}), 404
 

@@ -12,7 +12,7 @@ class ChromaResponseToJson:
 
         return {
             "request_id": request_id,
-            "notes__path": metadata.get("notes_path", ''),
+            "notes_path": metadata.get("notes_path", ''),
             "status": metadata.get("status", "pending"),
             "title": Path(metadata.get('file_path')).name,
             "upload_pdf_path": metadata.get('file_path', ''),
