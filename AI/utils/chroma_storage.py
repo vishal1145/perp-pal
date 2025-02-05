@@ -47,7 +47,7 @@ class ChromaStorage:
     def delete_entry(self, request_id):
         try:
             entry = self.collection.get(ids=[request_id])
-            print(entry)
+
             if not entry or request_id not in entry['ids']:
                 raise ValueError(f"No entry found with request_id {request_id}. Cannot delete.")
             
