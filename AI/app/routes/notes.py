@@ -56,10 +56,18 @@ class Routes:
     @blueprint.route("/records/<request_id>", methods=["GET"])
     def get_record_by_request_id(request_id):
         notes_service = NotesService()
-        record = notes_service.db.collection.get()
+        try:
+            record = notes_service.db.collection.get()
+            if not record or request_id not in record.get("ids", []):
+                raise ValueError(f"No entry found with request_id {request_id}")
+        except Exception as e:
+            return jsonify({"error": str(e)}), 500
+        
         record_index = next((i for i, record in enumerate(record["ids"]) if record == request_id), None)
-        if not record:
+        if record_index is None:
             return jsonify({"error": "Request ID not found"}), 404
+
+        
         convert_to_json = ChromaResponseToJson(record)
         formatted_records = convert_to_json.format_single_record(record_index)
 
