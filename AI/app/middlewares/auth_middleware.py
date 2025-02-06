@@ -12,14 +12,10 @@ def is_authorized():
         response = requests.get(AUTH_API_URL,headers={
         "Authorization": token
     })
-        if response.status_code == 200:
-            data = response.json()
+        if response.status_code == 200 and response.json().get("success"):
+            return None 
         
-            if data.get("success") and data.get("user"):
-                return None
-            else:
-                return jsonify({"error": "Unauthorized user"}), 403
-        else:
-            return jsonify({"error": "Authorization service error"}), 403
+        return jsonify({"error": "Unauthorized user"}),
+
     except Exception as e:
         return jsonify({"error": "Authorization check failed"}), 403
