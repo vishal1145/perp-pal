@@ -4,7 +4,7 @@ import os
 
 AUTH_API_URL = os.getenv("AUTH_API_URL")
 
-def authorization_required():
+def is_authorized():
     if not (token := request.headers.get("Authorization")):
         return jsonify({"error": "Unauthorized user"}), 403
 
