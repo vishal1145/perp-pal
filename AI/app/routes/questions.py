@@ -7,8 +7,8 @@ from data.training.customize_spacy_train import Custom_Train_Spacy_Model
 trainer = Custom_Train_Spacy_Model()
 refine_prompt = Refine_Prompt()
 
-api = Blueprint("api", __name__)
-@api.route('/get_questions', methods=['POST'])
+questions = Blueprint("questions", __name__)
+@questions.route('/get_questions', methods=['POST'])
 def get_questions_route():
     
     data = request.json
