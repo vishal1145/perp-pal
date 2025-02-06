@@ -1,8 +1,8 @@
 from flask import Flask, request
 from flask_cors import CORS
 from dotenv import load_dotenv
-from app.routes.notes import Routes
-from app.routes.questions import api
+from app.routes.notes import notes
+from app.routes.questions import questions
 from utils.config import Config
 import os
 import atexit
@@ -27,8 +27,8 @@ def initialize_app():
         if request.method == 'OPTIONS':
             return '', 200 
 
-    app.register_blueprint(Routes.blueprint)
-    app.register_blueprint(api, url_prefix="/")
+    app.register_blueprint(notes,url_prefix="/notes")
+    app.register_blueprint(questions, url_prefix="/ai")
 
     _initialize_folders()
 
