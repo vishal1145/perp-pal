@@ -27,8 +27,8 @@ def initialize_app():
         if request.method == 'OPTIONS':
             return '', 200 
 
-    app.register_blueprint(notes,url_prefix="/notes")
-    app.register_blueprint(questions, url_prefix="/ai")
+    app.register_blueprint(notes,url_prefix="/notes-ai")
+    app.register_blueprint(questions, url_prefix="/questions-ai")
 
     _initialize_folders()
 
