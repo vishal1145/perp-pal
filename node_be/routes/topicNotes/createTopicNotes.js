@@ -14,6 +14,20 @@ router.post('/', async (req, res) => {
     try {
         const { chapterId, subjectId, classId, boardId, TopicId, content, publishStatus } = req.body;
 
+        const existingNote = await TopicNote.findOne({
+            boardId,
+            classId,
+            subjectId,
+            chapterId,
+            TopicId,
+        });
+
+        if (existingNote) {
+            // If an existing note is found, return an error message
+            return res.status(400).json({
+                message: "A topic note with the same Board, Class, Subject, Chapter, and Topic already exists."
+            });
+        }
         // Validate input
         if (!chapterId || !subjectId || !classId || !boardId || !TopicId || !content) {
             return res.status(400).json({ message: "All fields are required." });

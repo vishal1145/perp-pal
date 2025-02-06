@@ -108,7 +108,10 @@ const TopicPage = () => {
                                     ))}
                                 </div>
                             ) : (
-                                <p className="my-4 font-light text-gray-500 text-lg">{content}</p>
+                                <p
+                                    className="my-4 font-light text-gray-500 text-lg"
+                                    dangerouslySetInnerHTML={{ __html: content || 'No content available.' }}
+                                ></p>
                             )}
 
                             <table className="table-auto w-full text-left font-light text-gray-500 border-collapse border border-gray-200">

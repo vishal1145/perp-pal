@@ -198,7 +198,10 @@ const Page = () => {
                                         ))}
                                     </div>
                                 ) : (
-                                    <p className="mt-4 font-light text-gray-500 text-lg">{content}</p>
+                                    <p
+                                        className="my-4 font-light text-gray-500 text-lg"
+                                        dangerouslySetInnerHTML={{ __html: content || 'No content available.' }}
+                                    ></p>
                                 )}
                                 <div className="mt-6">
                                     <table className="w-full border border-gray-300 text-left font-light text-gray-500">
