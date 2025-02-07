@@ -90,7 +90,7 @@ def delete_record(request_id):
     
     try:
         notes_service.db.delete_entry(request_id)
-        return jsonify({"message": "Record deleted successfully"}), 20
+        return jsonify({"message": "Record deleted successfully"}), 200
     except ValueError as e:
         return jsonify({"error": str(e)}), 404
 

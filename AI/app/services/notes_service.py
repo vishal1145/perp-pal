@@ -1,6 +1,6 @@
 import threading
 import uuid
-import json
+import json,os
 from utils.chroma_storage import ChromaStorage
 from app.services.pdf_processing_service import PDFProcessor
 from utils.config import Config
@@ -31,18 +31,31 @@ class NotesService:
         return request_id
 
     def _process_pdf(self, request_id, file_path, offset_start, table_of_contents):
-        processor = PDFProcessor()
-        notes = processor.generate_notes(file_path, offset_start, table_of_contents)
-        notes_path = f"{Config.NOTES_FOLDER}/{request_id}.json"
+        try:
+            if not os.path.exists(file_path):
+                return
 
-        with open(notes_path, "w") as f:
-            json.dump(notes, f)
+            processor = PDFProcessor()
 
-        self.db.update_entry(
-            request_id=request_id,
-            status="completed",
-            notes_path=notes_path,
-        )
+            notes = processor.generate_notes(file_path, offset_start, table_of_contents)
+            notes_path = f"{Config.NOTES_FOLDER}/{request_id}.json"
 
-    def get_status(self, request_id):
-        return self.db.get_entry(request_id)
+            with open(notes_path, "w") as f:
+                json.dump(notes, f)
+
+            self.db.update_entry(
+                request_id=request_id,
+                status="completed",
+                notes_path=notes_path,
+            )
+
+        except FileNotFoundError as e:
+            print(f"FileNotFoundError: The file was deleted or not found during processing: {file_path}.")
+        except Exception as e:
+            print(f"An error occurred during note generation for request_id={request_id}: {e}")
+        finally:
+            entry = self.db.get_entry(request_id)
+            if entry and entry.get("status") == "success":
+                print(f"Processing completed successfully for request_id={request_id}.")
+            else:
+                print(f"Processing failed for request_id={request_id}.")
