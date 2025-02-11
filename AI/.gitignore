@@ -10,5 +10,6 @@ env
 data/processed_questions
 data/spacy_custom_trained
 data/chroma_db
+data/chroma
 notes
 uploads
