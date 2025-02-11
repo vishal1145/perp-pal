@@ -12,12 +12,11 @@ class ChromaStorage:
         
     def add_entry(self, request_id, status, file_path, reference_context, document=""):
         try:
-            result = self.collection.add(
+            self.collection.add(
                 ids=[request_id],
                 metadatas=[{"status": status, "file_path": file_path, "reference_context": reference_context}],
                 documents=[document],
             )
-            print(f"Entry added: {result}")
         except Exception as e:
             print(f"Error adding entry for {request_id}: {e}")
             raise
