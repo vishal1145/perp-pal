@@ -570,7 +570,7 @@ const BoardPage = () => {
 
           </div>
         )}
-        {selectedBoard && !selectedSubject && !selectedClass && filteredClasses.length === 0 && (
+        {!selectedClass && (
           <SubjectWiseLearning
             selectedClass={selectedClass}
             classes={classes}
