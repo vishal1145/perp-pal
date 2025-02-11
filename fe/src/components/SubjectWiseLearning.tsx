@@ -64,11 +64,12 @@ const SubjectWiseLearning: React.FC<SubjectPageProps> = ({
             const classNameFormatted = currentClass.replace(/\s+/g, '-');
             const subjectNameFormatted = subject.subjectName.replace(/\s+/g, '-');
 
-            router.push(`/subjects/${classNameFormatted}/${subjectNameFormatted}`);
+            router.push(`/class/${classNameFormatted}/${subjectNameFormatted}`);
         } else {
             console.error('No class selected');
         }
     };
+
 
     useEffect(() => {
         const fetchSubjects = async () => {

@@ -51,12 +51,14 @@ class ChromaStorage:
             if not entry or request_id not in entry['ids']:
                 raise ValueError(f"No entry found with request_id {request_id}. Cannot delete.")
             
-            metadata = entry['metadatas'][0]
+            metadatas = entry.get('metadatas', [])
+            metadata = metadatas[0] if metadatas else {}
+
             notes_path = metadata.get('notes_path')
             pdf_path = metadata.get('file_path')
 
-            for file_path in [notes_path, pdf_path]:
-                if file_path and os.path.exists(file_path):
+            for file_path in filter(None, [notes_path, pdf_path]):
+                if os.path.exists(file_path):
                     try:
                         os.remove(file_path)
                         print(f"Deleted file at {file_path}")

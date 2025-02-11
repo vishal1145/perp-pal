@@ -58,14 +58,16 @@ const BoardPage = () => {
     }
   }
   const handleSubjectClick = (subject: Subject) => {
-    if (selectedClass) {
+    if (selectedClass && selectedBoard) {
       setSelectedSubject(subject.subjectName);
       sessionStorage.setItem('subjectId', subject._id);
       sessionStorage.setItem('className', selectedClass);
       sessionStorage.setItem('content', subject.content || '');
+      sessionStorage.setItem('boardName', selectedBoard);
+      const boardNameFormatted = (selectedBoard ?? "").replace(/\s+/g, '-');
       const classNameFormatted = selectedClass.replace(/\s+/g, '-');
       const subjectNameFormatted = subject.subjectName.replace(/\s+/g, '-');
-      router.push(`/subjects/${classNameFormatted}/${subjectNameFormatted}`);
+      router.push(`/${boardNameFormatted}/${classNameFormatted}/${subjectNameFormatted}`);
     } else {
       console.log('No class selected');
     }
