@@ -1,7 +1,6 @@
 import threading
 import uuid
 import json,os
-import json,os
 from utils.chroma_storage import ChromaStorage
 from app.services.pdf_processing_service import PDFProcessor
 from utils.config import Config
@@ -40,17 +39,7 @@ class NotesService:
 
             notes = processor.generate_notes(file_path, offset_start, table_of_contents)
             notes_path = f"{Config.NOTES_FOLDER}/{request_id}.json"
-        try:
-            if not os.path.exists(file_path):
-                return
 
-            processor = PDFProcessor()
-
-            notes = processor.generate_notes(file_path, offset_start, table_of_contents)
-            notes_path = f"{Config.NOTES_FOLDER}/{request_id}.json"
-
-            with open(notes_path, "w") as f:
-                json.dump(notes, f)
             with open(notes_path, "w") as f:
                 json.dump(notes, f)
 
@@ -59,11 +48,7 @@ class NotesService:
                 status="completed",
                 notes_path=notes_path,
             )
-            self.db.update_entry(
-                request_id=request_id,
-                status="completed",
-                notes_path=notes_path,
-            )
+
 
         except FileNotFoundError as e:
             print(f"FileNotFoundError: The file was deleted or not found during processing: {file_path}.")
