@@ -136,21 +136,30 @@ const BoardPage = () => {
       if (selectedClass) {
         setLoading(true);
         try {
-          const res = await fetch(`${process.env.NEXT_PUBLIC_Tutor_API_URI}/subject/getSubject/?classId=${classId}&boardId=${boardId}`);
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_Tutor_API_URI}/subject/getSubject/?classId=${classId}&boardId=${boardId}`
+          );
           const data = await res.json();
           // Filter subjects by publishStatus
-          const publishedSubjects = data.subjects.filter((subject: Subject) => subject.publishStatus === 'published');
+          const publishedSubjects = data.subjects.filter(
+            (subject: Subject) => subject.publishStatus === "published"
+          );
+
           setSubjects(publishedSubjects);
         } catch (error) {
-          console.error('Error fetching subjects:', error);
+          console.error("Error fetching subjects:", error);
+          setSubjects([]); 
         } finally {
           setLoading(false);
         }
+      } else {
+        setSubjects([]); 
       }
     };
 
     fetchSubjects();
-  }, [selectedClass]);
+  }, [selectedClass]); 
+
 
   const renderNavigation = () => {
     let navigationText = '';
@@ -185,29 +194,32 @@ const BoardPage = () => {
         {selectedClass && (
           <span>
             <span
-              onClick={() => { setSelectedClass(null); }}
+              onClick={() => { setSelectedClass(null); setSelectedSubject(null) }}
               className="cursor-pointer hover:underline"
             >
               {selectedClass} &gt;
             </span>
             <span
-              onClick={() => setSelectedClass(null)}
+              onClick={() => { setSelectedClass(null); setSelectedSubject(null) }} 
               className="cursor-pointer hover:underline mx-1"
             >
               Change Class
             </span>
           </span>
-        )}
+        )
+        }
 
-        {selectedSubject && (
-          <span>
-            <span className="mx-1">&gt;</span>
-            <span className="cursor-pointer">
-              {selectedSubject}
+        {
+          selectedSubject && (
+            <span>
+              <span className="mx-1">&gt;</span>
+              <span className="cursor-pointer">
+                {selectedSubject}
+              </span>
             </span>
-          </span>
-        )}
-      </div>
+          )
+        }
+      </div >
 
 
     );
