@@ -49,13 +49,16 @@ class NotesService:
                 notes_path=notes_path,
             )
 
+
         except FileNotFoundError as e:
             print(f"FileNotFoundError: The file was deleted or not found during processing: {file_path}.")
         except Exception as e:
             print(f"An error occurred during note generation for request_id={request_id}: {e}")
         finally:
             entry = self.db.get_entry(request_id)
-            if entry and entry.get("status") == "success":
+            metadata = entry['metadatas'][0]
+            status = metadata.get('status')
+            if status and status == "completed":
                 print(f"Processing completed successfully for request_id={request_id}.")
             else:
                 print(f"Processing failed for request_id={request_id}.")
