@@ -148,80 +148,89 @@ const BoardPage = () => {
           setSubjects(publishedSubjects);
         } catch (error) {
           console.error("Error fetching subjects:", error);
-          setSubjects([]); 
+          setSubjects([]);
         } finally {
           setLoading(false);
         }
       } else {
-        setSubjects([]); 
+        setSubjects([]);
       }
     };
 
     fetchSubjects();
-  }, [selectedClass]); 
+  }, [selectedClass]);
 
 
   const renderNavigation = () => {
-    let navigationText = '';
-    if (selectedBoard) navigationText += `${selectedBoard} &nbsp; > &nbsp;`;
-    if (selectedClass) navigationText += `  ${selectedClass} &nbsp; > &nbsp;`;
-    if (selectedSubject) navigationText += ` ${selectedSubject} &nbsp; > &nbsp;`;
-
-
     return (
-      <div className="text-lg font-medium text-gray-900 mt-4 max-w-6xl mx-auto p-4">
-        {selectedBoard && (
-          <span>
-            <span
-              onClick={() => { setSelectedBoard(null); setSelectedClass(null); }}
-              className="cursor-pointer hover:underline"
-            >
-              {selectedBoard} &gt;
-
-            </span>
-
-            {!selectedClass && (
-              <span
+      <nav className="max-w-6xl mx-auto p-4">
+        <ol className="flex flex-wrap items-center gap-2 text-sm sm:text-base">
+          {selectedBoard && (
+            <li className="flex items-center">
+              <button
                 onClick={() => { setSelectedBoard(null); setSelectedClass(null); }}
-                className="cursor-pointer hover:underline mx-1"
+                className="flex items-center text-teal-600 hover:text-teal-700 font-medium transition-colors"
               >
-                Change Board
-              </span>
-            )}
-          </span>
-        )}
+                <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1M19 20a2 2 0 002-2V8m-2 12a2 2 0 01-2-2v-1" />
+                </svg>
+                {selectedBoard}
+              </button>
 
-        {selectedClass && (
-          <span>
-            <span
-              onClick={() => { setSelectedClass(null); setSelectedSubject(null) }}
-              className="cursor-pointer hover:underline"
-            >
-              {selectedClass} &gt;
-            </span>
-            <span
-              onClick={() => { setSelectedClass(null); setSelectedSubject(null) }} 
-              className="cursor-pointer hover:underline mx-1"
-            >
-              Change Class
-            </span>
-          </span>
-        )
-        }
+              {/* Separator */}
+              <svg className="w-5 h-5 mx-2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </li>
+          )}
 
-        {
-          selectedSubject && (
-            <span>
-              <span className="mx-1">&gt;</span>
-              <span className="cursor-pointer">
+          {selectedClass && (
+            <li className="flex items-center">
+              <button
+                onClick={() => { setSelectedClass(null); setSelectedSubject(null); }}
+                className="flex items-center text-teal-600 hover:text-teal-700 font-medium transition-colors group"
+              >
+                <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+                {selectedClass}
+                <span className="ml-2 text-xs text-gray-500 group-hover:text-teal-600">
+                  (Change)
+                </span>
+              </button>
+
+              {/* Separator */}
+              <svg className="w-5 h-5 mx-2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </li>
+          )}
+
+          {selectedSubject && (
+            <li className="flex items-center">
+              <span className="flex items-center text-gray-600 font-medium">
+                <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
                 {selectedSubject}
               </span>
-            </span>
-          )
-        }
-      </div >
+            </li>
+          )}
+        </ol>
 
-
+        {/* Current Page Context */}
+        {selectedBoard && (
+          <div className="mt-2 text-sm text-gray-500">
+            {!selectedClass ? (
+              <p>Select a class to continue</p>
+            ) : !selectedSubject ? (
+              <p>Choose a subject to explore study materials</p>
+            ) : (
+              <p>Viewing {selectedSubject} content for Class {selectedClass}</p>
+            )}
+          </div>
+        )}
+      </nav>
     );
   };
   useEffect(() => {
@@ -322,7 +331,7 @@ const BoardPage = () => {
         </div>
 
         {/* Background pattern */}
-        {/* Bottom wave decoration with softer curve */}
+
         <div className="absolute bottom-0 left-0 right-0 hidden sm:block">
           <svg viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -485,13 +494,14 @@ const BoardPage = () => {
                   })}
                 </div>
                 {/* Description Section */}
-                <div className="mt-12 text-center">
-                  <div className="text-gray-500 text-base max-w-6xl mx-auto bg-gray-100 p-6 rounded-lg shadow-md">
+                <div className="mt-12 text-center px-4">
+                  <div className="text-gray-500 text-base max-w-6xl mx-auto bg-gray-100 p-6 sm:p-8 rounded-lg shadow-md">
 
-                    <p className="mt-2 text-gray-600">
-                      Start by selecting a <span className="text-indigo-500 font-medium">class level</span> that best fits your learning journey. Once selected, you can proceed to choose a subject and explore interactive resources.
+                    <p className="mt-2 text-gray-600 text-sm sm:text-base leading-relaxed">
+                      Start by selecting a <span className="text-indigo-500 font-medium">class level</span> that best fits your learning journey.
+                      Once selected, you can proceed to choose a subject and explore interactive resources.
                       <br />
-                      <span className="inline-flex items-center gap-1 text-green-600 font-semibold">
+                      <span className="inline-flex items-center gap-1 text-green-600 font-semibold mt-2">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                         </svg>
@@ -499,32 +509,33 @@ const BoardPage = () => {
                       </span>
                     </p>
 
-                    <div className="mt-4 flex gap-4">
-                      {/* <!-- Class Selection --> */}
-                      <div className="flex-1 bg-white p-4 border rounded-lg text-center shadow">
-                        <span className="block text-lg font-medium text-indigo-600">🏫 Class Selection</span>
-                        <p className="text-gray-500 text-sm mt-1">Choose your class to access relevant subjects and resources.</p>
+                    <div className="mt-6 flex flex-col sm:flex-row gap-4">
+                      {/* Class Selection */}
+                      <div className="flex-1 bg-white p-4 sm:p-6 border rounded-lg text-center shadow">
+                        <span className="block text-lg sm:text-xl font-medium text-indigo-600">🏫 Class Selection</span>
+                        <p className="text-gray-500 text-sm sm:text-base mt-1">Choose your class to access relevant subjects and resources.</p>
                       </div>
 
-                      {/* <!-- Subj/ect Selection --> */}
-                      <div className="flex-1 bg-white p-4 border rounded-lg text-center shadow">
-                        <span className="block text-lg font-medium text-green-600">📚 Subject Selection</span>
-                        <p className="text-gray-500 text-sm mt-1">Pick a subject tailored to your interests and learning needs.</p>
+                      {/* Subject Selection */}
+                      <div className="flex-1 bg-white p-4 sm:p-6 border rounded-lg text-center shadow">
+                        <span className="block text-lg sm:text-xl font-medium text-green-600">📚 Subject Selection</span>
+                        <p className="text-gray-500 text-sm sm:text-base mt-1">Pick a subject tailored to your interests and learning needs.</p>
                       </div>
 
-                      {/* <!-- Interactive Learning --> */}
-                      <div className="flex-1 bg-white p-4 border rounded-lg text-center shadow">
-                        <span className="block text-lg font-medium text-blue-600">🚀 Interactive Learning</span>
-                        <p className="text-gray-500 text-sm mt-1">Engage with quizzes, videos, and practice exercises.</p>
+                      {/* Interactive Learning */}
+                      <div className="flex-1 bg-white p-4 sm:p-6 border rounded-lg text-center shadow">
+                        <span className="block text-lg sm:text-xl font-medium text-blue-600">🚀 Interactive Learning</span>
+                        <p className="text-gray-500 text-sm sm:text-base mt-1">Engage with quizzes, videos, and practice exercises.</p>
                       </div>
                     </div>
 
-                    <p className="mt-4 text-gray-600">
+                    <p className="mt-6 text-gray-600 text-sm sm:text-base">
                       Need to change your selection? No worries! You can always come back and update your choices.
-                      <span className="text-indigo-600 font-medium">Your learning journey starts here! 🚀</span>
+                      <span className="text-indigo-600 font-medium"> Your learning journey starts here! 🚀</span>
                     </p>
                   </div>
                 </div>
+
               </>
             ) : (
               <div className="text-center py-3 px-4">
@@ -601,22 +612,23 @@ const BoardPage = () => {
               </p>
             </div>
 
-            {/* Subjects Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {loading ? (
-                // Loading skeleton
-                Array(6).fill(0).map((_, index) => (
-                  <div key={index} className="animate-pulse">
-                    <div className="bg-gray-50 rounded-xl p-6 flex flex-col items-start">
-                      <div className="w-12 h-12 bg-gray-200 rounded-lg mb-4"></div>
-                      <div className="h-5 bg-gray-200 rounded w-24 mb-2"></div>
-                      <div className="h-4 bg-gray-200 rounded w-32 mb-4"></div>
-                      <div className="h-4 bg-gray-200 rounded w-5"></div>
-                    </div>
+            {/* Subjects Grid or Empty State */}
+            {loading ? (
+              // Loading skeleton
+              Array(6).fill(0).map((_, index) => (
+                <div key={index} className="animate-pulse">
+                  <div className="bg-gray-50 rounded-xl p-6 flex flex-col items-start">
+                    <div className="w-12 h-12 bg-gray-200 rounded-lg mb-4"></div>
+                    <div className="h-5 bg-gray-200 rounded w-24 mb-2"></div>
+                    <div className="h-4 bg-gray-200 rounded w-32 mb-4"></div>
+                    <div className="h-4 bg-gray-200 rounded w-5"></div>
                   </div>
-                ))
-              ) : (
-                subjects.map((subject) => (
+                </div>
+              ))
+            ) : subjects.length > 0 ? (
+              // Existing subjects grid
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {subjects.map((subject) => (
                   <div
                     key={subject._id}
                     onClick={() => handleSubjectClick(subject)}
@@ -676,11 +688,73 @@ const BoardPage = () => {
                       </div>
                     </div>
                   </div>
-                ))
-              )}
-            </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center pb-5">
+                <div className="max-w-md mx-auto">
+                  {/* Animated Illustration */}
+                  <div className="mb-8 relative">
+                    <div className="w-32 h-32 bg-teal-50 rounded-full mx-auto flex items-center justify-center animate-pulse">
+                      <svg className="w-16 h-16 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                          d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                      </svg>
+                    </div>
 
+                    {/* Floating Elements */}
+                    <div className="absolute top-0 left-1/2 -translate-x-20 w-4 h-4 bg-yellow-200 rounded-full animate-bounce"></div>
+                    <div className="absolute bottom-0 right-1/2 translate-x-24 w-6 h-6 bg-purple-200 rounded-full animate-bounce delay-100"></div>
+                    <div className="absolute top-1/2 right-1/4 w-3 h-3 bg-teal-200 rounded-full animate-ping"></div>
+                  </div>
 
+                  <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                    No Subjects Available Yet
+                  </h3>
+
+                  <p className="text-gray-600 mb-8">
+                    We're currently preparing amazing content for Class {selectedClass}.
+                    Stay tuned for comprehensive study materials!
+                  </p>
+
+                  {/* Feature Cards */}
+                  <div className="grid grid-cols-2 gap-4 mb-8">
+                    <div className="p-4 bg-white rounded-xl border border-gray-100 text-center group hover:border-teal-200 transition-colors">
+                      <span className="block text-2xl mb-2 group-hover:scale-110 transition-transform">📚</span>
+                      <h4 className="font-medium text-gray-900">Coming Soon</h4>
+                      <p className="text-sm text-gray-500">New subjects being added</p>
+                    </div>
+                    <div className="p-4 bg-white rounded-xl border border-gray-100 text-center group hover:border-teal-200 transition-colors">
+                      <span className="block text-2xl mb-2 group-hover:scale-110 transition-transform">🎯</span>
+                      <h4 className="font-medium text-gray-900">Stay Updated</h4>
+                      <p className="text-sm text-gray-500">Quality content in progress</p>
+                    </div>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="flex gap-4 justify-center">
+                    <button
+                      onClick={() => { setSelectedClass(null); setSelectedSubject(null) }}
+                      className="inline-flex items-center px-6 py-3 border border-teal-600 text-base font-medium rounded-xl text-teal-600 hover:bg-teal-50 transition-colors"
+                    >
+                      <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                      </svg>
+                      Change Class
+                    </button>
+                    <button
+                      onClick={() => { setSelectedBoard(null); setSelectedClass(null) }}
+                      className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-teal-600 hover:bg-teal-700 transition-colors"
+                    >
+                      <svg className="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7m0 0l7-7" />
+                      </svg>
+                      Explore Other Boards
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         )}
 
