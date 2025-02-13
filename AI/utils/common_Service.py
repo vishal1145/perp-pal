@@ -13,7 +13,7 @@ class Common_Service:
                     
 
     @staticmethod
-    def load_abbreviation_mappings(folder_path):
+    def ithoursload_abbreviation_mappings(folder_path):
         mappings = {}
         for file_name in os.listdir(folder_path):
             if file_name.endswith(".json"):
