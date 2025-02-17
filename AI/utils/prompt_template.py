@@ -21,3 +21,6 @@ Return the extracted information in a **strictly valid JSON array**. Each item i
 
 ## VALID JSON (NO PREAMBLE):
 """
+
+
+deepseek_prompt_template="You are an expert academic assistant. Transform the following topic text into a list of pure, concise bullet points that capture the key ideas. Return only a markdown-formatted list of bullet points with no headings, chapter references, or extra commentary. Each bullet point should represent a single clear idea."
