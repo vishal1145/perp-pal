@@ -6,6 +6,7 @@ from utils.config import Config
 from pathlib import Path
 from utils.chorma_response_to_json import ChromaResponseToJson
 from app.middlewares.auth_middleware import is_authorized
+from utils.validate_table_of_contents import validate_table_of_contents
 
 notes = Blueprint("notes", __name__)
 
@@ -21,7 +22,7 @@ def upload_pdf():
         return jsonify({"error": "Invalid file format. Only PDF files are accepted"}), 400
 
     offset_start = request.form.get("offset_start", type=int, default=0)
-    table_of_contents = request.form.get("table_of_contents")
+    table_of_contents = request.form.get("table_of_contents")   
     reference_context=request.form.get("reference_context")
             
     if not reference_context:
@@ -33,6 +34,11 @@ def upload_pdf():
         table_of_contents = json.loads(table_of_contents)
     except json.JSONDecodeError:
         return jsonify({"error": "Invalid JSON for 'table_of_contents'"}), 400
+
+    try:
+        validate_table_of_contents(table_of_contents)
+    except ValueError as e:
+        return jsonify({"error": str(e)}), 400
 
     file_path = os.path.join(Config.UPLOAD_FOLDER, file.filename)
     file.save(file_path)

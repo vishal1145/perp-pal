@@ -25,9 +25,9 @@ class PDFProcessor:
 
         chapters = []
         for chapter in table_of_contents["table_of_contents"]:
-            chapter_name = chapter.get("title", "Unknown Chapter")
-            chapter_start = chapter.get("page_start", 0) + offset_start
-            chapter_end = chapter.get("page_end", 0) + offset_start
+            chapter_name = chapter.get("title")
+            chapter_start = chapter.get("page_start") + offset_start
+            chapter_end = chapter.get("page_end") + offset_start
 
             chapter_notes = {
                 "chapter_name": chapter_name,
@@ -35,9 +35,9 @@ class PDFProcessor:
             }
 
             for topic in chapter.get("subtopics", []):
-                topic_name = topic.get("name", "Unknown Topic")
-                topic_start = topic.get("page_start", 0) + offset_start
-                topic_end = topic.get("page_end", 0) + offset_start
+                topic_name = topic.get("name")
+                topic_start = topic.get("page_start") + offset_start
+                topic_end = topic.get("page_end") + offset_start
 
                 topic_text = self.extract_text(pdf_path, topic_start, topic_end)
                 topic_summary = self.text_processor.summarize_text(topic_text)
