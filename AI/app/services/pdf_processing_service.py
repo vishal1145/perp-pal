@@ -1,23 +1,59 @@
 import fitz
+import pytesseract
+from PIL import Image
+from io import BytesIO
+from transformers import BlipProcessor, BlipForConditionalGeneration
 from app.services.text_processing_service import TextProcessor
 from utils.deep_seek_api import DeepSeekAPI
+from utils.cloudinary_config import upload_to_cloudinary
 
 class PDFProcessor:
     def __init__(self):
         self.text_processor = TextProcessor()
         self.deepseek_api = DeepSeekAPI()
+        self.blip_processor = BlipProcessor.from_pretrained("Salesforce/blip-image-captioning-base")
+        self.blip_model = BlipForConditionalGeneration.from_pretrained("Salesforce/blip-image-captioning-base")
 
-    def extract_text(self, pdf_path, page_start, page_end):
+    def extract_text_and_images(self, pdf_path, topic_start, topic_end):
         text = ""
-        try:
-            with fitz.open(pdf_path) as pdf:
-                for page_num in range(page_start - 1, page_end):
-                    page_text = pdf[page_num].get_text()
-                    if page_text:
-                        text += page_text
-        except Exception as e:
-            print(f"Error extracting text from PDF: {e}")
-        return self.text_processor.clean_text(text)
+        images = []
+        
+        with fitz.open(pdf_path) as pdf:
+            for page_num in range(topic_start - 1, topic_end):
+                page = pdf[page_num]
+
+                page_text = page.get_text()
+                if page_text:
+                    text += page_text + "\n"
+
+                for img_index, img in enumerate(page.get_images(full=True)):
+                    xref = img[0]
+                    image_bytes = pdf.extract_image(xref)["image"]
+                    image = Image.open(BytesIO(image_bytes)).convert("RGB")
+
+                    image_caption = self.process_image_for_notes(image)
+
+                    cloudinary_url = upload_to_cloudinary(image)
+
+                    if cloudinary_url:
+                        images.append({
+                            "image_url": cloudinary_url,
+                            "caption": image_caption
+                        })
+
+        return text, images
+
+    def process_image_for_notes(self, image):
+        ocr_text = pytesseract.image_to_string(image).strip()
+
+        if ocr_text:
+            return f"OCR Extracted Text: {ocr_text}"
+
+        inputs = self.blip_processor(images=image, return_tensors="pt")
+        out = self.blip_model.generate(**inputs)
+        caption = self.blip_processor.decode(out[0], skip_special_tokens=True)
+
+        return f"AI Image Description: {caption}"
 
     def generate_notes(self, pdf_path, offset_start, table_of_contents):
         if not table_of_contents.get("table_of_contents"):
@@ -39,8 +75,7 @@ class PDFProcessor:
                 topic_start = topic.get("page_start") + offset_start
                 topic_end = topic.get("page_end") + offset_start
 
-                topic_text = self.extract_text(pdf_path, topic_start, topic_end)
-                topic_summary = self.text_processor.summarize_text(topic_text)
+                topic_text, topic_images = self.extract_text_and_images(pdf_path, topic_start, topic_end)
 
                 if topic_text:
                         summarized_text = self.text_processor.summarize_text(topic_text)
